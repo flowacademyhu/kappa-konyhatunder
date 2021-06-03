@@ -1,0 +1,9 @@
+version: '3'
+services:
+  backend:
+    restart: always
+    build: ./backend
+    container_name: backend
+    hostname: konyhatunder-backend
+    ports:
+      - 8081:8081
