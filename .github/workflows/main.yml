@@ -133,8 +133,8 @@ jobs:
   #      uses: FirebaseExtended/action-hosting-deploy@v0
   #      with:
   #        repoToken: '${{ secrets.GITHUB_TOKEN }}'
-  #        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_IOTKAPPA_KONYHATUNDER }}'
+  #        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_KAPPA_KONYHATUNDER }}'
   #        channelId: live
-  #        projectId: iota-munkalap-708e0b88
+  #        projectId: kappa-konyhatunder-708e0b88
   #      env:
   #        FIREBASE_CLI_PREVIEWS: hostingchannels
