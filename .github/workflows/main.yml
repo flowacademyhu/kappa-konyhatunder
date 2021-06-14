@@ -129,3 +129,12 @@ jobs:
   #      with:
   #        name: kappa-konyhatunder-frontend
   #        path: frontend/build
+  #    - name: Deploy to Firebase
+  #      uses: FirebaseExtended/action-hosting-deploy@v0
+  #      with:
+  #        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+  #        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_IOTA_MUNKALAP_708E0B88 }}'
+  #        channelId: live
+  #        projectId: iota-munkalap-708e0b88
+  #      env:
+  #        FIREBASE_CLI_PREVIEWS: hostingchannels
