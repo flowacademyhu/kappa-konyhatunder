@@ -1,9 +1,7 @@
 
 name: CI
 
-# Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: 
       - '**'
@@ -72,21 +70,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup GCloud
-        uses: google-github-actions/setup-gcloud@master
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_email: ${{ secrets.GCP_EMAIL }}
-          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+      #- name: Setup GCloud
+      #  uses: google-github-actions/setup-gcloud@master
+      #  with:
+      #    project_id: ${{ secrets.GCP_PROJECT_ID }}
+      #    service_account_email: ${{ secrets.GCP_EMAIL }}
+      #    service_account_key: ${{ secrets.GCP_CREDENTIALS }}
 
-      - name: Configure Docker
-        run: gcloud auth configure-docker --quiet
+      #- name: Configure Docker
+      #  run: gcloud auth configure-docker --quiet
 
       - name: Build Docker image
         run: docker build . -t $IMAGE_NAME
 
-      - name: Push Docker image
-        run: docker push $IMAGE_NAME
+      #- name: Push Docker image
+      #  run: docker push $IMAGE_NAME
 
   test-backend:
     name: Test backend
@@ -106,29 +104,29 @@ jobs:
       - name: Run maven test
         run: mvn -B clean test
 
-  deploy-staging:
-    name: Deploy to staging
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    needs: [build-frontend, build-backend, test-backend]
-    env:
-      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}:${{ github.sha }}
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-
-      - name: Setup GCloud
-        uses: google-github-actions/setup-gcloud@master
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_email: ${{ secrets.GCP_EMAIL }}
-          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
-
-      - name: Deploy backend to Cloud Run
-        run: gcloud run deploy ${{ secrets.GCP_APP_NAME }} --image=$IMAGE_NAME --platform managed --region europe-west1
-
-      - name: Get artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: kappa-konyhatunder-frontend
-          path: frontend/build
+  #deploy-staging:
+  #  name: Deploy to staging
+  #  runs-on: ubuntu-latest
+  #  if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+  #  needs: [build-frontend, build-backend, test-backend]
+  #  env:
+  #    IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}:${{ github.sha }}
+  #  steps:
+  #    - name: Checkout sources
+  #      uses: actions/checkout@v2
+  #
+  #    - name: Setup GCloud
+  #      uses: google-github-actions/setup-gcloud@master
+  #      with:
+  #        project_id: ${{ secrets.GCP_PROJECT_ID }}
+  #        service_account_email: ${{ secrets.GCP_EMAIL }}
+  #        service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+  #
+  #    - name: Deploy backend to Cloud Run
+  #      run: gcloud run deploy ${{ secrets.GCP_APP_NAME }} --image=$IMAGE_NAME --platform managed --region europe-west1
+  #
+  #    - name: Get artifacts
+  #      uses: actions/download-artifact@v2
+  #      with:
+  #        name: kappa-konyhatunder-frontend
+  #        path: frontend/build
