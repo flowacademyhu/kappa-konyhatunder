@@ -1,14 +1,14 @@
 package hu.flowacademy.konyhatunder.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,4 +24,7 @@ public class Ingredient {
     private Type type;
     private String unit;
     private double amount;
+    @ManyToMany(mappedBy = "ingredientList")
+    @JsonIgnore
+    private List<Recipe> recipeList;
 }

@@ -1,5 +1,6 @@
 package hu.flowacademy.konyhatunder.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +10,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.List;
 
 @Data
 @Entity
@@ -21,4 +24,7 @@ public class FilterCriterion {
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     private String name;
+    @ManyToMany(mappedBy = "filterCriterionList")
+    @JsonIgnore
+    private List<Recipe> recipeList;
 }

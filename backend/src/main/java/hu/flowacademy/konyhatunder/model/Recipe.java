@@ -22,5 +22,16 @@ public class Recipe {
     private String name;
     @Enumerated(EnumType.STRING)
     private Level level;
+    @ManyToMany
+    @JoinTable(
+            name = "recipe_ingredients",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
     private List<Ingredient> ingredientList;
+    @ManyToMany
+    @JoinTable(
+            name = "recipe_filterCriterion",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "filterCriterion_id"))
+    private List<FilterCriterion> filterCriterionList;
 }
