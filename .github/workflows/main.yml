@@ -103,16 +103,16 @@ jobs:
       - name: Run maven test
         run: mvn -B clean test
 
-  #deploy-staging:
-  #  name: Deploy to staging
-  #  runs-on: ubuntu-latest
-  #  if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-  #  needs: [build-frontend, build-backend, test-backend]
+  deploy-staging:
+    name: Deploy to staging
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [build-frontend, build-backend, test-backend]
   #  env:
   #    IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}:${{ github.sha }}
-  #  steps:
-  #    - name: Checkout sources
-  #      uses: actions/checkout@v2
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
   #
   #    - name: Setup GCloud
   #      uses: google-github-actions/setup-gcloud@master
@@ -124,17 +124,17 @@ jobs:
   #    - name: Deploy backend to Cloud Run
   #      run: gcloud run deploy ${{ secrets.GCP_APP_NAME }} --image=$IMAGE_NAME --platform managed --region europe-west1
   #
-  #    - name: Get artifacts
-  #      uses: actions/download-artifact@v2
-  #      with:
-  #        name: kappa-konyhatunder-frontend
-  #        path: frontend/build
-  #    - name: Deploy to Firebase
-  #      uses: FirebaseExtended/action-hosting-deploy@v0
-  #      with:
-  #        repoToken: '${{ secrets.GITHUB_TOKEN }}'
-  #        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_KAPPA_KONYHATUNDER }}'
-  #        channelId: live
-  #        projectId: kappa-konyhatunder-708e0b88
-  #      env:
-  #        FIREBASE_CLI_PREVIEWS: hostingchannels
+      - name: Get artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: kappa-konyhatunder-frontend
+          path: frontend/build
+      - name: Deploy to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ABSTRACT_ARC_112422 }}'
+          channelId: live
+          projectId: ${{ secrets.GCP_PROJECT_ID }}
+        env:
+          FIREBASE_CLI_PREVIEWS: hostingchannels
