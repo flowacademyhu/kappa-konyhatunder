@@ -14,7 +14,7 @@ function NavBar() {
       <Router>
        
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <img src={logo} width="80" height="80" alt=""/>
+        <img src={logo} width="180" height="100" alt=""/>
     <a class="navbar-brand" href="/">Főoldal</a>
     
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +32,7 @@ function NavBar() {
         <li class="nav-item">
           <a class="nav-link" href="search_by_ingredient">Keresés hozzávalók alapján </a>
         </li>
+     
       </ul>
     </div>
   </nav>
