@@ -1,5 +1,7 @@
 version: '3'
+
 services:
+
 
   adminer:
     image: adminer
@@ -15,11 +17,3 @@ services:
       MYSQL_PASSWORD: konyhatunder
       MYSQL_DATABASE: konyhatunder
       MYSQL_ROOT_PASSWORD: password
-  backend:
-    restart: always
-    build: ./backend
-    container_name: backend
-    hostname: konyhatunder-backend
-    ports:
-      - 8081:8081
-
