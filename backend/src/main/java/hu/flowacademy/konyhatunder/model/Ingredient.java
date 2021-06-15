@@ -21,6 +21,7 @@ public class Ingredient {
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     private String name;
+    @Enumerated(EnumType.STRING)
     private Type type;
     private String unit;
     private double amount;

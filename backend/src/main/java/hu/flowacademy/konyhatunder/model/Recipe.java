@@ -31,7 +31,7 @@ public class Recipe {
     @ManyToMany
     @JoinTable(
             name = "recipe_filterCriterion",
-            joinColumns = @JoinColumn(name = "student_id"),
+            joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "filterCriterion_id"))
     private List<FilterCriterion> filterCriterionList;
 }
