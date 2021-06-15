@@ -1,0 +1,15 @@
+package hu.flowacademy.konyhatunder.service;
+
+import hu.flowacademy.konyhatunder.repository.FilterCriterionRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class FilterCriterionService {
+
+    private final FilterCriterionRepository filterCriterionRepository;
+}
