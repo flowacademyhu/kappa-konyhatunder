@@ -1,13 +1,9 @@
-import './App.css';
+import './styles/App.css';
 
-import NavBar from './NavBar';
+import NavBar from './components/NavBar';
 
 function App() {
-  return (
-
-  <NavBar />
-
-  );
+  return <NavBar />;
 }
 
 export default App;

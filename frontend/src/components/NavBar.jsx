@@ -1,41 +1,38 @@
-import logo from './images/konyhatunderlogo.png';
-import './App.css';
+import logo from '../images/konyhatunderlogo.png';
+import '../styles/App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import SearchByCriteria from './SearchByCriteria';
 import SearchByIngredient from './SearchByIngredient';
-import AddRecepie from './AddRecepie';
-import BodyPart from './BodyPart';
-import './NavBar.css';
+import AddRecepie from '../pages/AddRecepie';
+import BodyPart from '../BodyPart';
+import Carusel from './Carusel';
+import { Navbar, Button, Carousel, CarouselItem, Nav , NavDropdown , Form, FormControl} from 'react-bootstrap';
+
+
 
 function NavBar() {
   return (
-    <div className="nav-bar">
+    <>
       <Router>
-        <nav
-          id="bootstrap-overrides"
-          class="navbar navbar-expand-rg navbar-light bg-light"
-        >
-          <img src={logo} class="navbar-logo" width="130" height="100" alt="" />
+      <Navbar bg="light" expand="lg" type="">
+  <Navbar.Brand href="#home">Főoldal</Navbar.Brand>
+  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+  <Navbar.Collapse id="basic-navbar-nav">
+    <Nav className="mr-auto">
+     
+      <Nav.Link href="#link">Link</Nav.Link>
+    
+    </Nav>
+    <Form inline>
+      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+      <Button variant="outline-success">Search</Button>
+    </Form>
+  </Navbar.Collapse>
 
-          <a class="navbar-brand" href="/">
-            Konyhatündér
-          </a>
 
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          {/* <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
+              <li class="nav-item active">  
                 <a class="nav-link" href="add_recepie">
                   Recept hozzáadása <span class="sr-only">(current)</span>
                 </a>
@@ -51,8 +48,8 @@ function NavBar() {
                 </a>
               </li>
             </ul>
-          </div>
-        </nav>
+          </div> */}
+        </Navbar>
         <Switch>
           <Route path="/seach_by_criteria">
             <SearchByCriteria />
@@ -66,7 +63,7 @@ function NavBar() {
         </Switch>
       </Router>
       <BodyPart />
-    </div>
+    </>
   );
 }
 
