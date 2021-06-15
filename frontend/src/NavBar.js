@@ -1,4 +1,4 @@
-import logo from './konyhatunder.jpeg';
+import logo from './images/konyhatunderlogo.png';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -8,9 +8,11 @@ import {
 import SearchByCriteria from './SearchByCriteria';
 import SearchByIngredient from './SearchByIngredient';
 import AddRecepie from './AddRecepie';
+import BodyPart from './BodyPart';
 
 function NavBar() {
     return (
+        <>
       <Router>
        
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -48,7 +50,9 @@ function NavBar() {
             </Route>
           </Switch>
       </Router>
-    );
+  <BodyPart/>
+  </>  
+  );
   }
 
   
