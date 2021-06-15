@@ -1,4 +1,3 @@
-import logo from '../images/konyhatunderlogo.png';
 import '../styles/App.css';
 import {
   BrowserRouter as Router,
@@ -11,17 +10,8 @@ import MainPage from './MainPage';
 import SearchByIngredient from './SearchByIngredient';
 import AddRecepie from '../pages/AddRecepie';
 import BodyPart from '../BodyPart';
-import Carusel from './Carusel';
-import {
-  Navbar,
-  Button,
-  Carousel,
-  CarouselItem,
-  Nav,
-  NavDropdown,
-  Form,
-  FormControl,
-} from 'react-bootstrap';
+
+import { Navbar, Button, Nav, Form, FormControl } from 'react-bootstrap';
 
 function NavBar() {
   return (
