@@ -13,7 +13,7 @@ import SearchByIngredient from './SearchByIngredient';
 import AddRecepie from '../pages/AddRecepie';
 import BodyPart from '../BodyPart';
 
-import { Navbar, Button, Nav, Form, FormControl } from 'react-bootstrap';
+import { Navbar, Button, Nav } from 'react-bootstrap';
 
 function NavBar() {
   return (
@@ -37,15 +37,15 @@ function NavBar() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="navbar-menu">
-              <Button variant="success" Class="navbar-button">
+              <Button variant="success" className="navbar-button">
                 {' '}
                 Recept hozzáadása
               </Button>
-              <Button variant="success" bClass="navbar-button">
+              <Button variant="success" className="navbar-button">
                 {' '}
                 Keresés kritérium alapján
               </Button>
-              <Button variant="success" Class="navbar-button">
+              <Button variant="success" className="navbar-button">
                 {' '}
                 Keresés hozzávaló alapján
               </Button>
