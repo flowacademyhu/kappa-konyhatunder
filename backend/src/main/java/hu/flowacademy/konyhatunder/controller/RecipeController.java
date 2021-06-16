@@ -1,12 +1,11 @@
 package hu.flowacademy.konyhatunder.controller;
 
+import hu.flowacademy.konyhatunder.dto.EmptyRecipe;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.service.RecipeService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,5 +25,11 @@ public class RecipeController {
     @GetMapping("/{id}")
     public Optional<Recipe> findById(@PathVariable String id){
         return recipeService.findById(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void save(@RequestBody EmptyRecipe recipe){
+        recipeService.save(recipe);
     }
 }
