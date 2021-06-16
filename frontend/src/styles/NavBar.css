@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Charmonman&display=swap');
+
+/* change the background color */
+.NavBar.js navbar-expand-lg navbar-light bg-light {
+  background-color: #38a30e !important;
+}
+
+#bootstrap-overrides nav {
+  background-color: #38a30e;
+}
+
+/* change the navbar's background */
+
+.navbar {
+  background-color: #38a30e !important;
+}
+
+/* change the brand and text color */
+
+.navbar-brand {
+  color: rgb(255, 255, 255) !important;
+  font-family: 'Charmonman', cursive !important;
+  font-size: xx-large;
+  text-shadow: 3px 1px #086608;
+}
+
+.btn-button {
+  background-color: #daf3d1 !important;
+}
+
+.navbar-text {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.navbar-button {
+  background-color: #daf3d1;
+}
+
+/* change the link color */
+.navbar-custom .navbar-nav .nav-link {
+  color: #38a30e;
+  background-color: #c7ffb0 !important;
+}
+/* change the color of active or hovered links */
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:focus .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+  color: #ffffff !important;
+}
