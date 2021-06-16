@@ -1,7 +1,5 @@
-import AddRecepieForm from './AddRecepieForm';
-
 function MainPage() {
-  return <AddRecepieForm />;
+  return <div>Fooldal</div>;
 }
 
 export default MainPage;
