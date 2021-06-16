@@ -2,12 +2,15 @@ version: '3'
 
 services:
 
-
-  adminer:
-    image: adminer
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
     restart: always
+    environment:
+      PMA_HOST: db
+      PMA_USER: konyhatunder
+      PMA_PASSWORD: konyhatunder
     ports:
-      - 8080:8080
+      - "8080:80"
   db:
     image: mysql:5.7
     ports:
