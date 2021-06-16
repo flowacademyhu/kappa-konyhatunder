@@ -1,7 +1,7 @@
 import React from 'react';
 import { useField, ErrorMessage } from 'formik';
 
-const InputGroup = (props) => {
+const InputGroups = (props) => {
   const [field, meta] = useField(props);
   const { label, name, type } = props;
 
@@ -23,4 +23,4 @@ const InputGroup = (props) => {
   );
 };
 
-export default InputGroup;
+export default InputGroups;

@@ -29,55 +29,6 @@ function MainPage() {
           </Col>
         </Row>
       </Container>
-
-      {`   <Container>
-        <Row>
-          <Card style={{ margin: '20px' }}>
-            <Card.Img
-              variant="top"
-              src={pic3}
-              style={{ width: '20%', margin: '20px' }}
-            />
-            <Card.Body>
-              <Card.Text>
-                Egyszerű , de nagyszerű receptek feltöltése!
-              </Card.Text>
-              <Button variant="primary" size="lg">
-                Recept Feltöltés
-              </Button>
-            </Card.Body>
-          </Card>
-
-          <Card style={{ margin: '20px' }}>
-            <Card.Img
-              variant="top"
-              src={pic2}
-              style={{ width: '20%', margin: '20px' }}
-            />
-            <Card.Body>
-              <Card.Text>Hozzávaló alapján keresés</Card.Text>
-              <Button variant="primary" size="lg">
-                Keresés
-              </Button>
-            </Card.Body>
-          </Card>
-
-          <Card style={{ margin: '20px' }}>
-            <Card.Img
-              variant="top"
-              src={pic1}
-              style={{ width: '20%', margin: '20px' }}
-            />
-            <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>Kritérium alapján keresés</Card.Text>
-              <Button size="lg" variant="primary">
-                Keresés
-              </Button>
-            </Card.Body>
-          </Card>
-        </Row>
-      </Container>`}
     </>
   );
 }
