@@ -9,7 +9,7 @@ services:
     ports:
       - 8080:8080
   db:
-    image: percona:ps-8
+    image: mysql:5.7
     ports:
       - 3306:3306
     environment:
