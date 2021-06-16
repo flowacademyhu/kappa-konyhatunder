@@ -30,8 +30,8 @@ public class Recipe {
     private List<Ingredient> ingredientList;
     @ManyToMany
     @JoinTable(
-            name = "recipe_filterCriterion",
+            name = "recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "filterCriterion_id"))
-    private List<FilterCriterion> filterCriterionList;
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<Category> categoryList;
 }

@@ -2,7 +2,7 @@ package hu.flowacademy.konyhatunder.bootstrap;
 
 import com.github.javafaker.Faker;
 import hu.flowacademy.konyhatunder.model.*;
-import hu.flowacademy.konyhatunder.repository.FilterCriterionRepository;
+import hu.flowacademy.konyhatunder.repository.CategoryRepository;
 import hu.flowacademy.konyhatunder.repository.IngredientRepository;
 import hu.flowacademy.konyhatunder.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class InitDataLoader implements CommandLineRunner {
 
-    private final FilterCriterionRepository filterCriterionRepository;
+    private final CategoryRepository categoryRepository;
     private final IngredientRepository ingredientRepository;
     private final RecipeRepository recipeRepository;
 
@@ -34,21 +34,21 @@ public class InitDataLoader implements CommandLineRunner {
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public void run(String... args) throws Exception {
-            saveNewFilterCriterion();
+            saveNewCategory();
             saveNewIngredient();
             saveNewRecipes();
     }
 
-    private List<FilterCriterion> newFilterCriterion(){
+    private List<Category> newCategory(){
         List<String> names = List.of("Olcsó","Ünnepi","Egyszerű");
         return IntStream.range(0,10)
-                .mapToObj(value->FilterCriterion.builder()
+                .mapToObj(value-> Category.builder()
                         .name(names.get(new Random().nextInt(names.size())))
                         .build()).collect(Collectors.toList());
     }
 
-    private void saveNewFilterCriterion(){
-        filterCriterionRepository.saveAll(newFilterCriterion());
+    private void saveNewCategory(){
+        categoryRepository.saveAll(newCategory());
     }
 
     private List<Ingredient> newIngredient(){
@@ -65,20 +65,20 @@ public class InitDataLoader implements CommandLineRunner {
         ingredientRepository.saveAll(newIngredient());
     }
 
-    private List<Recipe> newRecipes(List<Ingredient> ingredientList, List<FilterCriterion> filterCriterionList){
+    private List<Recipe> newRecipes(List<Ingredient> ingredientList, List<Category> categoryList){
         return IntStream.range(0,10)
                 .mapToObj(value -> Recipe.builder()
                         .name(faker().food().dish())
                         .level(faker().number().numberBetween(1,4) == 1 ? Level.EASY :
                                 faker().number().numberBetween(1,4) == 2? Level.MEDIUM : Level.HARD)
-                        .filterCriterionList(filterCriterionList)
+                        .categoryList(categoryList)
                         .ingredientList(ingredientList.subList(0,5))
                         .build()).collect(Collectors.toList());
     }
     private void saveNewRecipes(){
-        List<FilterCriterion> filterCriterionList = filterCriterionRepository.findAll();
+        List<Category> categoryList = categoryRepository.findAll();
         List<Ingredient> ingredientList  = ingredientRepository.findAll();
-        recipeRepository.saveAll(newRecipes(ingredientList,filterCriterionList));
+        recipeRepository.saveAll(newRecipes(ingredientList, categoryList));
     }
 
 

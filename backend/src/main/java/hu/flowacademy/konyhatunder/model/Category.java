@@ -18,13 +18,13 @@ import java.util.List;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class FilterCriterion {
+public class Category {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     private String name;
-    @ManyToMany(mappedBy = "filterCriterionList")
+    @ManyToMany(mappedBy = "categoryList")
     @JsonIgnore
     private List<Recipe> recipeList;
 }
