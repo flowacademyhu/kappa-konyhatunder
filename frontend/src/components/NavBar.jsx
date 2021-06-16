@@ -33,19 +33,33 @@ function NavBar() {
             className="d-inline-block align-top"
             alt="logo"
           />
-          <Navbar.Brand href="/mainPage">Konyhatündér</Navbar.Brand>
+          <Navbar.Brand className="mr-auto" href="/mainPage">
+            Konyhatündér
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="navbar-menu">
-              <Button variant="success" className="navbar-button">
+              <Button
+                variant="success"
+                className="navbar-button"
+                href="/AddReceipeForm"
+              >
                 {' '}
                 Recept hozzáadása
               </Button>
-              <Button variant="success" className="navbar-button">
+              <Button
+                variant="success"
+                className="navbar-button"
+                href="/SearchByCriteria"
+              >
                 {' '}
                 Keresés kritérium alapján
               </Button>
-              <Button variant="success" className="navbar-button">
+              <Button
+                variant="success"
+                className="navbar-button"
+                href="/SearchByIngredient"
+              >
                 {' '}
                 Keresés hozzávaló alapján
               </Button>
