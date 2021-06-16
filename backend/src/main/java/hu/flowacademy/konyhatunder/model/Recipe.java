@@ -22,16 +22,14 @@ public class Recipe {
     private String name;
     @Enumerated(EnumType.STRING)
     private Level level;
-    @ManyToMany
-    @JoinTable(
-            name = "recipe_ingredients",
-            joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
-    private List<Ingredient> ingredientList;
+    @OneToMany(mappedBy = "recipe")
+    private List<AmountOfIngredientForARecipe> amountOfIngredientForARecipeList;
     @ManyToMany
     @JoinTable(
             name = "recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categoryList;
+    private String description;
+    private double preparationTime;
 }
