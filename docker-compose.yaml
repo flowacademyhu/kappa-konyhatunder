@@ -1,9 +1,31 @@
 version: '3'
+
 services:
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    environment:
+      PMA_HOST: db
+      PMA_USER: konyhatunder
+      PMA_PASSWORD: konyhatunder
+    ports:
+      - "8080:80"
+  db:
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_USER: konyhatunder
+      MYSQL_PASSWORD: konyhatunder
+      MYSQL_DATABASE: konyhatunder
+      MYSQL_ROOT_PASSWORD: konyhatunder
   backend:
     restart: always
     build: ./backend
     container_name: backend
     hostname: konyhatunder-backend
+    depends_on:
+      - db
     ports:
       - 8081:8081
