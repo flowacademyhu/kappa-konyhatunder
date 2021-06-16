@@ -49,26 +49,6 @@ function NavBar() {
               <Button variant="outline-success">Search</Button>
             </Form>
           </Navbar.Collapse>
-
-          {/* <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">  
-                <a class="nav-link" href="add_recepie">
-                  Recept hozzáadása <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="seach_by_criteria">
-                  Keresés kritérium alapján{' '}
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="search_by_ingredient">
-                  Keresés hozzávalók alapján{' '}
-                </a>
-              </li>
-            </ul>
-          </div> */}
         </Navbar>
         <Switch>
           <Route path="/mainPage">

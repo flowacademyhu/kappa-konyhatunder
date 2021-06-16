@@ -9,7 +9,6 @@ function Carusel() {
       style={{
         background: 'black',
         width: '50%',
-        minHeight: '50px',
       }}
     >
       <div
