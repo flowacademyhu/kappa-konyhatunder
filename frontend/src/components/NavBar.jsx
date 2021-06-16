@@ -1,4 +1,6 @@
 import '../styles/App.css';
+import '../styles/NavBar.css';
+import logo from '../images/konyhatunderlogo.png';
 import {
   BrowserRouter as Router,
   Switch,
@@ -21,33 +23,33 @@ function NavBar() {
           className="color-nav"
           variant="dark"
           sticky="top"
-          expand="lg"
+          expand="mr"
           style={{ margin: '50px' }}
         >
-          <Navbar.Brand href="/mainPage">Főoldal</Navbar.Brand>
+          <img
+            src={logo}
+            width="120"
+            height="80"
+            className="d-inline-block align-top"
+            alt="logo"
+          />
+          <Navbar.Brand href="/mainPage">Konyhatündér</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link href="add_recepie">Recept hozzáadása</Nav.Link>
-            </Nav>
-            <Nav className="mr-auto">
-              <Nav.Link href="/seach_by_criteria">
+            <Nav className="navbar-menu">
+              <Button variant="success" Class="navbar-button">
+                {' '}
+                Recept hozzáadása
+              </Button>
+              <Button variant="success" bClass="navbar-button">
+                {' '}
                 Keresés kritérium alapján
-              </Nav.Link>
-            </Nav>
-            <Nav className="mr-auto">
-              <Nav.Link href="search_by_ingredient">
+              </Button>
+              <Button variant="success" Class="navbar-button">
+                {' '}
                 Keresés hozzávaló alapján
-              </Nav.Link>
+              </Button>
             </Nav>
-            <Form inline>
-              <FormControl
-                type="text"
-                placeholder="Search"
-                className="mr-sm-2"
-              />
-              <Button variant="outline-success">Search</Button>
-            </Form>
           </Navbar.Collapse>
         </Navbar>
         <Switch>
