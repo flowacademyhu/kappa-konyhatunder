@@ -19,6 +19,7 @@ public class Category {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+    @JsonIgnore
     private String id;
     @Column(unique = true)
     private String name;
