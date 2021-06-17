@@ -22,9 +22,8 @@ function NavBar() {
         <Navbar
           className="color-nav"
           variant="dark"
-          sticky="top"
           expand="mr"
-          style={{ margin: '0px' }}
+          style={{ margin: '0px 0px 50px 0px' }}
         >
           <img
             src={logo}

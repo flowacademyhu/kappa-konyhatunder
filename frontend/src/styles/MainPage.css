@@ -17,9 +17,6 @@
   justify-content: center;
 }
 
-.MenuCard {
-  align-items: center;
-}
 .card-body {
   background-color: #38a30e;
   color: aliceblue;
@@ -34,7 +31,6 @@
   color: aliceblue;
   font-size: larger;
   font-weight: 500;
-  caret-color: darkgreen;
   text-decoration: none !important;
 }
 
