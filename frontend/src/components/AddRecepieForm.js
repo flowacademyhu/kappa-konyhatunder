@@ -2,12 +2,9 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-
-
 const userAPI = axios.create({
   baseURL: 'http://localhost:8081/api/recipes',
 });
-
 
 const AddRecepieForm = () => {
   async function addRecipe(values) {
@@ -17,7 +14,6 @@ const AddRecepieForm = () => {
       preparationTime: values.preparationTime,
 
       level: values.level,
-
     };
 
     try {
@@ -33,7 +29,6 @@ const AddRecepieForm = () => {
       description: '',
       preparationTime: 0,
       level: '',
-
     },
 
     onSubmit: (values) => {
@@ -42,15 +37,13 @@ const AddRecepieForm = () => {
     },
   });
 
-
   const [levels, setLevels] = useState([]);
-
 
   useEffect(() => {
     async function functionName() {
       try {
         const response = await userAPI.get(`/levels`);
-          console.log(response.data);
+        console.log(response.data);
         setLevels(response.data);
 
         return response.data;
@@ -87,7 +80,6 @@ const AddRecepieForm = () => {
         ) : null}
 
         <label htmlFor="preparationTime">preparationTime</label>
-
 
         <input
           className="form-control"
