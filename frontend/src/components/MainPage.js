@@ -3,11 +3,12 @@ import '../styles/MainPage.css';
 import { IoIosAddCircle } from 'react-icons/io';
 import { IoIosFunnel } from 'react-icons/io';
 import { IoIosEgg } from 'react-icons/io';
+import AddRecepieForm from './AddRecepieForm';
 
 function MainPage() {
   return (
     <CardDeck>
-      <Card>
+      <Card tag="a" onClick={AddRecepieForm} style={{ cursor: 'pointer' }}>
         <Card.Body>
           <Card.Text className="icon">
             <IoIosAddCircle />
