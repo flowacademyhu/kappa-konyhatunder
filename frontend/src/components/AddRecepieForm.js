@@ -39,19 +39,18 @@ const AddRecepieForm = () => {
   });
 
   useEffect(() => {
-    async function functionName(){ 
-    
-    try {
-      const response = await userAPI.get(`/levels`);
+    async function functionName() {
+      try {
+        const response = await userAPI.get(`/levels`);
 
-      setLevels(response.data);
-      console.log(levels.data);
-      return response.data;
-    } catch (error) {
-      console.error();
+        setLevels(response.data);
+
+        return response.data;
+      } catch (error) {
+        console.error();
+      }
     }
-  }
-  functionName();
+    functionName();
   }, []);
 
   return (
