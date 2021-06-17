@@ -1,5 +1,5 @@
 #bootstrap-overrides nav {
-  ackground-color: #38a30e;
+  background-color: #38a30e;
 }
 
 .card-title-link {
@@ -17,10 +17,15 @@
   justify-content: center;
 }
 
+.main-page-cards .card {
+  height: 195px;
+}
+
 .card-body {
   background-color: #38a30e;
   color: aliceblue;
   text-align: center;
+  align-items: center;
 }
 
 .icon {

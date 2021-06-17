@@ -6,7 +6,7 @@ import { IoIosEgg } from 'react-icons/io';
 
 function MainPage() {
   return (
-    <Container>
+    <Container className="main-page-cards">
       <Row>
         <CardDeck>
           <Col>
