@@ -5,7 +5,6 @@ import { IoIosFunnel } from 'react-icons/io';
 import { IoIosEgg } from 'react-icons/io';
 
 function MainPage() {
-
   return (
     <Container className="main-page-cards">
       <Row>
@@ -52,7 +51,6 @@ function MainPage() {
       </Row>
     </Container>
   );
-
 }
 
 export default MainPage;

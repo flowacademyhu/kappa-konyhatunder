@@ -1,4 +1,3 @@
-
 import InputGroups from './InputGroups';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
@@ -33,7 +32,6 @@ const AddRecepieForm = () => {
       console.log(values);
     },
   });
-
 
   return (
     <form onSubmit={formik.handleSubmit}>
