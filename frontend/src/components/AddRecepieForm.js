@@ -3,6 +3,7 @@ import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 import { FormControl, InputGroup } from 'react-bootstrap';
 import logo from '../images/recept.png';
+import axios from 'axios';
 
 const validationSchema = yup.object().shape({
   recepieName: yup
@@ -13,6 +14,20 @@ const validationSchema = yup.object().shape({
 });
 
 function AddRecepieForm() {
+  const data = {
+    name: 'TesztNegy',
+    description: 'Finom',
+    preparationTime: 100,
+  };
+
+  async function addRecipe() {
+    try {
+      await axios.post(`http://localhost:8081/api/recipes`, data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <>
       <div class="text-center">
@@ -23,7 +38,6 @@ function AddRecepieForm() {
           <Formik
             validationSchema={validationSchema}
             initialValues={{ recepieName: '', makingTime: '' }}
-            onSubmit={(e) => console.log(e)}
           >
             <Form>
               <InputGroups
@@ -47,7 +61,11 @@ function AddRecepieForm() {
                 />
               </InputGroup>
 
-              <button className="btn btn-success  w-100" type="submit">
+              <button
+                className="btn btn-success  w-100"
+                type="submit"
+                onClick={addRecipe}
+              >
                 Beküldés
               </button>
             </Form>

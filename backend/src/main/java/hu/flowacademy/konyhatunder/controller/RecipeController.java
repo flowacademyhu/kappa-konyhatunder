@@ -27,6 +27,7 @@ public class RecipeController {
         return recipeService.findById(id);
     }
 
+    @CrossOrigin
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void save(@RequestBody EmptyRecipe emptyRecipe){
