@@ -42,7 +42,7 @@ function NavBar() {
                 className="navbar-button"
                 href="add_recepie"
               >
-                {' '}
+
                 Recept hozzáadása
               </Button>
               <Button variant="success" className="navbar-button">
