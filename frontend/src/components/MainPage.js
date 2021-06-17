@@ -7,50 +7,50 @@ import { IoIosEgg } from 'react-icons/io';
 function MainPage() {
   return (
     <div className="container">
-    <Container className="main-page-cards"  >
-      <Row>
-        <CardDeck>
-          <Col>
-            <NavLink href="add_recepie">
-              <Card>
-                <Card.Body>
-                  <Card.Text className="icon">
-                    <IoIosAddCircle />
-                  </Card.Text>
-                  <Card.Title>ÚJ RECEPT HOZZÁADÁSA</Card.Title>
-                </Card.Body>
-              </Card>
-            </NavLink>
-          </Col>
+      <Container className="main-page-cards">
+        <Row>
+          <CardDeck>
+            <Col>
+              <NavLink href="add_recepie">
+                <Card>
+                  <Card.Body>
+                    <Card.Text className="icon">
+                      <IoIosAddCircle />
+                    </Card.Text>
+                    <Card.Title>ÚJ RECEPT HOZZÁADÁSA</Card.Title>
+                  </Card.Body>
+                </Card>
+              </NavLink>
+            </Col>
 
-          <Col>
-            <NavLink href="search_by_criteria">
-              <Card>
-                <Card.Body>
-                  <Card.Text className="icon">
-                    <IoIosFunnel />
-                  </Card.Text>
-                  <Card.Title>KERESÉS KRITÉRIUM ALAPJÁN</Card.Title>
-                </Card.Body>
-              </Card>
-            </NavLink>
-          </Col>
+            <Col>
+              <NavLink href="search_by_criteria">
+                <Card>
+                  <Card.Body>
+                    <Card.Text className="icon">
+                      <IoIosFunnel />
+                    </Card.Text>
+                    <Card.Title>KERESÉS KRITÉRIUM ALAPJÁN</Card.Title>
+                  </Card.Body>
+                </Card>
+              </NavLink>
+            </Col>
 
-          <Col>
-            <NavLink href="search_by_ingredient">
-              <Card>
-                <Card.Body>
-                  <Card.Text className="icon">
-                    <IoIosEgg />{' '}
-                  </Card.Text>
-                  <Card.Title>KERESÉS HOZZÁVALÓ ALAPJÁN</Card.Title>
-                </Card.Body>
-              </Card>
-            </NavLink>
-          </Col>
-        </CardDeck>
-      </Row>
-    </Container>
+            <Col>
+              <NavLink href="search_by_ingredient">
+                <Card>
+                  <Card.Body>
+                    <Card.Text className="icon">
+                      <IoIosEgg />{' '}
+                    </Card.Text>
+                    <Card.Title>KERESÉS HOZZÁVALÓ ALAPJÁN</Card.Title>
+                  </Card.Body>
+                </Card>
+              </NavLink>
+            </Col>
+          </CardDeck>
+        </Row>
+      </Container>
     </div>
   );
 }
