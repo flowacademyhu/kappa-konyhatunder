@@ -38,7 +38,9 @@ const AddRecepieForm = () => {
     baseURL: 'http://localhost:8081/api/recipes',
   });
 
-  useEffect(async () => {
+  useEffect(() => {
+    async function functionName(){ 
+    
     try {
       const response = await userAPI.get(`/levels`);
 
@@ -48,6 +50,8 @@ const AddRecepieForm = () => {
     } catch (error) {
       console.error();
     }
+  }
+  functionName();
   }, []);
 
   return (
