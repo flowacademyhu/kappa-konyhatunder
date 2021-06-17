@@ -4,7 +4,7 @@ import pic3 from './images/image-4.jpg';
 function BodyPart() {
   return (
     <>
-      <div className="card-deck" style={{ margin: '50px' }}>
+      <div className="card-deck" >
         <div className="card-deck">
           <div className="card">
             <img className="card-img-top" src={pic1} alt="pic1" />

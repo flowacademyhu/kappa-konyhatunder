@@ -6,7 +6,8 @@ import { IoIosEgg } from 'react-icons/io';
 
 function MainPage() {
   return (
-    <Container className="main-page-cards">
+    <div className="container">
+    <Container className="main-page-cards"  >
       <Row>
         <CardDeck>
           <Col>
@@ -50,6 +51,7 @@ function MainPage() {
         </CardDeck>
       </Row>
     </Container>
+    </div>
   );
 }
 
