@@ -48,17 +48,15 @@ function NavBar() {
               <Button
                 variant="success"
                 className="navbar-button"
-                href="/SearchByCriteria"
+                href="search_by_criteria"
               >
-                {' '}
                 Keresés kritérium alapján
               </Button>
               <Button
                 variant="success"
                 className="navbar-button"
-                href="/SearchByIngredient"
+                href="search_by_ingredient"
               >
-                {' '}
                 Keresés hozzávaló alapján
               </Button>
             </Nav>
@@ -68,7 +66,7 @@ function NavBar() {
           <Route path="/mainPage">
             <MainPage />
           </Route>
-          <Route path="/seach_by_criteria">
+          <Route path="/search_by_criteria">
             <SearchByCriteria />
           </Route>
           <Route path="/search_by_ingredient">

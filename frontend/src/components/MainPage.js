@@ -10,7 +10,7 @@ function MainPage() {
       <Row>
         <CardDeck>
           <Col>
-            <NavLink href="./AddRecepieForm">
+            <NavLink href="add_recepie">
               <Card>
                 <Card.Body>
                   <Card.Text className="icon">
@@ -23,9 +23,9 @@ function MainPage() {
           </Col>
 
           <Col>
-            <NavLink href="./SeachByCriteria">
+            <NavLink href="search_by_criteria">
               <Card>
-                <Card.Body href="./AddRecepieForm">
+                <Card.Body>
                   <Card.Text className="icon">
                     <IoIosFunnel />
                   </Card.Text>
@@ -36,7 +36,7 @@ function MainPage() {
           </Col>
 
           <Col>
-            <NavLink href="./SearchByIngredient">
+            <NavLink href="search_by_ingredient">
               <Card>
                 <Card.Body>
                   <Card.Text className="icon">
