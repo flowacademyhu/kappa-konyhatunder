@@ -26,6 +26,6 @@ services:
     container_name: backend
     hostname: konyhatunder-backend
     depends_on:
-      - db
+      - "db"
     ports:
       - 8081:8081

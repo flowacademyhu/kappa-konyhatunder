@@ -1,11 +1,19 @@
 package hu.flowacademy.konyhatunder.service;
 
+import hu.flowacademy.konyhatunder.dto.EmptyRecipe;
+import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.Recipe;
+import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
+import hu.flowacademy.konyhatunder.repository.CategoryRepository;
+import hu.flowacademy.konyhatunder.repository.IngredientRepository;
 import hu.flowacademy.konyhatunder.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -23,4 +31,27 @@ public class RecipeService {
     public Optional<Recipe> findById(String id) {
         return recipeRepository.findById(id);
     }
+
+    public void save(EmptyRecipe emptyRecipe) {
+        validate(emptyRecipe);
+
+        recipeRepository.save(Recipe.builder()
+                .name(emptyRecipe.getName())
+                .description(emptyRecipe.getDescription())
+                .preparationTime(emptyRecipe.getPreparationTime())
+                .build());
+    }
+    @SneakyThrows
+    public void validate(EmptyRecipe emptyRecipe){
+        if (!StringUtils.hasText(emptyRecipe.getName()))
+            throw new ValidationException("A recept nevét kötelező megadni");
+
+        if(!StringUtils.hasText(emptyRecipe.getDescription()))
+            throw new ValidationException("Ez elkészités mező nem lehet üres");
+
+        if(emptyRecipe.getPreparationTime() <= 0)
+            throw new ValidationException("Elkészitése idő nem lehet 0 perc");
+    }
+
+
 }

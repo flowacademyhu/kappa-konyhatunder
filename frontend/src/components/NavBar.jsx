@@ -41,9 +41,10 @@ function NavBar() {
               <Button
                 variant="success"
                 className="navbar-button"
-                href="/AddReceipeForm"
+
+                href="add_recepie"
               >
-                {' '}
+
                 Recept hozzáadása
               </Button>
               <Button

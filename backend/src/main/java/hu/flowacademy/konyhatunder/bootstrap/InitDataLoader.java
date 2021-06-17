@@ -2,6 +2,7 @@ package hu.flowacademy.konyhatunder.bootstrap;
 
 import com.github.javafaker.Faker;
 import hu.flowacademy.konyhatunder.model.*;
+import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
 import hu.flowacademy.konyhatunder.repository.IngredientRepository;
 import hu.flowacademy.konyhatunder.repository.RecipeRepository;
@@ -26,6 +27,7 @@ public class InitDataLoader implements CommandLineRunner {
     private final CategoryRepository categoryRepository;
     private final IngredientRepository ingredientRepository;
     private final RecipeRepository recipeRepository;
+    private final AmountOfIngredientForARecipeRepository amountOfIngredientForARecipeRepository;
 
     @Bean
     public Faker faker() {
@@ -37,6 +39,7 @@ public class InitDataLoader implements CommandLineRunner {
             saveNewCategory();
             saveNewIngredient();
             saveNewRecipes();
+            saveNewAmountOfIngredientForARecipe();
     }
 
     private List<Category> newCategory(){
@@ -55,9 +58,7 @@ public class InitDataLoader implements CommandLineRunner {
         return IntStream.range(0,10)
                 .mapToObj(value -> Ingredient.builder()
                         .name(faker().food().ingredient())
-                        .amount(faker().number().randomDouble(1,1,2))
                         .type(faker().number().numberBetween(1,3) == 1 ? Type.SOLID: Type.LIQUID)
-                        .unit(faker().food().measurement())
                         .build()).collect(Collectors.toList());
     }
 
@@ -65,22 +66,41 @@ public class InitDataLoader implements CommandLineRunner {
         ingredientRepository.saveAll(newIngredient());
     }
 
-    private List<Recipe> newRecipes(List<Ingredient> ingredientList, List<Category> categoryList){
+    private List<Recipe> newRecipes(List<Category> categoryList){
         return IntStream.range(0,10)
                 .mapToObj(value -> Recipe.builder()
                         .name(faker().food().dish())
                         .level(faker().number().numberBetween(1,4) == 1 ? Level.EASY :
                                 faker().number().numberBetween(1,4) == 2? Level.MEDIUM : Level.HARD)
                         .categoryList(categoryList)
-                        .ingredientList(ingredientList.subList(0,5))
+                        .description(faker().chuckNorris().fact())
+                        .preparationTime(faker().number().randomDouble(1,5,300))
                         .build()).collect(Collectors.toList());
     }
     private void saveNewRecipes(){
         List<Category> categoryList = categoryRepository.findAll();
-        List<Ingredient> ingredientList  = ingredientRepository.findAll();
-        recipeRepository.saveAll(newRecipes(ingredientList, categoryList));
+        recipeRepository.saveAll(newRecipes(categoryList));
     }
 
+    private List<AmountOfIngredientForARecipe> newAmountOfIngredientForARecipe(){
+        List<Ingredient> ingredientList  = ingredientRepository.findAll();
+        List<Recipe> recipeList = recipeRepository.findAll();
+        return IntStream.range(0,10).mapToObj(value->
+                AmountOfIngredientForARecipe.builder()
+                        .recipe(recipeList.get(new Random().nextInt(recipeList.size())))
+                        .ingredient(ingredientList.get(new Random().nextInt(ingredientList.size())))
+                        .unit(faker().food().measurement())
+                        .amount(faker().number().randomDouble(1,1,5))
+                        .build()
+                ).collect(Collectors.toList());
+    }
+
+    private void saveNewAmountOfIngredientForARecipe(){
+
+        amountOfIngredientForARecipeRepository.saveAll(
+        newAmountOfIngredientForARecipe());
+
+    }
 
 
 }

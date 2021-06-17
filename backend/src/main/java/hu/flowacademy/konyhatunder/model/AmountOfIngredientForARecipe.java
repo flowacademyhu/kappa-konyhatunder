@@ -8,20 +8,22 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Ingredient {
+public class AmountOfIngredientForARecipe {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-    private String name;
-    @Enumerated(EnumType.STRING)
-    private Type type;
-
+    @ManyToOne
+    @JsonIgnore
+    private Recipe recipe;
+    @OneToOne
+    private Ingredient ingredient;
+    private double amount;
+    private String unit;
 }
