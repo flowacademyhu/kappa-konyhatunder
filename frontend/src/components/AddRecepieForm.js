@@ -8,7 +8,9 @@ const AddRecepieForm = () => {
       name: values.name,
       description: values.description,
       preparationTime: values.preparationTime,
+
       level: values.level,
+
     };
 
     try {
@@ -24,6 +26,7 @@ const AddRecepieForm = () => {
       description: '',
       preparationTime: 0,
       level: '',
+
     },
 
     onSubmit: (values) => {
@@ -31,6 +34,7 @@ const AddRecepieForm = () => {
       console.log(values);
     },
   });
+
 
   const [levels, setLevels] = useState([]);
 
@@ -80,6 +84,7 @@ const AddRecepieForm = () => {
 
         <label htmlFor="preparationTime">preparationTime</label>
 
+
         <input
           className="form-control"
           id="preparationTime"
@@ -103,6 +108,7 @@ const AddRecepieForm = () => {
             ))}
           </select>
         </div>
+
         <button className="btn btn-success" type="submit">
           Submit
         </button>
