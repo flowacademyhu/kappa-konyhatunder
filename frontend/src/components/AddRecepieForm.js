@@ -8,7 +8,7 @@ const AddRecepieForm = () => {
       name: values.name,
       description: values.description,
       preparationTime: values.preparationTime,
-      level:values.level
+      level: values.level,
     };
 
     try {
@@ -23,7 +23,7 @@ const AddRecepieForm = () => {
       name: '',
       description: '',
       preparationTime: 0,
-      level:''
+      level: '',
     },
 
     onSubmit: (values) => {
@@ -32,30 +32,25 @@ const AddRecepieForm = () => {
     },
   });
 
-
   const [levels, setLevels] = useState([]);
 
   const userAPI = axios.create({
-    baseURL: "http://localhost:8081/api/recipes"
+    baseURL: 'http://localhost:8081/api/recipes',
   });
-  
- useEffect (  async () => {
+
+  useEffect(async () => {
     try {
       const response = await userAPI.get(`/levels`);
-      
+
       setLevels(response.data);
       console.log(levels.data);
       return response.data;
-      
     } catch (error) {
       console.error();
     }
-  },[]);
-  
-
+  }, []);
 
   return (
-
     <form onSubmit={formik.handleSubmit}>
       <div className="container">
         <label htmlFor="name">name</label>
@@ -79,9 +74,9 @@ const AddRecepieForm = () => {
         {formik.touched.description && formik.errors.description ? (
           <div>{formik.errors.description}</div>
         ) : null}
-    
+
         <label htmlFor="preparationTime">preparationTime</label>
-       
+
         <input
           className="form-control"
           id="preparationTime"
@@ -92,13 +87,20 @@ const AddRecepieForm = () => {
           <div>{formik.errors.preparationTime}</div>
         ) : null}
         <div class="form-group">
-      <label for="level">Nehézség</label>
-        <select className="form-control" name="level"  {...formik.getFieldProps('level')}>
-        {levels.map(l => (  <option key={l} value={l}>{l}</option>))}
-       </select>
-
-      </div>
-        <button className="btn btn-success" type="submit" >
+          <label for="level">Nehézség</label>
+          <select
+            className="form-control"
+            name="level"
+            {...formik.getFieldProps('level')}
+          >
+            {levels.map((l) => (
+              <option key={l} value={l}>
+                {l}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button className="btn btn-success" type="submit">
           Submit
         </button>
       </div>
