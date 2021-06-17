@@ -3,35 +3,40 @@ import '../styles/MainPage.css';
 import { IoIosAddCircle } from 'react-icons/io';
 import { IoIosFunnel } from 'react-icons/io';
 import { IoIosEgg } from 'react-icons/io';
-import AddRecepieForm from './AddRecepieForm';
 
 function MainPage() {
   return (
     <CardDeck>
-      <Card tag="a" onClick={AddRecepieForm} style={{ cursor: 'pointer' }}>
-        <Card.Body>
-          <Card.Text className="icon">
-            <IoIosAddCircle />
-          </Card.Text>
-          <Card.Title>RECEPT HOZZÁADÁSA</Card.Title>
-        </Card.Body>
-      </Card>
-      <Card>
-        <Card.Body>
-          <Card.Text className="icon">
-            <IoIosFunnel />
-          </Card.Text>
-          <Card.Title>KERESÉS KRITÉRIUM ALAPJÁN</Card.Title>
-        </Card.Body>
-      </Card>
-      <Card>
-        <Card.Body>
-          <Card.Text className="icon">
-            <IoIosEgg />{' '}
-          </Card.Text>
-          <Card.Title>KERESÉS HOZZÁVALÓ ALAPJÁN</Card.Title>
-        </Card.Body>
-      </Card>
+      <a href="./AddRecepieForm">
+        <Card className="MenuCard" style={{ width: '16rem' }}>
+          <Card.Body>
+            <Card.Text className="icon">
+              <IoIosAddCircle />
+            </Card.Text>
+            <Card.Title>ÚJ RECEPT HOZZÁADÁSA</Card.Title>
+          </Card.Body>
+        </Card>
+      </a>
+      <a href="./SearchByCriteria">
+        <Card className="MenuCard" style={{ width: '16rem' }}>
+          <Card.Body>
+            <Card.Text className="icon">
+              <IoIosFunnel />
+            </Card.Text>
+            <Card.Title>KERESÉS KRITÉRIUM ALAPJÁN</Card.Title>
+          </Card.Body>
+        </Card>
+      </a>
+      <a href="./SearchByIngredient">
+        <Card className="MenuCard" style={{ width: '16rem' }}>
+          <Card.Body>
+            <Card.Text className="icon">
+              <IoIosEgg />{' '}
+            </Card.Text>
+            <Card.Title>KERESÉS HOZZÁVALÓ ALAPJÁN</Card.Title>
+          </Card.Body>
+        </Card>
+      </a>
     </CardDeck>
   );
 }

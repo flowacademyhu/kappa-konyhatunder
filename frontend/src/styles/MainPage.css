@@ -10,6 +10,13 @@
   font-size: x-small;
 }
 
+.card-deck {
+  justify-content: center;
+}
+
+.MenuCard {
+  align-items: center;
+}
 .card-body {
   background-color: #38a30e;
   color: aliceblue;
@@ -18,4 +25,15 @@
 
 .icon {
   font-size: xx-large;
+}
+
+.card-link {
+  color: aliceblue;
+  font-size: larger;
+  font-weight: 500;
+  caret-color: darkgreen;
+}
+
+.text-muted {
+  color: white;
 }

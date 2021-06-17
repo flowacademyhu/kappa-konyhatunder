@@ -1,6 +1,7 @@
 import pic1 from './images/image-2.jpg';
 import pic2 from './images/image-3.jpg';
 import pic3 from './images/image-4.jpg';
+import './styles/MainPage.css';
 
 function BodyPart() {
   return (
