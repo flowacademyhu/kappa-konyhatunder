@@ -1,36 +1,34 @@
 import { CardDeck, Card } from 'react-bootstrap';
 import '../styles/MainPage.css';
-import { IoIosAddCircleOutline } from 'react-icons/io';
+import { IoIosAddCircle } from 'react-icons/io';
+import { IoIosFunnel } from 'react-icons/io';
+import { IoIosEgg } from 'react-icons/io';
 
 function MainPage() {
   return (
     <CardDeck>
       <Card>
         <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
-            This is a wider card with supporting text below as a natural lead-in
-            to additional content. This content is a little bit longer.
+          <Card.Text className="icon">
+            <IoIosAddCircle />
           </Card.Text>
+          <Card.Title>RECEPT HOZZÁADÁSA</Card.Title>
         </Card.Body>
       </Card>
       <Card>
         <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
-            This card has supporting text below as a natural lead-in to
-            additional content.{' '}
+          <Card.Text className="icon">
+            <IoIosFunnel />
           </Card.Text>
+          <Card.Title>KERESÉS KRITÉRIUM ALAPJÁN</Card.Title>
         </Card.Body>
       </Card>
       <Card>
         <Card.Body>
-          <Card.Text>
-            This is a wider card with supporting text below as a natural lead-in
-            to additional content. This card has even longer content than the
-            first to show that equal height action.
+          <Card.Text className="icon">
+            <IoIosEgg />{' '}
           </Card.Text>
-          <Card.Title>Card title</Card.Title>
+          <Card.Title>KERESÉS HOZZÁVALÓ ALAPJÁN</Card.Title>
         </Card.Body>
       </Card>
     </CardDeck>

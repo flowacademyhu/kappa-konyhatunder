@@ -9,3 +9,13 @@
 .Button {
   font-size: x-small;
 }
+
+.card-body {
+  background-color: #38a30e;
+  color: aliceblue;
+  text-align: center;
+}
+
+.icon {
+  font-size: xx-large;
+}
