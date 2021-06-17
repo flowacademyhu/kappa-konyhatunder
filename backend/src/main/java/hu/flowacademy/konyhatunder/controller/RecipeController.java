@@ -33,4 +33,9 @@ public class RecipeController {
     public void save(@RequestBody EmptyRecipe emptyRecipe){
         recipeService.save(emptyRecipe);
     }
+
+    @GetMapping("/levels")
+    public List<String> getAllRecipeLevels(){
+        return recipeService.getAllRecipeLevels();
+    }
 }

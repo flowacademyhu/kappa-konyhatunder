@@ -2,6 +2,7 @@ package hu.flowacademy.konyhatunder.service;
 
 import hu.flowacademy.konyhatunder.dto.EmptyRecipe;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
+import hu.flowacademy.konyhatunder.model.Level;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
@@ -14,8 +15,10 @@ import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -54,4 +57,8 @@ public class RecipeService {
     }
 
 
+    public List<String> getAllRecipeLevels() {
+        Level[] levels = Level.values();
+        return Arrays.stream(levels).map(Enum::name).collect(Collectors.toList());
+    }
 }
