@@ -7,19 +7,18 @@ import { IoIosEgg } from 'react-icons/io';
 function MainPage() {
   return (
     <CardDeck>
-      <a href="./AddRecepieForm">
-        <Card className="MenuCard" style={{ width: '16rem' }}>
-          <Card.Body>
-            <Card.Text className="icon">
-              <IoIosAddCircle />
-            </Card.Text>
-            <Card.Title>ÚJ RECEPT HOZZÁADÁSA</Card.Title>
-          </Card.Body>
-        </Card>
-      </a>
-      <a href="./SearchByCriteria">
-        <Card className="MenuCard" style={{ width: '16rem' }}>
-          <Card.Body>
+      <Card className="MenuCard" style={{ width: '16rem', margin: '50px' }}>
+        <Card.Body>
+          <Card.Text className="icon">
+            <IoIosAddCircle />
+          </Card.Text>
+          <Card.Title>ÚJ RECEPT HOZZÁADÁSA</Card.Title>
+        </Card.Body>
+      </Card>
+
+      <a className="link " href="./SearchByCriteria">
+        <Card className="MenuCard" style={{ width: '16rem', margin: '50px' }}>
+          <Card.Body href="./AddRecepieForm">
             <Card.Text className="icon">
               <IoIosFunnel />
             </Card.Text>
@@ -28,7 +27,7 @@ function MainPage() {
         </Card>
       </a>
       <a href="./SearchByIngredient">
-        <Card className="MenuCard" style={{ width: '16rem' }}>
+        <Card className="MenuCard" style={{ width: '16rem', margin: '50px' }}>
           <Card.Body>
             <Card.Text className="icon">
               <IoIosEgg />{' '}

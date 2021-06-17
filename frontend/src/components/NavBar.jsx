@@ -24,7 +24,7 @@ function NavBar() {
           variant="dark"
           sticky="top"
           expand="mr"
-          style={{ margin: '50px' }}
+          style={{ margin: '0px' }}
         >
           <img
             src={logo}

@@ -2,6 +2,9 @@
   ackground-color: #38a30e;
 }
 
+.card-title-link {
+}
+
 .ButtonGroup {
   background-color: #38a30e !important;
 }
@@ -32,8 +35,14 @@
   font-size: larger;
   font-weight: 500;
   caret-color: darkgreen;
+  text-decoration: none !important;
 }
 
 .text-muted {
   color: white;
+}
+
+.card-body:hover {
+  text-decoration: underline;
+  text-decoration-color: white;
 }
