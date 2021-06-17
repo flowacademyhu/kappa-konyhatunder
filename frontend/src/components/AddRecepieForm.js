@@ -46,9 +46,7 @@ function AddRecepieForm() {
                   aria-label="With textarea"
                 />
               </InputGroup>
-              <br></br>
 
-              <br></br>
               <button className="btn btn-success  w-100" type="submit">
                 Beküldés
               </button>
