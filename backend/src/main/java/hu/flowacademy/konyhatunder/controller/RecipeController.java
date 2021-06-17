@@ -16,12 +16,12 @@ import java.util.Optional;
 public class RecipeController {
 
     private final RecipeService recipeService;
-
+    @CrossOrigin
     @GetMapping
     public List<Recipe> findAll(){
         return recipeService.findAll();
     }
-
+    @CrossOrigin
     @GetMapping("/{id}")
     public Optional<Recipe> findById(@PathVariable String id){
         return recipeService.findById(id);
@@ -33,7 +33,7 @@ public class RecipeController {
     public void save(@RequestBody EmptyRecipe emptyRecipe){
         recipeService.save(emptyRecipe);
     }
-
+    @CrossOrigin
     @GetMapping("/levels")
     public List<String> getAllRecipeLevels(){
         return recipeService.getAllRecipeLevels();
