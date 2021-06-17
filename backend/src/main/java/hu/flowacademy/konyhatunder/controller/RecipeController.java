@@ -29,7 +29,7 @@ public class RecipeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void save(@RequestBody EmptyRecipe recipe){
-        recipeService.save(recipe);
+    public void save(@RequestBody EmptyRecipe emptyRecipe){
+        recipeService.save(emptyRecipe);
     }
 }

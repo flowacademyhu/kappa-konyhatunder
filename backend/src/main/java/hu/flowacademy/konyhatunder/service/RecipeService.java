@@ -1,7 +1,6 @@
 package hu.flowacademy.konyhatunder.service;
 
 import hu.flowacademy.konyhatunder.dto.EmptyRecipe;
-import hu.flowacademy.konyhatunder.model.AmountOfIngredientForARecipe;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -34,15 +31,21 @@ public class RecipeService {
         return recipeRepository.findById(id);
     }
 
-    public void save(EmptyRecipe emptyRecipe ) {
+    public void save(EmptyRecipe emptyRecipe) {
+
+//        Recipe savedRecipe = recipeRepository.save(recipe);
+//        categoryRepository.saveAll(recipe.getCategoryList());
+//
+//        ingredientRepository.saveAll(recipe.getAmountOfIngredientForARecipeList().stream()
+//                .map(AmountOfIngredientForARecipe::getIngredient).collect(Collectors.toList()));
+//
+//        amountOfIngredientForARecipeRepository.saveAll(savedRecipe.getAmountOfIngredientForARecipeList());
+//
 
         recipeRepository.save(Recipe.builder()
                 .name(emptyRecipe.getName())
-                .level(emptyRecipe.getLevel())
                 .description(emptyRecipe.getDescription())
                 .preparationTime(emptyRecipe.getPreparationTime())
                 .build());
-
-
     }
 }
