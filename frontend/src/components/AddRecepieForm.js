@@ -51,7 +51,7 @@ const AddRecepieForm = () => {
       }
     }
     functionName();
-  }, []);
+  }, [userAPI]);
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -89,8 +89,8 @@ const AddRecepieForm = () => {
         {formik.touched.preparationTime && formik.errors.preparationTime ? (
           <div>{formik.errors.preparationTime}</div>
         ) : null}
-        <div class="form-group">
-          <label for="level">Nehézség</label>
+        <div className="form-group">
+          <label htmlFor="level">Nehézség</label>
           <select
             className="form-control"
             name="level"
