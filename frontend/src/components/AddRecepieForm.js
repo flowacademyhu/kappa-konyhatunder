@@ -31,34 +31,43 @@ const AddRecepieForm = () => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-       <div className="container">
-      <label htmlFor="name">name</label>
-      <input className="form-control" id="name" type="text" {...formik.getFieldProps('name')} />
-      {formik.touched.name && formik.errors.name ? (
-        <div>{formik.errors.name}</div>
-      ) : null}
+      <div className="container">
+        <label htmlFor="name">name</label>
+        <input
+          className="form-control"
+          id="name"
+          type="text"
+          {...formik.getFieldProps('name')}
+        />
+        {formik.touched.name && formik.errors.name ? (
+          <div>{formik.errors.name}</div>
+        ) : null}
 
-      <label htmlFor="long">description</label>
-      <input className="form-control"
-        id="description"
-        type="text"
-        {...formik.getFieldProps('description')}
-      />
-      {formik.touched.description && formik.errors.description ? (
-        <div>{formik.errors.description}</div>
-      ) : null}
+        <label htmlFor="long">description</label>
+        <input
+          className="form-control"
+          id="description"
+          type="text"
+          {...formik.getFieldProps('description')}
+        />
+        {formik.touched.description && formik.errors.description ? (
+          <div>{formik.errors.description}</div>
+        ) : null}
 
-      <label htmlFor="preparationTime">preparationTime</label>
-      <input className="form-control"
-        id="preparationTime"
-        type="number"
-        {...formik.getFieldProps('preparationTime')}
-      />
-      {formik.touched.preparationTime && formik.errors.preparationTime ? (
-        <div>{formik.errors.preparationTime}</div>
-      ) : null}
+        <label htmlFor="preparationTime">preparationTime</label>
+        <input
+          className="form-control"
+          id="preparationTime"
+          type="number"
+          {...formik.getFieldProps('preparationTime')}
+        />
+        {formik.touched.preparationTime && formik.errors.preparationTime ? (
+          <div>{formik.errors.preparationTime}</div>
+        ) : null}
 
-      <button className="btn btn-success"  type="submit">Submit</button>
+        <button className="btn btn-success" type="submit">
+          Submit
+        </button>
       </div>
     </form>
   );
