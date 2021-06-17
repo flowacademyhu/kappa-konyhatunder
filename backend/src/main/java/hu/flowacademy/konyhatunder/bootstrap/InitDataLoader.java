@@ -43,11 +43,15 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private List<Category> newCategory(){
-        List<String> names = List.of("Olcsó","Ünnepi","Egyszerű");
-        return IntStream.range(0,10)
-                .mapToObj(value-> Category.builder()
-                        .name(names.get(new Random().nextInt(names.size())))
-                        .build()).collect(Collectors.toList());
+        List<String> names = List.of("Olcsó","Ünnepi","Egyszerű", "Olasz", "Kínai");
+        return List.of(
+                Category.builder().name(names.get(0)).build(),
+                Category.builder().name(names.get(1)).build(),
+                Category.builder().name(names.get(2)).build(),
+                Category.builder().name(names.get(3)).build(),
+                Category.builder().name(names.get(4)).build()
+
+                );
     }
 
     private void saveNewCategory(){

@@ -2,6 +2,7 @@ package hu.flowacademy.konyhatunder.service;
 
 import hu.flowacademy.konyhatunder.dto.EmptyRecipe;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
+import hu.flowacademy.konyhatunder.model.Category;
 import hu.flowacademy.konyhatunder.model.Level;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final CategoryRepository categoryRepository;
 
     public List<Recipe> findAll() {
         return recipeRepository.findAll();
@@ -37,11 +39,12 @@ public class RecipeService {
 
     public void save(EmptyRecipe emptyRecipe) {
         validate(emptyRecipe);
-
+        List<Category> categoryList = emptyRecipe.getCategoryList().stream().map(categoryRepository::findByName).collect(Collectors.toList());
         recipeRepository.save(Recipe.builder()
                 .name(emptyRecipe.getName())
                 .description(emptyRecipe.getDescription())
                 .preparationTime(emptyRecipe.getPreparationTime())
+                .categoryList(categoryList)
                 .build());
     }
     @SneakyThrows
@@ -54,6 +57,10 @@ public class RecipeService {
 
         if(emptyRecipe.getPreparationTime() <= 0)
             throw new ValidationException("Elkészitése idő nem lehet 0 perc");
+
+        if(emptyRecipe.getCategoryList() == null || emptyRecipe.getCategoryList().size() == 0)
+            throw new ValidationException("A kategóriák megadása kötelező");
+
     }
 
 
