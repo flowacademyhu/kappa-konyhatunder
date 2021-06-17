@@ -1,5 +1,5 @@
 function MainPage() {
-  return <div></div>;
+  return <div>Fooldal</div>;
 }
 
 export default MainPage;
