@@ -37,7 +37,7 @@ function NavBar() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="navbar-menu">
-              <Button variant="success" className="navbar-button">
+              <Button variant="success" className="navbar-button" href="add_recepie">
                 {' '}
                 Recept hozzáadása
               </Button>
