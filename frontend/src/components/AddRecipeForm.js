@@ -6,6 +6,10 @@ const userAPI = axios.create({
   baseURL: 'http://localhost:8081/api/',
 });
 
+const showAlert = () => {
+  alert('Sikeres küldés!');
+};
+
 const AddRecipeForm = () => {
   async function addRecipe(values) {
     const data = {
@@ -18,6 +22,7 @@ const AddRecipeForm = () => {
 
     try {
       await axios.post(`http://localhost:8081/api/recipes`, data);
+      showAlert();
     } catch (error) {
       console.error(error);
     }
@@ -28,7 +33,7 @@ const AddRecipeForm = () => {
       name: '',
       description: '',
       preparationTime: 0,
-      level: '',
+      level: 'EASY',
       categoryList: [],
     },
 
@@ -75,8 +80,8 @@ const AddRecipeForm = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="container">
-        <label className="m-2" htmlFor="name">
-          Név
+        <label className="mt-2" htmlFor="name">
+          Recept neve
         </label>
         <input
           className="form-control"
@@ -88,10 +93,10 @@ const AddRecipeForm = () => {
           <div>{formik.errors.name}</div>
         ) : null}
 
-        <label className="m-2" htmlFor="long">
-          Leírás
+        <label className="mt-2" htmlFor="long">
+          Elkészítés
         </label>
-        <input
+        <textarea
           className="form-control"
           id="description"
           type="text"
@@ -101,7 +106,7 @@ const AddRecipeForm = () => {
           <div>{formik.errors.description}</div>
         ) : null}
 
-        <label className="m-2" htmlFor="preparationTime">
+        <label className="mt-2" htmlFor="preparationTime">
           Elkészítési idő (percben)
         </label>
 
@@ -115,7 +120,7 @@ const AddRecipeForm = () => {
           <div>{formik.errors.preparationTime}</div>
         ) : null}
         <div className="form-group">
-          <label className="m-2" htmlFor="level">
+          <label className="mt-2" htmlFor="level">
             Nehézség
           </label>
           <select
@@ -129,22 +134,23 @@ const AddRecipeForm = () => {
               </option>
             ))}
           </select>
-
-          <div>
-            <p className="m-2">Kategória választás:</p>
-            {categoryList.map((l) => (
-              <div key={l.name}>
-                <input
-                  type="checkbox"
-                  id={l.name}
-                  name={l.name}
-                  className="m-2"
-                  {...formik.getFieldProps('categoryList')}
-                  value={l.name}
-                />
-                <label htmlFor={l.name}>{l.name}</label>
-              </div>
-            ))}
+          <p className="mt-2">Kategória választás:</p>
+          <div className="container">
+            <div className="row">
+              {categoryList.map((l) => (
+                <div key={l.name}>
+                  <input
+                    type="checkbox"
+                    id={l.name}
+                    name={l.name}
+                    className="mr-2 ml-2"
+                    {...formik.getFieldProps('categoryList')}
+                    value={l.name}
+                  />
+                  <label htmlFor={l.name}>{l.name}</label>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

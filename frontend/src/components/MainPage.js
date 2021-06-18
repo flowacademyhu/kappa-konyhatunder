@@ -11,7 +11,7 @@ function MainPage() {
         <Row>
           <CardDeck>
             <Col>
-              <NavLink href="add_recepie">
+              <NavLink href="add-recipe">
                 <Card>
                   <Card.Body>
                     <Card.Text className="icon">
@@ -24,7 +24,7 @@ function MainPage() {
             </Col>
 
             <Col>
-              <NavLink href="search_by_criteria">
+              <NavLink href="search-by-criteria">
                 <Card>
                   <Card.Body>
                     <Card.Text className="icon">
@@ -37,11 +37,11 @@ function MainPage() {
             </Col>
 
             <Col>
-              <NavLink href="search_by_ingredient">
+              <NavLink href="search-by-ingredient">
                 <Card>
                   <Card.Body>
                     <Card.Text className="icon">
-                      <IoIosEgg />{' '}
+                      <IoIosEgg />
                     </Card.Text>
                     <Card.Title>KERESÉS HOZZÁVALÓ ALAPJÁN</Card.Title>
                   </Card.Body>
