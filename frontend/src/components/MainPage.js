@@ -1,4 +1,4 @@
-import { CardDeck, Card, Container, Row, Col, NavLink } from 'react-bootstrap';
+import { Row, Col, NavLink } from 'react-bootstrap';
 import '../styles/MainPage.css';
 import { IoIosAddCircle } from 'react-icons/io';
 import { IoIosFunnel } from 'react-icons/io';
@@ -6,51 +6,45 @@ import { IoIosEgg } from 'react-icons/io';
 
 function MainPage() {
   return (
-    <div className="container">
-      <Container className="main-page-cards">
-        <Row>
-          <CardDeck>
-            <Col>
-              <NavLink href="add-recipe">
-                <Card>
-                  <Card.Body>
-                    <Card.Text className="icon">
-                      <IoIosAddCircle />
-                    </Card.Text>
-                    <Card.Title>ÚJ RECEPT HOZZÁADÁSA</Card.Title>
-                  </Card.Body>
-                </Card>
-              </NavLink>
-            </Col>
-
-            <Col>
-              <NavLink href="search-by-criteria">
-                <Card>
-                  <Card.Body>
-                    <Card.Text className="icon">
-                      <IoIosFunnel />
-                    </Card.Text>
-                    <Card.Title>KERESÉS KRITÉRIUM ALAPJÁN</Card.Title>
-                  </Card.Body>
-                </Card>
-              </NavLink>
-            </Col>
-
-            <Col>
-              <NavLink href="search-by-ingredient">
-                <Card>
-                  <Card.Body>
-                    <Card.Text className="icon">
-                      <IoIosEgg />
-                    </Card.Text>
-                    <Card.Title>KERESÉS HOZZÁVALÓ ALAPJÁN</Card.Title>
-                  </Card.Body>
-                </Card>
-              </NavLink>
-            </Col>
-          </CardDeck>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <Row className="justify-content-md-center">
+          <Col md="auto">
+            <NavLink href="add-recipe">
+              <button
+                type="button"
+                class="btn btn-success btn-circle btn-xl
+                justify-content-center"
+              >
+                <div className="menu-icon">
+                  <IoIosAddCircle />
+                </div>
+              </button>
+              <div className="menu-describe">RECEPT HOZZÁADÁSA</div>
+            </NavLink>
+          </Col>
+          <Col md="auto">
+            <NavLink href="search-by-criteria">
+              <button type="button" class="btn btn-success btn-circle btn-xl">
+                <div className="menu-icon">
+                  <IoIosFunnel />
+                </div>
+              </button>
+            </NavLink>
+            <div className="menu-describe">KERESÉS KRITÉRIUM ALAPJÁN</div>
+          </Col>
+          <Col md="auto">
+            <NavLink href="search-by-ingredient">
+              <button type="button" class="btn btn-success btn-circle btn-xl">
+                <div className="menu-icon">
+                  <IoIosEgg />
+                </div>
+              </button>
+            </NavLink>
+            <div className="menu-describe">KERESÉS HOZZÁVALÓ ALAPJÁN</div>
+          </Col>
         </Row>
-      </Container>
+      </div>
     </div>
   );
 }
