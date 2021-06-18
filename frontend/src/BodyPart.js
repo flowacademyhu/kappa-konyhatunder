@@ -30,7 +30,7 @@ function BodyPart() {
               <p className="card-text">
                 “If you’re cooking to impress, a juicy, flavour-packed steak
                 ticks a lot of boxes, and this dish takes your average steak
-                night to a totally different place."
+                night totally different place."
               </p>
               <p className="card-text">
                 <small className="text-muted">Last updated 3 mins ago</small>

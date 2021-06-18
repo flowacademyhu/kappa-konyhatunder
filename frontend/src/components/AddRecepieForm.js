@@ -1,5 +1,10 @@
 import { useFormik } from 'formik';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+
+const userAPI = axios.create({
+  baseURL: 'http://localhost:8081/api/recipes',
+});
 
 const AddRecepieForm = () => {
   async function addRecipe(values) {
@@ -7,6 +12,8 @@ const AddRecepieForm = () => {
       name: values.name,
       description: values.description,
       preparationTime: values.preparationTime,
+
+      level: values.level,
     };
 
     try {
@@ -21,6 +28,7 @@ const AddRecepieForm = () => {
       name: '',
       description: '',
       preparationTime: 0,
+      level: '',
     },
 
     onSubmit: (values) => {
@@ -28,6 +36,23 @@ const AddRecepieForm = () => {
       console.log(values);
     },
   });
+
+  const [levels, setLevels] = useState([]);
+
+  useEffect(() => {
+    async function functionName() {
+      try {
+        const response = await userAPI.get(`/levels`);
+        console.log(response.data);
+        setLevels(response.data);
+
+        return response.data;
+      } catch (error) {
+        console.error();
+      }
+    }
+    functionName();
+  }, []);
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -55,6 +80,7 @@ const AddRecepieForm = () => {
         ) : null}
 
         <label htmlFor="preparationTime">preparationTime</label>
+
         <input
           className="form-control"
           id="preparationTime"
@@ -64,6 +90,20 @@ const AddRecepieForm = () => {
         {formik.touched.preparationTime && formik.errors.preparationTime ? (
           <div>{formik.errors.preparationTime}</div>
         ) : null}
+        <div className="form-group">
+          <label htmlFor="level">Nehézség</label>
+          <select
+            className="form-control"
+            name="level"
+            {...formik.getFieldProps('level')}
+          >
+            {levels.map((l) => (
+              <option key={l} value={l}>
+                {l}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <button className="btn btn-success" type="submit">
           Submit
