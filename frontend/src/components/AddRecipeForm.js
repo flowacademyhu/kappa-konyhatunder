@@ -28,7 +28,7 @@ const AddRecipeForm = () => {
       name: '',
       description: '',
       preparationTime: 0,
-      level: '',
+      level: 'EASY',
       categoryList: [],
     },
 
