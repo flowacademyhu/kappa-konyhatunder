@@ -43,7 +43,7 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private List<Category> newCategory(){
-        List<String> names = List.of("Olcsó","Ünnepi","Egyszerű", "Olasz", "Kínai");
+        List<String> names = List.of("Olcsó","Ünnepi","Magyar", "Olasz", "Kínai");
         return List.of(
                 Category.builder().name(names.get(0)).build(),
                 Category.builder().name(names.get(1)).build(),
