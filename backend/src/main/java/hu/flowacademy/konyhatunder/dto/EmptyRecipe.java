@@ -15,4 +15,5 @@ public class EmptyRecipe {
     private Level level;
     private String description;
     private double preparationTime;
+    private List<String> categoryList;
 }
