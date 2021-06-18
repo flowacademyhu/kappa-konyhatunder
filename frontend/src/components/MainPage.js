@@ -11,7 +11,7 @@ function MainPage() {
         <Row>
           <CardDeck>
             <Col>
-              <NavLink href="add_recepie">
+              <NavLink href="add-recipe">
                 <Card>
                   <Card.Body>
                     <Card.Text className="icon">

@@ -2,15 +2,17 @@
   background-color: #38a30e;
 }
 
-.card-title-link {
-}
-
 .ButtonGroup {
   background-color: #38a30e !important;
 }
 
-.Button {
-  font-size: x-small;
+.menu-mobile {
+}
+
+.button {
+  font-size: larger;
+  background-color: #38a30e;
+  margin-bottom: 8px;
 }
 
 .card-deck {
