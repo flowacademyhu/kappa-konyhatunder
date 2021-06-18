@@ -1,7 +1,6 @@
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Alert } from 'bootstrap';
 
 const userAPI = axios.create({
   baseURL: 'http://localhost:8081/api/',
