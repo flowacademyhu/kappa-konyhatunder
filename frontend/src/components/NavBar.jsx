@@ -11,7 +11,7 @@ import SearchByCriteria from './SearchByCriteria';
 import MainPage from './MainPage';
 import MainPageForMobie from './MainPageForMobile';
 import SearchByIngredient from './SearchByIngredient';
-import AddRecepie from '../pages/AddRecepie';
+import AddRecipe from '../pages/AddRecipe';
 import BodyPart from '../BodyPart';
 import { useMediaQuery } from 'react-responsive';
 
@@ -45,21 +45,21 @@ function NavBar() {
               <Button
                 variant="success"
                 className="navbar-button"
-                href="add_recepie"
+                href="add-recipe"
               >
                 Recept hozzáadása
               </Button>
               <Button
                 variant="success"
                 className="navbar-button"
-                href="search_by_criteria"
+                href="search-by-criteria"
               >
                 Keresés kritérium alapján
               </Button>
               <Button
                 variant="success"
                 className="navbar-button"
-                href="search_by_ingredient"
+                href="search-by-ingredient"
               >
                 Keresés hozzávaló alapján
               </Button>
@@ -70,14 +70,14 @@ function NavBar() {
           <Route path="/mainPage">
             {isMobile ? <MainPageForMobie /> : <MainPage />}
           </Route>
-          <Route path="/search_by_criteria">
+          <Route path="/search-by-criteria">
             <SearchByCriteria />
           </Route>
-          <Route path="/search_by_ingredient">
+          <Route path="/search-by-ingredient">
             <SearchByIngredient />
           </Route>
-          <Route path="/add_recepie">
-            <AddRecepie />
+          <Route path="/add-recipe">
+            <AddRecipe />
           </Route>
           <Redirect from="/" to="/mainPage" />
         </Switch>
