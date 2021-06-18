@@ -3,17 +3,17 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const userAPI = axios.create({
-  baseURL: 'http://localhost:8081/api/recipes',
+  baseURL: 'http://localhost:8081/api/',
 });
 
-const AddRecepieForm = () => {
+const AddRecipeForm = () => {
   async function addRecipe(values) {
     const data = {
       name: values.name,
       description: values.description,
       preparationTime: values.preparationTime,
-
       level: values.level,
+      categoryList: values.categoryList,
     };
 
     try {
@@ -29,6 +29,7 @@ const AddRecepieForm = () => {
       description: '',
       preparationTime: 0,
       level: '',
+      categoryList: [],
     },
 
     onSubmit: (values) => {
@@ -38,12 +39,13 @@ const AddRecepieForm = () => {
   });
 
   const [levels, setLevels] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
 
   useEffect(() => {
     async function functionName() {
       try {
-        const response = await userAPI.get(`/levels`);
-        console.log(response.data);
+        const response = await userAPI.get(`recipes/levels`);
+
         setLevels(response.data);
 
         return response.data;
@@ -54,10 +56,28 @@ const AddRecepieForm = () => {
     functionName();
   }, []);
 
+  useEffect(() => {
+    async function categoryFunction() {
+      try {
+        const response = await userAPI.get(`/categories`);
+
+        console.log(response.data);
+        setCategoryList(response.data);
+
+        return response.data;
+      } catch (error) {
+        console.error();
+      }
+    }
+    categoryFunction();
+  }, []);
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="container">
-        <label htmlFor="name">name</label>
+        <label className="m-2" htmlFor="name">
+          Név
+        </label>
         <input
           className="form-control"
           id="name"
@@ -68,7 +88,9 @@ const AddRecepieForm = () => {
           <div>{formik.errors.name}</div>
         ) : null}
 
-        <label htmlFor="long">description</label>
+        <label className="m-2" htmlFor="long">
+          Leírás
+        </label>
         <input
           className="form-control"
           id="description"
@@ -79,7 +101,9 @@ const AddRecepieForm = () => {
           <div>{formik.errors.description}</div>
         ) : null}
 
-        <label htmlFor="preparationTime">preparationTime</label>
+        <label className="m-2" htmlFor="preparationTime">
+          Elkészítési idő (percben)
+        </label>
 
         <input
           className="form-control"
@@ -91,7 +115,9 @@ const AddRecepieForm = () => {
           <div>{formik.errors.preparationTime}</div>
         ) : null}
         <div className="form-group">
-          <label htmlFor="level">Nehézség</label>
+          <label className="m-2" htmlFor="level">
+            Nehézség
+          </label>
           <select
             className="form-control"
             name="level"
@@ -99,18 +125,35 @@ const AddRecepieForm = () => {
           >
             {levels.map((l) => (
               <option key={l} value={l}>
-                {l}
+                {l.charAt(0) + l.substring(1).toLowerCase()}
               </option>
             ))}
           </select>
+
+          <div>
+            <p className="m-2">Kategória választás:</p>
+            {categoryList.map((l) => (
+              <div key={l.name}>
+                <input
+                  type="checkbox"
+                  id={l.name}
+                  name={l.name}
+                  className="m-2"
+                  {...formik.getFieldProps('categoryList')}
+                  value={l.name}
+                />
+                <label htmlFor={l.name}>{l.name}</label>
+              </div>
+            ))}
+          </div>
         </div>
 
         <button className="btn btn-success" type="submit">
-          Submit
+          Hozzáadás
         </button>
       </div>
     </form>
   );
 };
 
-export default AddRecepieForm;
+export default AddRecipeForm;
