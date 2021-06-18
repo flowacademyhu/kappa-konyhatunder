@@ -1,0 +1,49 @@
+#bootstrap-overrides nav {
+  background-color: #38a30e;
+}
+
+.card-title-link {
+}
+
+.ButtonGroup {
+  background-color: #38a30e !important;
+}
+
+.Button {
+  font-size: x-small;
+}
+
+.card-deck {
+  justify-content: center;
+}
+
+.main-page-cards .card {
+  height: 195px;
+}
+
+.card-body {
+  background-color: #38a30e;
+  color: aliceblue;
+  text-align: center;
+  align-items: center;
+}
+
+.icon {
+  font-size: xx-large;
+}
+
+.card-link {
+  color: aliceblue;
+  font-size: larger;
+  font-weight: 500;
+  text-decoration: none !important;
+}
+
+.text-muted {
+  color: white;
+}
+
+.card-body:hover {
+  text-decoration: underline;
+  text-decoration-color: white;
+}

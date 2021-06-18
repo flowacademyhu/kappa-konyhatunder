@@ -22,9 +22,8 @@ function NavBar() {
         <Navbar
           className="color-nav"
           variant="dark"
-          sticky="top"
           expand="mr"
-          style={{ margin: '50px' }}
+          style={{ margin: '0px 0px 50px 0px' }}
         >
           <img
             src={logo}
@@ -33,7 +32,9 @@ function NavBar() {
             className="d-inline-block align-top"
             alt="logo"
           />
-          <Navbar.Brand href="/mainPage">Konyhatündér</Navbar.Brand>
+          <Navbar.Brand className="mr-auto" href="/mainPage">
+            Konyhatündér
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="navbar-menu">

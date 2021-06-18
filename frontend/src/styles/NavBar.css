@@ -21,11 +21,11 @@
   color: rgb(255, 255, 255) !important;
   font-family: 'Charmonman', cursive !important;
   font-size: xx-large;
-  text-shadow: 3px 1px #086608;
+  text-shadow: 3px 1px #0b7a0b;
 }
 
 .btn-button {
-  background-color: #daf3d1 !important;
+  background-color: #009700 !important;
 }
 
 .navbar-text {
@@ -33,12 +33,12 @@
 }
 
 .navbar-button {
-  background-color: #daf3d1;
+  background-color: #38a30e;
 }
 
 /* change the link color */
 .navbar-custom .navbar-nav .nav-link {
-  color: #38a30e;
+  color: #56c929;
   background-color: #c7ffb0 !important;
 }
 /* change the color of active or hovered links */
