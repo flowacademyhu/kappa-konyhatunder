@@ -1,26 +1,21 @@
-import InputGroups from './InputGroups';
-import { Form, Formik } from 'formik';
-import * as yup from 'yup';
-import { FormControl, InputGroup } from 'react-bootstrap';
-import logo from '../images/recept.png';
+import { useFormik } from 'formik';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
-const validationSchema = yup.object().shape({
-  recepieName: yup
-    .string()
-    .required('A felhasználónév kötelező!')
-    .min(10, 'Minimum 10 karakter.'),
-  makingTime: yup.number().required('Kötelező mező'),
+const userAPI = axios.create({
+  baseURL: 'http://localhost:8081/api/recipes',
 });
 
-function AddRecepieForm() {
-  const data = {
-    name: 'TesztNegy',
-    description: 'Finom',
-    preparationTime: 100,
-  };
+const AddRecepieForm = () => {
+  async function addRecipe(values) {
+    const data = {
+      name: values.name,
+      description: values.description,
+      preparationTime: values.preparationTime,
 
-  async function addRecipe() {
+      level: values.level,
+    };
+
     try {
       await axios.post(`http://localhost:8081/api/recipes`, data);
     } catch (error) {
@@ -28,52 +23,94 @@ function AddRecepieForm() {
     }
   }
 
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      description: '',
+      preparationTime: 0,
+      level: '',
+    },
+
+    onSubmit: (values) => {
+      addRecipe(values);
+      console.log(values);
+    },
+  });
+
+  const [levels, setLevels] = useState([]);
+
+  useEffect(() => {
+    async function functionName() {
+      try {
+        const response = await userAPI.get(`/levels`);
+        console.log(response.data);
+        setLevels(response.data);
+
+        return response.data;
+      } catch (error) {
+        console.error();
+      }
+    }
+    functionName();
+  }, []);
+
   return (
-    <>
-      <div class="text-center">
-        <img src={logo} className="img-fluid" alt="mainLogo" />
-      </div>
+    <form onSubmit={formik.handleSubmit}>
       <div className="container">
-        <div className="justify-content-center">
-          <Formik
-            validationSchema={validationSchema}
-            initialValues={{ recepieName: '', makingTime: '' }}
+        <label htmlFor="name">name</label>
+        <input
+          className="form-control"
+          id="name"
+          type="text"
+          {...formik.getFieldProps('name')}
+        />
+        {formik.touched.name && formik.errors.name ? (
+          <div>{formik.errors.name}</div>
+        ) : null}
+
+        <label htmlFor="long">description</label>
+        <input
+          className="form-control"
+          id="description"
+          type="text"
+          {...formik.getFieldProps('description')}
+        />
+        {formik.touched.description && formik.errors.description ? (
+          <div>{formik.errors.description}</div>
+        ) : null}
+
+        <label htmlFor="preparationTime">preparationTime</label>
+
+        <input
+          className="form-control"
+          id="preparationTime"
+          type="number"
+          {...formik.getFieldProps('preparationTime')}
+        />
+        {formik.touched.preparationTime && formik.errors.preparationTime ? (
+          <div>{formik.errors.preparationTime}</div>
+        ) : null}
+        <div className="form-group">
+          <label htmlFor="level">Nehézség</label>
+          <select
+            className="form-control"
+            name="level"
+            {...formik.getFieldProps('level')}
           >
-            <Form>
-              <InputGroups
-                name="recepieName"
-                type="text"
-                label="A recept megnevezése"
-              />
-              <InputGroups
-                name="makingTime"
-                type="number"
-                label="Elkészítési idő (percben értetendő )"
-              />
-
-              <label htmlFor="basic-url">Recept Leírása</label>
-              <InputGroup>
-                <InputGroup.Prepend></InputGroup.Prepend>
-                <FormControl
-                  as="textarea"
-                  id="recepieDescription"
-                  aria-label="With textarea"
-                />
-              </InputGroup>
-
-              <button
-                className="btn btn-success  w-100"
-                type="submit"
-                onClick={addRecipe}
-              >
-                Beküldés
-              </button>
-            </Form>
-          </Formik>
+            {levels.map((l) => (
+              <option key={l} value={l}>
+                {l}
+              </option>
+            ))}
+          </select>
         </div>
+
+        <button className="btn btn-success" type="submit">
+          Submit
+        </button>
       </div>
-    </>
+    </form>
   );
-}
+};
 
 export default AddRecepieForm;

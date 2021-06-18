@@ -1,5 +1,6 @@
 package hu.flowacademy.konyhatunder.service;
 
+import com.google.common.base.Enums;
 import hu.flowacademy.konyhatunder.dto.EmptyRecipe;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.Category;
@@ -13,11 +14,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.yaml.snakeyaml.util.EnumUtils;
 
 import javax.transaction.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -43,6 +46,7 @@ public class RecipeService {
         recipeRepository.save(Recipe.builder()
                 .name(emptyRecipe.getName())
                 .description(emptyRecipe.getDescription())
+                .level(emptyRecipe.getLevel())
                 .preparationTime(emptyRecipe.getPreparationTime())
                 .categoryList(categoryList)
                 .build());
@@ -57,6 +61,9 @@ public class RecipeService {
 
         if(emptyRecipe.getPreparationTime() <= 0)
             throw new ValidationException("Elkészitése idő nem lehet 0 perc");
+
+        if(!Enums.getIfPresent(Level.class, emptyRecipe.getLevel().toString().toUpperCase(Locale.ROOT)).isPresent())
+            throw new ValidationException("NEm jó level");
 
         if(emptyRecipe.getCategoryList() == null || emptyRecipe.getCategoryList().size() == 0)
             throw new ValidationException("A kategóriák megadása kötelező");
