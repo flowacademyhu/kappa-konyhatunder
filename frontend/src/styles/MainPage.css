@@ -2,17 +2,15 @@
   background-color: #38a30e;
 }
 
+.card-title-link {
+}
+
 .ButtonGroup {
   background-color: #38a30e !important;
 }
 
-.menu-mobile {
-}
-
-.button {
-  font-size: larger;
-  background-color: #38a30e;
-  margin-bottom: 8px;
+.Button {
+  font-size: x-small;
 }
 
 .card-deck {
@@ -34,6 +32,11 @@
   font-size: xx-large;
 }
 
+.menu-icon {
+  font-size: 100px;
+  margin: 30px;
+}
+
 .card-link {
   color: aliceblue;
   font-size: larger;
@@ -48,4 +51,24 @@
 .card-body:hover {
   text-decoration: underline;
   text-decoration-color: white;
+}
+
+.btn-circle.btn-xl {
+  width: 200px;
+  height: 200px;
+  border-radius: 120px;
+  background-color: #38a30e;
+}
+
+.btn-circle {
+  margin-right: 150px;
+  margin-left: 150px;
+}
+
+.menu-describe {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 25px;
+  color: #38a30e;
+  font-weight: bold;
 }

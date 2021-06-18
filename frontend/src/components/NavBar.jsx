@@ -15,7 +15,7 @@ import AddRecipe from '../pages/AddRecipe';
 import BodyPart from '../BodyPart';
 import { useMediaQuery } from 'react-responsive';
 
-import { Navbar, Button, Nav } from 'react-bootstrap';
+import { Navbar, Button, Nav, NavLink } from 'react-bootstrap';
 
 function NavBar() {
   const isMobile = useMediaQuery({ query: `(max-width: 576px)` });
@@ -29,13 +29,15 @@ function NavBar() {
           expand="mr"
           style={{ margin: '0px 0px 15px 0px' }}
         >
-          <img
-            src={logo}
-            width="120"
-            height="80"
-            className="d-inline-block align-top"
-            alt="logo"
-          />
+          <NavLink href="MainPage">
+            <img
+              src={logo}
+              width="120"
+              height="80"
+              className="d-inline-block align-top"
+              alt="logo"
+            />
+          </NavLink>
           <Navbar.Brand className="mr-auto" href="/mainPage">
             Konyhatündér
           </Navbar.Brand>

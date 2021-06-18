@@ -16,7 +16,7 @@ function MainPageForMobile() {
             block
             href="add-recipe"
           >
-            <div className="icon-mobile">
+            <div className="icon-mobile" href="main-page">
               <IoIosAddCircle />{' '}
             </div>
             RECEPT HOZZÁADÁSA
