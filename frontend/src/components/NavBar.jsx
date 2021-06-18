@@ -10,7 +10,7 @@ import {
 import SearchByCriteria from './SearchByCriteria';
 import MainPage from './MainPage';
 import SearchByIngredient from './SearchByIngredient';
-import AddRecepie from '../pages/AddRecepie';
+import AddRecipe from '../pages/AddRecipe';
 import BodyPart from '../BodyPart';
 
 import { Navbar, Button, Nav } from 'react-bootstrap';
@@ -72,7 +72,7 @@ function NavBar() {
             <SearchByIngredient />
           </Route>
           <Route path="/add-recipe">
-            <AddRecepie />
+            <AddRecipe />
           </Route>
           <Redirect from="/" to="/mainPage" />
         </Switch>
