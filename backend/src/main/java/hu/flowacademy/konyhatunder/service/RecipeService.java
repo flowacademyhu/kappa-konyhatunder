@@ -1,6 +1,6 @@
 package hu.flowacademy.konyhatunder.service;
 
-import com.google.common.base.Enums;
+
 import hu.flowacademy.konyhatunder.dto.EmptyRecipe;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.Category;
@@ -62,8 +62,8 @@ public class RecipeService {
         if(emptyRecipe.getPreparationTime() <= 0)
             throw new ValidationException("Elkészitése idő nem lehet 0 perc");
 
-        if(!Enums.getIfPresent(Level.class, emptyRecipe.getLevel().toString().toUpperCase(Locale.ROOT)).isPresent())
-            throw new ValidationException("NEm jó level");
+        if(emptyRecipe.getLevel() == null)
+            throw new ValidationException("Nem jó level");
 
         if(emptyRecipe.getCategoryList() == null || emptyRecipe.getCategoryList().size() == 0)
             throw new ValidationException("A kategóriák megadása kötelező");
