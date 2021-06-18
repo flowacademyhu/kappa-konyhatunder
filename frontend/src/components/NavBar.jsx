@@ -9,13 +9,17 @@ import {
 } from 'react-router-dom';
 import SearchByCriteria from './SearchByCriteria';
 import MainPage from './MainPage';
+import MainPageForMobie from './MainPageForMobile';
 import SearchByIngredient from './SearchByIngredient';
 import AddRecipe from '../pages/AddRecipe';
 import BodyPart from '../BodyPart';
+import { useMediaQuery } from 'react-responsive';
 
 import { Navbar, Button, Nav } from 'react-bootstrap';
 
 function NavBar() {
+  const isMobile = useMediaQuery({ query: `(max-width: 576px)` });
+
   return (
     <>
       <Router>
@@ -23,7 +27,7 @@ function NavBar() {
           className="color-nav"
           variant="dark"
           expand="mr"
-          style={{ margin: '0px 0px 50px 0px' }}
+          style={{ margin: '0px 0px 15px 0px' }}
         >
           <img
             src={logo}
@@ -64,7 +68,7 @@ function NavBar() {
         </Navbar>
         <Switch>
           <Route path="/mainPage">
-            <MainPage />
+            {isMobile ? <MainPageForMobie /> : <MainPage />}
           </Route>
           <Route path="/search-by-criteria">
             <SearchByCriteria />
