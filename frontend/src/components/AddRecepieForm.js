@@ -75,7 +75,7 @@ const AddRecepieForm = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="container">
-        <label htmlFor="name">name</label>
+        <label htmlFor="name">Név</label>
         <input
           className="form-control"
           id="name"
@@ -86,7 +86,7 @@ const AddRecepieForm = () => {
           <div>{formik.errors.name}</div>
         ) : null}
 
-        <label htmlFor="long">description</label>
+        <label htmlFor="long">Leírás</label>
         <input
           className="form-control"
           id="description"
@@ -97,7 +97,7 @@ const AddRecepieForm = () => {
           <div>{formik.errors.description}</div>
         ) : null}
 
-        <label htmlFor="preparationTime">preparationTime</label>
+        <label htmlFor="preparationTime">Elkészítési idő (percben)</label>
 
         <input
           className="form-control"
@@ -117,7 +117,7 @@ const AddRecepieForm = () => {
           >
             {levels.map((l) => (
               <option key={l} value={l}>
-                {l}
+                {l.charAt(0) + l.substring(1).toLowerCase()}
               </option>
             ))}
           </select>
@@ -139,7 +139,7 @@ const AddRecepieForm = () => {
         </div>
 
         <button className="btn btn-success" type="submit">
-          Submit
+          Hozzáadás
         </button>
       </div>
     </form>
