@@ -40,16 +40,22 @@ function NavBar() {
               <Button
                 variant="success"
                 className="navbar-button"
-                href="add_recepie"
+                href="add-recipe"
               >
                 Recept hozzáadása
               </Button>
-              <Button variant="success" className="navbar-button">
-                {' '}
+              <Button
+                variant="success"
+                className="navbar-button"
+                href="search-by-criteria"
+              >
                 Keresés kritérium alapján
               </Button>
-              <Button variant="success" className="navbar-button">
-                {' '}
+              <Button
+                variant="success"
+                className="navbar-button"
+                href="search-by-ingredient"
+              >
                 Keresés hozzávaló alapján
               </Button>
             </Nav>
@@ -59,13 +65,13 @@ function NavBar() {
           <Route path="/mainPage">
             <MainPage />
           </Route>
-          <Route path="/seach_by_criteria">
+          <Route path="/seach-by-criteria">
             <SearchByCriteria />
           </Route>
-          <Route path="/search_by_ingredient">
+          <Route path="/search-by-ingredient">
             <SearchByIngredient />
           </Route>
-          <Route path="/add_recepie">
+          <Route path="/add-recipe">
             <AddRecepie />
           </Route>
           <Redirect from="/" to="/mainPage" />

@@ -6,7 +6,7 @@ const userAPI = axios.create({
   baseURL: 'http://localhost:8081/api/',
 });
 
-const AddRecepieForm = () => {
+const AddRecipeForm = () => {
   async function addRecipe(values) {
     const data = {
       name: values.name,
@@ -146,4 +146,4 @@ const AddRecepieForm = () => {
   );
 };
 
-export default AddRecepieForm;
+export default AddRecipeForm;
