@@ -75,7 +75,9 @@ const AddRecepieForm = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="container">
-        <label htmlFor="name">Név</label>
+        <label className="m-2" htmlFor="name">
+          Név
+        </label>
         <input
           className="form-control"
           id="name"
@@ -86,7 +88,9 @@ const AddRecepieForm = () => {
           <div>{formik.errors.name}</div>
         ) : null}
 
-        <label htmlFor="long">Leírás</label>
+        <label className="m-2" htmlFor="long">
+          Leírás
+        </label>
         <input
           className="form-control"
           id="description"
@@ -97,7 +101,9 @@ const AddRecepieForm = () => {
           <div>{formik.errors.description}</div>
         ) : null}
 
-        <label htmlFor="preparationTime">Elkészítési idő (percben)</label>
+        <label className="m-2" htmlFor="preparationTime">
+          Elkészítési idő (percben)
+        </label>
 
         <input
           className="form-control"
@@ -109,7 +115,9 @@ const AddRecepieForm = () => {
           <div>{formik.errors.preparationTime}</div>
         ) : null}
         <div className="form-group">
-          <label htmlFor="level">Nehézség</label>
+          <label className="m-2" htmlFor="level">
+            Nehézség
+          </label>
           <select
             className="form-control"
             name="level"
@@ -123,12 +131,14 @@ const AddRecepieForm = () => {
           </select>
 
           <div>
+            <p className="m-2">Kategória választás:</p>
             {categoryList.map((l) => (
               <div key={l.name}>
                 <input
                   type="checkbox"
                   id={l.name}
                   name={l.name}
+                  className="m-2"
                   {...formik.getFieldProps('categoryList')}
                   value={l.name}
                 />
