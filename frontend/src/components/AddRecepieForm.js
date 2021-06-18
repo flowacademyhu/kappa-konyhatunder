@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const userAPI = axios.create({
-  baseURL: 'http://localhost:8081/api/recipes',
+  baseURL: 'http://localhost:8081/api/',
 });
 
 const AddRecepieForm = () => {
@@ -12,8 +12,8 @@ const AddRecepieForm = () => {
       name: values.name,
       description: values.description,
       preparationTime: values.preparationTime,
-
       level: values.level,
+      categoryList: values.categoryList,
     };
 
     try {
@@ -29,6 +29,7 @@ const AddRecepieForm = () => {
       description: '',
       preparationTime: 0,
       level: '',
+      categoryList: [],
     },
 
     onSubmit: (values) => {
@@ -38,12 +39,13 @@ const AddRecepieForm = () => {
   });
 
   const [levels, setLevels] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
 
   useEffect(() => {
     async function functionName() {
       try {
-        const response = await userAPI.get(`/levels`);
-        console.log(response.data);
+        const response = await userAPI.get(`recipes/levels`);
+
         setLevels(response.data);
 
         return response.data;
@@ -52,6 +54,22 @@ const AddRecepieForm = () => {
       }
     }
     functionName();
+  }, []);
+
+  useEffect(() => {
+    async function categoryFunction() {
+      try {
+        const response = await userAPI.get(`/categories`);
+
+        console.log(response.data);
+        setCategoryList(response.data);
+
+        return response.data;
+      } catch (error) {
+        console.error();
+      }
+    }
+    categoryFunction();
   }, []);
 
   return (
@@ -103,6 +121,21 @@ const AddRecepieForm = () => {
               </option>
             ))}
           </select>
+
+          <div>
+            {categoryList.map((l) => (
+              <div key={l.name}>
+                <input
+                  type="checkbox"
+                  id={l.name}
+                  name={l.name}
+                  {...formik.getFieldProps('categoryList')}
+                  value={l.name}
+                />
+                <label htmlFor={l.name}>{l.name}</label>
+              </div>
+            ))}
+          </div>
         </div>
 
         <button className="btn btn-success" type="submit">
