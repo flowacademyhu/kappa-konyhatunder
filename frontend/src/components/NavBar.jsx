@@ -66,7 +66,7 @@ function NavBar() {
           <Route path="/mainPage">
             <MainPage />
           </Route>
-          <Route path="/seach-by-criteria">
+          <Route path="/search-by-criteria">
             <SearchByCriteria />
           </Route>
           <Route path="/search-by-ingredient">
