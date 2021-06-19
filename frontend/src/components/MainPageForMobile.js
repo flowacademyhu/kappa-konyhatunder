@@ -11,7 +11,7 @@ function MainPageForMobile() {
         <Col>
           <Button
             variant="secondary"
-            className="button"
+            className="button ButtonGroup"
             size="lg"
             block
             href="add-recipe"
@@ -23,7 +23,7 @@ function MainPageForMobile() {
           </Button>
           <Button
             variant="secondary"
-            className="button"
+            className="button ButtonGroup"
             block
             size="lg"
             href="search-by-criteria"
@@ -36,7 +36,7 @@ function MainPageForMobile() {
           </Button>
           <Button
             variant="secondary"
-            className="button"
+            className="button ButtonGroup"
             block
             size="lg"
             href="search-by-ingredient"

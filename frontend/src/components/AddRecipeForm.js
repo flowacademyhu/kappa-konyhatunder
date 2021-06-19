@@ -130,7 +130,7 @@ const AddRecipeForm = () => {
           >
             {levels.map((l) => (
               <option key={l} value={l}>
-                {l.charAt(0) + l.substring(1).toLowerCase()}
+                {l === 'EASY' ? 'Könnyű' : l === 'MEDIUM' ? 'Közepes' : 'Nehéz'}
               </option>
             ))}
           </select>

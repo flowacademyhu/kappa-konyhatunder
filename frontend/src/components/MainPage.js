@@ -6,14 +6,14 @@ import { IoIosEgg } from 'react-icons/io';
 
 function MainPage() {
   return (
-    <div class="panel panel-default">
-      <div class="panel-body">
+    <div className="panel panel-default">
+      <div className="panel-body">
         <Row className="justify-content-md-center">
           <Col md="auto">
             <NavLink href="add-recipe">
               <button
                 type="button"
-                class="btn btn-success btn-circle btn-xl
+                className="btn btn-success btn-circle btn-xl
                 justify-content-center"
               >
                 <div className="menu-icon">
@@ -25,7 +25,10 @@ function MainPage() {
           </Col>
           <Col md="auto">
             <NavLink href="search-by-criteria">
-              <button type="button" class="btn btn-success btn-circle btn-xl">
+              <button
+                type="button"
+                className="btn btn-success btn-circle btn-xl"
+              >
                 <div className="menu-icon">
                   <IoIosFunnel />
                 </div>
@@ -35,7 +38,10 @@ function MainPage() {
           </Col>
           <Col md="auto">
             <NavLink href="search-by-ingredient">
-              <button type="button" class="btn btn-success btn-circle btn-xl">
+              <button
+                type="button"
+                className="btn btn-success btn-circle btn-xl"
+              >
                 <div className="menu-icon">
                   <IoIosEgg />
                 </div>
