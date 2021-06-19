@@ -77,7 +77,7 @@ public class InitDataLoader implements CommandLineRunner {
                         .level(faker().number().numberBetween(1,4) == 1 ? Level.EASY :
                                 faker().number().numberBetween(1,4) == 2? Level.MEDIUM : Level.HARD)
                         .categoryList(categoryList)
-                        .description(faker().chuckNorris().fact())
+                        .description(faker().lorem().sentence(30))
                         .preparationTime(faker().number().randomDouble(1,5,300))
                         .build()).collect(Collectors.toList());
     }
