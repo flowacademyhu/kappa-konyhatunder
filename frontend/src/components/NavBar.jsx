@@ -62,6 +62,13 @@ function NavBar() {
               <Button
                 variant="success"
                 className="navbar-button"
+                href="recipes"
+              >
+                Recept lista 
+              </Button>
+              <Button
+                variant="success"
+                className="navbar-button"
                 href="search-by-ingredient"
               >
                 Keresés hozzávaló alapján
@@ -82,10 +89,10 @@ function NavBar() {
           <Route path="/add-recipe">
             <AddRecipe />
           </Route>
-          <Route path="/products/:id">
+          <Route path="/recipes/:id">
               <SingleRecipeList/>
             </Route>
-            <Route path="/products">
+            <Route path="/recipes">
               <RecipeList />
             </Route>
           <Redirect from="/" to="/mainPage" />
