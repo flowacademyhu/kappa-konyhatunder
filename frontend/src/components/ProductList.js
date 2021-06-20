@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-function RecipeList(){
+function ProductList(){
 
-    const [recipes, setRecipes] = useState();
+    const [products, setProducts] = useState();
 
     useEffect(async () => {
       try {
         const response = await axios.get("http://localhost:8081/api/recipes");
-        setRecipes(response.data);
+        setProducts(response.data);
       } catch (err) {
         console.error("Error during api call:", err);
       }
@@ -17,12 +17,11 @@ function RecipeList(){
   
     return (
       <ul className="list-group">
-        {recipes
-          ? recipes.map(p => (
-              <Link to={`/recipes/${p.id}`} key={p.id}>
+        {products
+          ? products.map(p => (
+              <Link to={`/products/${p.id}`} key={p.id}>
                 <li className="list-group-item list-group-item-action">
                   {p.name}
-                  {p.details}
                 </li>
               </Link>
             ))
@@ -30,4 +29,4 @@ function RecipeList(){
       </ul>
     )} 
 
-export default RecipeList;
+export default ProductList;
