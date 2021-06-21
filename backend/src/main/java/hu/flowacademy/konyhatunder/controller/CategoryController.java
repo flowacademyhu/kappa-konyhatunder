@@ -30,7 +30,7 @@ public class CategoryController {
 
     @CrossOrigin
     @PostMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.CREATED)
     public void saveNewCategory(@RequestBody Category category){
         categoryService.saveNewCategory(category);
     }
