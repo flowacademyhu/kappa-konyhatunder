@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import {
+
+    Link
+  } from "react-router-dom";
 import pic3 from '../images/image-6.jpg';
 
 const recipeAPI = axios.create({
@@ -47,25 +51,25 @@ export default function SingleRecipe() {
             <p>{product.preparationTime}</p>
 
             <h3>Recept kategóriája : </h3>
-            {product.categoryList.map((e) => (
-              <div> {e.name}</div>
+            {product.categoryList.map((ingredient) => (
+              <div> {ingredient.name}</div>
             ))}
 
             <h3>Recept alapanyagjai : </h3>
 
-            {product.amountOfIngredientForARecipeList.map((e) => (
+            {product.amountOfIngredientForARecipeList.map((ingredient) => (
               <>
                 <div className="row">
-                  <div className="col">{e.ingredient.name}</div>
-                  <div className="col">{e.amount}</div>
-                  <div className="col">{e.unit}</div>
+                  <div className="col">{ingredient.ingredient.name}</div>
+                  <div className="col">{ingredient.amount}</div>
+                  <div className="col">{ingredient.unit}</div>
                 </div>
               </>
             ))}
+              <Link className="btn btn-primary" to="/recipes">About</Link>
           </div>
-          <a class="btn btn-primary" href="/recipes">
-            Vissza
-          </a>
+
+
         </div>
       ) : (
         'Loading...'
