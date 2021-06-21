@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import styled from 'styled-components';
+
 import pic3 from '../images/image-6.jpg';
 
-const StyledImage = styled.img`
-  width: 50%;
-  height: auto;
-  max-width: 550px;
-`;
-
-export default function SingleRecipeList() {
+export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
 
@@ -33,8 +27,8 @@ export default function SingleRecipeList() {
       {product ? (
         <div className="row">
           <div className="col-3">
-            <StyledImage
-              className="justify-content-center"
+            <img
+              className="justify-content-center w-100"
               src={pic3}
               alt={product.title}
             />

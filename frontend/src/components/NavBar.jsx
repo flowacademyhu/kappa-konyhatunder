@@ -17,7 +17,7 @@ import { useMediaQuery } from 'react-responsive';
 
 import { Navbar, Button, Nav, NavLink } from 'react-bootstrap';
 import RecipeList from './RecipeList';
-import SingleRecipeList from './SingleRecipeList';
+import SingleRecipe from './SingleRecipe';
 function NavBar() {
   const isMobile = useMediaQuery({ query: `(max-width: 576px)` });
 
@@ -48,28 +48,28 @@ function NavBar() {
               <Button
                 variant="success"
                 className="navbar-button"
-                href="add-recipe"
-              >
-                Recept hozzáadása
-              </Button>
-              <Button
-                variant="success"
-                className="navbar-button"
-                href="search-by-criteria"
-              >
-                Keresés kritérium alapján
-              </Button>
-              <Button
-                variant="success"
-                className="navbar-button"
-                href="recipes"
+                href="/recipes"
               >
                 Recept lista
               </Button>
               <Button
                 variant="success"
                 className="navbar-button"
-                href="search-by-ingredient"
+                href="/add-recipe"
+              >
+                Recept hozzáadása
+              </Button>
+              <Button
+                variant="success"
+                className="navbar-button"
+                href="/search-by-criteria"
+              >
+                Keresés kritérium alapján
+              </Button>
+              <Button
+                variant="success"
+                className="navbar-button"
+                href="/search-by-ingredient"
               >
                 Keresés hozzávaló alapján
               </Button>
@@ -90,7 +90,7 @@ function NavBar() {
             <AddRecipe />
           </Route>
           <Route path="/recipes/:id">
-            <SingleRecipeList />
+            <SingleRecipe />
           </Route>
           <Route path="/recipes">
             <RecipeList />
