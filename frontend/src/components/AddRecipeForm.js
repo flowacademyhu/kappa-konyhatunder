@@ -12,16 +12,23 @@ const showAlert = () => {
 
 const AddRecipeForm = () => {
   const [newCategory, setNewCategory] = useState('');
+  const [error, setError] = useState('');
   async function addCategory(value) {
     const data = {
       name: value,
     };
+
     console.log(data);
-    setCategoryList([...categoryList, data]);
+    data.name !== ''
+      ? setCategoryList([...categoryList, data])
+      : setCategoryList([...categoryList]);
     try {
       await axios.post(`http://localhost:8081/api/categories`, data);
+      setError('Sikeres hozzáadás!');
     } catch (error) {
-      console.error(error);
+      console.log('valami');
+      console.log(error.response);
+      setError(error.response.data[0]);
     }
     setNewCategory('');
   }
@@ -62,7 +69,7 @@ const AddRecipeForm = () => {
   const [categoryList, setCategoryList] = useState([]);
 
   useEffect(() => {
-    async function functionName() {
+    async function levelFunction() {
       try {
         const response = await userAPI.get(`recipes/levels`);
 
@@ -73,7 +80,7 @@ const AddRecipeForm = () => {
         console.error();
       }
     }
-    functionName();
+    levelFunction();
   }, []);
 
   useEffect(() => {
@@ -182,15 +189,46 @@ const AddRecipeForm = () => {
               <button
                 className="btn btn-success"
                 onClick={() => addCategory(newCategory)}
+                data-toggle="modal"
+                data-target="#myModal"
               >
                 +
               </button>
             </div>
           </div>
         </div>
-        <button className="btn btn-success" type="submit">
+        <button
+          className="btn btn-success"
+          type="submit"
+          data-toggle="modal"
+          data-target="#myModal"
+        >
           Hozzáadás
         </button>
+        <div class="modal fade" id="myModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Konyhatündér üzenet</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                  &times;
+                </button>
+              </div>
+
+              <div class="modal-body">{error}</div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </form>
   );
