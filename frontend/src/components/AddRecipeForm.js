@@ -16,7 +16,7 @@ const validationSchema = yup.object().shape({
     .number('Nem szám formátum')
     .required('Kötelező mező')
     .max(1000, 'Túl sok')
-    .integer('Szám fromátum szükséges '),
+    .integer('Szám formátum szükséges '),
 });
 
 const showAlert = () => {
@@ -97,6 +97,8 @@ const AddRecipeForm = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="container">
+      <span className="text-danger">★</span>
+
         <label className="mt-2" htmlFor="name">
           Recept neve
         </label>
@@ -109,7 +111,7 @@ const AddRecipeForm = () => {
         {formik.touched.name && formik.errors.name ? (
           <div className="text-danger">{formik.errors.name}</div>
         ) : null}
-
+     <span className="text-danger">★</span>
         <label className="mt-2" htmlFor="long">
           Elkészítés
         </label>
@@ -122,7 +124,7 @@ const AddRecipeForm = () => {
         {formik.touched.description && formik.errors.description ? (
           <div className="text-danger">{formik.errors.description}</div>
         ) : null}
-
+     <span className="text-danger">★</span>
         <label className="mt-2" htmlFor="preparationTime">
           Elkészítési idő (percben)
         </label>
