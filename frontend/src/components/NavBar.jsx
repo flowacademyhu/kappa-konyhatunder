@@ -64,7 +64,7 @@ function NavBar() {
                 className="navbar-button"
                 href="recipes"
               >
-                Recept lista 
+                Recept lista
               </Button>
               <Button
                 variant="success"
@@ -90,11 +90,11 @@ function NavBar() {
             <AddRecipe />
           </Route>
           <Route path="/recipes/:id">
-              <SingleRecipeList/>
-            </Route>
-            <Route path="/recipes">
-              <RecipeList />
-            </Route>
+            <SingleRecipeList />
+          </Route>
+          <Route path="/recipes">
+            <RecipeList />
+          </Route>
           <Redirect from="/" to="/mainPage" />
         </Switch>
       </Router>

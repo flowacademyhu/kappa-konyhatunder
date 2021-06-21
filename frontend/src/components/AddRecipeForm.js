@@ -75,7 +75,7 @@ const AddRecipeForm = () => {
       }
     }
     categoryFunction();
-  }, []); 
+  }, []);
 
   return (
     <form onSubmit={formik.handleSubmit}>

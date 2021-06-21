@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import styled from "styled-components";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import styled from 'styled-components';
 import pic3 from '../images/image-6.jpg';
 
 const StyledImage = styled.img`
-  width: 85%;
+  width: 50%;
   height: auto;
   max-width: 550px;
 `;
@@ -21,39 +21,51 @@ export default function SingleRecipeList() {
       );
       setProduct(response.data);
     } catch (err) {
-      console.error("Error during api call:", err);
+      console.error('Error during api call:', err);
     }
   }, [id]);
 
   return (
     <>
-        {product ? (
+      {product ? (
         <div className="row">
           <div className="col-3">
-          <StyledImage src={pic3} alt={product.title} />
+            <StyledImage
+              className="justify-content-center"
+              src={pic3}
+              alt={product.title}
+            />
           </div>
           <div className="col-9">
+            <h3>Recept neve : </h3>
             <p>{product.name}</p>
+            <h3>Recept leírása : </h3>
             <p>{product.description}</p>
+            <h3>Recept Nehézség : </h3>
             <p>{product.level}</p>
+            <h3>Recept elkész ideje : </h3>
             <p>{product.preparationTime}</p>
-            {product.categoryList.map(e => <div> {e.name}</div>)}
+
+            <h3>Recept kategóriája : </h3>
+            {product.categoryList.map((e) => (
+              <div> {e.name}</div>
+            ))}
             <div className="container">
-            <div className="row">
-      {product.amountOfIngredientForARecipeList.map(e => <div className="col"> {e.name} </div>)} 
-      </div>
-      </div>
-         { /*   <p>{product.amountOfIngredientForARecipeList.amount}</p>
+              <div className="row">
+                {product.amountOfIngredientForARecipeList.map((e) => (
+                  <div className="col"> {e.name} </div>
+                ))}
+              </div>
+            </div>
+            {/*   <p>{product.amountOfIngredientForARecipeList.amount}</p>
             <p>{product.amountOfIngredientForARecipeList.id}</p>
             <p>{product.amountOfIngredientForARecipeList.ingredient}</p>
         */}
           </div>
         </div>
       ) : (
-        "Loading..."
+        'Loading...'
       )}
-      
     </>
   );
-
-      }
+}
