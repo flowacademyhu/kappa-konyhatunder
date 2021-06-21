@@ -1,6 +1,23 @@
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import * as yup from 'yup'
+
+const validationSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required('A felhasználónév kötelező!')
+    .min(10, 'Minimum 10 karakter.'),
+    description: yup
+    .string()
+    .required('A leírés kötelező!')
+    .min(10, 'Minimum 10 karakter.'),
+  preparationTime: yup
+    .number('Nem szám formátum')
+    .required('Kötelező mező')
+    .max(1000, 'Túl sok')
+    .integer('Szám fromátum szükséges '),
+});
 
 const showAlert = () => {
   alert('Sikeres küldés!');
@@ -32,6 +49,7 @@ const AddRecipeForm = () => {
       level: 'EASY',
       categoryList: [],
     },
+    validationSchema,
 
     onSubmit: (values) => {
       addRecipe(values);
@@ -46,9 +64,7 @@ const AddRecipeForm = () => {
     async function functionName() {
       try {
         const response = await axios.get(`api/recipes/levels`);
-
         setLevels(response.data);
-
         return response.data;
       } catch (error) {
         console.error();
