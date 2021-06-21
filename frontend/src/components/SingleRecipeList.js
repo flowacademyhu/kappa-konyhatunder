@@ -53,17 +53,19 @@ export default function SingleRecipeList() {
             {product.categoryList.map((e) => (
               <div> {e.name}</div>
             ))}
+
+            <h3>Recept alapanyagjai : </h3>
             <div className="container">
-              <div className="row">
-                {product.amountOfIngredientForARecipeList.map((e) => (
-                  <div className="col"> {e.name} </div>
-                ))}
-              </div>
+              {product.amountOfIngredientForARecipeList.map((e) => (
+                <>
+                  <div className="row">
+                    <div className="col">{e.ingredient.name}</div>
+                    <div className="col">{e.amount}</div>
+                    <div className="col">{e.unit}</div>
+                  </div>
+                </>
+              ))}
             </div>
-            {/*   <p>{product.amountOfIngredientForARecipeList.amount}</p>
-            <p>{product.amountOfIngredientForARecipeList.id}</p>
-            <p>{product.amountOfIngredientForARecipeList.ingredient}</p>
-        */}
             <a class="btn btn-primary" href="/recipes">
               Vissza
             </a>
