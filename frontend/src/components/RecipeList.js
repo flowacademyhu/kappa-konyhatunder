@@ -23,9 +23,9 @@ function RecipeList() {
 
   return (
     <>
-      <ul className="list-group">
-        {recipes ? (
-          recipes.map((recipe) => (
+      {recipes ? (
+        <ul className="list-group">
+          {recipes.map((recipe) => (
             <li
               key={recipe.id}
               className="list-group-item list-group-item-action"
@@ -34,11 +34,11 @@ function RecipeList() {
                 {recipe.name}
               </Link>
             </li>
-          ))
-        ) : (
-          <div>'Loading List...' </div>
-        )}
-      </ul>
+          ))}{' '}
+        </ul>
+      ) : (
+        <div>'Loading List...' </div>
+      )}
     </>
   );
 }
