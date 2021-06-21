@@ -2,10 +2,6 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-const userAPI = axios.create({
-  baseURL: 'http://localhost:8081/api/',
-});
-
 const showAlert = () => {
   alert('Sikeres küldés!');
 };
@@ -21,7 +17,7 @@ const AddRecipeForm = () => {
     };
 
     try {
-      await axios.post(`http://localhost:8081/api/recipes`, data);
+      await axios.post(`/api/recipes`, data);
       showAlert();
     } catch (error) {
       console.error(error);
@@ -49,7 +45,7 @@ const AddRecipeForm = () => {
   useEffect(() => {
     async function functionName() {
       try {
-        const response = await userAPI.get(`recipes/levels`);
+        const response = await axios.get(`api/recipes/levels`);
 
         setLevels(response.data);
 
@@ -64,7 +60,7 @@ const AddRecipeForm = () => {
   useEffect(() => {
     async function categoryFunction() {
       try {
-        const response = await userAPI.get(`/categories`);
+        const response = await axios.get(`/api/categories`);
 
         console.log(response.data);
         setCategoryList(response.data);
