@@ -22,19 +22,21 @@ function RecipeList() {
   }, []);
 
   return (
-    <ul className="list-group">
-      {recipes
-        ? recipes.map((recipe) => (
+    <>
+      {recipes ? (
+        recipes.map((recipe) => (
+          <ul className="list-group">
             <li className="list-group-item list-group-item-action">
-            <Link to={`/recipes/${recipe.id}`} key={recipe.id}>
-           
+              <Link to={`/recipes/${recipe.id}`} key={recipe.id}>
                 {recipe.name}
-                         </Link>
-              </li>
-   
-          ))
-        : 'Loading List...'}
-    </ul>
+              </Link>
+            </li>
+          </ul>
+        ))
+      ) : (
+        <div>'Loading List...' </div>
+      )}
+    </>
   );
 }
 

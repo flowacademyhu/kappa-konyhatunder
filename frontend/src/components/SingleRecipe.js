@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import {
-
-    Link
-  } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import pic3 from '../images/image-6.jpg';
 
 const recipeAPI = axios.create({
@@ -66,10 +63,10 @@ export default function SingleRecipe() {
                 </div>
               </>
             ))}
-              <Link className="btn btn-primary" to="/recipes">About</Link>
+            <Link className="btn btn-primary" to="/recipes">
+              About
+            </Link>
           </div>
-
-
         </div>
       ) : (
         'Loading...'
