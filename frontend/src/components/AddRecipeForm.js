@@ -91,7 +91,7 @@ const AddRecipeForm = () => {
       }
     }
     categoryFunction();
-  }, [categoryList]);
+  }, [newCategory]);
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -185,6 +185,7 @@ const AddRecipeForm = () => {
                 onClick={() => addCategory(newCategory)}
                 data-toggle="modal"
                 data-target="#myModal"
+                type="button"
               >
                 +
               </button>

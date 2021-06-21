@@ -21,13 +21,11 @@ public class CategoryController {
         return categoryService.findAll();
     }
 
-
     @GetMapping("/{id}")
     public Optional<Category> findById(@PathVariable String id) {
         return categoryService.findById(id);
     }
 
-    
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void saveNewCategory(@RequestBody Category category){
