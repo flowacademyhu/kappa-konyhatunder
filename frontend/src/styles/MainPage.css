@@ -37,6 +37,10 @@
   margin: 30px;
 }
 
+.categoryIcon {
+  font-size: 40px;
+}
+
 .card-link {
   color: aliceblue;
   font-size: larger;

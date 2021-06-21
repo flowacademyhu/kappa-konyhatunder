@@ -11,6 +11,21 @@ const showAlert = () => {
 };
 
 const AddRecipeForm = () => {
+  const [newCategory, setNewCategory] = useState('');
+  async function addCategory(value) {
+    const data = {
+      name: value,
+    };
+    console.log(data);
+    setCategoryList([...categoryList, data]);
+    try {
+      await axios.post(`http://localhost:8081/api/categories`, data);
+    } catch (error) {
+      console.error(error);
+    }
+    setNewCategory('');
+  }
+
   async function addRecipe(values) {
     const data = {
       name: values.name,
@@ -151,9 +166,28 @@ const AddRecipeForm = () => {
                 </div>
               ))}
             </div>
+            <div className="row d-flex align-items-center">
+              <p className="col-2 mt-2 pl-0 d-flex align-items-center">
+                Kategória hozzáadása
+              </p>
+              <div className="col-6">
+                <input
+                  className="form-control"
+                  id="newCategory"
+                  value={newCategory}
+                  type="text"
+                  onChange={(e) => setNewCategory(e.target.value)}
+                />
+              </div>
+              <button
+                className="btn btn-success"
+                onClick={() => addCategory(newCategory)}
+              >
+                +
+              </button>
+            </div>
           </div>
         </div>
-
         <button className="btn btn-success" type="submit">
           Hozzáadás
         </button>
