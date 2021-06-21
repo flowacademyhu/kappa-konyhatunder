@@ -217,7 +217,7 @@ const AddRecipeForm = () => {
                   class="btn btn-danger"
                   data-dismiss="modal"
                 >
-                  Close
+                  Bezárás
                 </button>
               </div>
             </div>
