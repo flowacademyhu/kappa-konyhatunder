@@ -14,14 +14,14 @@ const AddRecipeForm = () => {
   const [newCategory, setNewCategory] = useState('');
   const [error, setError] = useState('');
   async function addCategory(value) {
+    if (value === '') {
+      setError('Kategória megadása kötelező!');
+      return;
+    }
     const data = {
       name: value,
     };
 
-    console.log(data);
-    data.name !== ''
-      ? setCategoryList([...categoryList, data])
-      : setCategoryList([...categoryList]);
     try {
       await axios.post(`http://localhost:8081/api/categories`, data);
       setError('Sikeres hozzáadás!');
