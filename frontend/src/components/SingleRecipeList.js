@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -16,19 +16,17 @@ export default function SingleRecipeList() {
 
   useEffect(() => {
     async function getRecipe() {
-    try {
-      const response = await axios.get(
-        `http://localhost:8081/api/recipes/${id}`
-      );
-      setProduct(response.data);
-    } catch (err) {
-      console.error('Error during api call:', err);
+      try {
+        const response = await axios.get(
+          `http://localhost:8081/api/recipes/${id}`
+        );
+        setProduct(response.data);
+      } catch (err) {
+        console.error('Error during api call:', err);
+      }
     }
-  }
-  getRecipe();
-
-  }); 
-
+    getRecipe();
+  });
 
   return (
     <>
@@ -66,8 +64,9 @@ export default function SingleRecipeList() {
             <p>{product.amountOfIngredientForARecipeList.id}</p>
             <p>{product.amountOfIngredientForARecipeList.ingredient}</p>
         */}
-        <a class="btn btn-primary" href="/recipes">Vissza</a>
-
+            <a class="btn btn-primary" href="/recipes">
+              Vissza
+            </a>
           </div>
         </div>
       ) : (
