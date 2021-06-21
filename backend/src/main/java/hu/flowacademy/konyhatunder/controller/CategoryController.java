@@ -16,19 +16,18 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @CrossOrigin
     @GetMapping
     public List<Category> findAll() {
         return categoryService.findAll();
     }
 
-    @CrossOrigin
+
     @GetMapping("/{id}")
     public Optional<Category> findById(@PathVariable String id) {
         return categoryService.findById(id);
     }
 
-    @CrossOrigin
+    
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void saveNewCategory(@RequestBody Category category){
