@@ -172,7 +172,7 @@ const AddRecipeForm = () => {
                 </div>
               ))}
             </div>
-            <div className="row d-flex align-items-center">
+            <div className="d-flex align-items-center">
               <p className="col-2 mt-2 pl-0 d-flex align-items-center">
                 Kategória hozzáadása
               </p>
