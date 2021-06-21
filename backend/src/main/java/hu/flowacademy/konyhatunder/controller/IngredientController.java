@@ -16,13 +16,13 @@ public class IngredientController {
 
     private final IngredientService ingredientService;
 
-    @CrossOrigin
+
     @GetMapping
     public List<Ingredient> findAll() {
         return ingredientService.findAll();
     }
 
-    @CrossOrigin
+
     @GetMapping("/{id}")
     public Optional<Ingredient> findById(@PathVariable String id) {
         return ingredientService.findById(id);

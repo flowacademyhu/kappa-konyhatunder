@@ -7,6 +7,27 @@ const showAlert = () => {
 };
 
 const AddRecipeForm = () => {
+  const [newCategory, setNewCategory] = useState('');
+  const [status, setStatus] = useState('');
+  async function addCategory(value) {
+    if (value === '') {
+      setStatus('Kategória megadása kötelező!');
+      return;
+    }
+    const data = {
+      name: value,
+    };
+
+    try {
+      await axios.post(`/api/categories`, data);
+      setStatus('Sikeres hozzáadás!');
+    } catch (error) {
+      console.log(error.response);
+      setStatus(error.response.data[0]);
+    }
+    setNewCategory('');
+  }
+
   async function addRecipe(values) {
     const data = {
       name: values.name,
@@ -43,9 +64,9 @@ const AddRecipeForm = () => {
   const [categoryList, setCategoryList] = useState([]);
 
   useEffect(() => {
-    async function functionName() {
+    async function levelFunction() {
       try {
-        const response = await axios.get(`api/recipes/levels`);
+        const response = await axios.get(`/api/recipes/levels`);
 
         setLevels(response.data);
 
@@ -54,7 +75,7 @@ const AddRecipeForm = () => {
         console.error();
       }
     }
-    functionName();
+    levelFunction();
   }, []);
 
   useEffect(() => {
@@ -64,14 +85,13 @@ const AddRecipeForm = () => {
 
         console.log(response.data);
         setCategoryList(response.data);
-
         return response.data;
       } catch (error) {
         console.error();
       }
     }
     categoryFunction();
-  }, []);
+  }, [categoryList]);
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -147,12 +167,57 @@ const AddRecipeForm = () => {
                 </div>
               ))}
             </div>
+            <div className="d-flex align-items-center">
+              <p className="col-2 mt-2 pl-0 d-flex align-items-center">
+                Kategória hozzáadása
+              </p>
+              <div className="col-6">
+                <input
+                  className="form-control"
+                  id="newCategory"
+                  value={newCategory}
+                  type="text"
+                  onChange={(e) => setNewCategory(e.target.value)}
+                />
+              </div>
+              <button
+                className="btn btn-success"
+                onClick={() => addCategory(newCategory)}
+                data-toggle="modal"
+                data-target="#myModal"
+              >
+                +
+              </button>
+            </div>
           </div>
         </div>
-
         <button className="btn btn-success" type="submit">
           Hozzáadás
         </button>
+        <div className="modal fade" id="myModal">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h4 className="modal-title">Konyhatündér üzenet</h4>
+                <button type="button" className="close" data-dismiss="modal">
+                  &times;
+                </button>
+              </div>
+
+              <div className="modal-body">{status}</div>
+
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  data-dismiss="modal"
+                >
+                  Bezárás
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </form>
   );
