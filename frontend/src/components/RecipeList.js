@@ -25,11 +25,13 @@ function RecipeList() {
     <ul className="list-group">
       {recipes
         ? recipes.map((recipe) => (
+            <li className="list-group-item list-group-item-action">
             <Link to={`/recipes/${recipe.id}`} key={recipe.id}>
-              <li className="list-group-item list-group-item-action">
+           
                 {recipe.name}
+                         </Link>
               </li>
-            </Link>
+   
           ))
         : 'Loading List...'}
     </ul>
