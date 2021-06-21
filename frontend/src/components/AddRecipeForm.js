@@ -197,12 +197,7 @@ const AddRecipeForm = () => {
             </div>
           </div>
         </div>
-        <button
-          className="btn btn-success"
-          type="submit"
-          data-toggle="modal"
-          data-target="#myModal"
-        >
+        <button className="btn btn-success" type="submit">
           Hozzáadás
         </button>
         <div class="modal fade" id="myModal">
