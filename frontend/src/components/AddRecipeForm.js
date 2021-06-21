@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { validationSchema } from './ValidationSchema';
 
-
 const showAlert = () => {
   alert('Sikeres küldés!');
 };
