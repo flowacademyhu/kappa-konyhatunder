@@ -3,6 +3,7 @@ package hu.flowacademy.konyhatunder.controller;
 import hu.flowacademy.konyhatunder.model.Category;
 import hu.flowacademy.konyhatunder.service.CategoryService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,5 +28,10 @@ public class CategoryController {
         return categoryService.findById(id);
     }
 
-
+    @CrossOrigin
+    @PostMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void saveNewCategory(@RequestBody Category category){
+        categoryService.saveNewCategory(category);
+    }
 }
