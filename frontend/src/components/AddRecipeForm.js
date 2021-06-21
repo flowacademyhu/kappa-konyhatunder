@@ -26,7 +26,6 @@ const AddRecipeForm = () => {
       await axios.post(`http://localhost:8081/api/categories`, data);
       setError('Sikeres hozzáadás!');
     } catch (error) {
-      console.log('valami');
       console.log(error.response);
       setError(error.response.data[0]);
     }
