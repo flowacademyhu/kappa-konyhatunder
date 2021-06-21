@@ -2,10 +2,6 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-const userAPI = axios.create({
-  baseURL: 'http://localhost:8081/api/',
-});
-
 const showAlert = () => {
   alert('Sikeres küldés!');
 };
@@ -23,7 +19,7 @@ const AddRecipeForm = () => {
     };
 
     try {
-      await axios.post(`http://localhost:8081/api/categories`, data);
+      await axios.post(`/api/categories`, data);
       setStatus('Sikeres hozzáadás!');
     } catch (error) {
       console.log(error.response);
@@ -42,7 +38,7 @@ const AddRecipeForm = () => {
     };
 
     try {
-      await axios.post(`http://localhost:8081/api/recipes`, data);
+      await axios.post(`/api/recipes`, data);
       showAlert();
     } catch (error) {
       console.error(error);
@@ -70,7 +66,7 @@ const AddRecipeForm = () => {
   useEffect(() => {
     async function levelFunction() {
       try {
-        const response = await userAPI.get(`recipes/levels`);
+        const response = await axios.get(`/api/recipes/levels`);
 
         setLevels(response.data);
 
@@ -85,11 +81,9 @@ const AddRecipeForm = () => {
   useEffect(() => {
     async function categoryFunction() {
       try {
-        const response = await userAPI.get(`/categories`);
-
+        const response = await axios.get(`/api/categories`);
         console.log(response.data);
         setCategoryList(response.data);
-
         return response.data;
       } catch (error) {
         console.error();
@@ -199,22 +193,22 @@ const AddRecipeForm = () => {
         <button className="btn btn-success" type="submit">
           Hozzáadás
         </button>
-        <div class="modal fade" id="myModal">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Konyhatündér üzenet</h4>
-                <button type="button" class="close" data-dismiss="modal">
+        <div className="modal fade" id="myModal">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h4 className="modal-title">Konyhatündér üzenet</h4>
+                <button type="button" className="close" data-dismiss="modal">
                   &times;
                 </button>
               </div>
 
-              <div class="modal-body">{status}</div>
+              <div className="modal-body">{status}</div>
 
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-danger"
+                  className="btn btn-danger"
                   data-dismiss="modal"
                 >
                   Bezárás
