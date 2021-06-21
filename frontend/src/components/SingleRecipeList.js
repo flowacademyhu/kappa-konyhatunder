@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -14,7 +14,8 @@ export default function SingleRecipeList() {
   const { id } = useParams();
   const [product, setProduct] = useState();
 
-  useEffect(async () => {
+  useEffect(() => {
+    async function getRecipe() {
     try {
       const response = await axios.get(
         `http://localhost:8081/api/recipes/${id}`
@@ -23,7 +24,11 @@ export default function SingleRecipeList() {
     } catch (err) {
       console.error('Error during api call:', err);
     }
-  }, [id]);
+  }
+  getRecipe();
+
+  }); 
+
 
   return (
     <>
@@ -61,6 +66,8 @@ export default function SingleRecipeList() {
             <p>{product.amountOfIngredientForARecipeList.id}</p>
             <p>{product.amountOfIngredientForARecipeList.ingredient}</p>
         */}
+        <a class="btn btn-primary" href="/recipes">Vissza</a>
+
           </div>
         </div>
       ) : (
