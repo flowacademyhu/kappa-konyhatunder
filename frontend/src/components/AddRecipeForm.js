@@ -12,10 +12,10 @@ const showAlert = () => {
 
 const AddRecipeForm = () => {
   const [newCategory, setNewCategory] = useState('');
-  const [error, setError] = useState('');
+  const [status, setStatus] = useState('');
   async function addCategory(value) {
     if (value === '') {
-      setError('Kategória megadása kötelező!');
+      setStatus('Kategória megadása kötelező!');
       return;
     }
     const data = {
@@ -24,10 +24,10 @@ const AddRecipeForm = () => {
 
     try {
       await axios.post(`http://localhost:8081/api/categories`, data);
-      setError('Sikeres hozzáadás!');
+      setStatus('Sikeres hozzáadás!');
     } catch (error) {
       console.log(error.response);
-      setError(error.response.data[0]);
+      setStatus(error.response.data[0]);
     }
     setNewCategory('');
   }
@@ -209,7 +209,7 @@ const AddRecipeForm = () => {
                 </button>
               </div>
 
-              <div class="modal-body">{error}</div>
+              <div class="modal-body">{status}</div>
 
               <div class="modal-footer">
                 <button
