@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const recipeAPI = axios.create({
-  baseURL: 'http://localhost:8081/api/',
+  baseURL: '/api/',
 });
 
 function RecipeList() {
@@ -25,7 +25,7 @@ function RecipeList() {
     <>
       {recipes ? (
         recipes.map((recipe) => (
-          <ul className="list-group">
+          <ul className="list-group" key={recipe.id}>
             <li className="list-group-item list-group-item-action">
               <Link to={`/recipes/${recipe.id}`} key={recipe.id}>
                 {recipe.name}

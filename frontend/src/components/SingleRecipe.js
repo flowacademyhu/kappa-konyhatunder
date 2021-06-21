@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import pic3 from '../images/image-6.jpg';
 
 const recipeAPI = axios.create({
-  baseURL: 'http://localhost:8081/api/',
+  baseURL: '/api/',
 });
 
 export default function SingleRecipe() {
@@ -15,9 +15,7 @@ export default function SingleRecipe() {
   useEffect(() => {
     async function getRecipe() {
       try {
-        const response = await recipeAPI.get(
-          `http://localhost:8081/api/recipes/${id}`
-        );
+        const response = await recipeAPI.get(`recipes/${id}`);
         setProduct(response.data);
       } catch (err) {
         console.error('Error during api call:', err);
@@ -48,15 +46,15 @@ export default function SingleRecipe() {
             <p>{product.preparationTime}</p>
 
             <h3>Recept kategóriája : </h3>
-            {product.categoryList.map((ingredient) => (
-              <div> {ingredient.name}</div>
+            {product.categoryList.map((category) => (
+              <div key={category.id}> {category.name}</div>
             ))}
 
             <h3>Recept alapanyagjai : </h3>
 
             {product.amountOfIngredientForARecipeList.map((ingredient) => (
               <>
-                <div className="row">
+                <div className="row" key={ingredient.id}>
                   <div className="col">{ingredient.ingredient.name}</div>
                   <div className="col">{ingredient.amount}</div>
                   <div className="col">{ingredient.unit}</div>
