@@ -65,9 +65,6 @@ public class RecipeService {
         if(emptyRecipe.getLevel() == null)
             throw new ValidationException("Nem jó level");
 
-        if(emptyRecipe.getCategoryList() == null || emptyRecipe.getCategoryList().size() == 0)
-            throw new ValidationException("A kategóriák megadása kötelező");
-
     }
 
 

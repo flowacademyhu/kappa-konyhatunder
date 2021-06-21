@@ -23,6 +23,10 @@ const showAlert = () => {
   alert('Sikeres küldés!');
 };
 
+const showFailAlert = () => {
+  alert('Sikertelen küldés!');
+};
+
 const AddRecipeForm = () => {
   async function addRecipe(values) {
     const data = {
@@ -37,7 +41,7 @@ const AddRecipeForm = () => {
       await axios.post(`/api/recipes`, data);
       showAlert();
     } catch (error) {
-      console.error(error);
+   showFailAlert();
     }
   }
 
