@@ -66,7 +66,9 @@ const AddRecipeForm = () => {
   useEffect(() => {
     async function levelFunction() {
       try {
+
         const response = await axios.get(`/api/recipes/levels`);
+
 
         setLevels(response.data);
 
@@ -82,6 +84,7 @@ const AddRecipeForm = () => {
     async function categoryFunction() {
       try {
         const response = await axios.get(`/api/categories`);
+        
         console.log(response.data);
         setCategoryList(response.data);
         return response.data;

@@ -16,57 +16,62 @@ import BodyPart from '../BodyPart';
 import { useMediaQuery } from 'react-responsive';
 
 import { Navbar, Button, Nav, NavLink } from 'react-bootstrap';
-
+import RecipeList from './RecipeList';
+import SingleRecipe from './SingleRecipe';
 function NavBar() {
   const isMobile = useMediaQuery({ query: `(max-width: 576px)` });
 
   return (
     <>
       <Router>
-        <Navbar
-          className="color-nav"
-          variant="dark"
-          expand="mr"
-          style={{ margin: '0px 0px 15px 0px' }}
-        >
-          <NavLink href="MainPage">
-            <img
-              src={logo}
-              width="120"
-              height="80"
-              className="d-inline-block align-top"
-              alt="logo"
-            />
-          </NavLink>
-          <Navbar.Brand className="mr-auto" href="/mainPage">
-            Konyhatündér
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="navbar-menu">
-              <Button
-                variant="success"
-                className="navbar-button"
-                href="add-recipe"
-              >
-                Recept hozzáadása
-              </Button>
-              <Button
-                variant="success"
-                className="navbar-button"
-                href="search-by-criteria"
-              >
-                Keresés kritérium alapján
-              </Button>
-              <Button
-                variant="success"
-                className="navbar-button"
-                href="search-by-ingredient"
-              >
-                Keresés hozzávaló alapján
-              </Button>
-            </Nav>
-          </Navbar.Collapse>
+        <Navbar className="color-nav" variant="dark" expand="mr">
+          <div className="container-fluid">
+            <NavLink href="MainPage">
+              <img
+                src={logo}
+                width="120"
+                height="80"
+                className="d-inline-block align-top"
+                alt="logo"
+              />
+            </NavLink>
+            <Navbar.Brand className="mr-auto" href="/mainPage">
+              Konyhatündér
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="navbar-menu">
+                <Button
+                  variant="success"
+                  className="navbar-button"
+                  href="/recipes"
+                >
+                  Recept lista
+                </Button>
+                <Button
+                  variant="success"
+                  className="navbar-button"
+                  href="/add-recipe"
+                >
+                  Recept hozzáadása
+                </Button>
+                <Button
+                  variant="success"
+                  className="navbar-button"
+                  href="/search-by-criteria"
+                >
+                  Keresés kritérium alapján
+                </Button>
+                <Button
+                  variant="success"
+                  className="navbar-button"
+                  href="/search-by-ingredient"
+                >
+                  Keresés hozzávaló alapján
+                </Button>
+              </Nav>
+            </Navbar.Collapse>
+          </div>
         </Navbar>
         <Switch>
           <Route path="/mainPage">
@@ -80,6 +85,12 @@ function NavBar() {
           </Route>
           <Route path="/add-recipe">
             <AddRecipe />
+          </Route>
+          <Route path="/recipes/:id">
+            <SingleRecipe />
+          </Route>
+          <Route path="/recipes">
+            <RecipeList />
           </Route>
           <Redirect from="/" to="/mainPage" />
         </Switch>
