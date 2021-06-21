@@ -1,23 +1,8 @@
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import * as yup from 'yup';
+import { validationSchema } from './ValidationSchema';
 
-const validationSchema = yup.object().shape({
-  name: yup
-    .string()
-    .required('A felhasználónév kötelező!')
-    .min(10, 'Minimum 10 karakter.'),
-  description: yup
-    .string()
-    .required('A leírés kötelező!')
-    .min(10, 'Minimum 10 karakter.'),
-  preparationTime: yup
-    .number('Nem szám formátum')
-    .required('Kötelező mező')
-    .max(1000, 'Túl sok')
-    .integer('Szám formátum szükséges '),
-});
 
 const showAlert = () => {
   alert('Sikeres küldés!');
