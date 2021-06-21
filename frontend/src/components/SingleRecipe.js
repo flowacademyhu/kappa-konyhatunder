@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-
 import pic3 from '../images/image-6.jpg';
+
+const recipeAPI = axios.create({
+  baseURL: 'http://localhost:8081/api/',
+});
 
 export default function SingleRecipe() {
   const { id } = useParams();
@@ -11,7 +14,7 @@ export default function SingleRecipe() {
   useEffect(() => {
     async function getRecipe() {
       try {
-        const response = await axios.get(
+        const response = await recipeAPI.get(
           `http://localhost:8081/api/recipes/${id}`
         );
         setProduct(response.data);
@@ -49,21 +52,20 @@ export default function SingleRecipe() {
             ))}
 
             <h3>Recept alapanyagjai : </h3>
-            <div className="container">
-              {product.amountOfIngredientForARecipeList.map((e) => (
-                <>
-                  <div className="row">
-                    <div className="col">{e.ingredient.name}</div>
-                    <div className="col">{e.amount}</div>
-                    <div className="col">{e.unit}</div>
-                  </div>
-                </>
-              ))}
-            </div>
-            <a class="btn btn-primary" href="/recipes">
-              Vissza
-            </a>
+
+            {product.amountOfIngredientForARecipeList.map((e) => (
+              <>
+                <div className="row">
+                  <div className="col">{e.ingredient.name}</div>
+                  <div className="col">{e.amount}</div>
+                  <div className="col">{e.unit}</div>
+                </div>
+              </>
+            ))}
           </div>
+          <a class="btn btn-primary" href="/recipes">
+            Vissza
+          </a>
         </div>
       ) : (
         'Loading...'
