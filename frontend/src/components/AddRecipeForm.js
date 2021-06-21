@@ -23,8 +23,9 @@ const showAlert = () => {
   alert('Sikeres küldés!');
 };
 
-const showFailAlert = () => {
-  alert('Sikertelen küldés!');
+const showFailAlert = (value) => {
+  console.log(value);
+  alert(value);
 };
 
 const AddRecipeForm = () => {
@@ -41,7 +42,7 @@ const AddRecipeForm = () => {
       await axios.post(`/api/recipes`, data);
       showAlert();
     } catch (error) {
-   showFailAlert();
+   showFailAlert(error.response.data[0]);
     }
   }
 
@@ -106,7 +107,7 @@ const AddRecipeForm = () => {
           {...formik.getFieldProps('name')}
         />
         {formik.touched.name && formik.errors.name ? (
-          <div>{formik.errors.name}</div>
+          <div className="text-danger">{formik.errors.name}</div>
         ) : null}
 
         <label className="mt-2" htmlFor="long">
@@ -119,7 +120,7 @@ const AddRecipeForm = () => {
           {...formik.getFieldProps('description')}
         />
         {formik.touched.description && formik.errors.description ? (
-          <div>{formik.errors.description}</div>
+          <div className="text-danger">{formik.errors.description}</div>
         ) : null}
 
         <label className="mt-2" htmlFor="preparationTime">
@@ -133,7 +134,7 @@ const AddRecipeForm = () => {
           {...formik.getFieldProps('preparationTime')}
         />
         {formik.touched.preparationTime && formik.errors.preparationTime ? (
-          <div>{formik.errors.preparationTime}</div>
+          <div className="text-danger">{formik.errors.preparationTime}</div>
         ) : null}
         <div className="form-group">
           <label className="mt-2" htmlFor="level">
