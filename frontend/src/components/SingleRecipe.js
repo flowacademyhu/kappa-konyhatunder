@@ -62,7 +62,7 @@ export default function SingleRecipe() {
               </>
             ))}
             <Link className="btn btn-primary" to="/recipes">
-              About
+              Vissza
             </Link>
           </div>
         </div>
