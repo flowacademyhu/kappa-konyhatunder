@@ -1,14 +1,14 @@
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import * as yup from 'yup'
+import * as yup from 'yup';
 
 const validationSchema = yup.object().shape({
   name: yup
     .string()
     .required('A felhasználónév kötelező!')
     .min(10, 'Minimum 10 karakter.'),
-    description: yup
+  description: yup
     .string()
     .required('A leírés kötelező!')
     .min(10, 'Minimum 10 karakter.'),
@@ -42,7 +42,7 @@ const AddRecipeForm = () => {
       await axios.post(`/api/recipes`, data);
       showAlert();
     } catch (error) {
-   showFailAlert(error.response.data[0]);
+      showFailAlert(error.response.data[0]);
     }
   }
 
@@ -97,7 +97,7 @@ const AddRecipeForm = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="container">
-      <span className="text-danger">★</span>
+        <span className="text-danger">★</span>
 
         <label className="mt-2" htmlFor="name">
           Recept neve
@@ -111,7 +111,7 @@ const AddRecipeForm = () => {
         {formik.touched.name && formik.errors.name ? (
           <div className="text-danger">{formik.errors.name}</div>
         ) : null}
-     <span className="text-danger">★</span>
+        <span className="text-danger">★</span>
         <label className="mt-2" htmlFor="long">
           Elkészítés
         </label>
@@ -124,7 +124,7 @@ const AddRecipeForm = () => {
         {formik.touched.description && formik.errors.description ? (
           <div className="text-danger">{formik.errors.description}</div>
         ) : null}
-     <span className="text-danger">★</span>
+        <span className="text-danger">★</span>
         <label className="mt-2" htmlFor="preparationTime">
           Elkészítési idő (percben)
         </label>
