@@ -1,5 +1,6 @@
 package hu.flowacademy.konyhatunder.controller;
 
+import hu.flowacademy.konyhatunder.dto.IngredientDTO;
 import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.service.IngredientService;
@@ -24,7 +25,7 @@ public class IngredientController {
 
 
     @GetMapping("/{id}")
-    public Optional<Ingredient> findById(@PathVariable String id) {
+    public IngredientDTO findById(@PathVariable String id) {
         return ingredientService.findById(id);
     }
 }
