@@ -6,13 +6,10 @@ import hu.flowacademy.konyhatunder.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+
 
 @Service
 @Transactional
@@ -25,8 +22,12 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Optional<Category> findById(String id) {
-        return categoryRepository.findById(id);
+    public Category findById(String id) {
+        Category category = categoryRepository.findById(id).orElse(null);
+        if(category == null)
+            throw new ValidationException("Nincs ilyen ID-val rendelkező kategória");
+
+        return category;
     }
 
     public void saveNewCategory(Category category) {

@@ -22,7 +22,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Category> findById(@PathVariable String id) {
+    public Category findById(@PathVariable String id) {
         return categoryService.findById(id);
     }
 
