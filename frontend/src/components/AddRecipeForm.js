@@ -146,7 +146,7 @@ const AddRecipeForm = () => {
           >
             {levels.map((l) => (
               <option key={l} value={l}>
-                {l === 'EASY' ? 'Könnyű' : l === 'MEDIUM' ? 'Közepes' : 'Nehéz'}
+                {l}
               </option>
             ))}
           </select>

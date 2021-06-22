@@ -51,28 +51,28 @@ public class RecipeService {
                 .categoryList(categoryList)
                 .build());
     }
+
     @SneakyThrows
-    public void validate(EmptyRecipe emptyRecipe){
+    public void validate(EmptyRecipe emptyRecipe) {
         if (!StringUtils.hasText(emptyRecipe.getName()))
             throw new ValidationException("A recept nevét kötelező megadni");
 
-        if(!StringUtils.hasText(emptyRecipe.getDescription()))
+        if (!StringUtils.hasText(emptyRecipe.getDescription()))
             throw new ValidationException("Ez elkészités mező nem lehet üres");
 
-        if(emptyRecipe.getPreparationTime() <= 0)
+        if (emptyRecipe.getPreparationTime() <= 0)
             throw new ValidationException("Elkészitése idő nem lehet 0 perc");
 
-        if(emptyRecipe.getLevel() == null)
+        if (emptyRecipe.getLevel() == null)
             throw new ValidationException("Nem jó level");
 
-        if(emptyRecipe.getCategoryList() == null || emptyRecipe.getCategoryList().size() == 0)
+        if (emptyRecipe.getCategoryList() == null || emptyRecipe.getCategoryList().size() == 0)
             throw new ValidationException("A kategóriák megadása kötelező");
 
     }
 
-
     public List<String> getAllRecipeLevels() {
         Level[] levels = Level.values();
-        return Arrays.stream(levels).map(Enum::name).collect(Collectors.toList());
+        return Arrays.stream(levels).map(Level::getHungarianTranslate).collect(Collectors.toList());
     }
 }
