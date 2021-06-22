@@ -61,16 +61,16 @@ public class RecipeService {
     @SneakyThrows
     public void validate(EmptyRecipe emptyRecipe) {
         if (!StringUtils.hasText(emptyRecipe.getName()))
-            throw new ValidationException("A recept nevét kötelező megadni");
+            throw new ValidationException("A recept nevét kötelező megadni!");
 
         if (!StringUtils.hasText(emptyRecipe.getDescription()))
-            throw new ValidationException("Ez elkészités mező nem lehet üres");
+            throw new ValidationException("Ez elkészités mező nem lehet üres!");
 
         if (emptyRecipe.getPreparationTime() <= 0)
-            throw new ValidationException("Elkészitése idő nem lehet 0 perc");
+            throw new ValidationException("Elkészitése idő nem lehet 0 perc!");
 
         if (emptyRecipe.getLevel() == null)
-            throw new ValidationException("Nem jó level");
+            throw new ValidationException("Nem jó level!");
 
     }
 }
