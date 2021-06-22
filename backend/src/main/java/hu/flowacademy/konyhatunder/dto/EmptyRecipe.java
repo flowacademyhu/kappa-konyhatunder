@@ -1,8 +1,6 @@
 package hu.flowacademy.konyhatunder.dto;
 
-import hu.flowacademy.konyhatunder.model.AmountOfIngredientForARecipe;
-import hu.flowacademy.konyhatunder.model.Category;
-import hu.flowacademy.konyhatunder.model.Level;
+import hu.flowacademy.konyhatunder.enums.Level;
 import lombok.Data;
 
 import javax.persistence.*;

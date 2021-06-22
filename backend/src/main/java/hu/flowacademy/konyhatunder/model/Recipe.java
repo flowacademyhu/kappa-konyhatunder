@@ -1,5 +1,6 @@
 package hu.flowacademy.konyhatunder.model;
 
+import hu.flowacademy.konyhatunder.enums.Level;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

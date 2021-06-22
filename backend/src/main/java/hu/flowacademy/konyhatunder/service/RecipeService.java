@@ -4,23 +4,19 @@ package hu.flowacademy.konyhatunder.service;
 import hu.flowacademy.konyhatunder.dto.EmptyRecipe;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.Category;
-import hu.flowacademy.konyhatunder.model.Level;
+import hu.flowacademy.konyhatunder.enums.Level;
 import hu.flowacademy.konyhatunder.model.Recipe;
-import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
-import hu.flowacademy.konyhatunder.repository.IngredientRepository;
 import hu.flowacademy.konyhatunder.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.yaml.snakeyaml.util.EnumUtils;
 
 import javax.transaction.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 

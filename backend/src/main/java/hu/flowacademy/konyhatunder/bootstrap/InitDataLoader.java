@@ -1,6 +1,8 @@
 package hu.flowacademy.konyhatunder.bootstrap;
 
 import com.github.javafaker.Faker;
+import hu.flowacademy.konyhatunder.enums.Level;
+import hu.flowacademy.konyhatunder.enums.Type;
 import hu.flowacademy.konyhatunder.model.*;
 import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
@@ -62,7 +64,7 @@ public class InitDataLoader implements CommandLineRunner {
         return IntStream.range(0,10)
                 .mapToObj(value -> Ingredient.builder()
                         .name(faker().food().ingredient())
-                        .type(faker().number().numberBetween(1,3) == 1 ? Type.SOLID: Type.LIQUID)
+                        .type(faker().number().numberBetween(1,3) == 1 ? Type.CUP: Type.LITER)
                         .build()).collect(Collectors.toList());
     }
 

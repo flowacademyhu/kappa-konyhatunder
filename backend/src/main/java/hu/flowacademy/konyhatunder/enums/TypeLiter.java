@@ -1,11 +1,11 @@
-package hu.flowacademy.konyhatunder.model;
+package hu.flowacademy.konyhatunder.enums;
 
-public enum Level {
-    EASY("Könnyű"), MEDIUM("Közepes"), HARD("Nehéz");
+public enum TypeLiter {
+    CL("centiliter"),ML("mililiter"),DL("deciliter"),L("liter");
 
     private final String hungarianTranslate;
 
-    private Level(String value){
+    private TypeLiter(String value){
         hungarianTranslate = value;
     }
 

@@ -1,6 +1,6 @@
 package hu.flowacademy.konyhatunder.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import hu.flowacademy.konyhatunder.enums.Type;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
