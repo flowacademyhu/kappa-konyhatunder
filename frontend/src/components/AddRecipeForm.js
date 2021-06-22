@@ -183,7 +183,7 @@ const AddRecipeForm = () => {
                 className="btn btn-success"
                 onClick={() => addCategory(newCategory)}
                 data-toggle="modal"
-                data-target="#myModal"
+                data-target="#recipeStatusModal"
                 type="button"
               >
                 +
@@ -196,12 +196,12 @@ const AddRecipeForm = () => {
           className="btn btn-success"
           type="submit"
           data-toggle="modal"
-          data-target="#myModal"
+          data-target="#recipeStatusModal"
         >
           Hozzáadás
         </button>
 
-        <Modal status={status} id="myModal" />
+        <Modal status={status} id="recipeStatusModal" />
       </div>
     </form>
   );
