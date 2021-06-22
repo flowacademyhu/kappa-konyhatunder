@@ -37,10 +37,8 @@ public class RecipeService {
     }
 
     public Recipe findById(String id) {
-        Recipe recipe = recipeRepository.findById(id).orElse(null);
-        if(recipe == null)
-            throw new ValidationException("Nincs ilyen ID-val rendelkező recept!");
-        return recipe;
+        return recipeRepository.findById(id).orElseThrow(() ->
+                new ValidationException("Nincs ilyen ID-val rendelkező recept!"));
     }
 
     public void save(EmptyRecipe emptyRecipe) {
@@ -54,25 +52,25 @@ public class RecipeService {
                 .categoryList(categoryList)
                 .build());
     }
-    @SneakyThrows
-    public void validate(EmptyRecipe emptyRecipe){
-        if (!StringUtils.hasText(emptyRecipe.getName()))
-            throw new ValidationException("A recept nevét kötelező megadni");
-
-        if(!StringUtils.hasText(emptyRecipe.getDescription()))
-            throw new ValidationException("Ez elkészités mező nem lehet üres");
-
-        if(emptyRecipe.getPreparationTime() <= 0)
-            throw new ValidationException("Elkészitése idő nem lehet 0 perc");
-
-        if(emptyRecipe.getLevel() == null)
-            throw new ValidationException("Nem jó level");
-
-    }
-
 
     public List<String> getAllRecipeLevels() {
         Level[] levels = Level.values();
         return Arrays.stream(levels).map(Enum::name).collect(Collectors.toList());
+    }
+
+    @SneakyThrows
+    public void validate(EmptyRecipe emptyRecipe) {
+        if (!StringUtils.hasText(emptyRecipe.getName()))
+            throw new ValidationException("A recept nevét kötelező megadni");
+
+        if (!StringUtils.hasText(emptyRecipe.getDescription()))
+            throw new ValidationException("Ez elkészités mező nem lehet üres");
+
+        if (emptyRecipe.getPreparationTime() <= 0)
+            throw new ValidationException("Elkészitése idő nem lehet 0 perc");
+
+        if (emptyRecipe.getLevel() == null)
+            throw new ValidationException("Nem jó level");
+
     }
 }
