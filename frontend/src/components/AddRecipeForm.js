@@ -2,17 +2,11 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { validationSchema } from './ValidationSchema';
-
-const showAlert = () => {
-  alert('Sikeres küldés!');
-};
-
-const showFailAlert = (value) => {
-  console.log(value);
-  alert(value);
-};
+import Modal from './Modal';
 
 const AddRecipeForm = () => {
+  const [status, setStatus] = useState('Sikertelen hozzáadás');
+
   async function addRecipe(values) {
     const data = {
       name: values.name,
@@ -24,9 +18,9 @@ const AddRecipeForm = () => {
 
     try {
       await axios.post(`/api/recipes`, data);
-      showAlert();
+      setStatus('Sikeres hozzáadás!');
     } catch (error) {
-      showFailAlert(error.response.data[0]);
+      setStatus('Sikertelen hozzáadás');
     }
   }
 
@@ -157,9 +151,16 @@ const AddRecipeForm = () => {
           </div>
         </div>
 
-        <button className="btn btn-success" type="submit">
+        <button
+          className="btn btn-success"
+          type="submit"
+          data-toggle="modal"
+          data-target="#myModal"
+        >
           Hozzáadás
         </button>
+
+        <Modal status={status} />
       </div>
     </form>
   );
