@@ -59,7 +59,7 @@ public class RecipeService {
 
         List<AmountOfIngredientForARecipe> amountOfIngredientForARecipeList = new ArrayList<>();
 
-        emptyRecipe.getAmountOfIngredientForARecipeList().forEach(element ->{
+        emptyRecipe.getAmountOfIngredientForARecipeList().forEach(element -> {
             AmountOfIngredientForARecipe amountOfIng = AmountOfIngredientForARecipe.builder()
                     .unit(element.getUnit())
                     .amount(element.getAmount())
@@ -68,7 +68,7 @@ public class RecipeService {
                     .build();
             amountOfIngredientForARecipeRepository.save(amountOfIng);
 
-                amountOfIngredientForARecipeList.add(amountOfIng);
+            amountOfIngredientForARecipeList.add(amountOfIng);
 
         });
         savedRecipe.setAmountOfIngredientForARecipeList(amountOfIngredientForARecipeList);
@@ -89,9 +89,10 @@ public class RecipeService {
         if (emptyRecipe.getLevel() == null)
             throw new ValidationException("Nem jó level");
 
-        if (emptyRecipe.getCategoryList() == null || emptyRecipe.getCategoryList().size() == 0)
-            throw new ValidationException("A kategóriák megadása kötelező");
-
+        if (emptyRecipe.getAmountOfIngredientForARecipeList() == null ||
+                emptyRecipe.getAmountOfIngredientForARecipeList().size() == 0) {
+            throw new ValidationException("Hozzávalók megadása kötelező!");
+        }
     }
 
     public List<String> getAllRecipeLevels() {
