@@ -69,21 +69,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      #- name: Setup GCloud
-      #  uses: google-github-actions/setup-gcloud@master
-      #  with:
-      #    project_id: ${{ secrets.GCP_PROJECT_ID }}
-      #    service_account_email: ${{ secrets.GCP_EMAIL }}
-      #    service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+      - name: Setup GCloud
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_email: ${{ secrets.GCP_EMAIL }}
+          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
 
-      #- name: Configure Docker
-      #  run: gcloud auth configure-docker --quiet
+      - name: Configure Docker
+        run: gcloud auth configure-docker --quiet
 
       - name: Build Docker image
         run: docker build . -t $IMAGE_NAME
 
-      #- name: Push Docker image
-      #  run: docker push $IMAGE_NAME
+      - name: Push Docker image
+        run: docker push $IMAGE_NAME
 
   test-backend:
     name: Test backend
@@ -108,22 +108,22 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: [build-frontend, build-backend, test-backend]
-  #  env:
-  #    IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}:${{ github.sha }}
+    env:
+      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}:${{ github.sha }}
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
-  #
-  #    - name: Setup GCloud
-  #      uses: google-github-actions/setup-gcloud@master
-  #      with:
-  #        project_id: ${{ secrets.GCP_PROJECT_ID }}
-  #        service_account_email: ${{ secrets.GCP_EMAIL }}
-  #        service_account_key: ${{ secrets.GCP_CREDENTIALS }}
-  #
-  #    - name: Deploy backend to Cloud Run
-  #      run: gcloud run deploy ${{ secrets.GCP_APP_NAME }} --image=$IMAGE_NAME --platform managed --region europe-west1
-  #
+  
+      - name: Setup GCloud
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_email: ${{ secrets.GCP_EMAIL }}
+          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+  
+      - name: Deploy backend to Cloud Run
+        run: gcloud run deploy ${{ secrets.GCP_APP_NAME }} --image=$IMAGE_NAME --platform managed --region europe-west1
+  
       - name: Get artifacts
         uses: actions/download-artifact@v2
         with:
