@@ -26,7 +26,6 @@ public class CategoryService {
         Category category = categoryRepository.findById(id).orElse(null);
         if(category == null)
             throw new ValidationException("Nincs ilyen ID-val rendelkező kategória");
-
         return category;
     }
 
