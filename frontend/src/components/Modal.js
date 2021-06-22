@@ -1,6 +1,6 @@
-function Modal({ status }) {
+function Modal({ status, id }) {
   return (
-    <div className="modal fade" id="myModal">
+    <div className="modal fade" id={id}>
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">

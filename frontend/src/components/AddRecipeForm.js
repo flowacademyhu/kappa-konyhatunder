@@ -5,7 +5,7 @@ import { validationSchema } from './ValidationSchema';
 import Modal from './Modal';
 
 const AddRecipeForm = () => {
-  const [newCategory, setNewCategory] = useState('Sikertelen hozzáadás');
+  const [newCategory, setNewCategory] = useState('');
   const [status, setStatus] = useState('Sikertelen hozzáadás');
   async function addCategory(value) {
     if (value === '') {
@@ -201,7 +201,7 @@ const AddRecipeForm = () => {
           Hozzáadás
         </button>
 
-        <Modal status={status} />
+        <Modal status={status} id="myModal" />
       </div>
     </form>
   );
