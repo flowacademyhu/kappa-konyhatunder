@@ -5,7 +5,28 @@ import { validationSchema } from './ValidationSchema';
 import Modal from './Modal';
 
 const AddRecipeForm = () => {
-  const [status, setStatus] = useState('Sikertelen hozzáadás');
+
+  const [newCategory, setNewCategory] = useState('Sikertelen hozzáadás');
+  const [status, setStatus] = useState('');
+  async function addCategory(value) {
+    if (value === '') {
+      setStatus('Kategória megadása kötelező!');
+      return;
+    }
+    const data = {
+      name: value,
+    };
+
+    try {
+      await axios.post(`/api/categories`, data);
+      setStatus('Sikeres hozzáadás!');
+    } catch (error) {
+      console.log(error.response);
+      setStatus(error.response.data[0]);
+    }
+    setNewCategory('');
+  }
+
 
   async function addRecipe(values) {
     const data = {
@@ -44,16 +65,16 @@ const AddRecipeForm = () => {
   const [categoryList, setCategoryList] = useState([]);
 
   useEffect(() => {
-    async function functionName() {
+    async function levelFunction() {
       try {
-        const response = await axios.get(`api/recipes/levels`);
+        const response = await axios.get(`/api/recipes/levels`);
         setLevels(response.data);
         return response.data;
       } catch (error) {
         console.error();
       }
     }
-    functionName();
+    levelFunction();
   }, []);
 
   useEffect(() => {
@@ -63,14 +84,13 @@ const AddRecipeForm = () => {
 
         console.log(response.data);
         setCategoryList(response.data);
-
         return response.data;
       } catch (error) {
         console.error();
       }
     }
     categoryFunction();
-  }, []);
+  }, [newCategory]);
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -148,6 +168,29 @@ const AddRecipeForm = () => {
                 </div>
               ))}
             </div>
+            <div className="d-flex align-items-center">
+              <p className="col-2 mt-2 pl-0 d-flex align-items-center">
+                Kategória hozzáadása
+              </p>
+              <div className="col-6">
+                <input
+                  className="form-control"
+                  id="newCategory"
+                  value={newCategory}
+                  type="text"
+                  onChange={(e) => setNewCategory(e.target.value)}
+                />
+              </div>
+              <button
+                className="btn btn-success"
+                onClick={() => addCategory(newCategory)}
+                data-toggle="modal"
+                data-target="#myModal"
+                type="button"
+              >
+                +
+              </button>
+            </div>
           </div>
         </div>
 
@@ -161,6 +204,7 @@ const AddRecipeForm = () => {
         </button>
 
         <Modal status={status} />
+
       </div>
     </form>
   );
