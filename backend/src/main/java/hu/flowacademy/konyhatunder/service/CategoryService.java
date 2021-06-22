@@ -23,10 +23,8 @@ public class CategoryService {
     }
 
     public Category findById(String id) {
-        Category category = categoryRepository.findById(id).orElse(null);
-        if(category == null)
-            throw new ValidationException("Nincs ilyen ID-val rendelkező kategória");
-        return category;
+        return categoryRepository.findById(id).orElseThrow(() ->
+                new ValidationException("Nincs ilyen ID-val rendelkező kategória"));
     }
 
     public void saveNewCategory(Category category) {
@@ -34,12 +32,12 @@ public class CategoryService {
         String firstLetter = category.getName().substring(0, 1).toUpperCase();
         String remainingLetters = category.getName().substring(1).toLowerCase();
         categoryRepository.save(Category.builder()
-                .name(firstLetter+remainingLetters)
+                .name(firstLetter + remainingLetters)
                 .build());
     }
 
     private void validate(Category category) {
-        if(!StringUtils.hasText(category.getName())){
+        if (!StringUtils.hasText(category.getName())) {
             throw new ValidationException("Kategória név megadása kötelező!");
         }
     }

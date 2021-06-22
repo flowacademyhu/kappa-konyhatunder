@@ -22,9 +22,7 @@ public class IngredientService {
     }
 
     public Ingredient findById(String id) {
-        Ingredient ingredient =  ingredientRepository.findById(id).orElse(null);
-        if(ingredient == null)
-            throw new ValidationException("Nincs ilyen ID-val rendelkező hozzávaló!");
-        return ingredient;
+        return ingredientRepository.findById(id).orElseThrow(() ->
+                new ValidationException("Nincs ilyen ID-val rendelkező hozzávaló!"));
     }
 }
