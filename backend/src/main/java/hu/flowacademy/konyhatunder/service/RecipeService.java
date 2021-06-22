@@ -36,8 +36,11 @@ public class RecipeService {
         return recipeRepository.findAll();
     }
 
-    public Optional<Recipe> findById(String id) {
-        return recipeRepository.findById(id);
+    public Recipe findById(String id) {
+        Recipe recipe = recipeRepository.findById(id).orElse(null);
+        if(recipe == null)
+            throw new ValidationException("Nincs ilyen ID-val rendelkező recept!");
+        return recipe;
     }
 
     public void save(EmptyRecipe emptyRecipe) {
