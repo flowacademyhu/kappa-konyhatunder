@@ -8,6 +8,11 @@ const showAlert = () => {
 
 const AddRecipeForm = () => {
   const [newCategory, setNewCategory] = useState('');
+  const [newIngredient, setNewIngredient] = useState('');
+  const [newAmount, setNewAmount] = useState('');
+  const [newIngredientType, setNewIngredientType] = useState('');
+  const [newIngredientTypeList, setNewIngredientTypeList] = useState([]);
+
   const [status, setStatus] = useState('');
   async function addCategory(value) {
     if (value === '') {
@@ -35,6 +40,7 @@ const AddRecipeForm = () => {
       preparationTime: values.preparationTime,
       level: values.level,
       categoryList: values.categoryList,
+      ingredientsList: values.ingredientsList,
     };
 
     try {
@@ -51,6 +57,7 @@ const AddRecipeForm = () => {
       description: '',
       preparationTime: 0,
       level: 'EASY',
+      ingredientsList: [],
       categoryList: [],
     },
 
@@ -62,7 +69,8 @@ const AddRecipeForm = () => {
 
   const [levels, setLevels] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
-
+  const [ingredientsList, setIngredientsList] = useState([]);
+  const [newIngredientsList, setNewIngredientsList] = useState([]);
   useEffect(() => {
     async function levelFunction() {
       try {
@@ -92,6 +100,38 @@ const AddRecipeForm = () => {
     }
     categoryFunction();
   }, [newCategory]);
+
+  async function getIngredienTypeFunction(newIngredientString) {
+    const newIngredientObject = JSON.parse(newIngredientString);
+    console.log(ingredientsList);
+    try {
+      const response = await axios.get(
+        `/api/ingredients/${newIngredientObject.id}`
+      );
+      setNewIngredient(newIngredientObject.name);
+      console.log(response.data);
+
+      setNewIngredientTypeList(response.data.typeList);
+      return response.data.typeList;
+    } catch (error) {
+      console.error();
+    }
+  }
+
+  useEffect(() => {
+    async function ingredientFunction() {
+      try {
+        const response = await axios.get(`/api/ingredients`);
+
+        setIngredientsList(response.data);
+        console.log(response.data);
+        return response.data;
+      } catch (error) {
+        console.error();
+      }
+    }
+    ingredientFunction();
+  }, []);
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -171,7 +211,7 @@ const AddRecipeForm = () => {
               <p className="col-2 mt-2 pl-0 d-flex align-items-center">
                 Kategória hozzáadása
               </p>
-              <div className="col-6">
+              <div className="col-4">
                 <input
                   className="form-control"
                   id="newCategory"
@@ -190,6 +230,68 @@ const AddRecipeForm = () => {
                 +
               </button>
             </div>
+          </div>
+          <div className="d-flex align-items-center">
+            <p className="col-2 mt-2 pl-0 d-flex align-items-center">
+              Hozzávaló hozzáadása
+            </p>
+            <div className="col-4">
+              <p>hozzávaló</p>
+              <select
+                className="form-control"
+                name="ingredient"
+                onChange={(e) => getIngredienTypeFunction(e.target.value)}
+              >
+                {ingredientsList.map((l) => (
+                  <option key={l.id} value={JSON.stringify(l)}>
+                    {l.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="col-2">
+              <p>mértékegység</p>
+              <select
+                className="form-control"
+                name="ingredientType"
+                onChange={(e) => setNewIngredientType(e.target.value)}
+              >
+                {newIngredientTypeList.map((l) => (
+                  <option key={l} value={l}>
+                    {l}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="col-3">
+              <p>mennyiség</p>
+              <input
+                className="form-control"
+                id="amount"
+                type="text"
+                value={newAmount}
+                onChange={(e) => setNewAmount(e.target.value)}
+              />
+            </div>
+            <button
+              className="btn btn-success"
+              onClick={() => {
+                setNewIngredientsList([
+                  ...newIngredientsList,
+                  {
+                    newIngredient,
+                    newIngredientType,
+                    newAmount,
+                  },
+                ]);
+                console.log(newIngredientsList);
+              }}
+              type="button"
+            >
+              +
+            </button>
           </div>
         </div>
         <button className="btn btn-success" type="submit">
