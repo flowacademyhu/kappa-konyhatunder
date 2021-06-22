@@ -3,10 +3,14 @@ package hu.flowacademy.konyhatunder.service;
 
 import hu.flowacademy.konyhatunder.dto.EmptyRecipe;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
+import hu.flowacademy.konyhatunder.model.AmountOfIngredientForARecipe;
 import hu.flowacademy.konyhatunder.model.Category;
 import hu.flowacademy.konyhatunder.enums.Level;
+import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.model.Recipe;
+import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
+import hu.flowacademy.konyhatunder.repository.IngredientRepository;
 import hu.flowacademy.konyhatunder.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -15,9 +19,7 @@ import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +29,8 @@ public class RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final CategoryRepository categoryRepository;
+    private final AmountOfIngredientForARecipeRepository amountOfIngredientForARecipeRepository;
+    private final IngredientRepository ingredientRepository;
 
     public List<Recipe> findAll() {
         return recipeRepository.findAll();
@@ -38,14 +42,37 @@ public class RecipeService {
 
     public void save(EmptyRecipe emptyRecipe) {
         validate(emptyRecipe);
+        String newRecipeID = UUID.randomUUID().toString();
         List<Category> categoryList = emptyRecipe.getCategoryList().stream().map(categoryRepository::findByName).collect(Collectors.toList());
         recipeRepository.save(Recipe.builder()
+                .id(newRecipeID)
                 .name(emptyRecipe.getName())
                 .description(emptyRecipe.getDescription())
                 .level(emptyRecipe.getLevel())
                 .preparationTime(emptyRecipe.getPreparationTime())
                 .categoryList(categoryList)
                 .build());
+
+        Recipe savedRecipe = recipeRepository.findById(newRecipeID).orElse(null);
+        if (savedRecipe == null)
+            throw new ValidationException("A mentés nem sikerült");
+
+        List<AmountOfIngredientForARecipe> amountOfIngredientForARecipeList = new ArrayList<>();
+
+        emptyRecipe.getAmountOfIngredientForARecipeList().forEach(element ->{
+            AmountOfIngredientForARecipe amountOfIng = AmountOfIngredientForARecipe.builder()
+                    .unit(element.getUnit())
+                    .amount(element.getAmount())
+                    .recipe(savedRecipe)
+                    .ingredient(element.getIngredient())
+                    .build();
+            amountOfIngredientForARecipeRepository.save(amountOfIng);
+
+                amountOfIngredientForARecipeList.add(amountOfIng);
+
+        });
+        savedRecipe.setAmountOfIngredientForARecipeList(amountOfIngredientForARecipeList);
+        recipeRepository.save(savedRecipe);
     }
 
     @SneakyThrows

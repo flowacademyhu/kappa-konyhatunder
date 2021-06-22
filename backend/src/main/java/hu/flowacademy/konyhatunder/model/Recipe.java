@@ -17,8 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Recipe {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     private String name;
     @Enumerated(EnumType.STRING)
