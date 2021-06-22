@@ -1,8 +1,7 @@
 package hu.flowacademy.konyhatunder.bootstrap;
 
 import com.github.javafaker.Faker;
-import hu.flowacademy.konyhatunder.enums.Level;
-import hu.flowacademy.konyhatunder.enums.Type;
+import hu.flowacademy.konyhatunder.enums.*;
 import hu.flowacademy.konyhatunder.model.*;
 import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
@@ -35,76 +34,104 @@ public class InitDataLoader implements CommandLineRunner {
     public Faker faker() {
         return new Faker(Locale.forLanguageTag("hu-HU"));
     }
+
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public void run(String... args) throws Exception {
-            saveNewCategory();
-            saveNewIngredient();
-            saveNewRecipes();
-            saveNewAmountOfIngredientForARecipe();
+        saveNewCategory();
+        saveNewIngredient();
+        saveNewRecipes();
+        saveNewAmountOfIngredientForARecipe();
     }
 
-    private List<Category> newCategory(){
-        List<String> names = List.of("Olcsó","Ünnepi","Magyar", "Olasz", "Kínai");
+    private List<Category> newCategory() {
+        List<String> names = List.of("Olcsó", "Ünnepi", "Magyar", "Olasz", "Kínai");
         return List.of(
                 Category.builder().name(names.get(0)).build(),
                 Category.builder().name(names.get(1)).build(),
                 Category.builder().name(names.get(2)).build(),
                 Category.builder().name(names.get(3)).build(),
                 Category.builder().name(names.get(4)).build()
-
-                );
+        );
     }
 
-    private void saveNewCategory(){
+    private void saveNewCategory() {
         categoryRepository.saveAll(newCategory());
     }
 
-    private List<Ingredient> newIngredient(){
-        return IntStream.range(0,10)
-                .mapToObj(value -> Ingredient.builder()
-                        .name(faker().food().ingredient())
-                        .type(faker().number().numberBetween(1,3) == 1 ? Type.CUP: Type.LITER)
-                        .build()).collect(Collectors.toList());
+    private List<Ingredient> newIngredient() {
+        return List.of(
+                Ingredient.builder().name("Liszt").type(Type.KG).build(),
+                Ingredient.builder().name("Cukor").type(Type.CUP).build(),
+                Ingredient.builder().name("Tej").type(Type.LITER).build(),
+                Ingredient.builder().name("Só").type(Type.OTHER).build(),
+                Ingredient.builder().name("Sütopor").type(Type.SPOON).build(),
+                Ingredient.builder().name("Tojás").type(Type.PIECE).build()
+        );
     }
 
-    private void saveNewIngredient(){
+    private void saveNewIngredient() {
         ingredientRepository.saveAll(newIngredient());
     }
 
-    private List<Recipe> newRecipes(List<Category> categoryList){
-        return IntStream.range(0,10)
+    private List<Recipe> newRecipes(List<Category> categoryList) {
+        return IntStream.range(0, 3)
                 .mapToObj(value -> Recipe.builder()
                         .name(faker().food().dish())
-                        .level(faker().number().numberBetween(1,4) == 1 ? Level.EASY :
-                                faker().number().numberBetween(1,4) == 2? Level.MEDIUM : Level.HARD)
+                        .level(faker().number().numberBetween(1, 4) == 1 ? Level.EASY :
+                                faker().number().numberBetween(1, 4) == 2 ? Level.MEDIUM : Level.HARD)
                         .categoryList(categoryList)
                         .description(faker().lorem().sentence(20))
-                        .preparationTime(faker().number().randomDouble(1,5,300))
+                        .preparationTime(faker().number().randomDouble(1, 5, 300))
                         .build()).collect(Collectors.toList());
     }
-    private void saveNewRecipes(){
+
+    private void saveNewRecipes() {
         List<Category> categoryList = categoryRepository.findAll();
         recipeRepository.saveAll(newRecipes(categoryList));
     }
 
-    private List<AmountOfIngredientForARecipe> newAmountOfIngredientForARecipe(){
-        List<Ingredient> ingredientList  = ingredientRepository.findAll();
+    private List<AmountOfIngredientForARecipe> newAmountOfIngredientForARecipe() {
+        List<Ingredient> ingredientList = ingredientRepository.findAll();
         List<Recipe> recipeList = recipeRepository.findAll();
-        return IntStream.range(0,10).mapToObj(value->
-                AmountOfIngredientForARecipe.builder()
-                        .recipe(recipeList.get(new Random().nextInt(recipeList.size())))
-                        .ingredient(ingredientList.get(new Random().nextInt(ingredientList.size())))
-                        .unit(faker().food().measurement())
-                        .amount(faker().number().randomDouble(1,1,5))
+        System.out.println(ingredientList.get(0) + " "+ingredientList.get(1));
+        return List.of(
+                AmountOfIngredientForARecipe.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Liszt")).findFirst().get())
+                        .amount(1)
+                        .unit(TypeKilogramm.KG.getHungarianTranslate())
+                        .recipe(recipeList.get(0))
+                        .build(),
+                AmountOfIngredientForARecipe.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Cukor")).findFirst().get())
+                        .amount(0.5)
+                        .unit(TypeCup.CUP.getHungarianTranslate())
+                        .recipe(recipeList.get(0))
+                        .build(),
+                AmountOfIngredientForARecipe.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Tej")).findFirst().get())
+                        .amount(0.5)
+                        .unit(TypeLiter.L.getHungarianTranslate())
+                        .recipe(recipeList.get(0))
+                        .build(),
+                AmountOfIngredientForARecipe.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Só")).findFirst().get())
+                        .amount(2)
+                        .unit(TypeOther.PINCH.getHungarianTranslate())
+                        .recipe(recipeList.get(0))
+                        .build(),
+                AmountOfIngredientForARecipe.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Sütopor")).findFirst().get())
+                        .amount(1)
+                        .unit(TypeSpoon.TEA_SPOON.getHungarianTranslate())
+                        .recipe(recipeList.get(0))
+                        .build(),
+                AmountOfIngredientForARecipe.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Tojás")).findFirst().get())
+                        .amount(3)
+                        .unit(TypePiece.PIECE.getHungarianTranslate())
+                        .recipe(recipeList.get(0))
                         .build()
-                ).collect(Collectors.toList());
+        );
     }
 
-    private void saveNewAmountOfIngredientForARecipe(){
-
+    private void saveNewAmountOfIngredientForARecipe() {
         amountOfIngredientForARecipeRepository.saveAll(
-        newAmountOfIngredientForARecipe());
+                newAmountOfIngredientForARecipe());
 
     }
 
