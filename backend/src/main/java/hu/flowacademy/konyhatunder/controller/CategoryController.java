@@ -17,18 +17,18 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public List<Category> findAll() {
-        return categoryService.findAll();
+    public List<Category> listCategories() {
+        return categoryService.listCategories();
     }
 
     @GetMapping("/{id}")
-    public Category findById(@PathVariable String id) {
-        return categoryService.findById(id);
+    public Category getCategory(@PathVariable String id) {
+        return categoryService.getCategory(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveNewCategory(@RequestBody Category category){
-        categoryService.saveNewCategory(category);
+    public void createCategory(@RequestBody Category category){
+        categoryService.createCategory(category);
     }
 }
