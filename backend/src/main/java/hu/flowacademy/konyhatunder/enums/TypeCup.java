@@ -3,13 +3,13 @@ package hu.flowacademy.konyhatunder.enums;
 public enum TypeCup {
     CUP("Bögre");
 
-    private final String hungarianTranslate;
+    private final String hungarianTranslation;
 
     private TypeCup(String value){
-        hungarianTranslate = value;
+        hungarianTranslation = value;
     }
 
     public String getHungarianTranslation(){
-        return hungarianTranslate;
+        return hungarianTranslation;
     }
 }

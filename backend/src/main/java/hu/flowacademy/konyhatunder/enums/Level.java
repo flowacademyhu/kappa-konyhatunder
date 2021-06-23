@@ -3,13 +3,14 @@ package hu.flowacademy.konyhatunder.enums;
 public enum Level {
     EASY("Könnyű"), MEDIUM("Közepes"), HARD("Nehéz");
 
-    private final String hungarianTranslate;
+    private final String hungarianTranslation;
 
     private Level(String value){
-        hungarianTranslate = value;
+        hungarianTranslation = value;
     }
 
     public String getHungarianTranslation(){
-        return hungarianTranslate;
+        return hungarianTranslation;
     }
 }
+

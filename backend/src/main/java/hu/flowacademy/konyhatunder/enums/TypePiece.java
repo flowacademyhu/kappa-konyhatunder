@@ -3,13 +3,13 @@ package hu.flowacademy.konyhatunder.enums;
 public enum TypePiece {
     PIECE("Darab");
 
-    private final String hungarianTranslate;
+    private final String hungarianTranslation;
 
     private TypePiece(String value){
-        hungarianTranslate = value;
+        hungarianTranslation = value;
     }
 
     public String getHungarianTranslation(){
-        return hungarianTranslate;
+        return hungarianTranslation;
     }
 }

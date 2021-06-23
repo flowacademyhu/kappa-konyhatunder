@@ -3,13 +3,13 @@ package hu.flowacademy.konyhatunder.enums;
 public enum TypeOther {
     PINCH("Csipet"), PACKAGE("Csomag");
 
-    private final String hungarianTranslate;
+    private final String hungarianTranslation;
 
     private TypeOther(String value){
-        hungarianTranslate = value;
+        hungarianTranslation = value;
     }
 
     public String getHungarianTranslation(){
-        return hungarianTranslate;
+        return hungarianTranslation;
     }
 }

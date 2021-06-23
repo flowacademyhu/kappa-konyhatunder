@@ -3,13 +3,13 @@ package hu.flowacademy.konyhatunder.enums;
 public enum Type {
     KG("Kilogramm"), LITER("Liter"), SPOON("Kanál"), CUP("Bögre"), PIECE("Darab"), OTHER("Egyéb");
 
-    private final String hungarianTranslate;
+    private final String hungarianTranslation;
 
     private Type(String value){
-        hungarianTranslate = value;
+        hungarianTranslation = value;
     }
 
     public String getHungarianTranslation(){
-        return hungarianTranslate;
+        return hungarianTranslation;
     }
 }
