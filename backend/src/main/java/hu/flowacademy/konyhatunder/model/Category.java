@@ -26,4 +26,8 @@ public class Category {
     @ManyToMany(mappedBy = "categoryList")
     @JsonIgnore
     private List<Recipe> recipeList;
+
+    public Category(String name) {
+        this.name = name;
+    }
 }

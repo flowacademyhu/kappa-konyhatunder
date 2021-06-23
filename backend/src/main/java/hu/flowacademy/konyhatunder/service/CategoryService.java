@@ -29,11 +29,13 @@ public class CategoryService {
 
     public void createCategory(Category category) {
         validate(category);
-        String firstLetter = category.getName().substring(0, 1).toUpperCase();
-        String remainingLetters = category.getName().substring(1).toLowerCase();
-        categoryRepository.save(Category.builder()
-                .name(firstLetter + remainingLetters)
-                .build());
+        categoryRepository.save(new Category(convertName(category.getName())));
+    }
+
+    private String convertName(String name){
+        String firstLetter = name.substring(0, 1).toUpperCase();
+        String remainingLetters = name.substring(1).toLowerCase();
+        return firstLetter+remainingLetters;
     }
 
     private void validate(Category category) {
