@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -75,12 +76,12 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private List<Recipe> newRecipes(List<Category> categoryList) {
+
         return IntStream.range(0, 3)
                 .mapToObj(value -> Recipe.builder()
                         .id(UUID.randomUUID().toString())
                         .name(faker().food().dish())
-                        .level(faker().number().numberBetween(1, 4) == 1 ? Level.EASY :
-                                faker().number().numberBetween(1, 4) == 2 ? Level.MEDIUM : Level.HARD)
+                        .level(Level.values()[new Random().nextInt(Level.values().length)])
                         .categoryList(categoryList)
                         .description(faker().lorem().sentence(20))
                         .preparationTime(faker().number().randomDouble(1, 5, 300))
