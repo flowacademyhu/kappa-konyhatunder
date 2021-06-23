@@ -39,13 +39,7 @@ const AddRecipeForm = () => {
       name: values.name,
       description: values.description,
       preparationTime: values.preparationTime,
-
-      level:
-        values.level === 'Könnyű'
-          ? 'EASY'
-          : values.level === 'Közepes'
-          ? 'MEDIUM'
-          : 'HARD',
+      level: values.level,
       categoryList: values.categoryList,
       amountOfIngredientForARecipeList: values.amountOfIngredientForARecipeList,
     };
@@ -55,8 +49,6 @@ const AddRecipeForm = () => {
     };
     try {
       await axios.post(`/api/recipes`, data2);
-      console.log(newIngredientsList);
-      showAlert();
     } catch (error) {
       setStatus('Sikertelen hozzáadás');
     }
@@ -75,7 +67,6 @@ const AddRecipeForm = () => {
 
     onSubmit: (values) => {
       addRecipe(values);
-      console.log(values);
     },
   });
 
@@ -126,9 +117,7 @@ const AddRecipeForm = () => {
     async function ingredientFunction() {
       try {
         const response = await axios.get(`/api/ingredients`);
-
         setIngredientsList(response.data);
-        console.log(response.data);
         return response.data;
       } catch (error) {
         console.error();
