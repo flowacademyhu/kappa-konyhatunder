@@ -5,7 +5,6 @@ import { validationSchema } from './ValidationSchema';
 import Modal from './Modal';
 
 const AddRecipeForm = () => {
-
   const [status, setStatus] = useState('Sikertelen hozzáadás');
   const [levels, setLevels] = useState([]);
   const [newAmount, setNewAmount] = useState('');
@@ -16,7 +15,6 @@ const AddRecipeForm = () => {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [newIngredientsList, setNewIngredientsList] = useState([]);
   const [newIngredientTypeList, setNewIngredientTypeList] = useState([]);
-
 
   async function addCategory(value) {
     if (value === '') {
@@ -56,11 +54,9 @@ const AddRecipeForm = () => {
       amountOfIngredientForARecipeList: newIngredientsList,
     };
     try {
-
       await axios.post(`/api/recipes`, data2);
       console.log(newIngredientsList);
       showAlert();
-
     } catch (error) {
       setStatus('Sikertelen hozzáadás');
     }

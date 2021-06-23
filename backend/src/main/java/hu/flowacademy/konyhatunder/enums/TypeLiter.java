@@ -1,7 +1,7 @@
 package hu.flowacademy.konyhatunder.enums;
 
 public enum TypeLiter {
-    CL("centiliter"),ML("mililiter"),DL("deciliter"),L("liter");
+    CL("centiliter"),ML("milliliter"),DL("deciliter"),L("liter");
 
     private final String hungarianTranslate;
 
