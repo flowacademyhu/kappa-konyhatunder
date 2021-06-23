@@ -20,15 +20,17 @@ import java.util.stream.Collectors;
 public class IngredientService {
 
     private final IngredientRepository ingredientRepository;
+    static final String MISSING_ID="Nincs ilyen ID-val rendelkező hozzávaló!";
 
     public List<Ingredient> listIngredients() {
         return ingredientRepository.findAll();
     }
 
     public IngredientDTO findById(String id) {
-        Ingredient ingredient = ingredientRepository.findById(id).orElse(null);
-        validate(ingredient);
-           List<String> typeList = null;
+        Ingredient ingredient = ingredientRepository.findById(id).orElseThrow(() ->
+                new MissingIDException(MISSING_ID));
+
+        List<String> typeList = null;
         if(ingredient.getType().getHungarianTranslate().equals(Type.CUP.getHungarianTranslate())){
             typeList = Arrays.stream(TypeCup.values()).map(TypeCup::getHungarianTranslate).collect(Collectors.toList());
         }
@@ -56,6 +58,6 @@ public class IngredientService {
 
     public Ingredient getIngredient(String id) {
         return ingredientRepository.findById(id).orElseThrow(() ->
-                new MissingIDException("Nincs ilyen ID-val rendelkező hozzávaló!"));
+                new MissingIDException(MISSING_ID));
     }
 }
