@@ -19,26 +19,26 @@ public class RecipeController {
 
 
     @GetMapping
-    public List<Recipe> findAll() {
-        return recipeService.findAll();
+    public List<Recipe> listRecipes() {
+        return recipeService.listRecipes();
     }
 
 
     @GetMapping("/{id}")
-    public Recipe findById(@PathVariable String id) {
-        return recipeService.findById(id);
+    public Recipe getRecipe(@PathVariable String id) {
+        return recipeService.getRecipe(id);
     }
 
 
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void save(@RequestBody EmptyRecipe emptyRecipe) {
-        recipeService.save(emptyRecipe);
+    public void createRecipe(@RequestBody EmptyRecipe emptyRecipe) {
+        recipeService.createRecipe(emptyRecipe);
     }
 
 
     @GetMapping("/levels")
-    public List<String> getAllRecipeLevels() {
-        return recipeService.getAllRecipeLevels();
+    public List<String> listRecipeLevels() {
+        return recipeService.listRecipeLevels();
     }
 }
