@@ -79,7 +79,6 @@ public class InitDataLoader implements CommandLineRunner {
 
         return IntStream.range(0, 3)
                 .mapToObj(value -> Recipe.builder()
-                        .id(UUID.randomUUID().toString())
                         .name(faker().food().dish())
                         .level(Level.values()[new Random().nextInt(Level.values().length)])
                         .categoryList(categoryList)
@@ -130,12 +129,8 @@ public class InitDataLoader implements CommandLineRunner {
                         .build()
         );
     }
-
     private void saveNewAmountOfIngredientForARecipe() {
         amountOfIngredientForARecipeRepository.saveAll(
                 newAmountOfIngredientForARecipe());
-
     }
-
-
 }
