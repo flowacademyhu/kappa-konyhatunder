@@ -30,7 +30,6 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final CategoryRepository categoryRepository;
     private final AmountOfIngredientForARecipeRepository amountOfIngredientForARecipeRepository;
-    private final IngredientRepository ingredientRepository;
 
     public List<Recipe> findAll() {
         return recipeRepository.findAll();
