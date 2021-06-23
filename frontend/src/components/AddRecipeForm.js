@@ -52,7 +52,7 @@ const AddRecipeForm = () => {
     try {
       await axios.post(`/api/recipes`, data2);
     } catch (error) {
-      console.error();
+      console.error(error);
       setStatus('Sikertelen hozzáadás');
     }
   }
@@ -80,7 +80,7 @@ const AddRecipeForm = () => {
         setLevels(response.data);
         return response.data;
       } catch (error) {
-        console.error();
+        console.error(error);
       }
     }
     levelFunction();
@@ -93,7 +93,7 @@ const AddRecipeForm = () => {
         setCategoryList(response.data);
         return response.data;
       } catch (error) {
-        console.error();
+        console.error(error);
       }
     }
     categoryFunction();
@@ -113,7 +113,7 @@ const AddRecipeForm = () => {
 
       return response.data.typeList;
     } catch (error) {
-      console.error();
+      console.error(error);
     }
   }
 
@@ -124,7 +124,7 @@ const AddRecipeForm = () => {
         setIngredientsList(response.data);
         return response.data;
       } catch (error) {
-        console.error();
+        console.error(error);
       }
     }
     ingredientFunction();
