@@ -27,7 +27,7 @@
     "eject": "react-scripts eject",
     "code-style": "prettier --check .",
     "code-style-fix": "prettier --write .",
-    "prepare": "cd .. && husky install frontend/.husky"
+    "prepare": "cd .. && husky install frontend/.husky && rm -rf .git/hooks && ln -s ../frontend/.husky .git/hooks"
   },
   "eslintConfig": {
     "extends": [
