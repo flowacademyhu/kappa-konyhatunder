@@ -7,11 +7,9 @@ import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.AmountOfIngredientForARecipe;
 import hu.flowacademy.konyhatunder.model.Category;
 import hu.flowacademy.konyhatunder.enums.Level;
-import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
-import hu.flowacademy.konyhatunder.repository.IngredientRepository;
 import hu.flowacademy.konyhatunder.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -77,13 +75,13 @@ public class RecipeService {
     }
 
     private Level validateLevel(String level) {
-        if(Level.EASY.getHungarianTranslate().equals(level)){
+        if(Level.EASY.getHungarianTranslation().equals(level)){
             return Level.EASY;
         }
-        if(Level.MEDIUM.getHungarianTranslate().equals(level)){
+        if(Level.MEDIUM.getHungarianTranslation().equals(level)){
             return Level.MEDIUM;
         }
-        if(Level.HARD.getHungarianTranslate().equals(level)){
+        if(Level.HARD.getHungarianTranslation().equals(level)){
             return Level.HARD;
         }
         else{

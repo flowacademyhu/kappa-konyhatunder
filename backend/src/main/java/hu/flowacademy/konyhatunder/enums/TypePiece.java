@@ -9,7 +9,7 @@ public enum TypePiece {
         hungarianTranslate = value;
     }
 
-    public String getHungarianTranslate(){
+    public String getHungarianTranslation(){
         return hungarianTranslate;
     }
 }
