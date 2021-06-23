@@ -41,15 +41,19 @@ const AddRecipeForm = () => {
       preparationTime: values.preparationTime,
       level: values.level,
       categoryList: values.categoryList,
-      amountOfIngredientForARecipeList: values.amountOfIngredientForARecipeList,
+      amountOfIngredientList: values.amountOfIngredientList,
     };
     const data2 = {
       ...data,
-      amountOfIngredientForARecipeList: newIngredientsList,
+      amountOfIngredientList: newIngredientsList,
     };
+
+    //   console.log('KETTES DATA', data2);
+    // console.log('NEWINGREDIENT LISTA ÉRTÉKE', newIngredientsList);
     try {
       await axios.post(`/api/recipes`, data2);
     } catch (error) {
+      console.log(error.response);
       setStatus('Sikertelen hozzáadás');
     }
   }
@@ -60,7 +64,7 @@ const AddRecipeForm = () => {
       description: '',
       preparationTime: 0,
       level: 'EASY',
-      amountOfIngredientForARecipeList: [],
+      amountOfIngredientList: [],
       categoryList: [],
     },
     validationSchema,
@@ -98,15 +102,19 @@ const AddRecipeForm = () => {
 
   async function getIngredienTypeFunction(newIngredientString) {
     const newIngredientObject = JSON.parse(newIngredientString);
-    console.log(ingredientsList);
+    // console.log('INGREDIENMT LIST', ingredientsList);
+    // console.log('INGREDIENMT string', newIngredientString);
+    // console.log('INGREDIENMT object', newIngredientObject);
     try {
       const response = await axios.get(
         `/api/ingredients/${newIngredientObject.id}`
       );
+
       setNewIngredient(newIngredientObject);
-      console.log(response.data);
+      // console.log('A hozzávalókdddd', response.data);
 
       setNewIngredientTypeList(response.data.typeList);
+      // console.log('A hozzávalók', newIngredientTypeList);
       return response.data.typeList;
     } catch (error) {
       console.error();
@@ -235,11 +243,9 @@ const AddRecipeForm = () => {
               <select
                 className="form-control"
                 name="ingredient"
+                defaultValue="nothin"
                 onChange={(e) => getIngredienTypeFunction(e.target.value)}
               >
-                <option value="" selected disabled hidden>
-                  Choose here
-                </option>
                 {ingredientsList.map((l) => (
                   <option key={l.id} value={JSON.stringify(l)}>
                     {l.name}
@@ -255,9 +261,6 @@ const AddRecipeForm = () => {
                 name="ingredientType"
                 onChange={(e) => setNewIngredientType(e.target.value)}
               >
-                <option value="" selected disabled hidden>
-                  Choose here
-                </option>
                 {newIngredientTypeList.map((l) => (
                   <option key={l} value={l}>
                     {l}

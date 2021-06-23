@@ -52,7 +52,7 @@ export default function SingleRecipe() {
 
             <h3>Recept alapanyagjai : </h3>
 
-            {product.amountOfIngredientForARecipeList.map((ingredient) => (
+            {product.amountOfIngredientList.map((ingredient) => (
               <>
                 <div className="row" key={ingredient.id}>
                   <div className="col">{ingredient.ingredient.name}</div>
