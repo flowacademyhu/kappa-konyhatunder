@@ -20,6 +20,14 @@ public class GlobalExceptionHandler {
         return List.of(validationException.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(MissingIDException.class)
+    public List<String> handleMissingIDException(
+            MissingIDException missingIDException
+    ) {
+        return List.of(missingIDException.getMessage());
+    }
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Throwable.class)
     public List<String> handleEverything(
