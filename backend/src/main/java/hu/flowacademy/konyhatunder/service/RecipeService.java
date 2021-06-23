@@ -2,6 +2,7 @@ package hu.flowacademy.konyhatunder.service;
 
 
 import hu.flowacademy.konyhatunder.dto.EmptyRecipe;
+import hu.flowacademy.konyhatunder.enums.Type;
 import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.AmountOfIngredient;
@@ -14,6 +15,7 @@ import hu.flowacademy.konyhatunder.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
@@ -45,7 +47,7 @@ public class RecipeService {
         Recipe savedRecipe = recipeRepository.save(Recipe.builder()
                 .name(emptyRecipe.getName())
                 .description(emptyRecipe.getDescription())
-                .level(validateLevel(emptyRecipe.getLevel()))
+                .level(translateLevel(emptyRecipe.getLevel()))
                 .preparationTime(emptyRecipe.getPreparationTime())
                 .categoryList(categoryList)
                 .build());
@@ -54,7 +56,7 @@ public class RecipeService {
 
         emptyRecipe.getAmountOfIngredientList().forEach(element -> {
             AmountOfIngredient amountOfIng = AmountOfIngredient.builder()
-                    .unit(element.getUnit())
+                    .unit(translateUnit(element.getIngredient().getType(),element.getUnit()))
                     .amount(element.getAmount())
                     .recipe(savedRecipe)
                     .ingredient(element.getIngredient())
@@ -67,15 +69,23 @@ public class RecipeService {
         savedRecipe.setAmountOfIngredientList(amountOfIngredientList);
         recipeRepository.save(savedRecipe);
     }
+//TODO
+    private String translateUnit(Type type, String unit) {
+        return null;
+    }
 
-    private Level validateLevel(String level) {
+    public List<String> listRecipeLevels() {
+        return Arrays.stream(Level.values()).map(Level::getHungarianTranslation).collect(Collectors.toList());
+    }
+
+    private Level translateLevel(String level) {
         if(Level.EASY.getHungarianTranslation().equals(level)){
             return Level.EASY;
         }
-        if(Level.MEDIUM.getHungarianTranslation().equals(level)){
+        else if(Level.MEDIUM.getHungarianTranslation().equals(level)){
             return Level.MEDIUM;
         }
-        if(Level.HARD.getHungarianTranslation().equals(level)){
+        else if(Level.HARD.getHungarianTranslation().equals(level)){
             return Level.HARD;
         }
         else{
@@ -84,12 +94,8 @@ public class RecipeService {
 
     }
 
-    public List<String> listRecipeLevels() {
-        return Arrays.stream(Level.values()).map(Enum::name).collect(Collectors.toList());
-    }
-
     @SneakyThrows
-    public void validate(EmptyRecipe emptyRecipe) {
+    private void validate(EmptyRecipe emptyRecipe) {
         if (!StringUtils.hasText(emptyRecipe.getName()))
             throw new ValidationException("A recept nevét kötelező megadni!");
 
@@ -102,8 +108,7 @@ public class RecipeService {
         if (emptyRecipe.getLevel() == null)
             throw new ValidationException("Nehézségi szint megadása kötelező!");
       
-        if (emptyRecipe.getAmountOfIngredientList() == null ||
-                emptyRecipe.getAmountOfIngredientList().size() == 0) {
+        if (CollectionUtils.isEmpty(emptyRecipe.getAmountOfIngredientList())) {
             throw new ValidationException("Hozzávalók megadása kötelező!");
         }
     }

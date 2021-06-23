@@ -18,16 +18,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class IngredientService {
 
+    private static final String ERROR_MESSAGE_MISSING_ID ="Nincs ilyen ID-val rendelkező hozzávaló!";
     private final IngredientRepository ingredientRepository;
-    static final String MISSING_ID="Nincs ilyen ID-val rendelkező hozzávaló!";
 
     public List<Ingredient> listIngredients() {
         return ingredientRepository.findAll();
     }
 
-    public IngredientDTO findById(String id) {
+    public IngredientDTO getIngredient(String id) {
         Ingredient ingredient = ingredientRepository.findById(id).orElseThrow(() ->
-                new MissingIDException(MISSING_ID));
+                new MissingIDException(ERROR_MESSAGE_MISSING_ID));
 
         List<String> typeList = null;
         if(ingredient.getType().getHungarianTranslation().equals(Type.CUP.getHungarianTranslation())){
@@ -53,10 +53,5 @@ public class IngredientService {
                 .id(ingredient.getId())
                 .typeList(typeList)
                 .build();
-    }
-
-    public Ingredient getIngredient(String id) {
-        return ingredientRepository.findById(id).orElseThrow(() ->
-                new MissingIDException(MISSING_ID));
     }
 }

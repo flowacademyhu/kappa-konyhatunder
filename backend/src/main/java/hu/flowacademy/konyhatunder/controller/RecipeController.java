@@ -31,7 +31,7 @@ public class RecipeController {
 
 
     @PostMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.CREATED)
     public void createRecipe(@RequestBody EmptyRecipe emptyRecipe) {
         recipeService.createRecipe(emptyRecipe);
     }
