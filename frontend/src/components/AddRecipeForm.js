@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { validationSchema } from './ValidationSchema';
 import Modal from './Modal';
+import IngredientsInRecipeList from './IngredientsInRecipeList';
 
 const AddRecipeForm = () => {
   const [status, setStatus] = useState('Sikertelen hozzáadás');
@@ -48,8 +49,6 @@ const AddRecipeForm = () => {
       amountOfIngredientList: newIngredientsList,
     };
 
-    //   console.log('KETTES DATA', data2);
-    // console.log('NEWINGREDIENT LISTA ÉRTÉKE', newIngredientsList);
     try {
       await axios.post(`/api/recipes`, data2);
     } catch (error) {
@@ -102,19 +101,16 @@ const AddRecipeForm = () => {
 
   async function getIngredienTypeFunction(newIngredientString) {
     const newIngredientObject = JSON.parse(newIngredientString);
-    // console.log('INGREDIENMT LIST', ingredientsList);
-    // console.log('INGREDIENMT string', newIngredientString);
-    // console.log('INGREDIENMT object', newIngredientObject);
+
     try {
       const response = await axios.get(
         `/api/ingredients/${newIngredientObject.id}`
       );
 
       setNewIngredient(newIngredientObject);
-      // console.log('A hozzávalókdddd', response.data);
 
       setNewIngredientTypeList(response.data.typeList);
-      // console.log('A hozzávalók', newIngredientTypeList);
+
       return response.data.typeList;
     } catch (error) {
       console.error();
@@ -290,7 +286,6 @@ const AddRecipeForm = () => {
                     amount: newAmount,
                   },
                 ]);
-                console.log(newIngredientsList);
               }}
               type="button"
             >
@@ -299,6 +294,7 @@ const AddRecipeForm = () => {
           </div>
         </div>
 
+        <IngredientsInRecipeList newIngredientsList={newIngredientsList} />
         <button
           className="btn btn-success"
           type="submit"
