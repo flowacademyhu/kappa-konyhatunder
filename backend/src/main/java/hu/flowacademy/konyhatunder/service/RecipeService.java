@@ -70,6 +70,6 @@ public class RecipeService {
             throw new ValidationException("Az elkészítési idő nem lehet 0 vagy annál kisebb!");
 
         if (emptyRecipe.getLevel() == null)
-            throw new ValidationException("Nem megfelelő nehézségi szint!");
+            throw new ValidationException("Nehézségi szint megadása kötelező!");
     }
 }
