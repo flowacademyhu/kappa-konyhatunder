@@ -7,13 +7,17 @@ const showAlert = () => {
 };
 
 const AddRecipeForm = () => {
+  const [status, setStatus] = useState('');
+  const [levels, setLevels] = useState([]);
+  const [newAmount, setNewAmount] = useState('');
   const [newCategory, setNewCategory] = useState('');
   const [newIngredient, setNewIngredient] = useState('');
-  const [newAmount, setNewAmount] = useState('');
-  const [newIngredientType, setNewIngredientType] = useState('');
+  const [newIngredientType, setNewIngredientType] = useState('-');
+  const [categoryList, setCategoryList] = useState([]);
+  const [ingredientsList, setIngredientsList] = useState([]);
+  const [newIngredientsList, setNewIngredientsList] = useState([]);
   const [newIngredientTypeList, setNewIngredientTypeList] = useState([]);
 
-  const [status, setStatus] = useState('');
   async function addCategory(value) {
     if (value === '') {
       setStatus('Kategória megadása kötelező!');
@@ -38,13 +42,25 @@ const AddRecipeForm = () => {
       name: values.name,
       description: values.description,
       preparationTime: values.preparationTime,
-      level: values.level,
-      categoryList: values.categoryList,
-      ingredientsList: values.ingredientsList,
-    };
 
+      level:
+        values.level === 'Könnyű'
+          ? 'EASY'
+          : values.level === 'Közepes'
+          ? 'MEDIUM'
+          : 'HARD',
+      categoryList: values.categoryList,
+      amountOfIngredientForARecipeList: values.amountOfIngredientForARecipeList,
+    };
+    const data2 = {
+      ...data,
+      amountOfIngredientForARecipeList: newIngredientsList,
+    };
+    console.log('KETTES DATA', data2);
+    console.log('NEWINGREDIENT LISTA ÉRTÉKE', newIngredientsList);
     try {
-      await axios.post(`/api/recipes`, data);
+      await axios.post(`/api/recipes`, data2);
+      console.log(newIngredientsList);
       showAlert();
     } catch (error) {
       console.error(error);
@@ -57,7 +73,7 @@ const AddRecipeForm = () => {
       description: '',
       preparationTime: 0,
       level: 'EASY',
-      ingredientsList: [],
+      amountOfIngredientForARecipeList: [],
       categoryList: [],
     },
 
@@ -67,10 +83,6 @@ const AddRecipeForm = () => {
     },
   });
 
-  const [levels, setLevels] = useState([]);
-  const [categoryList, setCategoryList] = useState([]);
-  const [ingredientsList, setIngredientsList] = useState([]);
-  const [newIngredientsList, setNewIngredientsList] = useState([]);
   useEffect(() => {
     async function levelFunction() {
       try {
@@ -90,8 +102,6 @@ const AddRecipeForm = () => {
     async function categoryFunction() {
       try {
         const response = await axios.get(`/api/categories`);
-
-        console.log(response.data);
         setCategoryList(response.data);
         return response.data;
       } catch (error) {
@@ -108,7 +118,7 @@ const AddRecipeForm = () => {
       const response = await axios.get(
         `/api/ingredients/${newIngredientObject.id}`
       );
-      setNewIngredient(newIngredientObject.name);
+      setNewIngredient(newIngredientObject);
       console.log(response.data);
 
       setNewIngredientTypeList(response.data.typeList);
@@ -242,6 +252,9 @@ const AddRecipeForm = () => {
                 name="ingredient"
                 onChange={(e) => getIngredienTypeFunction(e.target.value)}
               >
+                <option value="" selected disabled hidden>
+                  Choose here
+                </option>
                 {ingredientsList.map((l) => (
                   <option key={l.id} value={JSON.stringify(l)}>
                     {l.name}
@@ -257,6 +270,9 @@ const AddRecipeForm = () => {
                 name="ingredientType"
                 onChange={(e) => setNewIngredientType(e.target.value)}
               >
+                <option value="" selected disabled hidden>
+                  Choose here
+                </option>
                 {newIngredientTypeList.map((l) => (
                   <option key={l} value={l}>
                     {l}
@@ -281,9 +297,9 @@ const AddRecipeForm = () => {
                 setNewIngredientsList([
                   ...newIngredientsList,
                   {
-                    newIngredient,
-                    newIngredientType,
-                    newAmount,
+                    ingredient: newIngredient,
+                    unit: newIngredientType,
+                    amount: newAmount,
                   },
                 ]);
                 console.log(newIngredientsList);
