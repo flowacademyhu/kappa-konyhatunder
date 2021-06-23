@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
-public class EmptyRecipe {
+public class RecipeDTO {
     private String name;
     @Enumerated(EnumType.STRING)
     private String level;

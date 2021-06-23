@@ -1,7 +1,7 @@
 package hu.flowacademy.konyhatunder.service;
 
 
-import hu.flowacademy.konyhatunder.dto.EmptyRecipe;
+import hu.flowacademy.konyhatunder.dto.RecipeDTO;
 import hu.flowacademy.konyhatunder.enums.Type;
 import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
@@ -41,20 +41,20 @@ public class RecipeService {
                 new MissingIDException("Nincs ilyen ID-val rendelkező recept!"));
     }
 
-    public Recipe createRecipe(EmptyRecipe emptyRecipe) {
-        validate(emptyRecipe);
-        List<Category> categoryList = emptyRecipe.getCategoryList().stream().map(categoryRepository::findByName).collect(Collectors.toList());
+    public Recipe createRecipe(RecipeDTO recipeDTO) {
+        validate(recipeDTO);
+        List<Category> categoryList = recipeDTO.getCategoryList().stream().map(categoryRepository::findByName).collect(Collectors.toList());
         Recipe savedRecipe = recipeRepository.save(Recipe.builder()
-                .name(emptyRecipe.getName())
-                .description(emptyRecipe.getDescription())
-                .level(translateLevel(emptyRecipe.getLevel()))
-                .preparationTime(emptyRecipe.getPreparationTime())
+                .name(recipeDTO.getName())
+                .description(recipeDTO.getDescription())
+                .level(translateLevel(recipeDTO.getLevel()))
+                .preparationTime(recipeDTO.getPreparationTime())
                 .categoryList(categoryList)
                 .build());
 
         List<AmountOfIngredient> amountOfIngredientList = new ArrayList<>();
 
-        emptyRecipe.getAmountOfIngredientList().forEach(element -> {
+        recipeDTO.getAmountOfIngredientList().forEach(element -> {
             AmountOfIngredient amountOfIng = AmountOfIngredient.builder()
                     .unit(translateUnit(element.getIngredient().getType(), element.getUnit()))
                     .amount(element.getAmount())
@@ -93,20 +93,20 @@ public class RecipeService {
     }
 
     @SneakyThrows
-    private void validate(EmptyRecipe emptyRecipe) {
-        if (!StringUtils.hasText(emptyRecipe.getName()))
+    private void validate(RecipeDTO recipeDTO) {
+        if (!StringUtils.hasText(recipeDTO.getName()))
             throw new ValidationException("A recept nevét kötelező megadni!");
 
-        if (!StringUtils.hasText(emptyRecipe.getDescription()))
+        if (!StringUtils.hasText(recipeDTO.getDescription()))
             throw new ValidationException("A leírás mező nem lehet üres!");
 
-        if (emptyRecipe.getPreparationTime() <= 0)
+        if (recipeDTO.getPreparationTime() <= 0)
             throw new ValidationException("Az elkészítési idő nem lehet 0 vagy annál kisebb!");
 
-        if (emptyRecipe.getLevel() == null)
+        if (recipeDTO.getLevel() == null)
             throw new ValidationException("Nehézségi szint megadása kötelező!");
 
-        if (CollectionUtils.isEmpty(emptyRecipe.getAmountOfIngredientList())) {
+        if (CollectionUtils.isEmpty(recipeDTO.getAmountOfIngredientList())) {
             throw new ValidationException("Hozzávalók megadása kötelező!");
         }
     }

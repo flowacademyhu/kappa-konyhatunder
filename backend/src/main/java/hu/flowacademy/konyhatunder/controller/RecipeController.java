@@ -1,6 +1,6 @@
 package hu.flowacademy.konyhatunder.controller;
 
-import hu.flowacademy.konyhatunder.dto.EmptyRecipe;
+import hu.flowacademy.konyhatunder.dto.RecipeDTO;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.service.RecipeService;
 import lombok.AllArgsConstructor;
@@ -28,8 +28,8 @@ public class RecipeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Recipe createRecipe(@RequestBody EmptyRecipe emptyRecipe) {
-        return recipeService.createRecipe(emptyRecipe);
+    public Recipe createRecipe(@RequestBody RecipeDTO recipeDTO) {
+        return recipeService.createRecipe(recipeDTO);
     }
 
     @GetMapping("/levels")
