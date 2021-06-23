@@ -1,5 +1,6 @@
 package hu.flowacademy.konyhatunder.service;
 
+import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.repository.IngredientRepository;
@@ -23,6 +24,6 @@ public class IngredientService {
 
     public Ingredient getIngredient(String id) {
         return ingredientRepository.findById(id).orElseThrow(() ->
-                new ValidationException("Nincs ilyen ID-val rendelkező hozzávaló!"));
+                new MissingIDException("Nincs ilyen ID-val rendelkező hozzávaló!"));
     }
 }
