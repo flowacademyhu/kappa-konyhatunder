@@ -26,7 +26,8 @@
     "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
     "code-style": "prettier --check .",
-    "code-style-fix": "prettier --write ."
+    "code-style-fix": "prettier --write .",
+    "prepare": "cd .. && husky install frontend/.husky"
   },
   "eslintConfig": {
     "extends": [
@@ -47,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "husky": "^6.0.0",
     "prettier": "^2.3.1"
   },
   "proxy": "http://localhost:8081"
