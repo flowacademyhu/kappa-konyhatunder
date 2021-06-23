@@ -17,11 +17,11 @@ public class IngredientService {
 
     private final IngredientRepository ingredientRepository;
 
-    public List<Ingredient> findAll() {
+    public List<Ingredient> listIngredients() {
         return ingredientRepository.findAll();
     }
 
-    public Ingredient findById(String id) {
+    public Ingredient getIngredient(String id) {
         return ingredientRepository.findById(id).orElseThrow(() ->
                 new ValidationException("Nincs ilyen ID-val rendelkező hozzávaló!"));
     }
