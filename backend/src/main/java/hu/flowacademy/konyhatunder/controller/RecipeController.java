@@ -28,8 +28,8 @@ public class RecipeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createRecipe(@RequestBody EmptyRecipe emptyRecipe) {
-        recipeService.createRecipe(emptyRecipe);
+    public Recipe createRecipe(@RequestBody EmptyRecipe emptyRecipe) {
+        return recipeService.createRecipe(emptyRecipe);
     }
 
     @GetMapping("/levels")

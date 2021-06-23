@@ -27,9 +27,9 @@ public class CategoryService {
                 new MissingIDException("Nincs ilyen ID-val rendelkező kategória"));
     }
 
-    public void createCategory(Category category) {
+    public Category createCategory(Category category) {
         validate(category);
-        categoryRepository.save(new Category(convertName(category.getName())));
+       return categoryRepository.save(new Category(convertName(category.getName())));
     }
 
     private String convertName(String name) {

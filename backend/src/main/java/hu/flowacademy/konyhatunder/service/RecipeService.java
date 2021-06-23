@@ -41,7 +41,7 @@ public class RecipeService {
                 new MissingIDException("Nincs ilyen ID-val rendelkező recept!"));
     }
 
-    public void createRecipe(EmptyRecipe emptyRecipe) {
+    public Recipe createRecipe(EmptyRecipe emptyRecipe) {
         validate(emptyRecipe);
         List<Category> categoryList = emptyRecipe.getCategoryList().stream().map(categoryRepository::findByName).collect(Collectors.toList());
         Recipe savedRecipe = recipeRepository.save(Recipe.builder()
@@ -67,7 +67,7 @@ public class RecipeService {
 
         });
         savedRecipe.setAmountOfIngredientList(amountOfIngredientList);
-        recipeRepository.save(savedRecipe);
+        return recipeRepository.save(savedRecipe);
     }
 
     //TODO
