@@ -32,16 +32,16 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final CategoryRepository categoryRepository;
 
-    public List<Recipe> findAll() {
+    public List<Recipe> listRecipes() {
         return recipeRepository.findAll();
     }
 
-    public Recipe findById(String id) {
+    public Recipe getRecipe(String id) {
         return recipeRepository.findById(id).orElseThrow(() ->
                 new ValidationException("Nincs ilyen ID-val rendelkező recept!"));
     }
 
-    public void save(EmptyRecipe emptyRecipe) {
+    public void createRecipe(EmptyRecipe emptyRecipe) {
         validate(emptyRecipe);
         List<Category> categoryList = emptyRecipe.getCategoryList().stream().map(categoryRepository::findByName).collect(Collectors.toList());
         recipeRepository.save(Recipe.builder()
@@ -53,7 +53,7 @@ public class RecipeService {
                 .build());
     }
 
-    public List<String> getAllRecipeLevels() {
+    public List<String> listRecipeLevels() {
         Level[] levels = Level.values();
         return Arrays.stream(levels).map(Enum::name).collect(Collectors.toList());
     }
