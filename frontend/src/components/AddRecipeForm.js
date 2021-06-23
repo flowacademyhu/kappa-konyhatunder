@@ -239,9 +239,12 @@ const AddRecipeForm = () => {
               <select
                 className="form-control"
                 name="ingredient"
-                defaultValue="nothin"
+                defaultValue={'DEFAULT'}
                 onChange={(e) => getIngredienTypeFunction(e.target.value)}
               >
+                <option value="DEFAULT" disabled>
+                  Hozzávaló ...
+                </option>
                 {ingredientsList.map((l) => (
                   <option key={l.id} value={JSON.stringify(l)}>
                     {l.name}
@@ -251,12 +254,16 @@ const AddRecipeForm = () => {
             </div>
 
             <div className="col-2">
-              <p>mértékegység</p>
+              <p>Mértékegység</p>
               <select
                 className="form-control"
                 name="ingredientType"
+                defaultValue={'DEFAULT'}
                 onChange={(e) => setNewIngredientType(e.target.value)}
               >
+                <option value="DEFAULT" disabled>
+                  Mértékegység ...
+                </option>
                 {newIngredientTypeList.map((l) => (
                   <option key={l} value={l}>
                     {l}

@@ -13,7 +13,6 @@ function IngredientsInRecipeList({ newIngredientsList }) {
                 <div className="col">
                   Mennyiség : {ing.amount} {ing.unit}{' '}
                 </div>
-                {console.log('Elvileg itt a lista', newIngredientsList)}
               </div>
             </li>
           ))}{' '}
