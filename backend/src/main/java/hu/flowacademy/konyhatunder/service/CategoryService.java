@@ -1,5 +1,6 @@
 package hu.flowacademy.konyhatunder.service;
 
+import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.Category;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
@@ -24,7 +25,7 @@ public class CategoryService {
 
     public Category getCategory(String id) {
         return categoryRepository.findById(id).orElseThrow(() ->
-                new ValidationException("Nincs ilyen ID-val rendelkező kategória"));
+                new MissingIDException("Nincs ilyen ID-val rendelkező kategória"));
     }
 
     public void createCategory(Category category) {
