@@ -30,7 +30,7 @@ const AddRecipeForm = () => {
       await axios.post(`/api/categories`, data);
       setStatus('Sikeres hozzáadás!');
     } catch (error) {
-      setStatus(error.response.data[0]);
+      setStatus('Sikertelen hozzáadás');
     }
     setNewCategory('');
   }
@@ -55,6 +55,7 @@ const AddRecipeForm = () => {
       console.error(error);
       setStatus('Sikertelen hozzáadás');
     }
+    setStatus('Sikeres hozzáadás');
   }
 
   const formik = useFormik({
@@ -284,6 +285,8 @@ const AddRecipeForm = () => {
             </div>
             <button
               className="btn btn-success"
+              data-toggle="modal"
+              data-target="#ringredientStatusModal"
               onClick={() => {
                 setNewIngredientsList([
                   ...newIngredientsList,
@@ -312,6 +315,7 @@ const AddRecipeForm = () => {
         </button>
 
         <Modal status={status} id="recipeStatusModal" />
+        <Modal status={status} id="ingredientStatusModal" />
       </div>
     </form>
   );
