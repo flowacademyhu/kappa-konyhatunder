@@ -2,6 +2,7 @@ package hu.flowacademy.konyhatunder.service;
 
 
 import hu.flowacademy.konyhatunder.dto.EmptyRecipe;
+import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.AmountOfIngredientForARecipe;
 import hu.flowacademy.konyhatunder.model.Category;
@@ -31,15 +32,16 @@ public class RecipeService {
     private final CategoryRepository categoryRepository;
     private final AmountOfIngredientForARecipeRepository amountOfIngredientForARecipeRepository;
 
-    public List<Recipe> findAll() {
+    public List<Recipe> listRecipes() {
         return recipeRepository.findAll();
     }
 
-    public Optional<Recipe> findById(String id) {
-        return recipeRepository.findById(id);
+    public Recipe getRecipe(String id) {
+        return recipeRepository.findById(id).orElseThrow(() ->
+                new MissingIDException("Nincs ilyen ID-val rendelkező recept!"));
     }
 
-    public void save(EmptyRecipe emptyRecipe) {
+    public void createRecipe(EmptyRecipe emptyRecipe) {
         validate(emptyRecipe);
         String newRecipeID = UUID.randomUUID().toString();
         List<Category> categoryList = emptyRecipe.getCategoryList().stream().map(categoryRepository::findByName).collect(Collectors.toList());
@@ -90,28 +92,27 @@ public class RecipeService {
 
     }
 
+    public List<String> listRecipeLevels() {
+        return Arrays.stream(Level.values()).map(Enum::name).collect(Collectors.toList());
+    }
+
     @SneakyThrows
     public void validate(EmptyRecipe emptyRecipe) {
         if (!StringUtils.hasText(emptyRecipe.getName()))
-            throw new ValidationException("A recept nevét kötelező megadni");
+            throw new ValidationException("A recept nevét kötelező megadni!");
 
         if (!StringUtils.hasText(emptyRecipe.getDescription()))
-            throw new ValidationException("Ez elkészités mező nem lehet üres");
+            throw new ValidationException("A leírás mező nem lehet üres!");
 
         if (emptyRecipe.getPreparationTime() <= 0)
-            throw new ValidationException("Elkészitése idő nem lehet 0 perc");
+            throw new ValidationException("Az elkészítési idő nem lehet 0 vagy annál kisebb!");
 
         if (emptyRecipe.getLevel() == null)
-            throw new ValidationException("Nem jó level");
-
+            throw new ValidationException("Nehézségi szint megadása kötelező!");
+      
         if (emptyRecipe.getAmountOfIngredientForARecipeList() == null ||
                 emptyRecipe.getAmountOfIngredientForARecipeList().size() == 0) {
             throw new ValidationException("Hozzávalók megadása kötelező!");
         }
-    }
-
-    public List<String> getAllRecipeLevels() {
-        Level[] levels = Level.values();
-        return Arrays.stream(levels).map(Level::getHungarianTranslate).collect(Collectors.toList());
     }
 }

@@ -1,17 +1,17 @@
 package hu.flowacademy.konyhatunder.service;
 
+
 import hu.flowacademy.konyhatunder.dto.IngredientDTO;
 import hu.flowacademy.konyhatunder.enums.*;
+import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.repository.IngredientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,7 +21,7 @@ public class IngredientService {
 
     private final IngredientRepository ingredientRepository;
 
-    public List<Ingredient> findAll() {
+    public List<Ingredient> listIngredients() {
         return ingredientRepository.findAll();
     }
 
@@ -54,9 +54,8 @@ public class IngredientService {
                 .build();
     }
 
-    private void validate(Ingredient ingredient) {
-        if(ingredient==null){
-            throw new ValidationException("Nincs ilyen ID-val rendelkező hozzávaló!");
-        }
+    public Ingredient getIngredient(String id) {
+        return ingredientRepository.findById(id).orElseThrow(() ->
+                new MissingIDException("Nincs ilyen ID-val rendelkező hozzávaló!"));
     }
 }

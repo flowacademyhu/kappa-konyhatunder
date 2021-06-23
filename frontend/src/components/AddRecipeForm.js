@@ -1,13 +1,12 @@
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-
-const showAlert = () => {
-  alert('Sikeres küldés!');
-};
+import { validationSchema } from './ValidationSchema';
+import Modal from './Modal';
 
 const AddRecipeForm = () => {
-  const [status, setStatus] = useState('');
+
+  const [status, setStatus] = useState('Sikertelen hozzáadás');
   const [levels, setLevels] = useState([]);
   const [newAmount, setNewAmount] = useState('');
   const [newCategory, setNewCategory] = useState('');
@@ -17,6 +16,7 @@ const AddRecipeForm = () => {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [newIngredientsList, setNewIngredientsList] = useState([]);
   const [newIngredientTypeList, setNewIngredientTypeList] = useState([]);
+
 
   async function addCategory(value) {
     if (value === '') {
@@ -31,7 +31,6 @@ const AddRecipeForm = () => {
       await axios.post(`/api/categories`, data);
       setStatus('Sikeres hozzáadás!');
     } catch (error) {
-      console.log(error.response);
       setStatus(error.response.data[0]);
     }
     setNewCategory('');
@@ -56,14 +55,14 @@ const AddRecipeForm = () => {
       ...data,
       amountOfIngredientForARecipeList: newIngredientsList,
     };
-    console.log('KETTES DATA', data2);
-    console.log('NEWINGREDIENT LISTA ÉRTÉKE', newIngredientsList);
     try {
+
       await axios.post(`/api/recipes`, data2);
       console.log(newIngredientsList);
       showAlert();
+
     } catch (error) {
-      console.error(error);
+      setStatus('Sikertelen hozzáadás');
     }
   }
 
@@ -76,6 +75,7 @@ const AddRecipeForm = () => {
       amountOfIngredientForARecipeList: [],
       categoryList: [],
     },
+    validationSchema,
 
     onSubmit: (values) => {
       addRecipe(values);
@@ -87,9 +87,7 @@ const AddRecipeForm = () => {
     async function levelFunction() {
       try {
         const response = await axios.get(`/api/recipes/levels`);
-
         setLevels(response.data);
-
         return response.data;
       } catch (error) {
         console.error();
@@ -146,6 +144,8 @@ const AddRecipeForm = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="container">
+        <span className="text-danger">★</span>
+
         <label className="mt-2" htmlFor="name">
           Recept neve
         </label>
@@ -156,9 +156,9 @@ const AddRecipeForm = () => {
           {...formik.getFieldProps('name')}
         />
         {formik.touched.name && formik.errors.name ? (
-          <div>{formik.errors.name}</div>
+          <div className="text-danger">{formik.errors.name}</div>
         ) : null}
-
+        <span className="text-danger">★</span>
         <label className="mt-2" htmlFor="long">
           Elkészítés
         </label>
@@ -169,9 +169,9 @@ const AddRecipeForm = () => {
           {...formik.getFieldProps('description')}
         />
         {formik.touched.description && formik.errors.description ? (
-          <div>{formik.errors.description}</div>
+          <div className="text-danger">{formik.errors.description}</div>
         ) : null}
-
+        <span className="text-danger">★</span>
         <label className="mt-2" htmlFor="preparationTime">
           Elkészítési idő (percben)
         </label>
@@ -183,7 +183,7 @@ const AddRecipeForm = () => {
           {...formik.getFieldProps('preparationTime')}
         />
         {formik.touched.preparationTime && formik.errors.preparationTime ? (
-          <div>{formik.errors.preparationTime}</div>
+          <div className="text-danger">{formik.errors.preparationTime}</div>
         ) : null}
         <div className="form-group">
           <label className="mt-2" htmlFor="level">
@@ -234,7 +234,7 @@ const AddRecipeForm = () => {
                 className="btn btn-success"
                 onClick={() => addCategory(newCategory)}
                 data-toggle="modal"
-                data-target="#myModal"
+                data-target="#recipeStatusModal"
                 type="button"
               >
                 +
@@ -310,33 +310,17 @@ const AddRecipeForm = () => {
             </button>
           </div>
         </div>
-        <button className="btn btn-success" type="submit">
+
+        <button
+          className="btn btn-success"
+          type="submit"
+          data-toggle="modal"
+          data-target="#recipeStatusModal"
+        >
           Hozzáadás
         </button>
-        <div className="modal fade" id="myModal">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h4 className="modal-title">Konyhatündér üzenet</h4>
-                <button type="button" className="close" data-dismiss="modal">
-                  &times;
-                </button>
-              </div>
 
-              <div className="modal-body">{status}</div>
-
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  data-dismiss="modal"
-                >
-                  Bezárás
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Modal status={status} id="recipeStatusModal" />
       </div>
     </form>
   );
