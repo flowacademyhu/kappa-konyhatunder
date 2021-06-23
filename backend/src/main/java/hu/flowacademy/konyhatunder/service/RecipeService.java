@@ -48,7 +48,7 @@ public class RecipeService {
                 .id(newRecipeID)
                 .name(emptyRecipe.getName())
                 .description(emptyRecipe.getDescription())
-                .level(emptyRecipe.getLevel())
+                .level(validateLevel(emptyRecipe.getLevel()))
                 .preparationTime(emptyRecipe.getPreparationTime())
                 .categoryList(categoryList)
                 .build());
@@ -73,6 +73,22 @@ public class RecipeService {
         });
         savedRecipe.setAmountOfIngredientForARecipeList(amountOfIngredientForARecipeList);
         recipeRepository.save(savedRecipe);
+    }
+
+    private Level validateLevel(String level) {
+        if(Level.EASY.getHungarianTranslate().equals(level)){
+            return Level.EASY;
+        }
+        if(Level.MEDIUM.getHungarianTranslate().equals(level)){
+            return Level.MEDIUM;
+        }
+        if(Level.HARD.getHungarianTranslate().equals(level)){
+            return Level.HARD;
+        }
+        else{
+            throw new ValidationException("Nem megfelelő nehézségi szint!");
+        }
+
     }
 
     @SneakyThrows

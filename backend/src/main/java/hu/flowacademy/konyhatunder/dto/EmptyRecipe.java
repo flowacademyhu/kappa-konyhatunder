@@ -11,7 +11,7 @@ import java.util.List;
 public class EmptyRecipe {
     private String name;
     @Enumerated(EnumType.STRING)
-    private Level level;
+    private String level;
     private String description;
     private double preparationTime;
     private List<String> categoryList;
