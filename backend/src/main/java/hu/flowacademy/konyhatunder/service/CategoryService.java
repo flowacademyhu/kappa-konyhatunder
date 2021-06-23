@@ -11,7 +11,6 @@ import org.springframework.util.StringUtils;
 import javax.transaction.Transactional;
 import java.util.List;
 
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -28,15 +27,15 @@ public class CategoryService {
                 new MissingIDException("Nincs ilyen ID-val rendelkező kategória"));
     }
 
-    public void createCategory(Category category) {
+    public Category createCategory(Category category) {
         validate(category);
-        categoryRepository.save(new Category(convertName(category.getName())));
+       return categoryRepository.save(new Category(convertName(category.getName())));
     }
 
-    private String convertName(String name){
+    private String convertName(String name) {
         String firstLetter = name.substring(0, 1).toUpperCase();
         String remainingLetters = name.substring(1).toLowerCase();
-        return firstLetter+remainingLetters;
+        return firstLetter + remainingLetters;
     }
 
     private void validate(Category category) {

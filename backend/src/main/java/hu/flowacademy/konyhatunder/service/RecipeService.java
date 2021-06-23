@@ -41,7 +41,7 @@ public class RecipeService {
                 new MissingIDException("Nincs ilyen ID-val rendelkező recept!"));
     }
 
-    public void createRecipe(EmptyRecipe emptyRecipe) {
+    public Recipe createRecipe(EmptyRecipe emptyRecipe) {
         validate(emptyRecipe);
         List<Category> categoryList = emptyRecipe.getCategoryList().stream().map(categoryRepository::findByName).collect(Collectors.toList());
         Recipe savedRecipe = recipeRepository.save(Recipe.builder()
@@ -56,7 +56,7 @@ public class RecipeService {
 
         emptyRecipe.getAmountOfIngredientList().forEach(element -> {
             AmountOfIngredient amountOfIng = AmountOfIngredient.builder()
-                    .unit(translateUnit(element.getIngredient().getType(),element.getUnit()))
+                    .unit(translateUnit(element.getIngredient().getType(), element.getUnit()))
                     .amount(element.getAmount())
                     .recipe(savedRecipe)
                     .ingredient(element.getIngredient())
@@ -67,9 +67,10 @@ public class RecipeService {
 
         });
         savedRecipe.setAmountOfIngredientList(amountOfIngredientList);
-        recipeRepository.save(savedRecipe);
+        return recipeRepository.save(savedRecipe);
     }
-//TODO
+
+    //TODO
     private String translateUnit(Type type, String unit) {
         return null;
     }
@@ -79,16 +80,13 @@ public class RecipeService {
     }
 
     private Level translateLevel(String level) {
-        if(Level.EASY.getHungarianTranslation().equals(level)){
+        if (Level.EASY.getHungarianTranslation().equals(level)) {
             return Level.EASY;
-        }
-        else if(Level.MEDIUM.getHungarianTranslation().equals(level)){
+        } else if (Level.MEDIUM.getHungarianTranslation().equals(level)) {
             return Level.MEDIUM;
-        }
-        else if(Level.HARD.getHungarianTranslation().equals(level)){
+        } else if (Level.HARD.getHungarianTranslation().equals(level)) {
             return Level.HARD;
-        }
-        else{
+        } else {
             throw new ValidationException("Nem megfelelő nehézségi szint!");
         }
 
@@ -107,7 +105,7 @@ public class RecipeService {
 
         if (emptyRecipe.getLevel() == null)
             throw new ValidationException("Nehézségi szint megadása kötelező!");
-      
+
         if (CollectionUtils.isEmpty(emptyRecipe.getAmountOfIngredientList())) {
             throw new ValidationException("Hozzávalók megadása kötelező!");
         }
