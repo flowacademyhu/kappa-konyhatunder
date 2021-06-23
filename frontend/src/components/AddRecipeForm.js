@@ -52,7 +52,7 @@ const AddRecipeForm = () => {
     try {
       await axios.post(`/api/recipes`, data2);
     } catch (error) {
-      console.log(error.response);
+      console.error();
       setStatus('Sikertelen hozzáadás');
     }
   }
