@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class AmountOfIngredientForARecipe {
+public class AmountOfIngredient {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")

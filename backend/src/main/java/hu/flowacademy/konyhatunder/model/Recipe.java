@@ -24,7 +24,7 @@ public class Recipe {
     @Enumerated(EnumType.STRING)
     private Level level;
     @OneToMany(mappedBy = "recipe")
-    private List<AmountOfIngredientForARecipe> amountOfIngredientForARecipeList;
+    private List<AmountOfIngredient> amountOfIngredientList;
     @ManyToMany
     @JoinTable(
             name = "recipe_category",

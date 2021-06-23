@@ -4,7 +4,7 @@ package hu.flowacademy.konyhatunder.service;
 import hu.flowacademy.konyhatunder.dto.EmptyRecipe;
 import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
-import hu.flowacademy.konyhatunder.model.AmountOfIngredientForARecipe;
+import hu.flowacademy.konyhatunder.model.AmountOfIngredient;
 import hu.flowacademy.konyhatunder.model.Category;
 import hu.flowacademy.konyhatunder.enums.Level;
 import hu.flowacademy.konyhatunder.model.Recipe;
@@ -50,10 +50,10 @@ public class RecipeService {
                 .categoryList(categoryList)
                 .build());
 
-        List<AmountOfIngredientForARecipe> amountOfIngredientForARecipeList = new ArrayList<>();
+        List<AmountOfIngredient> amountOfIngredientList = new ArrayList<>();
 
-        emptyRecipe.getAmountOfIngredientForARecipeList().forEach(element -> {
-            AmountOfIngredientForARecipe amountOfIng = AmountOfIngredientForARecipe.builder()
+        emptyRecipe.getAmountOfIngredientList().forEach(element -> {
+            AmountOfIngredient amountOfIng = AmountOfIngredient.builder()
                     .unit(element.getUnit())
                     .amount(element.getAmount())
                     .recipe(savedRecipe)
@@ -61,10 +61,10 @@ public class RecipeService {
                     .build();
             amountOfIngredientForARecipeRepository.save(amountOfIng);
 
-            amountOfIngredientForARecipeList.add(amountOfIng);
+            amountOfIngredientList.add(amountOfIng);
 
         });
-        savedRecipe.setAmountOfIngredientForARecipeList(amountOfIngredientForARecipeList);
+        savedRecipe.setAmountOfIngredientList(amountOfIngredientList);
         recipeRepository.save(savedRecipe);
     }
 
@@ -102,8 +102,8 @@ public class RecipeService {
         if (emptyRecipe.getLevel() == null)
             throw new ValidationException("Nehézségi szint megadása kötelező!");
       
-        if (emptyRecipe.getAmountOfIngredientForARecipeList() == null ||
-                emptyRecipe.getAmountOfIngredientForARecipeList().size() == 0) {
+        if (emptyRecipe.getAmountOfIngredientList() == null ||
+                emptyRecipe.getAmountOfIngredientList().size() == 0) {
             throw new ValidationException("Hozzávalók megadása kötelező!");
         }
     }

@@ -38,7 +38,7 @@ public class InitDataLoader implements CommandLineRunner {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args){
         saveNewCategory();
         saveNewIngredient();
         saveNewRecipes();
@@ -93,37 +93,37 @@ public class InitDataLoader implements CommandLineRunner {
         recipeRepository.saveAll(newRecipes(categoryList));
     }
 
-    private List<AmountOfIngredientForARecipe> newAmountOfIngredientForARecipe() {
+    private List<AmountOfIngredient> newAmountOfIngredientForARecipe() {
         List<Ingredient> ingredientList = ingredientRepository.findAll();
         List<Recipe> recipeList = recipeRepository.findAll();
         System.out.println(ingredientList.get(0) + " "+ingredientList.get(1));
         return List.of(
-                AmountOfIngredientForARecipe.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Liszt")).findFirst().get())
+                AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Liszt")).findFirst().get())
                         .amount(1)
                         .unit(TypeKilogramm.KG.getHungarianTranslation())
                         .recipe(recipeList.get(0))
                         .build(),
-                AmountOfIngredientForARecipe.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Cukor")).findFirst().get())
+                AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Cukor")).findFirst().get())
                         .amount(0.5)
                         .unit(TypeCup.CUP.getHungarianTranslation())
                         .recipe(recipeList.get(0))
                         .build(),
-                AmountOfIngredientForARecipe.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Tej")).findFirst().get())
+                AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Tej")).findFirst().get())
                         .amount(0.5)
                         .unit(TypeLiter.L.getHungarianTranslation())
                         .recipe(recipeList.get(0))
                         .build(),
-                AmountOfIngredientForARecipe.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Só")).findFirst().get())
+                AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Só")).findFirst().get())
                         .amount(2)
                         .unit(TypeOther.PINCH.getHungarianTranslation())
                         .recipe(recipeList.get(0))
                         .build(),
-                AmountOfIngredientForARecipe.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Sütopor")).findFirst().get())
+                AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Sütopor")).findFirst().get())
                         .amount(1)
                         .unit(TypeSpoon.TEA_SPOON.getHungarianTranslation())
                         .recipe(recipeList.get(0))
                         .build(),
-                AmountOfIngredientForARecipe.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Tojás")).findFirst().get())
+                AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e->e.getName().equals("Tojás")).findFirst().get())
                         .amount(3)
                         .unit(TypePiece.PIECE.getHungarianTranslation())
                         .recipe(recipeList.get(0))

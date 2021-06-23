@@ -1,7 +1,6 @@
 package hu.flowacademy.konyhatunder.dto;
 
-import hu.flowacademy.konyhatunder.enums.Level;
-import hu.flowacademy.konyhatunder.model.AmountOfIngredientForARecipe;
+import hu.flowacademy.konyhatunder.model.AmountOfIngredient;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,5 +14,5 @@ public class EmptyRecipe {
     private String description;
     private double preparationTime;
     private List<String> categoryList;
-    private List<AmountOfIngredientForARecipe> amountOfIngredientForARecipeList;
+    private List<AmountOfIngredient> amountOfIngredientList;
 }
