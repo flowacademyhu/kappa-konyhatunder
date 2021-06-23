@@ -41,20 +41,14 @@ public class RecipeService {
 
     public void createRecipe(EmptyRecipe emptyRecipe) {
         validate(emptyRecipe);
-        String newRecipeID = UUID.randomUUID().toString();
         List<Category> categoryList = emptyRecipe.getCategoryList().stream().map(categoryRepository::findByName).collect(Collectors.toList());
-        recipeRepository.save(Recipe.builder()
-                .id(newRecipeID)
+        Recipe savedRecipe = recipeRepository.save(Recipe.builder()
                 .name(emptyRecipe.getName())
                 .description(emptyRecipe.getDescription())
                 .level(validateLevel(emptyRecipe.getLevel()))
                 .preparationTime(emptyRecipe.getPreparationTime())
                 .categoryList(categoryList)
                 .build());
-
-        Recipe savedRecipe = recipeRepository.findById(newRecipeID).orElse(null);
-        if (savedRecipe == null)
-            throw new ValidationException("A mentés nem sikerült");
 
         List<AmountOfIngredientForARecipe> amountOfIngredientForARecipeList = new ArrayList<>();
 
