@@ -40,13 +40,13 @@ const AddRecipeForm = () => {
       name: values.name,
       description: values.description,
       preparationTime: values.preparationTime,
-      level: values.level,
-      categoryList: values.categoryList,
-      amountOfIngredientList: values.amountOfIngredientList,
+      difficulty: values.level,
+      categories: values.categoryList,
+      ingredients: values.ingredients,
     };
     const data2 = {
       ...data,
-      amountOfIngredientList: newIngredientsList,
+      ingredients: newIngredientsList,
     };
 
     try {
@@ -64,7 +64,7 @@ const AddRecipeForm = () => {
       description: '',
       preparationTime: 0,
       level: 'EASY',
-      amountOfIngredientList: [],
+      ingredients: [],
       categoryList: [],
     },
     validationSchema,
@@ -110,9 +110,9 @@ const AddRecipeForm = () => {
 
       setNewIngredient(newIngredientObject);
 
-      setNewIngredientTypeList(response.data.typeList);
+      setNewIngredientTypeList(response.data.measurements);
 
-      return response.data.typeList;
+      //return response.data.measurements;
     } catch (error) {
       console.error(error);
     }
@@ -122,6 +122,7 @@ const AddRecipeForm = () => {
     async function ingredientFunction() {
       try {
         const response = await axios.get(`/api/ingredients`);
+
         setIngredientsList(response.data);
         return response.data;
       } catch (error) {
