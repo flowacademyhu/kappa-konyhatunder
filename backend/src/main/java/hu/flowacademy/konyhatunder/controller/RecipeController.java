@@ -1,5 +1,6 @@
 package hu.flowacademy.konyhatunder.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import hu.flowacademy.konyhatunder.dto.RecipeDTO;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.service.RecipeService;
@@ -29,7 +30,7 @@ public class RecipeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Recipe createRecipe(@RequestPart String recipeDTO, @RequestPart("image") MultipartFile image) {
+    public Recipe createRecipe(@RequestPart String recipeDTO, @RequestPart("image") MultipartFile image) throws JsonProcessingException {
         return recipeService.createRecipe(recipeDTO, image);
     }
 
