@@ -32,10 +32,10 @@ public class FileController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/image/{fileName}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
-        logger.info(fileName);
-        Image image = imageStorageService.getFile(fileName);
+    @GetMapping("/image/{id}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String id) {
+        logger.info(id);
+        Image image = imageStorageService.getFile(id);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(image.getFileType()))

@@ -35,8 +35,8 @@ public class ImageStorageService {
         }
     }
 
-    public Image getFile(String fileName) {
-        return imageRepository.findByFileName(fileName)
-                .orElseThrow(() -> new MyFileNotFoundException("Nincs ilyen nevű kép " + fileName));
+    public Image getFile(String id) {
+        return imageRepository.findById(id)
+                .orElseThrow(() -> new MyFileNotFoundException("Nincs ilyen nevű kép " + id));
     }
 }
