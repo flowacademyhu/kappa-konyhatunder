@@ -54,4 +54,8 @@ public class IngredientService {
                 .measurements(typeList)
                 .build();
     }
+
+    public List<String> listMeasurements() {
+        return Arrays.stream(Measurement.values()).map(Measurement::getHungarianTranslation).collect(Collectors.toList());
+    }
 }

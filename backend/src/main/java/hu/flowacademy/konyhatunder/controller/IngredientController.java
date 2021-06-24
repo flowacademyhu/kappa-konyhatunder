@@ -24,4 +24,10 @@ public class IngredientController {
     public IngredientDTO getIngredient(@PathVariable String id) {
         return ingredientService.getIngredient(id);
     }
+
+    @GetMapping("/measurements")
+    public List<String> listMeasurements(){
+        return ingredientService.listMeasurements();
+    }
+
 }
