@@ -327,6 +327,7 @@ const AddRecipeForm = () => {
           </div>
         </div>
         <div>
+          <p>Kép hozzáadása</p>
           <div className="ImageUploader">
             <input type="file" onChange={fileSelectedHandler} />
           </div>
@@ -334,7 +335,7 @@ const AddRecipeForm = () => {
 
         <IngredientsInRecipeList ingredientsList={newIngredientsList} />
         <button
-          className="btn btn-success"
+          className="btn btn-success mt-4"
           type="submit"
           data-toggle="modal"
           data-target={
