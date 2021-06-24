@@ -29,5 +29,8 @@ public class IngredientController {
     public List<String> listMeasurements(){
         return ingredientService.listMeasurements();
     }
-
+    @GetMapping("/measurements/{unit}")
+    public List<String> listMeasurementUnit(@PathVariable String unit){
+        return ingredientService.listMeasurementsUnit(unit);
+    }
 }
