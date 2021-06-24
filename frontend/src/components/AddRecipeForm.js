@@ -184,9 +184,9 @@ const AddRecipeForm = () => {
             name="level"
             {...formik.getFieldProps('level')}
           >
-            {levels.map((l) => (
-              <option key={l} value={l}>
-                {l}
+            {levels.map((level) => (
+              <option key={level} value={level}>
+                {level}
               </option>
             ))}
           </select>
@@ -231,7 +231,7 @@ const AddRecipeForm = () => {
               </button>
             </div>
           </div>
-          <div className="d-flex align-items-center">
+          <div className="row align-items-center justify-content-between">
             <p className="col-2 mt-2 pl-0 d-flex align-items-center">
               Hozzávaló hozzáadása
             </p>
@@ -283,28 +283,31 @@ const AddRecipeForm = () => {
                 onChange={(e) => setNewAmount(e.target.value)}
               />
             </div>
-            <button
-              className="btn btn-success"
-              data-toggle="modal"
-              data-target="#ringredientStatusModal"
-              onClick={() => {
-                setNewIngredientsList([
-                  ...newIngredientsList,
-                  {
-                    ingredient: newIngredient,
-                    unit: newIngredientType,
-                    amount: newAmount,
-                  },
-                ]);
-              }}
-              type="button"
-            >
-              +
-            </button>
+            <div className="col">
+              <p>Gomb</p>
+              <button
+                className="btn btn-success"
+                data-toggle="modal"
+                data-target="#ringredientStatusModal"
+                onClick={() => {
+                  setNewIngredientsList([
+                    ...newIngredientsList,
+                    {
+                      ingredient: newIngredient,
+                      unit: newIngredientType,
+                      amount: newAmount,
+                    },
+                  ]);
+                }}
+                type="button"
+              >
+                +
+              </button>
+            </div>
           </div>
         </div>
 
-        <IngredientsInRecipeList newIngredientsList={newIngredientsList} />
+        <IngredientsInRecipeList ingredientsList={newIngredientsList} />
         <button
           className="btn btn-success"
           type="submit"

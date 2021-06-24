@@ -1,19 +1,21 @@
-function IngredientsInRecipeList({ newIngredientsList }) {
+function IngredientsInRecipeList({ ingredientsList }) {
   return (
     <>
-      {newIngredientsList ? (
+      {ingredientsList ? (
         <div className="container">
-          {newIngredientsList.map((ing) => (
-            <div key={ing.ingredient.id} className="row">
-              <div className="col">Hozzávaló : {ing.ingredient.name}</div>
+          {ingredientsList.map((ingredient) => (
+            <div key={ingredient.ingredient.id} className="row">
               <div className="col">
-                Mennyiség : {ing.amount} {ing.unit}
+                Hozzávaló : {ingredient.ingredient.name}
+              </div>
+              <div className="col">
+                Mennyiség : {ingredient.amount} {ingredient.unit}
               </div>
             </div>
           ))}{' '}
         </div>
       ) : (
-        <div>'Loading List...' </div>
+        <div>Loading List... </div>
       )}
     </>
   );
