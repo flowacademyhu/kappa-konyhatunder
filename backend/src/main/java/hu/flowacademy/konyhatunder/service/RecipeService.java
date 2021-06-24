@@ -2,12 +2,11 @@ package hu.flowacademy.konyhatunder.service;
 
 
 import hu.flowacademy.konyhatunder.dto.RecipeDTO;
-import hu.flowacademy.konyhatunder.enums.Measurement;
+import hu.flowacademy.konyhatunder.enums.*;
 import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.AmountOfIngredient;
 import hu.flowacademy.konyhatunder.model.Category;
-import hu.flowacademy.konyhatunder.enums.Difficulty;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
@@ -71,8 +70,21 @@ public class RecipeService {
     }
 
     //TODO
-    private String translateUnit(Measurement type, String unit) {
-        return null;
+    private String translateUnit(Measurement measurement, String unit) {
+        switch(measurement.getHungarianTranslation()){
+            case "Bögre" :
+               return Arrays.stream(MeasurementCup.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+            case "Kilogramm" :
+                return Arrays.stream(MeasurementKilogram.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+            case "Liter" :
+                return Arrays.stream(MeasurementLiter.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+            case "Darab" :
+                return Arrays.stream(MeasurementPiece.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+            case "Kanál" :
+                return Arrays.stream(MeasurementSpoon.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+            default:
+                return Arrays.stream(MeasurementOther.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+        }
     }
 
     public List<String> listRecipeLevels() {
