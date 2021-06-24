@@ -6,6 +6,7 @@ import hu.flowacademy.konyhatunder.service.RecipeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -28,8 +29,8 @@ public class RecipeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Recipe createRecipe(@RequestBody RecipeDTO recipeDTO) {
-        return recipeService.createRecipe(recipeDTO);
+    public Recipe createRecipe(@RequestPart String recipeDTO, @RequestPart("image") MultipartFile image) {
+        return recipeService.createRecipe(recipeDTO, image);
     }
 
     @GetMapping("/levels")
