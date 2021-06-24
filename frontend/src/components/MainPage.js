@@ -9,8 +9,8 @@ function MainPage() {
     <div className="panel panel-default">
       <div className="panel-body">
         <div className="container">
-          <Row className="justify-content-md-center">
-            <Col md="auto">
+          <Row>
+            <Col className="d-flex flex-column align-items-center">
               <NavLink href="add-recipe">
                 <button
                   type="button"
@@ -21,10 +21,10 @@ function MainPage() {
                     <IoIosAddCircle />
                   </div>
                 </button>
-                <div className="menu-describe">RECEPT HOZZÁADÁSA</div>
               </NavLink>
+              <div className="menu-describe">RECEPT HOZZÁADÁSA</div>
             </Col>
-            <Col md="auto">
+            <Col className="d-flex flex-column align-items-center">
               <NavLink href="search-by-criteria">
                 <button
                   type="button"
@@ -37,7 +37,7 @@ function MainPage() {
               </NavLink>
               <div className="menu-describe">KERESÉS KRITÉRIUM ALAPJÁN</div>
             </Col>
-            <Col md="auto">
+            <Col className="d-flex flex-column align-items-center">
               <NavLink href="search-by-ingredient">
                 <button
                   type="button"
