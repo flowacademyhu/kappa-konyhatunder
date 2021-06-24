@@ -1,5 +1,6 @@
 package hu.flowacademy.konyhatunder.service;
 
+import hu.flowacademy.konyhatunder.dto.CreateIngredientDTO;
 import hu.flowacademy.konyhatunder.dto.IngredientDTO;
 import hu.flowacademy.konyhatunder.enums.*;
 import hu.flowacademy.konyhatunder.exception.MissingIDException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,6 +76,34 @@ public class IngredientService {
                 return Arrays.stream(MeasurementPiece.values()).map(MeasurementPiece::getHungarianTranslation).collect(Collectors.toList());
             default:
                 return Arrays.stream(MeasurementOther.values()).map(MeasurementOther::getHungarianTranslation).collect(Collectors.toList());
+        }
+    }
+
+    public Ingredient createIngredient(CreateIngredientDTO createIngredientDTO) {
+        System.out.println(translateMeasurement(createIngredientDTO.getMeasurement()));
+        return ingredientRepository.save(Ingredient.builder()
+                .name(createIngredientDTO.getName())
+                .measurement(translateMeasurement(createIngredientDTO.getMeasurement()))
+                .build());
+
+    }
+
+    private Measurement translateMeasurement(String measurement) {
+        if (Measurement.CUP.getHungarianTranslation().equals(measurement)) {
+            return Measurement.CUP;
+        } else if (Measurement.KG.getHungarianTranslation().equals(measurement)) {
+            return Measurement.KG;
+        } else if (Measurement.LITER.getHungarianTranslation().equals(measurement)) {
+            return Measurement.LITER;
+        } else if (Measurement.SPOON.getHungarianTranslation().equals(measurement)) {
+            return Measurement.SPOON;
+        } else if (Measurement.PIECE.getHungarianTranslation().equals(measurement)) {
+            return Measurement.PIECE;
+        }else if (Measurement.OTHER.getHungarianTranslation().equals(measurement)) {
+            return Measurement.OTHER;
+        }
+        else{
+            throw new ValidationException("Nem megfelelő alapegység!");
         }
     }
 }

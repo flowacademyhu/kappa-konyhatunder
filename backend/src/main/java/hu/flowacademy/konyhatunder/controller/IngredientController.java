@@ -1,5 +1,6 @@
 package hu.flowacademy.konyhatunder.controller;
 
+import hu.flowacademy.konyhatunder.dto.CreateIngredientDTO;
 import hu.flowacademy.konyhatunder.dto.IngredientDTO;
 import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.service.IngredientService;
@@ -32,5 +33,9 @@ public class IngredientController {
     @GetMapping("/measurements/{unit}")
     public List<String> listMeasurementUnit(@PathVariable String unit){
         return ingredientService.listMeasurementsUnit(unit);
+    }
+    @PostMapping
+    public Ingredient createIngredient(@RequestBody CreateIngredientDTO ingredient){
+        return ingredientService.createIngredient(ingredient);
     }
 }
