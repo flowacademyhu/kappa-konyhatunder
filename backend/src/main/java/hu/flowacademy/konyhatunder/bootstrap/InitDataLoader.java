@@ -3,10 +3,7 @@ package hu.flowacademy.konyhatunder.bootstrap;
 import com.github.javafaker.Faker;
 import hu.flowacademy.konyhatunder.enums.*;
 import hu.flowacademy.konyhatunder.model.*;
-import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
-import hu.flowacademy.konyhatunder.repository.CategoryRepository;
-import hu.flowacademy.konyhatunder.repository.IngredientRepository;
-import hu.flowacademy.konyhatunder.repository.RecipeRepository;
+import hu.flowacademy.konyhatunder.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +25,7 @@ public class InitDataLoader implements CommandLineRunner {
     private final IngredientRepository ingredientRepository;
     private final RecipeRepository recipeRepository;
     private final AmountOfIngredientForARecipeRepository amountOfIngredientForARecipeRepository;
+    private final ImageRepository imageRepository;
 
     @Bean
     public Faker faker() {
@@ -41,6 +39,7 @@ public class InitDataLoader implements CommandLineRunner {
         saveNewIngredient();
         saveNewRecipes();
         saveNewAmountOfIngredientForARecipe();
+        saveDefaultImage();
     }
 
     private List<Category> newCategory() {
@@ -131,5 +130,10 @@ public class InitDataLoader implements CommandLineRunner {
     private void saveNewAmountOfIngredientForARecipe() {
         amountOfIngredientForARecipeRepository.saveAll(
                 newAmountOfIngredientForARecipe());
+    }
+
+    private void saveDefaultImage() {
+        Image image = new Image("abc", "abc", new byte[0]);
+        imageRepository.save(image);
     }
 }

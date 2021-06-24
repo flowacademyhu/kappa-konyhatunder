@@ -28,6 +28,7 @@ public class Image {
     @JsonIgnore
     private byte[] data;
 
+
     public Image(String fileName, String fileType, byte[] data) {
         this.fileName = fileName;
         this.fileType = fileType;

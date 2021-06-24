@@ -20,10 +20,15 @@ public class ImageStorageService {
 
     public Image storeFile(MultipartFile file) {
 
+        if (file == null) {
+            return imageRepository.findByFileName("abc").orElseThrow(() -> new MyFileNotFoundException("Nincs default image"));
+        }
+
+
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
         try {
-            if(fileName.contains("..")) {
+            if (fileName.contains("..")) {
                 throw new FileStorageException("Érvénytelen fájl név " + fileName);
             }
 
