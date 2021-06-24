@@ -1,11 +1,11 @@
 package hu.flowacademy.konyhatunder.enums;
 
-public enum TypeOther {
-    PINCH("Csipet"), PACKAGE("Csomag");
+public enum Measurement {
+    KG("Kilogramm"), LITER("Liter"), SPOON("Kanál"), CUP("Bögre"), PIECE("Darab"), OTHER("Egyéb");
 
     private final String hungarianTranslation;
 
-    private TypeOther(String value){
+    private Measurement(String value){
         hungarianTranslation = value;
     }
 

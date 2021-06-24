@@ -60,12 +60,12 @@ public class InitDataLoader implements CommandLineRunner {
 
     private List<Ingredient> newIngredient() {
         return List.of(
-                Ingredient.builder().name("Liszt").type(Type.KG).build(),
-                Ingredient.builder().name("Cukor").type(Type.CUP).build(),
-                Ingredient.builder().name("Tej").type(Type.LITER).build(),
-                Ingredient.builder().name("Só").type(Type.OTHER).build(),
-                Ingredient.builder().name("Sütopor").type(Type.SPOON).build(),
-                Ingredient.builder().name("Tojás").type(Type.PIECE).build()
+                Ingredient.builder().name("Liszt").measurement(Measurement.KG).build(),
+                Ingredient.builder().name("Cukor").measurement(Measurement.CUP).build(),
+                Ingredient.builder().name("Tej").measurement(Measurement.LITER).build(),
+                Ingredient.builder().name("Só").measurement(Measurement.OTHER).build(),
+                Ingredient.builder().name("Sütopor").measurement(Measurement.SPOON).build(),
+                Ingredient.builder().name("Tojás").measurement(Measurement.PIECE).build()
         );
     }
 
@@ -78,8 +78,8 @@ public class InitDataLoader implements CommandLineRunner {
         return IntStream.range(0, 3)
                 .mapToObj(value -> Recipe.builder()
                         .name(faker().food().dish())
-                        .level(Level.values()[new Random().nextInt(Level.values().length)])
-                        .categoryList(categoryList)
+                        .difficulty(Difficulty.values()[new Random().nextInt(Difficulty.values().length)])
+                        .categories(categoryList)
                         .description(faker().lorem().sentence(20))
                         .preparationTime(faker().number().randomDouble(1, 5, 300))
                         .build()).collect(Collectors.toList());
@@ -97,32 +97,32 @@ public class InitDataLoader implements CommandLineRunner {
         return List.of(
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Liszt")).findFirst().get())
                         .amount(1)
-                        .unit(TypeKilogramm.KG.getHungarianTranslation())
+                        .unit(MeasurementKilogram.KG.getHungarianTranslation())
                         .recipe(recipeList.get(0))
                         .build(),
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Cukor")).findFirst().get())
                         .amount(0.5)
-                        .unit(TypeCup.CUP.getHungarianTranslation())
+                        .unit(MeasurementCup.CUP.getHungarianTranslation())
                         .recipe(recipeList.get(0))
                         .build(),
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Tej")).findFirst().get())
                         .amount(0.5)
-                        .unit(TypeLiter.L.getHungarianTranslation())
+                        .unit(MeasurementLiter.L.getHungarianTranslation())
                         .recipe(recipeList.get(0))
                         .build(),
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Só")).findFirst().get())
                         .amount(2)
-                        .unit(TypeOther.PINCH.getHungarianTranslation())
+                        .unit(MeasurementOther.PINCH.getHungarianTranslation())
                         .recipe(recipeList.get(0))
                         .build(),
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Sütopor")).findFirst().get())
                         .amount(1)
-                        .unit(TypeSpoon.TEA_SPOON.getHungarianTranslation())
+                        .unit(MeasurementSpoon.TEA_SPOON.getHungarianTranslation())
                         .recipe(recipeList.get(0))
                         .build(),
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Tojás")).findFirst().get())
                         .amount(3)
-                        .unit(TypePiece.PIECE.getHungarianTranslation())
+                        .unit(MeasurementPiece.PIECE.getHungarianTranslation())
                         .recipe(recipeList.get(0))
                         .build()
         );

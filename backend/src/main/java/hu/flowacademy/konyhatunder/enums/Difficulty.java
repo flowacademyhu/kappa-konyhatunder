@@ -1,11 +1,11 @@
 package hu.flowacademy.konyhatunder.enums;
 
-public enum Level {
+public enum Difficulty {
     EASY("Könnyű"), MEDIUM("Közepes"), HARD("Nehéz");
 
     private final String hungarianTranslation;
 
-    private Level(String value){
+    private Difficulty(String value){
         hungarianTranslation = value;
     }
 

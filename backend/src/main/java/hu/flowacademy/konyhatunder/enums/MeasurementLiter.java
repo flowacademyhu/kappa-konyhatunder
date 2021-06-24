@@ -1,11 +1,11 @@
 package hu.flowacademy.konyhatunder.enums;
 
-public enum TypeCup {
-    CUP("Bögre");
+public enum MeasurementLiter {
+    CL("centiliter"),ML("milliliter"),DL("deciliter"),L("liter");
 
     private final String hungarianTranslation;
 
-    private TypeCup(String value){
+    private MeasurementLiter(String value){
         hungarianTranslation = value;
     }
 

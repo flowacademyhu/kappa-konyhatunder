@@ -1,6 +1,6 @@
 package hu.flowacademy.konyhatunder.model;
 
-import hu.flowacademy.konyhatunder.enums.Type;
+import hu.flowacademy.konyhatunder.enums.Measurement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +21,6 @@ public class Ingredient {
     private String id;
     private String name;
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private Measurement measurement;
 
 }

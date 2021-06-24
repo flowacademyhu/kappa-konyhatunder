@@ -30,28 +30,28 @@ public class IngredientService {
                 new MissingIDException(ERROR_MESSAGE_MISSING_ID));
 
         List<String> typeList = null;
-        if (ingredient.getType().getHungarianTranslation().equals(Type.CUP.getHungarianTranslation())) {
-            typeList = Arrays.stream(TypeCup.values()).map(TypeCup::getHungarianTranslation).collect(Collectors.toList());
+        if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.CUP.getHungarianTranslation())) {
+            typeList = Arrays.stream(MeasurementCup.values()).map(MeasurementCup::getHungarianTranslation).collect(Collectors.toList());
         }
-        if (ingredient.getType().getHungarianTranslation().equals(Type.KG.getHungarianTranslation())) {
-            typeList = Arrays.stream(TypeKilogramm.values()).map(TypeKilogramm::getHungarianTranslation).collect(Collectors.toList());
+        if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.KG.getHungarianTranslation())) {
+            typeList = Arrays.stream(MeasurementKilogram.values()).map(MeasurementKilogram::getHungarianTranslation).collect(Collectors.toList());
         }
-        if (ingredient.getType().getHungarianTranslation().equals(Type.LITER.getHungarianTranslation())) {
-            typeList = Arrays.stream(TypeLiter.values()).map(TypeLiter::getHungarianTranslation).collect(Collectors.toList());
+        if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.LITER.getHungarianTranslation())) {
+            typeList = Arrays.stream(MeasurementLiter.values()).map(MeasurementLiter::getHungarianTranslation).collect(Collectors.toList());
         }
-        if (ingredient.getType().getHungarianTranslation().equals(Type.OTHER.getHungarianTranslation())) {
-            typeList = Arrays.stream(TypeOther.values()).map(TypeOther::getHungarianTranslation).collect(Collectors.toList());
+        if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.OTHER.getHungarianTranslation())) {
+            typeList = Arrays.stream(MeasurementOther.values()).map(MeasurementOther::getHungarianTranslation).collect(Collectors.toList());
         }
-        if (ingredient.getType().getHungarianTranslation().equals(Type.PIECE.getHungarianTranslation())) {
-            typeList = Arrays.stream(TypePiece.values()).map(TypePiece::getHungarianTranslation).collect(Collectors.toList());
+        if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.PIECE.getHungarianTranslation())) {
+            typeList = Arrays.stream(MeasurementPiece.values()).map(MeasurementPiece::getHungarianTranslation).collect(Collectors.toList());
         }
-        if (ingredient.getType().getHungarianTranslation().equals(Type.SPOON.getHungarianTranslation())) {
-            typeList = Arrays.stream(TypeSpoon.values()).map(TypeSpoon::getHungarianTranslation).collect(Collectors.toList());
+        if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.SPOON.getHungarianTranslation())) {
+            typeList = Arrays.stream(MeasurementSpoon.values()).map(MeasurementSpoon::getHungarianTranslation).collect(Collectors.toList());
         }
         return IngredientDTO.builder()
                 .name(ingredient.getName())
                 .id(ingredient.getId())
-                .typeList(typeList)
+                .measurements(typeList)
                 .build();
     }
 }

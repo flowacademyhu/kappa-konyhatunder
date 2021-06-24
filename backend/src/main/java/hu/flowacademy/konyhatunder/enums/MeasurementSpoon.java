@@ -1,16 +1,15 @@
 package hu.flowacademy.konyhatunder.enums;
 
-public enum TypeKilogramm {
-    G("gramm"),DKG("dekagramm"),KG("kilogramm");
+public enum MeasurementSpoon {
+    TABLE_SPOON("Evőkanál"), TEA_SPOON("Teáskanál"), COFFEE_SPOON("Kávéskanál");
 
     private final String hungarianTranslation;
 
-    private TypeKilogramm(String value){
+    private MeasurementSpoon(String value){
         hungarianTranslation = value;
     }
 
     public String getHungarianTranslation(){
         return hungarianTranslation;
     }
-
 }

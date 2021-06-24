@@ -1,15 +1,16 @@
 package hu.flowacademy.konyhatunder.enums;
 
-public enum TypePiece {
-    PIECE("Darab");
+public enum MeasurementKilogram {
+    G("gramm"),DKG("dekagramm"),KG("kilogramm");
 
     private final String hungarianTranslation;
 
-    private TypePiece(String value){
+    private MeasurementKilogram(String value){
         hungarianTranslation = value;
     }
 
     public String getHungarianTranslation(){
         return hungarianTranslation;
     }
+
 }

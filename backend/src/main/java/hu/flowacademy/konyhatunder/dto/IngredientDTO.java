@@ -10,5 +10,5 @@ import java.util.List;
 public class IngredientDTO {
     private String id;
     private String name;
-    private List<String> typeList;
+    private List<String> measurements;
 }

@@ -10,9 +10,9 @@ import java.util.List;
 public class RecipeDTO {
     private String name;
     @Enumerated(EnumType.STRING)
-    private String level;
+    private String difficulty;
     private String description;
     private double preparationTime;
-    private List<String> categoryList;
-    private List<AmountOfIngredient> amountOfIngredientList;
+    private List<String> categories;
+    private List<AmountOfIngredient> ingredients;
 }

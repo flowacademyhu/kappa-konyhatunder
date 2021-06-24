@@ -2,12 +2,12 @@ package hu.flowacademy.konyhatunder.service;
 
 
 import hu.flowacademy.konyhatunder.dto.RecipeDTO;
-import hu.flowacademy.konyhatunder.enums.Type;
+import hu.flowacademy.konyhatunder.enums.Measurement;
 import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.AmountOfIngredient;
 import hu.flowacademy.konyhatunder.model.Category;
-import hu.flowacademy.konyhatunder.enums.Level;
+import hu.flowacademy.konyhatunder.enums.Difficulty;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
@@ -43,20 +43,20 @@ public class RecipeService {
 
     public Recipe createRecipe(RecipeDTO recipeDTO) {
         validate(recipeDTO);
-        List<Category> categoryList = recipeDTO.getCategoryList().stream().map(categoryRepository::findByName).collect(Collectors.toList());
+        List<Category> categoryList = recipeDTO.getCategories().stream().map(categoryRepository::findByName).collect(Collectors.toList());
         Recipe savedRecipe = recipeRepository.save(Recipe.builder()
                 .name(recipeDTO.getName())
                 .description(recipeDTO.getDescription())
-                .level(translateLevel(recipeDTO.getLevel()))
+                .difficulty(translateLevel(recipeDTO.getDifficulty()))
                 .preparationTime(recipeDTO.getPreparationTime())
-                .categoryList(categoryList)
+                .categories(categoryList)
                 .build());
 
         List<AmountOfIngredient> amountOfIngredientList = new ArrayList<>();
 
-        recipeDTO.getAmountOfIngredientList().forEach(element -> {
+        recipeDTO.getIngredients().forEach(element -> {
             AmountOfIngredient amountOfIng = AmountOfIngredient.builder()
-                    .unit(translateUnit(element.getIngredient().getType(), element.getUnit()))
+                    .unit(translateUnit(element.getIngredient().getMeasurement(), element.getUnit()))
                     .amount(element.getAmount())
                     .recipe(savedRecipe)
                     .ingredient(element.getIngredient())
@@ -66,26 +66,26 @@ public class RecipeService {
             amountOfIngredientList.add(amountOfIng);
 
         });
-        savedRecipe.setAmountOfIngredientList(amountOfIngredientList);
+        savedRecipe.setIngredients(amountOfIngredientList);
         return recipeRepository.save(savedRecipe);
     }
 
     //TODO
-    private String translateUnit(Type type, String unit) {
+    private String translateUnit(Measurement type, String unit) {
         return null;
     }
 
     public List<String> listRecipeLevels() {
-        return Arrays.stream(Level.values()).map(Level::getHungarianTranslation).collect(Collectors.toList());
+        return Arrays.stream(Difficulty.values()).map(Difficulty::getHungarianTranslation).collect(Collectors.toList());
     }
 
-    private Level translateLevel(String level) {
-        if (Level.EASY.getHungarianTranslation().equals(level)) {
-            return Level.EASY;
-        } else if (Level.MEDIUM.getHungarianTranslation().equals(level)) {
-            return Level.MEDIUM;
-        } else if (Level.HARD.getHungarianTranslation().equals(level)) {
-            return Level.HARD;
+    private Difficulty translateLevel(String level) {
+        if (Difficulty.EASY.getHungarianTranslation().equals(level)) {
+            return Difficulty.EASY;
+        } else if (Difficulty.MEDIUM.getHungarianTranslation().equals(level)) {
+            return Difficulty.MEDIUM;
+        } else if (Difficulty.HARD.getHungarianTranslation().equals(level)) {
+            return Difficulty.HARD;
         } else {
             throw new ValidationException("Nem megfelelő nehézségi szint!");
         }
@@ -103,10 +103,10 @@ public class RecipeService {
         if (recipeDTO.getPreparationTime() <= 0)
             throw new ValidationException("Az elkészítési idő nem lehet 0 vagy annál kisebb!");
 
-        if (recipeDTO.getLevel() == null)
+        if (recipeDTO.getDifficulty() == null)
             throw new ValidationException("Nehézségi szint megadása kötelező!");
 
-        if (CollectionUtils.isEmpty(recipeDTO.getAmountOfIngredientList())) {
+        if (CollectionUtils.isEmpty(recipeDTO.getIngredients())) {
             throw new ValidationException("Hozzávalók megadása kötelező!");
         }
     }
