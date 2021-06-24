@@ -8,9 +8,9 @@ import IngredientsInRecipeList from './IngredientsInRecipeList';
 const AddRecipeForm = () => {
   const [status, setStatus] = useState('Sikertelen hozzáadás');
   const [levels, setLevels] = useState([]);
-  const [newAmount, setNewAmount] = useState('');
-  const [newCategory, setNewCategory] = useState('');
-  const [newIngredient, setNewIngredient] = useState('');
+  const [amount, setAmount] = useState('');
+  const [category, setCategory] = useState('');
+  const [ingredient, setIngredient] = useState('');
   const [newIngredientType, setNewIngredientType] = useState('-');
   const [categoryList, setCategoryList] = useState([]);
   const [ingredientsList, setIngredientsList] = useState([]);
@@ -32,7 +32,7 @@ const AddRecipeForm = () => {
     } catch (error) {
       setStatus('Sikertelen hozzáadás');
     }
-    setNewCategory('');
+    setCategory('');
   }
 
   async function addRecipe(values) {
@@ -63,7 +63,7 @@ const AddRecipeForm = () => {
       name: '',
       description: '',
       preparationTime: 0,
-      level: 'EASY',
+      level: 'Könnyű',
       ingredients: [],
       categoryList: [],
     },
@@ -98,7 +98,7 @@ const AddRecipeForm = () => {
       }
     }
     categoryFunction();
-  }, [newCategory]);
+  }, [category]);
 
   async function getIngredienTypeFunction(newIngredientString) {
     const newIngredientObject = JSON.parse(newIngredientString);
@@ -108,7 +108,7 @@ const AddRecipeForm = () => {
         `/api/ingredients/${newIngredientObject.id}`
       );
 
-      setNewIngredient(newIngredientObject);
+      setIngredient(newIngredientObject);
 
       setNewIngredientTypeList(response.data.measurements);
 
@@ -215,15 +215,15 @@ const AddRecipeForm = () => {
               <div className="col-4">
                 <input
                   className="form-control"
-                  id="newCategory"
-                  value={newCategory}
+                  id="category"
+                  value={category}
                   type="text"
-                  onChange={(e) => setNewCategory(e.target.value)}
+                  onChange={(e) => setCategory(e.target.value)}
                 />
               </div>
               <button
                 className="btn btn-success"
-                onClick={() => addCategory(newCategory)}
+                onClick={() => addCategory(category)}
                 data-toggle="modal"
                 data-target="#recipeStatusModal"
                 type="button"
@@ -280,8 +280,8 @@ const AddRecipeForm = () => {
                 className="form-control"
                 id="amount"
                 type="text"
-                value={newAmount}
-                onChange={(e) => setNewAmount(e.target.value)}
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
               />
             </div>
             <div className="col">
@@ -294,9 +294,9 @@ const AddRecipeForm = () => {
                   setNewIngredientsList([
                     ...newIngredientsList,
                     {
-                      ingredient: newIngredient,
+                      ingredient: ingredient,
                       unit: newIngredientType,
-                      amount: newAmount,
+                      amount: amount,
                     },
                   ]);
                 }}
