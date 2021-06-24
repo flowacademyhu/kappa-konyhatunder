@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Image {
     @Id
     @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
     @JsonIgnore
     private String id;
 
