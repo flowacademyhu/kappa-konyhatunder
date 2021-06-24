@@ -97,32 +97,32 @@ public class InitDataLoader implements CommandLineRunner {
         return List.of(
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Liszt")).findFirst().get())
                         .amount(1)
-                        .unit(MeasurementKilogram.KG.getHungarianTranslation())
+                        .unit(MeasurementKilogram.KG.toString())
                         .recipe(recipeList.get(0))
                         .build(),
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Cukor")).findFirst().get())
                         .amount(0.5)
-                        .unit(MeasurementCup.CUP.getHungarianTranslation())
+                        .unit(MeasurementCup.CUP.toString())
                         .recipe(recipeList.get(0))
                         .build(),
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Tej")).findFirst().get())
                         .amount(0.5)
-                        .unit(MeasurementLiter.L.getHungarianTranslation())
+                        .unit(MeasurementLiter.L.toString())
                         .recipe(recipeList.get(0))
                         .build(),
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Só")).findFirst().get())
                         .amount(2)
-                        .unit(MeasurementOther.PINCH.getHungarianTranslation())
+                        .unit(MeasurementOther.PINCH.toString())
                         .recipe(recipeList.get(0))
                         .build(),
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Sütopor")).findFirst().get())
                         .amount(1)
-                        .unit(MeasurementSpoon.TEA_SPOON.getHungarianTranslation())
+                        .unit(MeasurementSpoon.TEA_SPOON.toString())
                         .recipe(recipeList.get(0))
                         .build(),
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Tojás")).findFirst().get())
                         .amount(3)
-                        .unit(MeasurementPiece.PIECE.getHungarianTranslation())
+                        .unit(MeasurementPiece.PIECE.toString())
                         .recipe(recipeList.get(0))
                         .build()
         );
