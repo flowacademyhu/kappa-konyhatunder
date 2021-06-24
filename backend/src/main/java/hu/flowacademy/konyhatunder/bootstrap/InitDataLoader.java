@@ -93,7 +93,6 @@ public class InitDataLoader implements CommandLineRunner {
     private List<AmountOfIngredient> newAmountOfIngredientForARecipe() {
         List<Ingredient> ingredientList = ingredientRepository.findAll();
         List<Recipe> recipeList = recipeRepository.findAll();
-        System.out.println(ingredientList.get(0) + " " + ingredientList.get(1));
         return List.of(
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Liszt")).findFirst().get())
                         .amount(1)

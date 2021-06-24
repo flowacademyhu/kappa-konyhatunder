@@ -69,7 +69,6 @@ public class RecipeService {
         return recipeRepository.save(savedRecipe);
     }
 
-    //TODO
     private String translateUnit(Measurement measurement, String unit) {
         switch(measurement.getHungarianTranslation()){
             case "Bögre" :
