@@ -1,6 +1,6 @@
 package hu.flowacademy.konyhatunder.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import hu.flowacademy.konyhatunder.enums.Measurement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
@@ -22,6 +21,6 @@ public class Ingredient {
     private String id;
     private String name;
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private Measurement measurement;
 
 }

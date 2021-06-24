@@ -23,7 +23,7 @@ public class Category {
     private String id;
     @Column(unique = true)
     private String name;
-    @ManyToMany(mappedBy = "categoryList")
+    @ManyToMany(mappedBy = "categories")
     @JsonIgnore
     private List<Recipe> recipeList;
 

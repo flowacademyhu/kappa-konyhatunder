@@ -3,10 +3,20 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { validationSchema } from './ValidationSchema';
 import Modal from './Modal';
+import IngredientsInRecipeList from './IngredientsInRecipeList';
 
 const AddRecipeForm = () => {
-  const [newCategory, setNewCategory] = useState('');
   const [status, setStatus] = useState('Sikertelen hozzáadás');
+  const [levels, setLevels] = useState([]);
+  const [amount, setAmount] = useState('');
+  const [category, setCategory] = useState('');
+  const [ingredient, setIngredient] = useState('');
+  const [newIngredientType, setNewIngredientType] = useState('-');
+  const [categoryList, setCategoryList] = useState([]);
+  const [ingredientsList, setIngredientsList] = useState([]);
+  const [newIngredientsList, setNewIngredientsList] = useState([]);
+  const [newIngredientTypeList, setNewIngredientTypeList] = useState([]);
+
   async function addCategory(value) {
     if (value === '') {
       setStatus('Kategória megadása kötelező!');
@@ -20,10 +30,9 @@ const AddRecipeForm = () => {
       await axios.post(`/api/categories`, data);
       setStatus('Sikeres hozzáadás!');
     } catch (error) {
-      console.log(error.response);
-      setStatus(error.response.data[0]);
+      setStatus('Sikertelen hozzáadás');
     }
-    setNewCategory('');
+    setCategory('');
   }
 
   async function addRecipe(values) {
@@ -31,16 +40,22 @@ const AddRecipeForm = () => {
       name: values.name,
       description: values.description,
       preparationTime: values.preparationTime,
-      level: values.level,
-      categoryList: values.categoryList,
+      difficulty: values.level,
+      categories: values.categoryList,
+      ingredients: values.ingredients,
+    };
+    const data2 = {
+      ...data,
+      ingredients: newIngredientsList,
     };
 
     try {
-      await axios.post(`/api/recipes`, data);
-      setStatus('Sikeres hozzáadás!');
+      await axios.post(`/api/recipes`, data2);
     } catch (error) {
+      console.error(error);
       setStatus('Sikertelen hozzáadás');
     }
+    setStatus('Sikeres hozzáadás');
   }
 
   const formik = useFormik({
@@ -48,19 +63,16 @@ const AddRecipeForm = () => {
       name: '',
       description: '',
       preparationTime: 0,
-      level: 'EASY',
+      level: 'Könnyű',
+      ingredients: [],
       categoryList: [],
     },
     validationSchema,
 
     onSubmit: (values) => {
       addRecipe(values);
-      console.log(values);
     },
   });
-
-  const [levels, setLevels] = useState([]);
-  const [categoryList, setCategoryList] = useState([]);
 
   useEffect(() => {
     async function levelFunction() {
@@ -69,7 +81,7 @@ const AddRecipeForm = () => {
         setLevels(response.data);
         return response.data;
       } catch (error) {
-        console.error();
+        console.error(error);
       }
     }
     levelFunction();
@@ -79,16 +91,46 @@ const AddRecipeForm = () => {
     async function categoryFunction() {
       try {
         const response = await axios.get(`/api/categories`);
-
-        console.log(response.data);
         setCategoryList(response.data);
         return response.data;
       } catch (error) {
-        console.error();
+        console.error(error);
       }
     }
     categoryFunction();
-  }, [newCategory]);
+  }, [category]);
+
+  async function getIngredienTypeFunction(newIngredientString) {
+    const newIngredientObject = JSON.parse(newIngredientString);
+
+    try {
+      const response = await axios.get(
+        `/api/ingredients/${newIngredientObject.id}`
+      );
+
+      setIngredient(newIngredientObject);
+
+      setNewIngredientTypeList(response.data.measurements);
+
+      //return response.data.measurements;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    async function ingredientFunction() {
+      try {
+        const response = await axios.get(`/api/ingredients`);
+
+        setIngredientsList(response.data);
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    ingredientFunction();
+  }, []);
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -143,9 +185,9 @@ const AddRecipeForm = () => {
             name="level"
             {...formik.getFieldProps('level')}
           >
-            {levels.map((l) => (
-              <option key={l} value={l}>
-                {l === 'EASY' ? 'Könnyű' : l === 'MEDIUM' ? 'Közepes' : 'Nehéz'}
+            {levels.map((level) => (
+              <option key={level} value={level}>
+                {level}
               </option>
             ))}
           </select>
@@ -170,18 +212,18 @@ const AddRecipeForm = () => {
               <p className="col-2 mt-2 pl-0 d-flex align-items-center">
                 Kategória hozzáadása
               </p>
-              <div className="col-6">
+              <div className="col-4">
                 <input
                   className="form-control"
-                  id="newCategory"
-                  value={newCategory}
+                  id="category"
+                  value={category}
                   type="text"
-                  onChange={(e) => setNewCategory(e.target.value)}
+                  onChange={(e) => setCategory(e.target.value)}
                 />
               </div>
               <button
                 className="btn btn-success"
-                onClick={() => addCategory(newCategory)}
+                onClick={() => addCategory(category)}
                 data-toggle="modal"
                 data-target="#recipeStatusModal"
                 type="button"
@@ -190,8 +232,83 @@ const AddRecipeForm = () => {
               </button>
             </div>
           </div>
+          <div className="row align-items-center justify-content-between">
+            <p className="col-2 mt-2 pl-0 d-flex align-items-center">
+              Hozzávaló hozzáadása
+            </p>
+            <div className="col-4">
+              <p>hozzávaló</p>
+              <select
+                className="form-control"
+                name="ingredient"
+                defaultValue={'DEFAULT'}
+                onChange={(e) => getIngredienTypeFunction(e.target.value)}
+              >
+                <option value="DEFAULT" disabled>
+                  Hozzávaló ...
+                </option>
+                {ingredientsList.map((l) => (
+                  <option key={l.id} value={JSON.stringify(l)}>
+                    {l.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="col-2">
+              <p>Mértékegység</p>
+              <select
+                className="form-control"
+                name="ingredientType"
+                defaultValue={'DEFAULT'}
+                onChange={(e) => setNewIngredientType(e.target.value)}
+              >
+                <option value="DEFAULT" disabled>
+                  Mértékegység ...
+                </option>
+                {newIngredientTypeList.map((l) => (
+                  <option key={l} value={l}>
+                    {l}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="col-3">
+              <p>mennyiség</p>
+              <input
+                className="form-control"
+                id="amount"
+                type="text"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+            </div>
+            <div className="col">
+              <p>Gomb</p>
+              <button
+                className="btn btn-success"
+                data-toggle="modal"
+                data-target="#ringredientStatusModal"
+                onClick={() => {
+                  setNewIngredientsList([
+                    ...newIngredientsList,
+                    {
+                      ingredient: ingredient,
+                      unit: newIngredientType,
+                      amount: amount,
+                    },
+                  ]);
+                }}
+                type="button"
+              >
+                +
+              </button>
+            </div>
+          </div>
         </div>
 
+        <IngredientsInRecipeList ingredientsList={newIngredientsList} />
         <button
           className="btn btn-success"
           type="submit"
@@ -202,6 +319,7 @@ const AddRecipeForm = () => {
         </button>
 
         <Modal status={status} id="recipeStatusModal" />
+        <Modal status={status} id="ingredientStatusModal" />
       </div>
     </form>
   );

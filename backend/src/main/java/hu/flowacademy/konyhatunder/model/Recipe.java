@@ -1,5 +1,6 @@
 package hu.flowacademy.konyhatunder.model;
 
+import hu.flowacademy.konyhatunder.enums.Difficulty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,15 +22,15 @@ public class Recipe {
     private String id;
     private String name;
     @Enumerated(EnumType.STRING)
-    private Level level;
+    private Difficulty difficulty;
     @OneToMany(mappedBy = "recipe")
-    private List<AmountOfIngredientForARecipe> amountOfIngredientForARecipeList;
+    private List<AmountOfIngredient> ingredients;
     @ManyToMany
     @JoinTable(
             name = "recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categoryList;
+    private List<Category> categories;
     private String description;
     private double preparationTime;
 }
