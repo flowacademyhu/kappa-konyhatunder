@@ -1,8 +1,8 @@
 package hu.flowacademy.konyhatunder.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import hu.flowacademy.konyhatunder.dto.RecipeDTO;
 import hu.flowacademy.konyhatunder.model.Recipe;
+import hu.flowacademy.konyhatunder.repository.ImageRepository;
 import hu.flowacademy.konyhatunder.service.RecipeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +17,7 @@ import java.util.List;
 public class RecipeController {
 
     private final RecipeService recipeService;
+    private final ImageRepository imageRepository;
 
     @GetMapping
     public List<Recipe> listRecipes() {
@@ -30,7 +31,7 @@ public class RecipeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Recipe createRecipe(@RequestPart String recipeDTO, @RequestPart("image") MultipartFile image) throws JsonProcessingException {
+    public Recipe createRecipe(@RequestPart String recipeDTO, @RequestPart(name = "image", required = false) MultipartFile image) throws JsonProcessingException {
         return recipeService.createRecipe(recipeDTO, image);
     }
 

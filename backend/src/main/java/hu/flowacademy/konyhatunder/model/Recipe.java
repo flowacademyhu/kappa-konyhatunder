@@ -33,7 +33,7 @@ public class Recipe {
     private List<Category> categories;
     private String description;
     private double preparationTime;
-    @OneToOne
+    @ManyToOne
     private Image image;
 
 }
