@@ -1,14 +1,15 @@
 package hu.flowacademy.konyhatunder.service;
 
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.flowacademy.konyhatunder.dto.RecipeDTO;
+import hu.flowacademy.konyhatunder.enums.Difficulty;
 import hu.flowacademy.konyhatunder.enums.Measurement;
 import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.AmountOfIngredient;
 import hu.flowacademy.konyhatunder.model.Category;
-import hu.flowacademy.konyhatunder.enums.Difficulty;
 import hu.flowacademy.konyhatunder.model.Image;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
@@ -22,8 +23,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,9 +47,11 @@ public class RecipeService {
                 new MissingIDException("Nincs ilyen ID-val rendelkező recept!"));
     }
 
-    public Recipe createRecipe(String stringRecipe, MultipartFile image) {
-        Gson jsonMaker = new Gson();
-        RecipeDTO recipeDTO = jsonMaker.fromJson(stringRecipe, RecipeDTO.class);
+    public Recipe createRecipe(String stringRecipe, MultipartFile image) throws JsonProcessingException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        RecipeDTO recipeDTO = mapper.readValue(stringRecipe, RecipeDTO.class);
+
         validate(recipeDTO);
 
         Image imageFile = imageStorageService.storeFile(image);
