@@ -20,6 +20,23 @@ public class GlobalExceptionHandler {
         return List.of(validationException.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(FileStorageException.class)
+    public List<String> handleFileStorageException(
+            FileStorageException fileStorageException
+    ) {
+        return List.of(fileStorageException.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(MyFileNotFoundException.class)
+    public List<String> handleMyFileNotFoundException(
+            MyFileNotFoundException myFileNotFoundException
+    ) {
+        return List.of(myFileNotFoundException.getMessage());
+    }
+
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(MissingIDException.class)
     public List<String> handleMissingIDException(
