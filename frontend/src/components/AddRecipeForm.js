@@ -280,15 +280,17 @@ const AddRecipeForm = () => {
                   onChange={(e) => setCategory(e.target.value)}
                 />
               </div>
-              <button
-                className="btn btn-success"
-                onClick={() => addCategory(category)}
-                data-toggle="modal"
-                data-target="#recipeStatusModal"
-                type="button"
-              >
-                +
-              </button>
+              <div className="col">
+                <button
+                  className="btn btn-success"
+                  onClick={() => addCategory(category)}
+                  data-toggle="modal"
+                  data-target="#recipeStatusModal"
+                  type="button"
+                >
+                  +
+                </button>
+              </div>
             </div>
           </div>
           <label className="mt-2" htmlFor="long">
@@ -436,6 +438,8 @@ const AddRecipeForm = () => {
             </button>
           </div>
         }
+
+        <p>Kiválasztott hozzávalók:</p>
 
         <IngredientsInRecipeList ingredientsList={newIngredientsList} />
         <button
