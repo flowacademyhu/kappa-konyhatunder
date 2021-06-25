@@ -2,7 +2,6 @@ package hu.flowacademy.konyhatunder.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import hu.flowacademy.konyhatunder.model.Recipe;
-import hu.flowacademy.konyhatunder.repository.ImageRepository;
 import hu.flowacademy.konyhatunder.service.RecipeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,6 @@ import java.util.List;
 public class RecipeController {
 
     private final RecipeService recipeService;
-    private final ImageRepository imageRepository;
 
     @GetMapping
     public List<Recipe> listRecipes() {
