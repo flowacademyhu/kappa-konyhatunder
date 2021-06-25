@@ -1,5 +1,6 @@
 package hu.flowacademy.konyhatunder.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
+@Slf4j
 @ResponseBody
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -17,6 +19,7 @@ public class GlobalExceptionHandler {
     public List<String> handleValidationException(
             ValidationException validationException
     ) {
+        log.debug("ValidationException happened: ", validationException);
         return List.of(validationException.getMessage());
     }
 
@@ -25,6 +28,7 @@ public class GlobalExceptionHandler {
     public List<String> handleFileStorageException(
             FileStorageException fileStorageException
     ) {
+        log.debug("FileStorageException happened: ", fileStorageException);
         return List.of(fileStorageException.getMessage());
     }
 
@@ -33,6 +37,7 @@ public class GlobalExceptionHandler {
     public List<String> handleMyFileNotFoundException(
             MyFileNotFoundException myFileNotFoundException
     ) {
+        log.debug("MyFileNotFoundException happened: ", myFileNotFoundException);
         return List.of(myFileNotFoundException.getMessage());
     }
 
@@ -42,6 +47,7 @@ public class GlobalExceptionHandler {
     public List<String> handleMissingIDException(
             MissingIDException missingIDException
     ) {
+        log.debug("MissingIDException happened: ", missingIDException);
         return List.of(missingIDException.getMessage());
     }
 
@@ -49,6 +55,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Throwable.class)
     public List<String> handleEverything(
             Throwable throwable) {
+        log.debug("Something went wrong : ", throwable);
         return List.of(throwable.getMessage());
     }
 }
