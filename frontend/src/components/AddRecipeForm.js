@@ -153,6 +153,19 @@ const AddRecipeForm = () => {
     }
   }
 
+  const sendNewIngredient = (
+    addNewIngredient,
+    getNewIngredientType,
+    addNewAmount
+  ) => {
+    console.log(addNewIngredient, getNewIngredientType, addNewAmount);
+    setIngredientsList(...newIngredientsList, {
+      ingredient: addNewIngredient,
+      unit: getNewIngredientType,
+      amount: addNewAmount,
+    });
+  };
+
   useEffect(() => {
     async function ingredientFunction() {
       try {
@@ -381,7 +394,7 @@ const AddRecipeForm = () => {
               <select
                 className="form-control"
                 name="ingredientType"
-                //onChange={(e) => setNewIngredientType(e.target.value)}
+                onChange={(e) => setNewIngredientType(e.target.value)}
               >
                 <option value="" selected disabled hidden>
                   Mértékegység megadása
@@ -408,15 +421,11 @@ const AddRecipeForm = () => {
             <button
               className="btn btn-success"
               onClick={() => {
-                setGetNewIngredientsList([
-                  ...getNewIngredientsList,
-                  {
-                    ingredient: addNewIngredient,
-                    unit: getNewIngredientType,
-                    amount: addNewAmount,
-                  },
-                ]);
-                console.log(getNewIngredientsList);
+                sendNewIngredient(
+                  addNewAmount,
+                  addNewIngredient,
+                  newIngredientType
+                );
               }}
               type="button"
             >
