@@ -32,7 +32,7 @@ public class IngredientService {
     public IngredientDTO getIngredient(String id) {
         Ingredient ingredient = ingredientRepository.findById(id).orElseThrow(() ->
                 new MissingIDException(ERROR_MESSAGE_MISSING_ID));
-
+        log.debug("Get an Ingredient with this id {} in IngredientService",id);
         List<String> typeList = null;
         if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.CUP.getHungarianTranslation())) {
             typeList = Arrays.stream(MeasurementCup.values()).map(MeasurementCup::getHungarianTranslation).collect(Collectors.toList());
@@ -52,12 +52,10 @@ public class IngredientService {
         if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.SPOON.getHungarianTranslation())) {
             typeList = Arrays.stream(MeasurementSpoon.values()).map(MeasurementSpoon::getHungarianTranslation).collect(Collectors.toList());
         }
-        IngredientDTO sentIngredientDTO = IngredientDTO.builder()
+        return IngredientDTO.builder()
                 .name(ingredient.getName())
                 .id(ingredient.getId())
                 .measurements(typeList)
                 .build();
-        log.debug("Create an Ingredient with these params: {} in IngredientService.",sentIngredientDTO);
-        return sentIngredientDTO;
     }
 }
