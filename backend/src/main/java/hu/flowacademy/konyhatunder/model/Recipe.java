@@ -33,4 +33,7 @@ public class Recipe {
     private List<Category> categories;
     private String description;
     private double preparationTime;
+    @ManyToOne
+    private Image image;
+
 }

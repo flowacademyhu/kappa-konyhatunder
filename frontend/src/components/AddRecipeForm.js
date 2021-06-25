@@ -26,6 +26,14 @@ const AddRecipeForm = () => {
   const [baseMeasurementForNewIngredient, setBaseMeasurementForNewIngredient] =
     useState('');
   const [newMeasurement, setNewMeasurement] = useState([]);
+  const [selectedFile, setSelectedFile] = useState();
+  const [isFilePicked, setIsFilePicked] = useState(false);
+
+  const fileSelectedHandler = (event) => {
+    setSelectedFile(event.target.files[0]);
+    setIsFilePicked(true);
+  };
+
 
   async function addCategory(value) {
     if (value === '') {
@@ -59,8 +67,20 @@ const AddRecipeForm = () => {
       ingredients: newIngredientsList,
     };
 
+    const formData = new FormData();
+    const recipe = { ...data2 };
+    formData.append('image', selectedFile);
+    formData.append('recipeDTO', JSON.stringify(recipe));
+
+    console.log(recipe);
     try {
-      await axios.post(`/api/recipes`, data2);
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' },
+      };
+
+      const response = axios.post('/api/recipes/', formData, config);
+
+      console.log(response);
     } catch (error) {
       console.error(error);
       setStatus('Sikertelen hozzáadás');
@@ -365,6 +385,12 @@ const AddRecipeForm = () => {
             </div>
           </div>
         </div>
+        <div>
+          <p>Kép hozzáadása</p>
+          <div className="ImageUploader">
+            <input type="file" onChange={fileSelectedHandler} />
+          </div>
+        </div>
 
         {
           <div className="d-flex align-items-center">
@@ -443,14 +469,20 @@ const AddRecipeForm = () => {
 
         <IngredientsInRecipeList ingredientsList={newIngredientsList} />
         <button
-          className="btn btn-success"
+          className="btn btn-success mt-4"
           type="submit"
           data-toggle="modal"
-          data-target="#recipeStatusModal"
+          data-target={
+            isFilePicked ? '#recipeStatusModal' : '#noFilePickedModal'
+          }
         >
           Hozzáadás
         </button>
         <Modal status={status} id="recipeStatusModal" />
+        <Modal
+          status={'Lehetőség van fénykép hozzáadására!'}
+          id="noFilePickedModal"
+        />
         <Modal status={status} id="ingredientStatusModal" />
       </div>
     </form>

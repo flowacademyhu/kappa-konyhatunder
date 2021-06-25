@@ -1,27 +1,36 @@
 package hu.flowacademy.konyhatunder.service;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.flowacademy.konyhatunder.dto.RecipeDTO;
 import hu.flowacademy.konyhatunder.enums.*;
+import hu.flowacademy.konyhatunder.enums.Difficulty;
+import hu.flowacademy.konyhatunder.enums.Measurement;
 import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.AmountOfIngredient;
 import hu.flowacademy.konyhatunder.model.Category;
+import hu.flowacademy.konyhatunder.model.Image;
 import hu.flowacademy.konyhatunder.model.Recipe;
-import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
+import hu.flowacademy.konyhatunder.repository.AmountOfIngredientRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
 import hu.flowacademy.konyhatunder.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -29,24 +38,34 @@ public class RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final CategoryRepository categoryRepository;
-    private final AmountOfIngredientForARecipeRepository amountOfIngredientForARecipeRepository;
+    private final AmountOfIngredientRepository amountOfIngredientRepository;
+    private final ImageStorageService imageStorageService;
 
     public List<Recipe> listRecipes() {
-        return recipeRepository.findAll();
+        List<Recipe> allRecipes = recipeRepository.findAll();
+        log.debug("Get all {} recipes in RecipeService",allRecipes.size());
+        return allRecipes;
     }
 
     public Recipe getRecipe(String id) {
+        log.debug("Get a recipe with this id: {} in RecipeService",id);
         return recipeRepository.findById(id).orElseThrow(() ->
                 new MissingIDException("Nincs ilyen ID-val rendelkező recept!"));
     }
 
-    public Recipe createRecipe(RecipeDTO recipeDTO) {
+    public Recipe createRecipe(String stringRecipe, MultipartFile image) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        RecipeDTO recipeDTO = mapper.readValue(stringRecipe, RecipeDTO.class);
+
         validate(recipeDTO);
+
+        Image imageFile = imageStorageService.storeFile(image);
         List<Category> categoryList = recipeDTO.getCategories().stream().map(categoryRepository::findByName).collect(Collectors.toList());
         Recipe savedRecipe = recipeRepository.save(Recipe.builder()
                 .name(recipeDTO.getName())
                 .description(recipeDTO.getDescription())
                 .difficulty(translateLevel(recipeDTO.getDifficulty()))
+                .image(imageFile)
                 .preparationTime(recipeDTO.getPreparationTime())
                 .categories(categoryList)
                 .build());
@@ -60,7 +79,7 @@ public class RecipeService {
                     .recipe(savedRecipe)
                     .ingredient(element.getIngredient())
                     .build();
-            amountOfIngredientForARecipeRepository.save(amountOfIng);
+            amountOfIngredientRepository.save(amountOfIng);
 
             amountOfIngredientList.add(amountOfIng);
 

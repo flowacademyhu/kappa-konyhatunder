@@ -8,6 +8,7 @@ import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.repository.IngredientRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -24,13 +26,15 @@ public class IngredientService {
     private final IngredientRepository ingredientRepository;
 
     public List<Ingredient> listIngredients() {
-        return ingredientRepository.findAll();
+        List<Ingredient> allIngredient = ingredientRepository.findAll();
+        log.debug("Get all {} ingredients in IngredientService",allIngredient.size());
+            return allIngredient;
     }
 
     public IngredientDTO getIngredient(String id) {
         Ingredient ingredient = ingredientRepository.findById(id).orElseThrow(() ->
                 new MissingIDException(ERROR_MESSAGE_MISSING_ID));
-
+        log.debug("Get an Ingredient with this id {} in IngredientService",id);
         List<String> typeList = null;
         if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.CUP.getHungarianTranslation())) {
             typeList = Arrays.stream(MeasurementCup.values()).map(MeasurementCup::getHungarianTranslation).collect(Collectors.toList());
