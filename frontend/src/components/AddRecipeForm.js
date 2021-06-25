@@ -16,6 +16,12 @@ const AddRecipeForm = () => {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [newIngredientsList, setNewIngredientsList] = useState([]);
   const [newIngredientTypeList, setNewIngredientTypeList] = useState([]);
+  const [addNewIngredient, setAddNewIngredient] = useState('');
+  const [getNewIngredientType, setGetNewIngredientType] = useState('-');
+  const [ingredientTypeList, setIngredientTypeList] = useState([]);
+  const [addNewAmount, setAddNewAmount] = useState('');
+  const [getNewIngredientsList, setGetNewIngredientsList] = useState([]);
+  const [newMeasurement, setNewMeasurement] = useState([]);
 
   async function addCategory(value) {
     if (value === '') {
@@ -57,6 +63,35 @@ const AddRecipeForm = () => {
     }
     setStatus('Sikeres hozzáadás');
   }
+
+  useEffect(() => {
+    async function ingredientTypeFunction() {
+      try {
+        const response = await axios.get(`/api/ingredients/measurements`);
+
+        setIngredientTypeList(response.data);
+        console.log(response.data);
+        return response.data;
+      } catch (error) {
+        console.error();
+      }
+    }
+    ingredientTypeFunction();
+  }, []);
+
+  const getMeasurements = async (baseMeasurement) => {
+    try {
+      const response = await axios.get(
+        `/api/ingredients/measurements/${baseMeasurement}`
+      );
+
+      setNewMeasurement(response.data);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error();
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -136,7 +171,6 @@ const AddRecipeForm = () => {
     <form onSubmit={formik.handleSubmit}>
       <div className="container">
         <span className="text-danger">★</span>
-
         <label className="mt-2" htmlFor="name">
           Recept neve
         </label>
@@ -166,7 +200,6 @@ const AddRecipeForm = () => {
         <label className="mt-2" htmlFor="preparationTime">
           Elkészítési idő (percben)
         </label>
-
         <input
           className="form-control"
           id="preparationTime"
@@ -308,6 +341,90 @@ const AddRecipeForm = () => {
           </div>
         </div>
 
+        {
+          //Új hozzávaló megadása}
+
+          <div className="d-flex align-items-center">
+            <p className="col-2 mt-2 pl-0 d-flex align-items-center">
+              {' '}
+              Új hozzávaló megadása
+            </p>
+            <div className="col-5">
+              <input
+                className="form-control"
+                id="addNewIngredient"
+                value={addNewIngredient}
+                type="text"
+                onChange={(e) => setAddNewIngredient(e.target.value)}
+                placeholder="Adja meg a hozzávaló nevét"
+              />
+            </div>
+
+            <div className="col-2">
+              <select
+                className="form-control"
+                name="ingredientType"
+                onChange={(e) => getMeasurements(e.target.value)}
+              >
+                <option value="" selected disabled hidden>
+                  Alapegység
+                </option>
+                {ingredientTypeList.map((l) => (
+                  <option key={l} value={l}>
+                    {l}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="col-2">
+              <select
+                className="form-control"
+                name="ingredientType"
+                //onChange={(e) => setNewIngredientType(e.target.value)}
+              >
+                <option value="" selected disabled hidden>
+                  Mértékegység megadása
+                </option>
+                {newMeasurement.map((l) => (
+                  <option key={l} value={l}>
+                    {l}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="col-3">
+              <input
+                className="form-control"
+                id="addNewAmount"
+                type="text"
+                value={addNewAmount}
+                onChange={(e) => setAddNewAmount(e.target.value)}
+                placeholder="Adja meg a mennyiséget"
+              />
+            </div>
+
+            <button
+              className="btn btn-success"
+              onClick={() => {
+                setGetNewIngredientsList([
+                  ...getNewIngredientsList,
+                  {
+                    ingredient: addNewIngredient,
+                    unit: getNewIngredientType,
+                    amount: addNewAmount,
+                  },
+                ]);
+                console.log(getNewIngredientsList);
+              }}
+              type="button"
+            >
+              +
+            </button>
+          </div>
+        }
+
         <IngredientsInRecipeList ingredientsList={newIngredientsList} />
         <button
           className="btn btn-success"
@@ -317,7 +434,6 @@ const AddRecipeForm = () => {
         >
           Hozzáadás
         </button>
-
         <Modal status={status} id="recipeStatusModal" />
         <Modal status={status} id="ingredientStatusModal" />
       </div>
