@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Charmonman&display=swap');
+
+.formTitle {
+  margin-top: 20px;
+  margin-bottom: 0px;
+  text-align: center;
+  font-size: x-large;
+  color: #2e850b;
+  font-weight: 500;
+  font-family: 'Charmonman', cursive !important;
+}
+
+.formTitle:first-child {
+  margin-top: 60px;
+}
+.formTitle {
+  padding: 10px 0;
+  margin: 0 30%;
+  box-shadow: 0 1em 1em -1em #2e850b44;
+  box-sizing: inherit;
+}

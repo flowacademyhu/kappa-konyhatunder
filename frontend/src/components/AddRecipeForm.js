@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { validationSchema } from './ValidationSchema';
 import Modal from './Modal';
 import IngredientsInRecipeList from './IngredientsInRecipeList';
+import '../styles/AddRecipeForm.css';
 import { saveNewIngredient } from './apiCalls';
 
 const AddRecipeForm = () => {
@@ -192,6 +193,7 @@ const AddRecipeForm = () => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
+      <div className="formTitle">Új recept hozzáadása</div>
       <div className="container">
         <span className="text-danger">★</span>
         <label className="mt-2" htmlFor="name">
@@ -264,10 +266,10 @@ const AddRecipeForm = () => {
                 </div>
               ))}
             </div>
-            <div className="d-flex align-items-center">
-              <p className="col-2 mt-2 pl-0 d-flex align-items-center">
-                Kategória hozzáadása
-              </p>
+            <label className="mt-2" htmlFor="long">
+              Kategória hozzáadása
+            </label>
+            <div className="row align-items-center justify-content-between">
               <div className="col-4">
                 <input
                   className="form-control"
@@ -288,12 +290,11 @@ const AddRecipeForm = () => {
               </button>
             </div>
           </div>
+          <label className="mt-2" htmlFor="long">
+            Hozzávaló hozzáadása
+          </label>
           <div className="row align-items-center justify-content-between">
-            <p className="col-2 mt-2 pl-0 d-flex align-items-center">
-              Hozzávaló hozzáadása
-            </p>
             <div className="col-4">
-              <p>hozzávaló</p>
               <select
                 className="form-control"
                 name="ingredient"
@@ -301,7 +302,7 @@ const AddRecipeForm = () => {
                 onChange={(e) => getIngredienTypeFunction(e.target.value)}
               >
                 <option value="DEFAULT" disabled>
-                  Hozzávaló ...
+                  Hozzávaló neve
                 </option>
                 {ingredientsList.map((l) => (
                   <option key={l.id} value={JSON.stringify(l)}>
@@ -312,7 +313,6 @@ const AddRecipeForm = () => {
             </div>
 
             <div className="col-2">
-              <p>Mértékegység</p>
               <select
                 className="form-control"
                 name="ingredientType"
@@ -320,7 +320,7 @@ const AddRecipeForm = () => {
                 onChange={(e) => setNewIngredientType(e.target.value)}
               >
                 <option value="DEFAULT" disabled>
-                  Mértékegység ...
+                  Mértékegység
                 </option>
                 {newIngredientTypeList.map((l) => (
                   <option key={l} value={l}>
@@ -331,17 +331,16 @@ const AddRecipeForm = () => {
             </div>
 
             <div className="col-3">
-              <p>mennyiség</p>
               <input
                 className="form-control"
                 id="amount"
                 type="text"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
+                placeholder="Mennyiség"
               />
             </div>
             <div className="col">
-              <p>Gomb</p>
               <button
                 className="btn btn-success"
                 data-toggle="modal"
