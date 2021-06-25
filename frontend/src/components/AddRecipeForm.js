@@ -17,16 +17,12 @@ const AddRecipeForm = () => {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [newIngredientsList, setNewIngredientsList] = useState([]);
   const [newIngredientTypeList, setNewIngredientTypeList] = useState([]);
-  //
   const [addNewIngredient, setAddNewIngredient] = useState('');
-  const [getNewIngredientType, setGetNewIngredientType] = useState('-');
   const [ingredientTypeList, setIngredientTypeList] = useState([]);
   const [addNewAmount, setAddNewAmount] = useState('');
   const [ingredientTypeFromUser, setIngredientTypeFromUser] = useState('-');
   const [baseMeasurementForNewIngredient, setBaseMeasurementForNewIngredient] =
     useState('');
-
-  const [getNewIngredientsList, setGetNewIngredientsList] = useState([]);
   const [newMeasurement, setNewMeasurement] = useState([]);
 
   async function addCategory(value) {
@@ -164,7 +160,6 @@ const AddRecipeForm = () => {
     ingredientTypeFromUser,
     addNewAmount
   ) => {
-    console.log(addNewIngredient, getNewIngredientType, addNewAmount);
     const ingrid = await saveNewIngredient(
       addNewIngredient,
       baseMeasurementForNewIngredient
