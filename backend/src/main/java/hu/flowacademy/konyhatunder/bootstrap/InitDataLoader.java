@@ -26,7 +26,7 @@ public class InitDataLoader implements CommandLineRunner {
     private final CategoryRepository categoryRepository;
     private final IngredientRepository ingredientRepository;
     private final RecipeRepository recipeRepository;
-    private final AmountOfIngredientForARecipeRepository amountOfIngredientForARecipeRepository;
+    private final AmountOfIngredientRepository amountOfIngredientRepository;
     private final ImageRepository imageRepository;
 
     @Bean
@@ -139,7 +139,7 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private void saveNewAmountOfIngredient() {
-       List<AmountOfIngredient> savedAmountOfIngredients =  amountOfIngredientForARecipeRepository.saveAll(
+       List<AmountOfIngredient> savedAmountOfIngredients =  amountOfIngredientRepository.saveAll(
                 newAmountOfIngredient());
         log.info("Saved {} AmountOfIngredients by initDataLoader", savedAmountOfIngredients.size());
     }
