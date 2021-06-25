@@ -167,7 +167,7 @@ const AddRecipeForm = () => {
       );
 
       setIngredient(newIngredientObject);
-
+      setNewIngredientType(response.data.measurements[0]);
       setNewIngredientTypeList(response.data.measurements);
 
       //return response.data.measurements;
@@ -338,12 +338,11 @@ const AddRecipeForm = () => {
               <select
                 className="form-control"
                 name="ingredientType"
-                defaultValue={'DEFAULT'}
-                onChange={(e) => setNewIngredientType(e.target.value)}
+                onChange={(e) => {
+                  getIngredienTypeFunction(e.target.value);
+                  setNewIngredientType(newIngredientType);
+                }}
               >
-                <option value="DEFAULT" disabled>
-                  Mértékegység
-                </option>
                 {newIngredientTypeList.map((l) => (
                   <option key={l} value={l}>
                     {l}
