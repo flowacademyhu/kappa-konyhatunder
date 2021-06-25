@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { validationSchema } from './ValidationSchema';
 import Modal from './Modal';
 import IngredientsInRecipeList from './IngredientsInRecipeList';
+import { saveNewIngredient } from './apiCalls';
 
 const AddRecipeForm = () => {
   const [status, setStatus] = useState('Sikertelen hozzáadás');
@@ -16,10 +17,15 @@ const AddRecipeForm = () => {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [newIngredientsList, setNewIngredientsList] = useState([]);
   const [newIngredientTypeList, setNewIngredientTypeList] = useState([]);
+  //
   const [addNewIngredient, setAddNewIngredient] = useState('');
   const [getNewIngredientType, setGetNewIngredientType] = useState('-');
   const [ingredientTypeList, setIngredientTypeList] = useState([]);
   const [addNewAmount, setAddNewAmount] = useState('');
+  const [ingredientTypeFromUser, setIngredientTypeFromUser] = useState('-');
+  const [baseMeasurementForNewIngredient, setBaseMeasurementForNewIngredient] =
+    useState('');
+
   const [getNewIngredientsList, setGetNewIngredientsList] = useState([]);
   const [newMeasurement, setNewMeasurement] = useState([]);
 
@@ -84,7 +90,7 @@ const AddRecipeForm = () => {
       const response = await axios.get(
         `/api/ingredients/measurements/${baseMeasurement}`
       );
-
+      setBaseMeasurementForNewIngredient(baseMeasurement);
       setNewMeasurement(response.data);
       console.log(response.data);
       return response.data;
@@ -152,18 +158,27 @@ const AddRecipeForm = () => {
       console.error(error);
     }
   }
-
-  const sendNewIngredient = (
+  //
+  const sendNewIngredient = async (
     addNewIngredient,
-    getNewIngredientType,
+    ingredientTypeFromUser,
     addNewAmount
   ) => {
     console.log(addNewIngredient, getNewIngredientType, addNewAmount);
-    setIngredientsList(...newIngredientsList, {
-      ingredient: addNewIngredient,
-      unit: getNewIngredientType,
-      amount: addNewAmount,
-    });
+    const ingrid = await saveNewIngredient(
+      addNewIngredient,
+      baseMeasurementForNewIngredient
+    );
+
+    setNewIngredientsList([
+      ...newIngredientsList,
+      {
+        ingredient: ingrid,
+        unit: ingredientTypeFromUser,
+        amount: addNewAmount,
+      },
+    ]);
+    console.log(newIngredientsList);
   };
 
   useEffect(() => {
@@ -295,7 +310,7 @@ const AddRecipeForm = () => {
                 </option>
                 {ingredientsList.map((l) => (
                   <option key={l.id} value={JSON.stringify(l)}>
-                    {l.name}
+                    {l.name} ({l.measurement})
                   </option>
                 ))}
               </select>
@@ -366,7 +381,6 @@ const AddRecipeForm = () => {
               <input
                 className="form-control"
                 id="addNewIngredient"
-                value={addNewIngredient}
                 type="text"
                 onChange={(e) => setAddNewIngredient(e.target.value)}
                 placeholder="Adja meg a hozzávaló nevét"
@@ -394,7 +408,7 @@ const AddRecipeForm = () => {
               <select
                 className="form-control"
                 name="ingredientType"
-                onChange={(e) => setNewIngredientType(e.target.value)}
+                onChange={(e) => setIngredientTypeFromUser(e.target.value)}
               >
                 <option value="" selected disabled hidden>
                   Mértékegység megadása
@@ -422,9 +436,9 @@ const AddRecipeForm = () => {
               className="btn btn-success"
               onClick={() => {
                 sendNewIngredient(
-                  addNewAmount,
                   addNewIngredient,
-                  newIngredientType
+                  ingredientTypeFromUser,
+                  addNewAmount
                 );
               }}
               type="button"
