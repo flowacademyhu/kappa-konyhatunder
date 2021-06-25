@@ -4,7 +4,10 @@ function IngredientsInRecipeList({ ingredientsList }) {
       {ingredientsList ? (
         <div className="container">
           {ingredientsList.map((ingredient) => (
-            <div key={ingredient.ingredient.id} className="row">
+            <div
+              key={ingredient.ingredient.id ? ingredient.ingredient.id : '1'}
+              className="row"
+            >
               <div className="col">
                 Hozzávaló : {ingredient.ingredient.name}
               </div>
@@ -12,7 +15,7 @@ function IngredientsInRecipeList({ ingredientsList }) {
                 Mennyiség : {ingredient.amount} {ingredient.unit}
               </div>
             </div>
-          ))}{' '}
+          ))}
         </div>
       ) : (
         <div>Loading List... </div>

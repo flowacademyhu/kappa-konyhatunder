@@ -1,8 +1,10 @@
 package hu.flowacademy.konyhatunder.service;
 
+import hu.flowacademy.konyhatunder.dto.CreateIngredientDTO;
 import hu.flowacademy.konyhatunder.dto.IngredientDTO;
 import hu.flowacademy.konyhatunder.enums.*;
 import hu.flowacademy.konyhatunder.exception.MissingIDException;
+import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.repository.IngredientRepository;
 import lombok.RequiredArgsConstructor;
@@ -57,5 +59,54 @@ public class IngredientService {
                 .id(ingredient.getId())
                 .measurements(typeList)
                 .build();
+    }
+
+    public List<String> listMeasurements() {
+        return Arrays.stream(Measurement.values()).map(Measurement::getHungarianTranslation).collect(Collectors.toList());
+    }
+
+    public List<String> listMeasurementsUnit(String unit) {
+        switch (unit) {
+            case "Kilogramm":
+                return Arrays.stream(MeasurementKilogram.values()).map(MeasurementKilogram::getHungarianTranslation).collect(Collectors.toList());
+            case "Liter":
+                return Arrays.stream(MeasurementLiter.values()).map(MeasurementLiter::getHungarianTranslation).collect(Collectors.toList());
+            case "Kanál":
+                return Arrays.stream(MeasurementSpoon.values()).map(MeasurementSpoon::getHungarianTranslation).collect(Collectors.toList());
+            case "Bögre":
+                return Arrays.stream(MeasurementCup.values()).map(MeasurementCup::getHungarianTranslation).collect(Collectors.toList());
+            case "Darab":
+                return Arrays.stream(MeasurementPiece.values()).map(MeasurementPiece::getHungarianTranslation).collect(Collectors.toList());
+            default:
+                return Arrays.stream(MeasurementOther.values()).map(MeasurementOther::getHungarianTranslation).collect(Collectors.toList());
+        }
+    }
+
+    public Ingredient createIngredient(CreateIngredientDTO createIngredientDTO) {
+        System.out.println(translateMeasurement(createIngredientDTO.getMeasurement()));
+        return ingredientRepository.save(Ingredient.builder()
+                .name(createIngredientDTO.getName())
+                .measurement(translateMeasurement(createIngredientDTO.getMeasurement()))
+                .build());
+
+    }
+
+    private Measurement translateMeasurement(String measurement) {
+        if (Measurement.CUP.getHungarianTranslation().equals(measurement)) {
+            return Measurement.CUP;
+        } else if (Measurement.KG.getHungarianTranslation().equals(measurement)) {
+            return Measurement.KG;
+        } else if (Measurement.LITER.getHungarianTranslation().equals(measurement)) {
+            return Measurement.LITER;
+        } else if (Measurement.SPOON.getHungarianTranslation().equals(measurement)) {
+            return Measurement.SPOON;
+        } else if (Measurement.PIECE.getHungarianTranslation().equals(measurement)) {
+            return Measurement.PIECE;
+        }else if (Measurement.OTHER.getHungarianTranslation().equals(measurement)) {
+            return Measurement.OTHER;
+        }
+        else{
+            throw new ValidationException("Nem megfelelő alapegység!");
+        }
     }
 }
