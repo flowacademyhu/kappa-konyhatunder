@@ -21,7 +21,7 @@ public class CategoryService {
 
     public List<Category> listCategories() {
         List<Category> allCategory = categoryRepository.findAll();
-        log.debug("Get all Category from CategoryService.");
+        log.debug("Get all {} Category from CategoryService.",allCategory.size());
         return allCategory;
     }
 

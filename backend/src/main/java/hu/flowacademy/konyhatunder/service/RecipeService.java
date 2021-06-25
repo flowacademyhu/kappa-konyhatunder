@@ -17,6 +17,7 @@ import hu.flowacademy.konyhatunder.repository.CategoryRepository;
 import hu.flowacademy.konyhatunder.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -28,6 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -39,10 +41,13 @@ public class RecipeService {
     private final ImageStorageService imageStorageService;
 
     public List<Recipe> listRecipes() {
-        return recipeRepository.findAll();
+        List<Recipe> allRecipes = recipeRepository.findAll();
+        log.debug("Get all {} recipes in RecipeService",allRecipes.size());
+        return allRecipes;
     }
 
     public Recipe getRecipe(String id) {
+        log.debug("Get a recipe with this id: {} in RecipeService",id);
         return recipeRepository.findById(id).orElseThrow(() ->
                 new MissingIDException("Nincs ilyen ID-val rendelkező recept!"));
     }
