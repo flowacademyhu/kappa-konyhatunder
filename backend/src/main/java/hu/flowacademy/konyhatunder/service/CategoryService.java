@@ -34,14 +34,14 @@ public class CategoryService {
     public Category createCategory(Category category) {
         validate(category);
         Category savedCategory = categoryRepository.save(new Category(convertName(category.getName())));
-        log.debug("Create a category with these params: {}",savedCategory);
+        log.debug("Create a category with these params: {} in CategoryService",savedCategory);
         return savedCategory;
     }
 
     private String convertName(String name) {
         String firstLetter = name.substring(0, 1).toUpperCase();
         String remainingLetters = name.substring(1).toLowerCase();
-        log.debug("Convert this: {} category name to this {}",name, firstLetter+remainingLetters);
+        log.debug("Convert this: {} category name to this {} in CategoryService",name, firstLetter+remainingLetters);
         return firstLetter + remainingLetters;
     }
 
