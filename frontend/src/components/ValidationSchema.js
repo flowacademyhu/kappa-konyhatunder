@@ -3,11 +3,11 @@ import * as yup from 'yup';
 export const validationSchema = yup.object().shape({
   name: yup
     .string()
-    .required('A felhasználónév kötelező!')
+    .required('A recept neve kötelező!')
     .min(10, 'Minimum 10 karakter.'),
   description: yup
     .string()
-    .required('A leírás kötelező!')
+    .required('Az elkészítés mező kötelező!')
     .min(10, 'Minimum 10 karakter.'),
   preparationTime: yup
     .number('Nem szám formátum')
