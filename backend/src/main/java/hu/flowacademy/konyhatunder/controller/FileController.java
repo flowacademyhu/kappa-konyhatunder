@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class FileController {
 
     private final ImageStorageService imageStorageService;

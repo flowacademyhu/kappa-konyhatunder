@@ -41,6 +41,6 @@ public class RecipeController {
     @GetMapping("/levels")
     public List<String> listRecipeLevels() {
         log.debug("Get all Difficulty in RecipeController");
-        return recipeService.listRecipeLevels();
+        return recipeService.listRecipeDifficulty();
     }
 }

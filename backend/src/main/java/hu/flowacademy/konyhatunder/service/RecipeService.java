@@ -64,7 +64,7 @@ public class RecipeService {
         Recipe savedRecipe = recipeRepository.save(Recipe.builder()
                 .name(recipeDTO.getName())
                 .description(recipeDTO.getDescription())
-                .difficulty(translateLevel(recipeDTO.getDifficulty()))
+                .difficulty(translateDifficulty(recipeDTO.getDifficulty()))
                 .image(imageFile)
                 .preparationTime(recipeDTO.getPreparationTime())
                 .categories(categoryList)
@@ -100,21 +100,22 @@ public class RecipeService {
                 return Arrays.stream(MeasurementPiece.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
             case "Kanál" :
                 return Arrays.stream(MeasurementSpoon.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
-            default:
+            case "Egyéb" :
                 return Arrays.stream(MeasurementOther.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+            default : throw new ValidationException("Nem megfelelő alapegység!");
         }
     }
 
-    public List<String> listRecipeLevels() {
+    public List<String> listRecipeDifficulty() {
         return Arrays.stream(Difficulty.values()).map(Difficulty::getHungarianTranslation).collect(Collectors.toList());
     }
 
-    private Difficulty translateLevel(String level) {
-        if (Difficulty.EASY.getHungarianTranslation().equals(level)) {
+    private Difficulty translateDifficulty(String difficulty) {
+        if (Difficulty.EASY.getHungarianTranslation().equals(difficulty)) {
             return Difficulty.EASY;
-        } else if (Difficulty.MEDIUM.getHungarianTranslation().equals(level)) {
+        } else if (Difficulty.MEDIUM.getHungarianTranslation().equals(difficulty)) {
             return Difficulty.MEDIUM;
-        } else if (Difficulty.HARD.getHungarianTranslation().equals(level)) {
+        } else if (Difficulty.HARD.getHungarianTranslation().equals(difficulty)) {
             return Difficulty.HARD;
         } else {
             throw new ValidationException("Nem megfelelő nehézségi szint!");
