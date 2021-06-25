@@ -6,6 +6,7 @@ import Modal from './Modal';
 import IngredientsInRecipeList from './IngredientsInRecipeList';
 import '../styles/AddRecipeForm.css';
 import { saveNewIngredient } from './apiCalls';
+import { translateIngredient } from './transleteIngredientsMeasurement';
 
 const AddRecipeForm = () => {
   const [status, setStatus] = useState('Sikertelen hozzáadás');
@@ -306,7 +307,7 @@ const AddRecipeForm = () => {
                 </option>
                 {ingredientsList.map((l) => (
                   <option key={l.id} value={JSON.stringify(l)}>
-                    {l.name} ({l.measurement})
+                    {translateIngredient(l.name, l.measurement)}
                   </option>
                 ))}
               </select>
@@ -364,8 +365,6 @@ const AddRecipeForm = () => {
         </div>
 
         {
-          //Új hozzávaló megadása}
-
           <div className="d-flex align-items-center">
             <p className="col-2 mt-2 pl-0 d-flex align-items-center">
               {' '}
@@ -387,9 +386,7 @@ const AddRecipeForm = () => {
                 name="ingredientType"
                 onChange={(e) => getMeasurements(e.target.value)}
               >
-                <option value="" selected disabled hidden>
-                  Alapegység
-                </option>
+                <option value="">Alapegység</option>
                 {ingredientTypeList.map((l) => (
                   <option key={l} value={l}>
                     {l}
@@ -404,9 +401,7 @@ const AddRecipeForm = () => {
                 name="ingredientType"
                 onChange={(e) => setIngredientTypeFromUser(e.target.value)}
               >
-                <option value="" selected disabled hidden>
-                  Mértékegység megadása
-                </option>
+                <option value="">Mértékegység megadása</option>
                 {newMeasurement.map((l) => (
                   <option key={l} value={l}>
                     {l}
