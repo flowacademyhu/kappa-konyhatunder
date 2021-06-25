@@ -33,7 +33,6 @@ public class RecipeController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Recipe createRecipe(@RequestPart String recipeDTO, @RequestPart(name = "image", required = false) MultipartFile image) throws JsonProcessingException {
-        log.debug("Try to save a Recipe with this image name: {} in RecipeController",image.getName());
         log.debug("Try to save a Recipe with this params: {} in RecipeController",recipeDTO);
         return recipeService.createRecipe(recipeDTO, image);
     }
