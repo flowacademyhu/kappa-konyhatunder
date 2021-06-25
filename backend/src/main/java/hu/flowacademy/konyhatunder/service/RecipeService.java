@@ -12,7 +12,7 @@ import hu.flowacademy.konyhatunder.model.AmountOfIngredient;
 import hu.flowacademy.konyhatunder.model.Category;
 import hu.flowacademy.konyhatunder.model.Image;
 import hu.flowacademy.konyhatunder.model.Recipe;
-import hu.flowacademy.konyhatunder.repository.AmountOfIngredientForARecipeRepository;
+import hu.flowacademy.konyhatunder.repository.AmountOfIngredientRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
 import hu.flowacademy.konyhatunder.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public class RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final CategoryRepository categoryRepository;
-    private final AmountOfIngredientForARecipeRepository amountOfIngredientForARecipeRepository;
+    private final AmountOfIngredientRepository amountOfIngredientRepository;
     private final ImageStorageService imageStorageService;
 
     public List<Recipe> listRecipes() {
@@ -73,7 +73,7 @@ public class RecipeService {
                     .recipe(savedRecipe)
                     .ingredient(element.getIngredient())
                     .build();
-            amountOfIngredientForARecipeRepository.save(amountOfIng);
+            amountOfIngredientRepository.save(amountOfIng);
 
             amountOfIngredientList.add(amountOfIng);
 
