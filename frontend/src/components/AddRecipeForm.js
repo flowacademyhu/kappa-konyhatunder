@@ -34,7 +34,6 @@ const AddRecipeForm = () => {
     setIsFilePicked(true);
   };
 
-
   async function addCategory(value) {
     if (value === '') {
       setStatus('Kategória megadása kötelező!');
