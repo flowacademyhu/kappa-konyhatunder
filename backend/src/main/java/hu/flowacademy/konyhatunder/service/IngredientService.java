@@ -6,6 +6,7 @@ import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.repository.IngredientRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -22,7 +24,9 @@ public class IngredientService {
     private final IngredientRepository ingredientRepository;
 
     public List<Ingredient> listIngredients() {
-        return ingredientRepository.findAll();
+        List<Ingredient> allIngredient = ingredientRepository.findAll();
+        log.debug("Get all {} ingredients in IngredientService",allIngredient.size());
+            return allIngredient;
     }
 
     public IngredientDTO getIngredient(String id) {
@@ -48,10 +52,12 @@ public class IngredientService {
         if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.SPOON.getHungarianTranslation())) {
             typeList = Arrays.stream(MeasurementSpoon.values()).map(MeasurementSpoon::getHungarianTranslation).collect(Collectors.toList());
         }
-        return IngredientDTO.builder()
+        IngredientDTO sentIngredientDTO = IngredientDTO.builder()
                 .name(ingredient.getName())
                 .id(ingredient.getId())
                 .measurements(typeList)
                 .build();
+        log.debug("Create an Ingredient with these params: {} in IngredientService.",sentIngredientDTO);
+        return sentIngredientDTO;
     }
 }
