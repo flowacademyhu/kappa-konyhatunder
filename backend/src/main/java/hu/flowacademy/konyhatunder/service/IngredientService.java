@@ -39,19 +39,19 @@ public class IngredientService {
         if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.CUP.getHungarianTranslation())) {
             typeList = Arrays.stream(MeasurementCup.values()).map(MeasurementCup::getHungarianTranslation).collect(Collectors.toList());
         }
-        if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.KG.getHungarianTranslation())) {
+        else if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.KG.getHungarianTranslation())) {
             typeList = Arrays.stream(MeasurementKilogram.values()).map(MeasurementKilogram::getHungarianTranslation).collect(Collectors.toList());
         }
-        if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.LITER.getHungarianTranslation())) {
+        else if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.LITER.getHungarianTranslation())) {
             typeList = Arrays.stream(MeasurementLiter.values()).map(MeasurementLiter::getHungarianTranslation).collect(Collectors.toList());
         }
-        if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.OTHER.getHungarianTranslation())) {
+        else if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.OTHER.getHungarianTranslation())) {
             typeList = Arrays.stream(MeasurementOther.values()).map(MeasurementOther::getHungarianTranslation).collect(Collectors.toList());
         }
-        if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.PIECE.getHungarianTranslation())) {
+        else if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.PIECE.getHungarianTranslation())) {
             typeList = Arrays.stream(MeasurementPiece.values()).map(MeasurementPiece::getHungarianTranslation).collect(Collectors.toList());
         }
-        if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.SPOON.getHungarianTranslation())) {
+        else if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.SPOON.getHungarianTranslation())) {
             typeList = Arrays.stream(MeasurementSpoon.values()).map(MeasurementSpoon::getHungarianTranslation).collect(Collectors.toList());
         }
         return IngredientDTO.builder()
