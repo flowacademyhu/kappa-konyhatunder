@@ -58,3 +58,40 @@ export const addNewCategory = async (category) => {
   }
   return true;
 };
+
+export const getNewIngredientBaseMeasurements = async () => {
+  try {
+    const response = await axios.get(`/api/ingredients/measurements`);
+
+    return response.data;
+  } catch (error) {
+    console.error();
+  }
+};
+
+export const getLevels = async () => {
+  try {
+    const response = await axios.get(`/api/recipes/levels`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getCategorys = async () => {
+  try {
+    const response = await axios.get(`/api/categories`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getIngredient = async () => {
+  try {
+    const response = await axios.get(`/api/ingredients`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

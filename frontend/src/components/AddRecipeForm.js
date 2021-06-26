@@ -5,7 +5,15 @@ import { validationSchema } from './ValidationSchema';
 import Modal from './Modal';
 import IngredientsInRecipeList from './IngredientsInRecipeList';
 import '../styles/AddRecipeForm.css';
-import { saveNewIngredient, addRecipe, addNewCategory } from './apiCalls';
+import {
+  saveNewIngredient,
+  addRecipe,
+  addNewCategory,
+  getNewIngredientBaseMeasurements,
+  getLevels,
+  getCategorys,
+  getIngredient,
+} from './apiCalls';
 import { translateIngredient } from './transleteIngredientsMeasurement';
 import NoImageSelectedModal from './NoImageSelectedModal';
 
@@ -64,21 +72,6 @@ const AddRecipeForm = () => {
     );
   };
 
-  useEffect(() => {
-    async function ingredientTypeFunction() {
-      try {
-        const response = await axios.get(`/api/ingredients/measurements`);
-
-        setIngredientTypeList(response.data);
-        console.log(response.data);
-        return response.data;
-      } catch (error) {
-        console.error();
-      }
-    }
-    ingredientTypeFunction();
-  }, []);
-
   const getMeasurements = async (baseMeasurement) => {
     try {
       const response = await axios.get(
@@ -92,6 +85,16 @@ const AddRecipeForm = () => {
       console.error();
     }
   };
+
+  useEffect(() => {
+    const getInitData = async () => {
+      setLevels(await getLevels());
+      setCategoryList(await getCategorys());
+      setIngredientsList(await getIngredient());
+      setIngredientTypeList(await getNewIngredientBaseMeasurements());
+    };
+    getInitData();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -114,32 +117,6 @@ const AddRecipeForm = () => {
       }
     },
   });
-
-  useEffect(() => {
-    async function levelFunction() {
-      try {
-        const response = await axios.get(`/api/recipes/levels`);
-        setLevels(response.data);
-        return response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    levelFunction();
-  }, []);
-
-  useEffect(() => {
-    async function categoryFunction() {
-      try {
-        const response = await axios.get(`/api/categories`);
-        setCategoryList(response.data);
-        return response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    categoryFunction();
-  }, []);
 
   async function getIngredienTypeFunction(newIngredientString) {
     const newIngredientObject = JSON.parse(newIngredientString);
@@ -179,20 +156,6 @@ const AddRecipeForm = () => {
     ]);
     console.log(newIngredientsList);
   };
-
-  useEffect(() => {
-    async function ingredientFunction() {
-      try {
-        const response = await axios.get(`/api/ingredients`);
-
-        setIngredientsList(response.data);
-        return response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    ingredientFunction();
-  }, []);
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -246,11 +209,13 @@ const AddRecipeForm = () => {
             name="level"
             {...formik.getFieldProps('level')}
           >
-            {levels.map((level) => (
-              <option key={level} value={level}>
-                {level}
-              </option>
-            ))}
+            {levels[1]
+              ? levels.map((level) => (
+                  <option key={level} value={level}>
+                    {level}
+                  </option>
+                ))
+              : 'loading'}
           </select>
           <p className="mt-2">Kategória választás:</p>
           <div className="container">
