@@ -5,10 +5,12 @@ import { validationSchema } from './ValidationSchema';
 import Modal from './Modal';
 import IngredientsInRecipeList from './IngredientsInRecipeList';
 import '../styles/AddRecipeForm.css';
-import { saveNewIngredient } from './apiCalls';
+import { saveNewIngredient, addRecipe } from './apiCalls';
 import { translateIngredient } from './transleteIngredientsMeasurement';
+import NoImageSelectedModal from './NoImageSelectedModal';
 
 const AddRecipeForm = () => {
+  const [formValuesForModal, setFormValuesForModal] = useState('');
   const [status, setStatus] = useState('Sikertelen hozzáadás');
   const [levels, setLevels] = useState([]);
   const [amount, setAmount] = useState('');
@@ -39,6 +41,7 @@ const AddRecipeForm = () => {
       setStatus('Kategória megadása kötelező!');
       return;
     }
+    setCategoryList([...categoryList, { name: value }]);
     const data = {
       name: value,
     };
@@ -50,41 +53,6 @@ const AddRecipeForm = () => {
       setStatus('Sikertelen hozzáadás');
     }
     setCategory('');
-  }
-
-  async function addRecipe(values) {
-    const data = {
-      name: values.name,
-      description: values.description,
-      preparationTime: values.preparationTime,
-      difficulty: values.level,
-      categories: values.categoryList,
-      ingredients: values.ingredients,
-    };
-    const data2 = {
-      ...data,
-      ingredients: newIngredientsList,
-    };
-
-    const formData = new FormData();
-    const recipe = { ...data2 };
-    formData.append('image', selectedFile);
-    formData.append('recipeDTO', JSON.stringify(recipe));
-
-    console.log(recipe);
-    try {
-      const config = {
-        headers: { 'content-type': 'multipart/form-data' },
-      };
-
-      const response = axios.post('/api/recipes/', formData, config);
-
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-      setStatus('Sikertelen hozzáadás');
-    }
-    setStatus('Sikeres hozzáadás');
   }
 
   useEffect(() => {
@@ -128,7 +96,13 @@ const AddRecipeForm = () => {
     validationSchema,
 
     onSubmit: (values) => {
-      addRecipe(values);
+      if (isFilePicked) {
+        addRecipe(values, selectedFile, newIngredientsList)
+          ? setStatus('Sikeres hozzáadás!')
+          : setStatus('Sikertelen hozzáadás');
+      } else {
+        setFormValuesForModal(values);
+      }
     },
   });
 
@@ -156,7 +130,7 @@ const AddRecipeForm = () => {
       }
     }
     categoryFunction();
-  }, [category]);
+  }, []);
 
   async function getIngredienTypeFunction(newIngredientString) {
     const newIngredientObject = JSON.parse(newIngredientString);
@@ -477,9 +451,12 @@ const AddRecipeForm = () => {
           Hozzáadás
         </button>
         <Modal status={status} id="recipeStatusModal" />
-        <Modal
+        <NoImageSelectedModal
           status={'Lehetőség van fénykép hozzáadására!'}
           id="noFilePickedModal"
+          formValuesForModal={formValuesForModal}
+          selectedFile={selectedFile}
+          newIngredientsList={newIngredientsList}
         />
         <Modal status={status} id="ingredientStatusModal" />
       </div>

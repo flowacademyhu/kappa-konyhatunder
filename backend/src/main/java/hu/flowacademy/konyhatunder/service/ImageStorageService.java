@@ -22,7 +22,7 @@ public class ImageStorageService {
 
     public Image storeFile(MultipartFile file) {
         if (file == null) {
-            log.debug("No image uploaded in ImageStorageService.");
+            log.debug("No image uploaded");
             return imageRepository.findByFileName("abc").orElseThrow(() -> new MyFileNotFoundException("Nincs default image"));
         }
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
@@ -31,7 +31,7 @@ public class ImageStorageService {
                 throw new FileStorageException("Érvénytelen fájl név " + fileName);
             }
             Image image = new Image(fileName, file.getContentType(), file.getBytes());
-            log.debug("Saved an image in ImageStorageService");
+            log.debug("Saved an image");
             return imageRepository.save(image);
         } catch (IOException ex) {
             throw new FileStorageException("Nem sikerült a feltöltés" + fileName + ". Próbáld meg újra!", ex);
@@ -39,7 +39,7 @@ public class ImageStorageService {
     }
 
     public Image getFile(String id) {
-        log.debug("Get an image with this id: {} in ImageStorageService", id);
+        log.debug("Get an image with this id: {}", id);
         return imageRepository.findById(id)
                 .orElseThrow(() -> new MyFileNotFoundException("Nincs ilyen nevű kép " + id));
     }
