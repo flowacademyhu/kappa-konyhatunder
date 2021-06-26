@@ -10,11 +10,11 @@ import hu.flowacademy.konyhatunder.repository.IngredientRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -79,23 +79,32 @@ public class IngredientService {
     }
 
     public Ingredient createIngredient(CreateIngredientDTO createIngredientDTO) {
-        System.out.println(translateMeasurement(createIngredientDTO.getMeasurement()));
         validate(createIngredientDTO);
         return ingredientRepository.save(Ingredient.builder()
-                .name(createIngredientDTO.getName())
+                .name(convertName(createIngredientDTO.getName()))
                 .measurement(translateMeasurement(createIngredientDTO.getMeasurement()))
                 .build());
     }
 
     private void validate(CreateIngredientDTO createIngredientDTO) {
         List<Ingredient> allIngredient = ingredientRepository.findAll();
-        String newIngredientName = createIngredientDTO.getName();
+        if (!StringUtils.hasText(createIngredientDTO.getName())) {
+            throw new ValidationException("Hozzávaló nevének megadása kötelező!");
+        }
+        String newIngredientName = convertName(createIngredientDTO.getName());
         Measurement newIngredientMeasurement = translateMeasurement(createIngredientDTO.getMeasurement());
         boolean isExistingIngredient = allIngredient.stream().anyMatch(ingredient ->
                 ingredient.getName().equals(newIngredientName) && ingredient.getMeasurement().equals(newIngredientMeasurement));
         if (isExistingIngredient) {
             throw new ValidationException("Már létezik ilyen nevű és alapegységű hozávaló!");
         }
+    }
+
+    private String convertName(String name) {
+        String firstLetter = name.substring(0, 1).toUpperCase();
+        String remainingLetters = name.substring(1).toLowerCase();
+        log.debug("Convert this: {} ingredient name to this {} in ingredientService", name, firstLetter + remainingLetters);
+        return firstLetter + remainingLetters;
     }
 
     private Measurement translateMeasurement(String measurement) {
