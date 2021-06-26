@@ -49,3 +49,12 @@ export const addRecipe = async (values, selectedFile, newIngredientsList) => {
   }
   return true;
 };
+
+export const addNewCategory = async (category) => {
+  try {
+    await axios.post(`/api/categories`, { name: category });
+  } catch (error) {
+    return false;
+  }
+  return true;
+};

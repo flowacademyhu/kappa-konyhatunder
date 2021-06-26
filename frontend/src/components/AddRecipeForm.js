@@ -5,7 +5,7 @@ import { validationSchema } from './ValidationSchema';
 import Modal from './Modal';
 import IngredientsInRecipeList from './IngredientsInRecipeList';
 import '../styles/AddRecipeForm.css';
-import { saveNewIngredient, addRecipe } from './apiCalls';
+import { saveNewIngredient, addRecipe, addNewCategory } from './apiCalls';
 import { translateIngredient } from './transleteIngredientsMeasurement';
 import NoImageSelectedModal from './NoImageSelectedModal';
 
@@ -42,18 +42,27 @@ const AddRecipeForm = () => {
       return;
     }
     setCategoryList([...categoryList, { name: value }]);
-    const data = {
-      name: value,
-    };
-
-    try {
-      await axios.post(`/api/categories`, data);
-      setStatus('Sikeres hozzáadás!');
-    } catch (error) {
-      setStatus('Sikertelen hozzáadás');
-    }
+    addNewCategory(value)
+      ? setStatus('Sikeres hozzáadás!')
+      : setStatus('Sikertelen hozzáadás');
     setCategory('');
   }
+
+  const addIngredientToRecipe = () => {
+    setNewIngredientsList([
+      ...newIngredientsList,
+      {
+        ingredient: ingredient,
+        unit: newIngredientType,
+        amount: amount,
+      },
+    ]);
+    setIngredientsList(
+      ingredientsList.filter(
+        (ingredientItem) => ingredientItem.name !== ingredient.name
+      )
+    );
+  };
 
   useEffect(() => {
     async function ingredientTypeFunction() {
@@ -340,16 +349,7 @@ const AddRecipeForm = () => {
                 className="btn btn-success"
                 data-toggle="modal"
                 data-target="#ringredientStatusModal"
-                onClick={() => {
-                  setNewIngredientsList([
-                    ...newIngredientsList,
-                    {
-                      ingredient: ingredient,
-                      unit: newIngredientType,
-                      amount: amount,
-                    },
-                  ]);
-                }}
+                onClick={addIngredientToRecipe}
                 type="button"
               >
                 +
