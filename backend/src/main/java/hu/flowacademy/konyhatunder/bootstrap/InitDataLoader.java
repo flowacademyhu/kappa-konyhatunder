@@ -70,13 +70,13 @@ public class InitDataLoader implements CommandLineRunner {
                 Ingredient.builder().name("Sütopor").measurement(Measurement.SPOON).build(),
                 Ingredient.builder().name("Tojás").measurement(Measurement.PIECE).build()
         );
-        log.info("Created {} Ingredients by initDataLoader", ingredientList.size());
+        log.info("Created {} Ingredients", ingredientList.size());
         return ingredientList;
     }
 
     private void saveNewIngredient() {
         List<Ingredient> savedIngredients = ingredientRepository.saveAll(newIngredient());
-        log.info("Saved {} Ingredients by initDataLoader", savedIngredients.size());
+        log.info("Saved {} Ingredients", savedIngredients.size());
     }
 
     private List<Recipe> newRecipes(List<Category> categoryList) {
@@ -89,14 +89,14 @@ public class InitDataLoader implements CommandLineRunner {
                         .description(faker().lorem().sentence(20))
                         .preparationTime(faker().number().randomDouble(1, 5, 300))
                         .build()).collect(Collectors.toList());
-        log.info("Created {} new Recipes by initDataLoader", recipes.size());
+        log.info("Created {} new Recipes", recipes.size());
         return recipes;
     }
 
     private void saveNewRecipes() {
         List<Category> categoryList = categoryRepository.findAll();
         List<Recipe> savedRecipes = recipeRepository.saveAll(newRecipes(categoryList));
-        log.info("Saved {} Recipes by initDataLoader", savedRecipes.size());
+        log.info("Saved {} Recipes", savedRecipes.size());
     }
 
     private List<AmountOfIngredient> newAmountOfIngredient() {
@@ -135,19 +135,19 @@ public class InitDataLoader implements CommandLineRunner {
                         .recipe(recipeList.get(0))
                         .build()
         );
-        log.info("Created {} new AmountOfIngredients by initDataLoader", amountOfIngredients.size());
+        log.info("Created {} new AmountOfIngredients", amountOfIngredients.size());
         return amountOfIngredients;
     }
 
     private void saveNewAmountOfIngredient() {
        List<AmountOfIngredient> savedAmountOfIngredients =  amountOfIngredientRepository.saveAll(
                 newAmountOfIngredient());
-        log.info("Saved {} AmountOfIngredients by initDataLoader", savedAmountOfIngredients.size());
+        log.info("Saved {} AmountOfIngredients", savedAmountOfIngredients.size());
     }
 
     private void saveDefaultImage() {
         Image image = new Image("abc", "abc", new byte[0]);
         imageRepository.save(image);
-        log.info("Saved a default image by initDataLoader");
+        log.info("Saved a default image");
     }
 }

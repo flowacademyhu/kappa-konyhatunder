@@ -24,7 +24,7 @@ public class FileController {
 
     @PostMapping("/uploadMultipleFiles")
     public List<Image> uploadMultipleFiles(@RequestParam("image") MultipartFile[] files) {
-        log.debug("Try to save an image in FileController");
+        log.debug("Try to save an image");
         return Arrays.stream(files)
                 .map(imageStorageService::storeFile)
                 .collect(Collectors.toList());
@@ -32,7 +32,7 @@ public class FileController {
 
     @GetMapping("/image/{id}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String id) {
-       log.debug("Get an image with this id: {} in FileController",id);
+       log.debug("Get an image with this id: {}",id);
         Image image = imageStorageService.getFile(id);
 
         return ResponseEntity.ok()

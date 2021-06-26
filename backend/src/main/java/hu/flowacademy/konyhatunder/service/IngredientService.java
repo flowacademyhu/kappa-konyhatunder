@@ -28,14 +28,14 @@ public class IngredientService {
 
     public List<Ingredient> listIngredients() {
         List<Ingredient> allIngredient = ingredientRepository.findAll();
-        log.debug("Get all {} ingredients in IngredientService", allIngredient.size());
+        log.debug("Get all ({}) ingredients", allIngredient.size());
         return allIngredient;
     }
 
     public IngredientDTO getIngredient(String id) {
         Ingredient ingredient = ingredientRepository.findById(id).orElseThrow(() ->
                 new MissingIDException(ERROR_MESSAGE_MISSING_ID));
-        log.debug("Get an Ingredient with this id {} in IngredientService", id);
+        log.debug("Get an Ingredient with this id: {}", id);
         List<String> typeList = null;
         if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.CUP.getHungarianTranslation())) {
             typeList = Arrays.stream(MeasurementCup.values()).map(MeasurementCup::getHungarianTranslation).collect(Collectors.toList());
@@ -58,10 +58,12 @@ public class IngredientService {
     }
 
     public List<String> listMeasurements() {
+        log.debug("List all Measurement.");
         return Arrays.stream(Measurement.values()).map(Measurement::getHungarianTranslation).collect(Collectors.toList());
     }
 
     public List<String> listMeasurementsUnit(String unit) {
+        log.debug("List all Unit of a Measurement.");
         switch (unit) {
             case "Kilogramm":
                 return Arrays.stream(MeasurementKilogram.values()).map(MeasurementKilogram::getHungarianTranslation).collect(Collectors.toList());
@@ -80,13 +82,16 @@ public class IngredientService {
 
     public Ingredient createIngredient(CreateIngredientDTO createIngredientDTO) {
         validate(createIngredientDTO);
-        return ingredientRepository.save(Ingredient.builder()
+        Ingredient savedIngredient = ingredientRepository.save(Ingredient.builder()
                 .name(convertName(createIngredientDTO.getName()))
                 .measurement(translateMeasurement(createIngredientDTO.getMeasurement()))
                 .build());
+        log.debug("Saved an ingredient with these params: {}",savedIngredient);
+        return savedIngredient;
     }
 
     private void validate(CreateIngredientDTO createIngredientDTO) {
+        log.debug("Validating new Ingredient.");
         List<Ingredient> allIngredient = ingredientRepository.findAll();
         if (!StringUtils.hasText(createIngredientDTO.getName())) {
             throw new ValidationException("Hozzávaló nevének megadása kötelező!");
