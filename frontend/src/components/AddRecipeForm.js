@@ -41,6 +41,7 @@ const AddRecipeForm = () => {
       setStatus('Kategória megadása kötelező!');
       return;
     }
+    setCategoryList([...categoryList, { name: value }]);
     const data = {
       name: value,
     };
@@ -129,7 +130,7 @@ const AddRecipeForm = () => {
       }
     }
     categoryFunction();
-  }, [category]);
+  }, []);
 
   async function getIngredienTypeFunction(newIngredientString) {
     const newIngredientObject = JSON.parse(newIngredientString);
