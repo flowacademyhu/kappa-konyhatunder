@@ -46,7 +46,7 @@ public class InitDataLoader implements CommandLineRunner {
 
     private List<Category> newCategory() {
         List<String> names = List.of("Olcsó", "Ünnepi", "Magyar", "Olasz", "Kínai");
-        log.info("Created {} new Categories by initDataLoader", names.size());
+        log.info("Created {} new Categories", names.size());
         return List.of(
                 Category.builder().name(names.get(0)).build(),
                 Category.builder().name(names.get(1)).build(),
@@ -58,7 +58,7 @@ public class InitDataLoader implements CommandLineRunner {
 
     private void saveNewCategory() {
         List<Category> savedCategories = categoryRepository.saveAll(newCategory());
-        log.info("Saved {} Categories by initDataLoader", savedCategories.size());
+        log.info("Saved {} Categories", savedCategories.size());
     }
 
     private List<Ingredient> newIngredient() {
