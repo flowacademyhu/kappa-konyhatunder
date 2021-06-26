@@ -85,8 +85,9 @@ public class RecipeService {
 
         });
         savedRecipe.setIngredients(amountOfIngredientList);
-        log.debug("Saving a Recipe with these params: {}",savedRecipe);
-        return recipeRepository.save(savedRecipe);
+        Recipe savedRecipeInRepository = recipeRepository.save(savedRecipe);
+        log.debug("Saving a Recipe with this id: {} and name: {}", savedRecipeInRepository.getId(),savedRecipeInRepository.getName());
+        return savedRecipeInRepository;
     }
 
     private String translateUnit(Measurement measurement, String unit) {
