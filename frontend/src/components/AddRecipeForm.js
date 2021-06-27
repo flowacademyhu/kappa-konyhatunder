@@ -284,7 +284,7 @@ const AddRecipeForm = () => {
                 className="form-control"
                 name="ingredientType"
                 onChange={(e) => {
-                  setNewIngredientType(e.target.value);
+                  setNewIngredientType(JSON.parse(e.target.value));
                 }}
               >
                 <option>Mértékegysége</option>
