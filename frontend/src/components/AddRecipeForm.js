@@ -70,6 +70,7 @@ const AddRecipeForm = () => {
         (ingredientItem) => ingredientItem.name !== ingredient.name
       )
     );
+    setNewIngredientTypeList([]);
   };
 
   const getMeasurements = async (baseMeasurement) => {
@@ -120,17 +121,16 @@ const AddRecipeForm = () => {
 
   async function getIngredienTypeFunction(newIngredientString) {
     const newIngredientObject = JSON.parse(newIngredientString);
-
     try {
       const response = await axios.get(
         `/api/ingredients/${newIngredientObject.id}`
       );
 
       setIngredient(newIngredientObject);
-      setNewIngredientType(response.data.measurements[0]);
-      setNewIngredientTypeList(response.data.measurements);
 
-      //return response.data.measurements;
+      setNewIngredientType(response.data.measurements[0]);
+
+      setNewIngredientTypeList(response.data.measurements);
     } catch (error) {
       console.error(error);
     }
@@ -268,12 +268,9 @@ const AddRecipeForm = () => {
               <select
                 className="form-control"
                 name="ingredient"
-                defaultValue={'DEFAULT'}
                 onChange={(e) => getIngredienTypeFunction(e.target.value)}
               >
-                <option value="DEFAULT" disabled>
-                  Hozzávaló neve
-                </option>
+                <option>Hozzávaló neve</option>
                 {ingredientsList.map((l) => (
                   <option key={l.id} value={JSON.stringify(l)}>
                     {translateIngredient(l.name, l.measurement)}
@@ -287,12 +284,12 @@ const AddRecipeForm = () => {
                 className="form-control"
                 name="ingredientType"
                 onChange={(e) => {
-                  getIngredienTypeFunction(e.target.value);
-                  setNewIngredientType(newIngredientType);
+                  setNewIngredientType(e.target.value);
                 }}
               >
+                <option>Mértékegysége</option>
                 {newIngredientTypeList.map((l) => (
-                  <option key={l} value={l}>
+                  <option key={l} value={JSON.stringify(l)}>
                     {l}
                   </option>
                 ))}
