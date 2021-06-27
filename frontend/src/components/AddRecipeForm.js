@@ -322,85 +322,84 @@ const AddRecipeForm = () => {
             </div>
           </div>
         </div>
+
+        <div className="d-flex align-items-center">
+          <p className="col-2 mt-2 pl-0 d-flex align-items-center">
+            {' '}
+            Új hozzávaló megadása
+          </p>
+          <div className="col-5">
+            <input
+              className="form-control"
+              id="addNewIngredient"
+              type="text"
+              onChange={(e) => setAddNewIngredient(e.target.value)}
+              placeholder="Adja meg a hozzávaló nevét"
+            />
+          </div>
+
+          <div className="col-2">
+            <select
+              className="form-control"
+              name="ingredientType"
+              onChange={(e) => getMeasurements(e.target.value)}
+            >
+              <option value="">Alapegység</option>
+              {ingredientTypeList.map((l) => (
+                <option key={l} value={l}>
+                  {l}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="col-2">
+            <select
+              className="form-control"
+              name="ingredientType"
+              onChange={(e) => setIngredientTypeFromUser(e.target.value)}
+            >
+              <option value="">Mértékegység megadása</option>
+              {newMeasurement.map((l) => (
+                <option key={l} value={l}>
+                  {l}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="col-3">
+            <input
+              className="form-control"
+              id="addNewAmount"
+              type="text"
+              value={addNewAmount}
+              onChange={(e) => setAddNewAmount(e.target.value)}
+              placeholder="Adja meg a mennyiséget"
+            />
+          </div>
+
+          <button
+            className="btn btn-success"
+            onClick={() => {
+              sendNewIngredient(
+                addNewIngredient,
+                ingredientTypeFromUser,
+                addNewAmount
+              );
+            }}
+            type="button"
+          >
+            +
+          </button>
+        </div>
+
         <div>
           <p>Kép hozzáadása</p>
           <div className="ImageUploader">
             <input type="file" onChange={fileSelectedHandler} />
           </div>
         </div>
-
-        {
-          <div className="d-flex align-items-center">
-            <p className="col-2 mt-2 pl-0 d-flex align-items-center">
-              {' '}
-              Új hozzávaló megadása
-            </p>
-            <div className="col-5">
-              <input
-                className="form-control"
-                id="addNewIngredient"
-                type="text"
-                onChange={(e) => setAddNewIngredient(e.target.value)}
-                placeholder="Adja meg a hozzávaló nevét"
-              />
-            </div>
-
-            <div className="col-2">
-              <select
-                className="form-control"
-                name="ingredientType"
-                onChange={(e) => getMeasurements(e.target.value)}
-              >
-                <option value="">Alapegység</option>
-                {ingredientTypeList.map((l) => (
-                  <option key={l} value={l}>
-                    {l}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="col-2">
-              <select
-                className="form-control"
-                name="ingredientType"
-                onChange={(e) => setIngredientTypeFromUser(e.target.value)}
-              >
-                <option value="">Mértékegység megadása</option>
-                {newMeasurement.map((l) => (
-                  <option key={l} value={l}>
-                    {l}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="col-3">
-              <input
-                className="form-control"
-                id="addNewAmount"
-                type="text"
-                value={addNewAmount}
-                onChange={(e) => setAddNewAmount(e.target.value)}
-                placeholder="Adja meg a mennyiséget"
-              />
-            </div>
-
-            <button
-              className="btn btn-success"
-              onClick={() => {
-                sendNewIngredient(
-                  addNewIngredient,
-                  ingredientTypeFromUser,
-                  addNewAmount
-                );
-              }}
-              type="button"
-            >
-              +
-            </button>
-          </div>
-        }
 
         <p>Kiválasztott hozzávalók:</p>
 
