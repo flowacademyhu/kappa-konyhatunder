@@ -218,48 +218,48 @@ const AddRecipeForm = () => {
               : 'loading'}
           </select>
           <p className="mt-2">Kategória választás:</p>
-          <div className="container">
-            <div className="row">
-              {categoryList.map((l) => (
-                <div key={l.name}>
-                  <input
-                    type="checkbox"
-                    id={l.name}
-                    name={l.name}
-                    className="mr-2 ml-2"
-                    {...formik.getFieldProps('categoryList')}
-                    value={l.name}
-                  />
-                  <label htmlFor={l.name}>{l.name}</label>
-                </div>
-              ))}
-            </div>
-            <label className="mt-2" htmlFor="long">
-              Kategória hozzáadása
-            </label>
-            <div className="row align-items-center justify-content-between">
-              <div className="col-4">
+
+          <div className="row">
+            {categoryList.map((l) => (
+              <div key={l.name}>
                 <input
-                  className="form-control"
-                  id="category"
-                  value={category}
-                  type="text"
-                  onChange={(e) => setCategory(e.target.value)}
+                  type="checkbox"
+                  id={l.name}
+                  name={l.name}
+                  className="mr-2 ml-2"
+                  {...formik.getFieldProps('categoryList')}
+                  value={l.name}
                 />
+                <label htmlFor={l.name}>{l.name}</label>
               </div>
-              <div className="col">
-                <button
-                  className="btn btn-success"
-                  onClick={() => addCategory(category)}
-                  data-toggle="modal"
-                  data-target="#recipeStatusModal"
-                  type="button"
-                >
-                  +
-                </button>
-              </div>
+            ))}
+          </div>
+          <label className="mt-2" htmlFor="long">
+            Kategória hozzáadása
+          </label>
+          <div className="row align-items-center justify-content-between">
+            <div className="col-4">
+              <input
+                className="form-control"
+                id="category"
+                value={category}
+                type="text"
+                onChange={(e) => setCategory(e.target.value)}
+              />
+            </div>
+            <div className="col">
+              <button
+                className="btn btn-success"
+                onClick={() => addCategory(category)}
+                data-toggle="modal"
+                data-target="#recipeStatusModal"
+                type="button"
+              >
+                +
+              </button>
             </div>
           </div>
+
           <label className="mt-2" htmlFor="long">
             Hozzávaló hozzáadása
           </label>
@@ -325,7 +325,7 @@ const AddRecipeForm = () => {
             {' '}
             Új hozzávaló megadása
           </p>
-          <div className="col-5">
+          <div className="col-3">
             <input
               className="form-control"
               id="addNewIngredient"
@@ -365,7 +365,7 @@ const AddRecipeForm = () => {
             </select>
           </div>
 
-          <div className="col-3">
+          <div className="col-2">
             <input
               className="form-control"
               id="addNewAmount"
@@ -375,20 +375,21 @@ const AddRecipeForm = () => {
               placeholder="Adja meg a mennyiséget"
             />
           </div>
-
-          <button
-            className="btn btn-success"
-            onClick={() => {
-              sendNewIngredient(
-                addNewIngredient,
-                ingredientTypeFromUser,
-                addNewAmount
-              );
-            }}
-            type="button"
-          >
-            +
-          </button>
+          <div className="col-1">
+            <button
+              className="btn btn-success"
+              onClick={() => {
+                sendNewIngredient(
+                  addNewIngredient,
+                  ingredientTypeFromUser,
+                  addNewAmount
+                );
+              }}
+              type="button"
+            >
+              +
+            </button>
+          </div>
         </div>
 
         <div>
