@@ -3,10 +3,6 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const recipeAPI = axios.create({
-  baseURL: '/api/',
-});
-
 export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
@@ -14,7 +10,8 @@ export default function SingleRecipe() {
   useEffect(() => {
     async function getRecipe() {
       try {
-        const response = await recipeAPI.get(`recipes/${id}`);
+        const response = await axios.get(`/api/recipes/${id}`);
+        console.log(response.data);
         setProduct(response.data);
       } catch (err) {
         console.error('Error during api call:', err);
@@ -26,15 +23,15 @@ export default function SingleRecipe() {
   return (
     <>
       {product ? (
-        <div className="row">
+        <div className="row" key={product.id}>
           <div className="col-3">
             <img
               className="justify-content-center w-100"
-              src={`/api/image/${product.image.name}`}
+              src={`http://localhost:8081/api/image/${product.image.id}`}
               alt={product.title}
             />
           </div>
-          <div className="col-9">
+          <div className="col-9" key={product.id}>
             <h3>Recept neve : {console.log(product)} </h3>
             <p>{product.name}</p>
             <h3>Recept leírása : </h3>
