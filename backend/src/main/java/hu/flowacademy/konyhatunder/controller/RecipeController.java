@@ -1,6 +1,7 @@
 package hu.flowacademy.konyhatunder.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.service.RecipeService;
 import lombok.AllArgsConstructor;
@@ -41,5 +42,11 @@ public class RecipeController {
     public List<String> listRecipeDifficulties() {
         log.debug("Get all Difficulty");
         return recipeService.listRecipeDifficulty();
+    }
+
+    @PostMapping("/search/ingredients")
+    public List<Recipe> sendRecipesByIngredients(@RequestBody List<Ingredient> ingredientList){
+        log.debug("Recieved {} ingredtients",ingredientList.size());
+        return recipeService.sendRecipesByIngredients(ingredientList);
     }
 }
