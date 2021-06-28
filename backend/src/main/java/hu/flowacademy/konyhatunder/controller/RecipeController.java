@@ -37,8 +37,8 @@ public class RecipeController {
         return recipeService.createRecipe(recipeDTO, image);
     }
 
-    @GetMapping("/levels")
-    public List<String> listRecipeLevels() {
+    @GetMapping("/difficutlies")
+    public List<String> listRecipeDifficulties() {
         log.debug("Get all Difficulty");
         return recipeService.listRecipeDifficulty();
     }
