@@ -37,11 +37,14 @@ public class InitDataLoader implements CommandLineRunner {
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public void run(String... args) {
-        saveNewCategory();
-        saveNewIngredient();
-        saveNewRecipes();
-        saveNewAmountOfIngredient();
-        saveDefaultImage();
+        log.info("Starting init data loader...");
+        if (recipeRepository.count() == 0) {
+            saveNewCategory();
+            saveNewIngredient();
+            saveNewRecipes();
+            saveNewAmountOfIngredient();
+            saveDefaultImage();
+        }
     }
 
     private List<Category> newCategory() {
