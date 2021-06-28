@@ -65,6 +65,7 @@ const AddRecipeForm = () => {
         amount: amount,
       },
     ]);
+    setAmount('');
     setIngredientsList(
       ingredientsList.filter(
         (ingredientItem) => ingredientItem.name !== ingredient.name
