@@ -269,7 +269,11 @@ const AddRecipeForm = () => {
               <select
                 className="form-control"
                 name="ingredient"
-                onChange={(e) => getIngredienTypeFunction(e.target.value)}
+                onChange={(e) => {
+                  getIngredienTypeFunction(e.target.value);
+                  setNewIngredientType(newIngredientType);
+                  console.log(newIngredientsList);
+                }}
               >
                 <option>Hozzávaló neve</option>
                 {ingredientsList.map((l) => (
@@ -288,7 +292,6 @@ const AddRecipeForm = () => {
                   setNewIngredientType(JSON.parse(e.target.value));
                 }}
               >
-                <option>Mértékegysége</option>
                 {newIngredientTypeList.map((l) => (
                   <option key={l} value={JSON.stringify(l)}>
                     {l}
