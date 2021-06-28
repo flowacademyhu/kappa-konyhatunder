@@ -18,6 +18,7 @@ import { useMediaQuery } from 'react-responsive';
 import { Navbar, Button, Nav, NavLink } from 'react-bootstrap';
 import RecipeList from './RecipeList';
 import SingleRecipe from './SingleRecipe';
+import SearchResult from './SearchResult';
 function NavBar() {
   const isMobile = useMediaQuery({ query: `(max-width: 576px)` });
 
@@ -91,6 +92,9 @@ function NavBar() {
           </Route>
           <Route path="/recipes">
             <RecipeList />
+          </Route>
+          <Route path="/searchResult">
+            <SearchResult />
           </Route>
           <Redirect from="/" to="/mainPage" />
         </Switch>
