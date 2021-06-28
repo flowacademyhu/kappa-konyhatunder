@@ -14,9 +14,9 @@ import hu.flowacademy.konyhatunder.repository.AmountOfIngredientRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
 import hu.flowacademy.konyhatunder.repository.IngredientRepository;
 import hu.flowacademy.konyhatunder.repository.RecipeRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class RecipeService {
 
     private final RecipeRepository recipeRepository;
@@ -39,6 +38,17 @@ public class RecipeService {
     private final AmountOfIngredientRepository amountOfIngredientRepository;
     private final ImageStorageService imageStorageService;
     private final IngredientRepository ingredientRepository;
+
+    @Autowired
+    public RecipeService(RecipeRepository recipeRepository, CategoryRepository categoryRepository,
+                         AmountOfIngredientRepository amountOfIngredientRepository, ImageStorageService imageStorageService,
+                         IngredientRepository ingredientRepository) {
+        this.recipeRepository = recipeRepository;
+        this.categoryRepository = categoryRepository;
+        this.amountOfIngredientRepository = amountOfIngredientRepository;
+        this.imageStorageService = imageStorageService;
+        this.ingredientRepository = ingredientRepository;
+    }
 
     public List<Recipe> listRecipes() {
         List<Recipe> allRecipes = recipeRepository.findAll();

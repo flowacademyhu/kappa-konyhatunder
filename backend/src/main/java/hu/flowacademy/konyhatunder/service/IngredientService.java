@@ -7,8 +7,8 @@ import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.repository.IngredientRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -20,11 +20,15 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class IngredientService {
 
     private static final String ERROR_MESSAGE_MISSING_ID = "Nincs ilyen ID-val rendelkező hozzávaló!";
     private final IngredientRepository ingredientRepository;
+
+    @Autowired
+    public IngredientService(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
+    }
 
     public List<Ingredient> listIngredients() {
         List<Ingredient> allIngredient = ingredientRepository.findAll();
@@ -86,7 +90,7 @@ public class IngredientService {
                 .name(convertName(createIngredientDTO.getName()))
                 .measurement(translateMeasurement(createIngredientDTO.getMeasurement()))
                 .build());
-        log.debug("Saved an ingredient with these params: {}",savedIngredient);
+        log.debug("Saved an ingredient with these params: {}", savedIngredient);
         return savedIngredient;
     }
 
