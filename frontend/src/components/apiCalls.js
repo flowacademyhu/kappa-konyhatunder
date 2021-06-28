@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 export const saveNewIngredient = async (ingredinet, measurement) => {
   const data = {
     name: ingredinet,
@@ -70,7 +69,9 @@ export const getNewIngredientBaseMeasurements = async () => {
 
 export const getRecipeList = async (id) => {
   try {
-    const response = await axios.get(`/api/recipes/${id}`);
+    let response = await axios.get(`/api/recipes/${id}`);
+    if (response.data.image === null || undefined)
+      response.data.image = undefined;
 
     return response.data;
   } catch (err) {
