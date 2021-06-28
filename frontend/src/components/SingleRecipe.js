@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import pic from '../images/avocado.jpeg';
+import picture from '../images/avocado.jpeg';
 import { Link } from 'react-router-dom';
 import { getRecipeList } from './apiCalls';
 export default function SingleRecipe() {
@@ -17,28 +17,20 @@ export default function SingleRecipe() {
   return (
     <>
       {product ? (
-        <div className="row" key={product.id}>
-          <div className="col-3">
-            {product.imgage === undefined ? (
-              <img
-                className="justify-content-center w-100"
-                src={pic}
-                alt={product.title}
-              />
-            ) : (
-              <img
-                className="justify-content-center w-100"
-                src={`/api/image/${product.image.id}`}
-                alt={product.title}
-              />
-            )}
+        <div className="row justify-content-center " key={product.id}>
+          <div className="justify-content-center col-8 col-sm-3 m-2">
+            <img
+              className="border border-dark mt-4 w-100"
+              src={product.image ? `/api/image/${product.image.id}` : picture}
+              alt={product.title}
+            />
           </div>
-          <div className="col-9" key={product.id}>
-            <h3>Recept neve : </h3>
+          <div className="col-8" key={product.id}>
+            <h3 className="m-2">Recept neve : </h3>
             <p>{product.name}</p>
-            <h3>Recept leírása : </h3>
-            <p>{product.description}</p>
-            <h3>Recept Nehézség : </h3>
+            <h3 className="m-2">Recept leírása : </h3>
+            <div className="col-9">{product.description}</div>
+            <h3 className="m-2">Recept Nehézség : </h3>
             <p>
               {product.difficulty === 'HARD'
                 ? 'Nehéz'
@@ -46,26 +38,29 @@ export default function SingleRecipe() {
                 ? 'Közepes'
                 : 'Könnyű'}
             </p>
-            <h3>Recept elkész ideje : </h3>
-            <p>{product.preparationTime}</p>
+            <h3 className="m-2">Recept elkész ideje : </h3>
+            <p>{product.preparationTime} perc</p>
 
-            <h3>Recept kategóriája : </h3>
+            <h3 className="m-2">Recept kategóriája : </h3>
             {product.categories.map((category) => (
-              <div key={category.id}> {category.name}</div>
+              <div className="" key={category.id}>
+                {' '}
+                {category.name}
+              </div>
             ))}
 
-            <h3>Recept alapanyagjai : </h3>
+            <h3 className="mt-4">Recept alapanyagjai : </h3>
 
             {product.ingredients.map((ingredient) => (
               <>
-                <div className="row" key={ingredient.ingredient.name}>
-                  <div className="col">{ingredient.ingredient.name}</div>
-                  <div className="col">{ingredient.amount}</div>
-                  <div className="col">{ingredient.unit}</div>
+                <div className="row mt-2" key={ingredient.ingredient.name}>
+                  <div className="col-2">{ingredient.ingredient.name}</div>
+                  <div className="col-2">{ingredient.amount}</div>
+                  <div className="col-2">{ingredient.unit}</div>
                 </div>
               </>
             ))}
-            <Link className="btn btn-primary" to="/recipes">
+            <Link className="btn btn-success mt-4" to="/recipes">
               Vissza
             </Link>
           </div>

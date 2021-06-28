@@ -37,9 +37,7 @@ export const addRecipe = async (values, selectedFile, newIngredientsList) => {
     const config = {
       headers: { 'content-type': 'multipart/form-data' },
     };
-
     const response = axios.post('/api/recipes/', formData, config);
-
     console.log(response);
   } catch (error) {
     console.error(error);
@@ -69,9 +67,7 @@ export const getNewIngredientBaseMeasurements = async () => {
 
 export const getRecipeList = async (id) => {
   try {
-    let response = await axios.get(`/api/recipes/${id}`);
-    if (response.data.image === null || undefined)
-      response.data.image = undefined;
+    const response = await axios.get(`/api/recipes/${id}`);
 
     return response.data;
   } catch (err) {
