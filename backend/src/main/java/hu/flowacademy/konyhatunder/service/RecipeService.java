@@ -116,7 +116,15 @@ public class RecipeService {
 
     public List<Recipe> sendRecipesByIngredients(List<Ingredient> ingredientList) {
         validateReceivedIngredients(ingredientList);
-        return recipeRepository.findAll();
+        List<Recipe> foundRecipes = new ArrayList<>();
+        for(Ingredient ingredient:ingredientList){
+            Recipe foundRecipe = recipeRepository.findByIngredientsIngredientId(ingredient.getId());
+            if(foundRecipes.stream().noneMatch(recipe ->recipe.getId().equals(foundRecipe.getId()))){
+                foundRecipes.add(foundRecipe);
+            }
+        }
+        return foundRecipes;
+
     }
 
     private void validateReceivedIngredients(List<Ingredient> ingredientList) {
