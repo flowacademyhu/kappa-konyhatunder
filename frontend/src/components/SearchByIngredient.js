@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { getIngredient } from './apiCalls';
 function SearchByIngredient() {
   const [ingredientsList, setIngredientsList] = useState();
-  const [ertek, setErtek] = useState('');
-  const [ertekTomb, setErtekTomb] = useState([]);
+  const [chosenIngredient, setChosenIngredient] = useState('');
+  const [ingredientsArray, setIngredientsArray] = useState([]);
 
   useEffect(() => {
     const loadingData = async () => {
@@ -22,17 +22,19 @@ function SearchByIngredient() {
             <div className="col-6">
               <select
                 className="form-control"
-                name="ingredient"
+                name="chosenIngredient"
                 id="data"
                 onChange={(e) => {
-                  setErtek(e.target.value);
-                  console.log(ertek);
+                  setChosenIngredient(e.target.value);
                 }}
               >
                 <option>Hozzávaló neve</option>
-                {ingredientsList.map((l) => (
-                  <option key={l.id} value={JSON.stringify(l)}>
-                    {l.name}
+                {ingredientsList.map((chosenIngredient) => (
+                  <option
+                    key={chosenIngredient.id}
+                    value={JSON.stringify(chosenIngredient)}
+                  >
+                    {chosenIngredient.name}
                   </option>
                 ))}
               </select>
@@ -41,13 +43,14 @@ function SearchByIngredient() {
               <button
                 className="btn btn-success"
                 onClick={() => {
-                  setErtekTomb([...ertekTomb, JSON.parse(ertek)]);
-                  console.log('A lista', ertekTomb);
-                  console.log(ertek);
+                  setIngredientsArray([
+                    ...ingredientsArray,
+                    JSON.parse(chosenIngredient),
+                  ]);
                   setIngredientsList(
                     ingredientsList.filter(
                       (ingredientItem) =>
-                        ingredientItem.id !== JSON.parse(ertek).id
+                        ingredientItem.id !== JSON.parse(chosenIngredient).id
                     )
                   );
                 }}
@@ -62,13 +65,13 @@ function SearchByIngredient() {
         )}
 
         <div className="col-4">
-          {ertekTomb ? (
+          {ingredientsArray ? (
             <div>
               <div>A keresett hozzávalók listája:</div>
               <div className="row">
-                {ertekTomb.map((ingredient) => (
-                  <div key={ingredient.id}>
-                    <> {ingredient.name} , </>
+                {ingredientsArray.map((chosenIngredient) => (
+                  <div key={chosenIngredient.id}>
+                    <> {chosenIngredient.name} , </>
                   </div>
                 ))}
               </div>
