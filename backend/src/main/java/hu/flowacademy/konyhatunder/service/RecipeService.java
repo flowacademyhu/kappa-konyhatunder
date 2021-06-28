@@ -122,7 +122,7 @@ public class RecipeService {
         return difficulties;
     }
 
-    public List<Recipe> sendRecipesByIngredients(List<Ingredient> ingredientList) {
+    public List<Recipe> listRecipesByIngredients(List<Ingredient> ingredientList) {
         validateReceivedIngredients(ingredientList);
         Set<Recipe> foundRecipes = new HashSet<>();
         ingredientList.forEach(ingredient ->
