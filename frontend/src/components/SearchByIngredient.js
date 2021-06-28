@@ -82,9 +82,10 @@ function SearchByIngredient() {
         </div>
         <div className="col-1">
           <Link
-            className="btn btn-primary"
-            to="/searchResult"
-            ingredientsArray={ingredientsArray}
+            to={{
+              pathname: '/searchResult',
+              state: { ingredientsArray: ingredientsArray },
+            }}
           >
             Keresés...
           </Link>
