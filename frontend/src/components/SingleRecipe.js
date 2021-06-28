@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
+import pic from '../images/avocado.jpeg';
 import { Link } from 'react-router-dom';
 import { getRecipeList } from './apiCalls';
 export default function SingleRecipe() {
@@ -19,11 +19,19 @@ export default function SingleRecipe() {
       {product ? (
         <div className="row" key={product.id}>
           <div className="col-3">
-            <img
-              className="justify-content-center w-100"
-              src={`/api/image/${product.image.id}`}
-              alt={product.title}
-            />
+            {product.imgage === undefined ? (
+              <img
+                className="justify-content-center w-100"
+                src={pic}
+                alt={product.title}
+              />
+            ) : (
+              <img
+                className="justify-content-center w-100"
+                src={`/api/image/${product.image.id}`}
+                alt={product.title}
+              />
+            )}
           </div>
           <div className="col-9" key={product.id}>
             <h3>Recept neve : </h3>
