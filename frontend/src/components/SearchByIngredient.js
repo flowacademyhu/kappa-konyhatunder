@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import IngredientsInRecipeList from './IngredientsInRecipeList';
 const recipeAPI = axios.create({
   baseURL: '/api/',
 });
@@ -9,7 +9,7 @@ const recipeAPI = axios.create({
 function SearchByIngredient() {
   const [recipes, setRecipes] = useState('');
   const [ingredientsList, setIngredientsList] = useState();
-  const [ertek, setErtek] = useState();
+  const [ertek, setErtek] = useState('');
   const [ertekTomb, setErtekTomb] = useState([]);
 
   useEffect(() => {
@@ -54,8 +54,9 @@ function SearchByIngredient() {
               console.log(ertek);
             }}
           >
+            <option>Hozzávaló neve</option>
             {ingredientsList.map((l) => (
-              <option key={l.id} value={l.id}>
+              <option key={l.id} value={JSON.stringify(l)}>
                 {l.name}
               </option>
             ))}
@@ -65,12 +66,17 @@ function SearchByIngredient() {
             <p>Gomb</p>
             <button
               className="btn btn-success"
-              data-toggle="modal"
-              data-target="#ringredientStatusModal"
               onClick={() => {
-                setErtekTomb([...ertekTomb, ertek]);
+                setErtekTomb([...ertekTomb, JSON.parse(ertek)]);
                 console.log('A lista', ertekTomb);
-                recipes.filter((recipe) => recipe.ingredient.id);
+                console.log(ertek);
+                setIngredientsList(
+                  ingredientsList.filter(
+                    (ingredientItem) =>
+                      ingredientItem.id !== JSON.parse(ertek).id
+                  )
+                );
+                //       recipes.filter((recipe) => recipe.ingredient.id);
               }}
               type="button"
             >
@@ -81,16 +87,24 @@ function SearchByIngredient() {
       ) : (
         <div>'Loading List...' </div>
       )}{' '}
-      {recipes ? (
-        recipes.map((recipe) => (
-          <div className="col">Recept neve : {recipe.name}</div>
-        ))
-      ) : (
-        <div>'Loading List...' </div>
-      )}
       <Link className="btn btn-primary" to="/searchResult">
         Keresés...
       </Link>
+      <>
+        {/* */}{' '}
+        {ertekTomb ? (
+          <div className="container">
+            <div>A hozzávalók listája:</div>
+            {ertekTomb.map((ingredient) => (
+              <div className="row" key={ingredient.id}>
+                <div className="col">{ingredient.name}</div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div>Loading List... </div>
+        )}
+      </>
     </>
   );
 }
