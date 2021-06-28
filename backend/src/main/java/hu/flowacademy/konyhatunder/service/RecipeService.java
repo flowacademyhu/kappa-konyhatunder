@@ -9,12 +9,10 @@ import hu.flowacademy.konyhatunder.enums.Difficulty;
 import hu.flowacademy.konyhatunder.enums.Measurement;
 import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
-import hu.flowacademy.konyhatunder.model.AmountOfIngredient;
-import hu.flowacademy.konyhatunder.model.Category;
-import hu.flowacademy.konyhatunder.model.Image;
-import hu.flowacademy.konyhatunder.model.Recipe;
+import hu.flowacademy.konyhatunder.model.*;
 import hu.flowacademy.konyhatunder.repository.AmountOfIngredientRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
+import hu.flowacademy.konyhatunder.repository.IngredientRepository;
 import hu.flowacademy.konyhatunder.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -40,6 +38,7 @@ public class RecipeService {
     private final CategoryRepository categoryRepository;
     private final AmountOfIngredientRepository amountOfIngredientRepository;
     private final ImageStorageService imageStorageService;
+    private final IngredientRepository ingredientRepository;
 
     public List<Recipe> listRecipes() {
         List<Recipe> allRecipes = recipeRepository.findAll();
@@ -86,7 +85,7 @@ public class RecipeService {
         });
         savedRecipe.setIngredients(amountOfIngredientList);
         Recipe savedRecipeInRepository = recipeRepository.save(savedRecipe);
-        log.debug("Saving a Recipe with this id: {} and name: {}", savedRecipeInRepository.getId(),savedRecipeInRepository.getName());
+        log.debug("Saving a Recipe with this id: {} and name: {}", savedRecipeInRepository.getId(), savedRecipeInRepository.getName());
         return savedRecipeInRepository;
     }
 
@@ -113,6 +112,17 @@ public class RecipeService {
         List<String> difficulties = Arrays.stream(Difficulty.values()).map(Difficulty::getHungarianTranslation).collect(Collectors.toList());
         log.debug("Listing all: {} difficulties", difficulties.size());
         return difficulties;
+    }
+
+    public List<Recipe> sendRecipesByIngredients(List<Ingredient> ingredientList) {
+        validateReceivedIngredients(ingredientList);
+        return recipeRepository.findAll();
+    }
+
+    private void validateReceivedIngredients(List<Ingredient> ingredientList) {
+        if (!ingredientList.stream().allMatch(ingredient -> ingredientRepository.findById(ingredient.getId()).orElse(null) != null)) {
+            throw new MissingIDException("Nincs ilyen ID-val rendelkező hozzávaló!");
+        }
     }
 
     private Difficulty translateDifficulty(String difficulty) {
