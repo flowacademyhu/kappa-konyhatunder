@@ -50,8 +50,8 @@ public class RecipeController {
     }
 
     @PostMapping("/search/ingredients")
-    public List<Recipe> sendRecipesByIngredients(@RequestBody List<Ingredient> ingredientList) {
+    public List<Recipe> listRecipesByIngredients(@RequestBody List<Ingredient> ingredientList) {
         log.debug("Recieved {} ingredtients", ingredientList.size());
-        return recipeService.sendRecipesByIngredients(ingredientList);
+        return recipeService.listRecipesByIngredients(ingredientList);
     }
 }
