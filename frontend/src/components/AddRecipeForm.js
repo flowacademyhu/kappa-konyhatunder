@@ -81,7 +81,7 @@ const AddRecipeForm = () => {
       );
       setBaseMeasurementForNewIngredient(baseMeasurement);
       setNewMeasurement(response.data);
-      console.log(response.data);
+
       return response.data;
     } catch (error) {
       console.error();
@@ -155,7 +155,6 @@ const AddRecipeForm = () => {
         amount: addNewAmount,
       },
     ]);
-    console.log(newIngredientsList);
   };
 
   return (
@@ -272,7 +271,6 @@ const AddRecipeForm = () => {
                 onChange={(e) => {
                   getIngredienTypeFunction(e.target.value);
                   setNewIngredientType(newIngredientType);
-                  console.log(newIngredientsList);
                 }}
               >
                 <option>Hozzávaló neve</option>

@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Link } from 'react-router-dom';
-import { getRecipeLists } from './apiCalls';
+import { getRecipeList } from './apiCalls';
 export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
 
   useEffect(() => {
     const getInitData = async () => {
-      setProduct(await getRecipeLists(id));
+      setProduct(await getRecipeList(id));
     };
     getInitData();
   }, [id]);
@@ -26,12 +26,18 @@ export default function SingleRecipe() {
             />
           </div>
           <div className="col-9" key={product.id}>
-            <h3>Recept neve : {console.log(product)} </h3>
+            <h3>Recept neve : </h3>
             <p>{product.name}</p>
             <h3>Recept leírása : </h3>
             <p>{product.description}</p>
             <h3>Recept Nehézség : </h3>
-            <p>{product.level}</p>
+            <p>
+              {product.difficulty === 'HARD'
+                ? 'Nehéz'
+                : product.difficulty === 'MEDIUM'
+                ? 'Közepes'
+                : 'Könnyű'}
+            </p>
             <h3>Recept elkész ideje : </h3>
             <p>{product.preparationTime}</p>
 
@@ -44,7 +50,7 @@ export default function SingleRecipe() {
 
             {product.ingredients.map((ingredient) => (
               <>
-                <div className="row" key={ingredient.id}>
+                <div className="row" key={ingredient.ingredient.name}>
                   <div className="col">{ingredient.ingredient.name}</div>
                   <div className="col">{ingredient.amount}</div>
                   <div className="col">{ingredient.unit}</div>

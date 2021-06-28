@@ -8,7 +8,7 @@ export const saveNewIngredient = async (ingredinet, measurement) => {
 
   try {
     const response = await axios.post(`/api/ingredients`, data);
-    console.log(response.data);
+
     return response.data;
   } catch (error) {
     console.error(error);
@@ -34,7 +34,6 @@ export const addRecipe = async (values, selectedFile, newIngredientsList) => {
   formData.append('image', selectedFile);
   formData.append('recipeDTO', JSON.stringify(recipe));
 
-  console.log(recipe);
   try {
     const config = {
       headers: { 'content-type': 'multipart/form-data' },
@@ -69,10 +68,10 @@ export const getNewIngredientBaseMeasurements = async () => {
   }
 };
 
-export const getRecipeLists = async (id) => {
+export const getRecipeList = async (id) => {
   try {
     const response = await axios.get(`/api/recipes/${id}`);
-    console.log(response.data);
+
     return response.data;
   } catch (err) {
     console.error('Error during api call:', err);
