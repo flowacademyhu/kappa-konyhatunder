@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import pic3 from '../images/image-6.jpg';
 
 const recipeAPI = axios.create({
   baseURL: '/api/',
@@ -31,12 +30,12 @@ export default function SingleRecipe() {
           <div className="col-3">
             <img
               className="justify-content-center w-100"
-              src={pic3}
+              src={`/api/image/${product.image.name}`}
               alt={product.title}
             />
           </div>
           <div className="col-9">
-            <h3>Recept neve : </h3>
+            <h3>Recept neve : {console.log(product)} </h3>
             <p>{product.name}</p>
             <h3>Recept leírása : </h3>
             <p>{product.description}</p>
