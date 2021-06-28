@@ -117,11 +117,13 @@ public class RecipeService {
     public List<Recipe> sendRecipesByIngredients(List<Ingredient> ingredientList) {
         validateReceivedIngredients(ingredientList);
         List<Recipe> foundRecipes = new ArrayList<>();
-        for(Ingredient ingredient:ingredientList){
-            List<Recipe> foundRecipe = recipeRepository.findByIngredientsIngredientId(ingredient.getId());
-            //if(foundRecipes.stream().noneMatch(recipe ->recipe.getId().equals(foundRecipe.getId()))){
-                foundRecipes.addAll(foundRecipe);
-            //}
+        for (Ingredient ingredient : ingredientList) {
+            List<Recipe> foundRecipeList = recipeRepository.findByIngredientsIngredientId(ingredient.getId());
+            for (Recipe foundRecipe : foundRecipeList) {
+                if (!foundRecipes.contains(foundRecipe)) {
+                    foundRecipes.add(foundRecipe);
+                }
+            }
         }
         return foundRecipes;
 
