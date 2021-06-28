@@ -18,20 +18,20 @@ public class CategoryController {
 
     @GetMapping
     public List<Category> listCategories() {
-        log.debug("Get all Category in CategoryController");
+        log.debug("Get all Category");
         return categoryService.listCategories();
     }
 
     @GetMapping("/{id}")
     public Category getCategory(@PathVariable String id) {
-        log.debug("Get a Category with this id: {} in CategoryController",id);
+        log.debug("Get a Category with this id: {}",id);
         return categoryService.getCategory(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Category createCategory(@RequestBody Category category) {
-        log.debug("Try to save a Category with these parameters {} in CategoryController", category);
+        log.debug("Try to save a Category with these parameters {}", category);
         return categoryService.createCategory(category);
     }
 }

@@ -43,12 +43,12 @@ public class RecipeService {
 
     public List<Recipe> listRecipes() {
         List<Recipe> allRecipes = recipeRepository.findAll();
-        log.debug("Get all {} recipes in RecipeService",allRecipes.size());
+        log.debug("Get all {} recipes", allRecipes.size());
         return allRecipes;
     }
 
     public Recipe getRecipe(String id) {
-        log.debug("Get a recipe with this id: {} in RecipeService",id);
+        log.debug("Get a recipe with this id: {}", id);
         return recipeRepository.findById(id).orElseThrow(() ->
                 new MissingIDException("Nincs ilyen ID-val rendelkező recept!"));
     }
@@ -64,7 +64,7 @@ public class RecipeService {
         Recipe savedRecipe = recipeRepository.save(Recipe.builder()
                 .name(recipeDTO.getName())
                 .description(recipeDTO.getDescription())
-                .difficulty(translateLevel(recipeDTO.getDifficulty()))
+                .difficulty(translateDifficulty(recipeDTO.getDifficulty()))
                 .image(imageFile)
                 .preparationTime(recipeDTO.getPreparationTime())
                 .categories(categoryList)
@@ -85,45 +85,51 @@ public class RecipeService {
 
         });
         savedRecipe.setIngredients(amountOfIngredientList);
-        return recipeRepository.save(savedRecipe);
+        Recipe savedRecipeInRepository = recipeRepository.save(savedRecipe);
+        log.debug("Saving a Recipe with this id: {} and name: {}", savedRecipeInRepository.getId(),savedRecipeInRepository.getName());
+        return savedRecipeInRepository;
     }
 
     private String translateUnit(Measurement measurement, String unit) {
-        switch(measurement.getHungarianTranslation()){
-            case "Bögre" :
-               return Arrays.stream(MeasurementCup.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
-            case "Kilogramm" :
+        switch (measurement.getHungarianTranslation()) {
+            case "Bögre":
+                return Arrays.stream(MeasurementCup.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+            case "Kilogramm":
                 return Arrays.stream(MeasurementKilogram.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
-            case "Liter" :
+            case "Liter":
                 return Arrays.stream(MeasurementLiter.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
-            case "Darab" :
+            case "Darab":
                 return Arrays.stream(MeasurementPiece.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
-            case "Kanál" :
+            case "Kanál":
                 return Arrays.stream(MeasurementSpoon.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
-            default:
+            case "Egyéb":
                 return Arrays.stream(MeasurementOther.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+            default:
+                throw new ValidationException("Nem megfelelő alapegység!");
         }
     }
 
-    public List<String> listRecipeLevels() {
-        return Arrays.stream(Difficulty.values()).map(Difficulty::getHungarianTranslation).collect(Collectors.toList());
+    public List<String> listRecipeDifficulty() {
+        List<String> difficulties = Arrays.stream(Difficulty.values()).map(Difficulty::getHungarianTranslation).collect(Collectors.toList());
+        log.debug("Listing all: {} difficulties", difficulties.size());
+        return difficulties;
     }
 
-    private Difficulty translateLevel(String level) {
-        if (Difficulty.EASY.getHungarianTranslation().equals(level)) {
+    private Difficulty translateDifficulty(String difficulty) {
+        if (Difficulty.EASY.getHungarianTranslation().equals(difficulty)) {
             return Difficulty.EASY;
-        } else if (Difficulty.MEDIUM.getHungarianTranslation().equals(level)) {
+        } else if (Difficulty.MEDIUM.getHungarianTranslation().equals(difficulty)) {
             return Difficulty.MEDIUM;
-        } else if (Difficulty.HARD.getHungarianTranslation().equals(level)) {
+        } else if (Difficulty.HARD.getHungarianTranslation().equals(difficulty)) {
             return Difficulty.HARD;
         } else {
             throw new ValidationException("Nem megfelelő nehézségi szint!");
         }
-
     }
 
     @SneakyThrows
     private void validate(RecipeDTO recipeDTO) {
+        log.debug("Validate Recipe");
         if (!StringUtils.hasText(recipeDTO.getName()))
             throw new ValidationException("A recept nevét kötelező megadni!");
 

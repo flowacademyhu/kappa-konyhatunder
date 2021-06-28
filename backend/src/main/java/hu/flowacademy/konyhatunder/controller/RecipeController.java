@@ -20,27 +20,26 @@ public class RecipeController {
 
     @GetMapping
     public List<Recipe> listRecipes() {
-        log.debug("Get all Recipe in RecipeController");
+        log.debug("Get all Recipe");
         return recipeService.listRecipes();
     }
 
     @GetMapping("/{id}")
     public Recipe getRecipe(@PathVariable String id) {
-        log.debug("Get a Recipe with this id: {} in RecipeController",id);
+        log.debug("Get a Recipe with this id: {}",id);
         return recipeService.getRecipe(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Recipe createRecipe(@RequestPart String recipeDTO, @RequestPart(name = "image", required = false) MultipartFile image) throws JsonProcessingException {
-        log.debug("Try to save a Recipe with this image name: {} in RecipeController",image.getName());
-        log.debug("Try to save a Recipe with this params: {} in RecipeController",recipeDTO);
+        log.debug("Try to save a Recipe with this params: {}",recipeDTO);
         return recipeService.createRecipe(recipeDTO, image);
     }
 
     @GetMapping("/levels")
     public List<String> listRecipeLevels() {
-        log.debug("Get all Difficulty in RecipeController");
-        return recipeService.listRecipeLevels();
+        log.debug("Get all Difficulty");
+        return recipeService.listRecipeDifficulty();
     }
 }

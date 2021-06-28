@@ -22,7 +22,7 @@ export default function SingleRecipe() {
       }
     }
     getRecipe();
-  });
+  }, [id]);
 
   return (
     <>
@@ -46,13 +46,13 @@ export default function SingleRecipe() {
             <p>{product.preparationTime}</p>
 
             <h3>Recept kategóriája : </h3>
-            {product.categoryList.map((category) => (
+            {product.categories.map((category) => (
               <div key={category.id}> {category.name}</div>
             ))}
 
             <h3>Recept alapanyagjai : </h3>
 
-            {product.amountOfIngredientList.map((ingredient) => (
+            {product.ingredients.map((ingredient) => (
               <>
                 <div className="row" key={ingredient.id}>
                   <div className="col">{ingredient.ingredient.name}</div>
