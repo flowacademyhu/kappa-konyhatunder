@@ -140,7 +140,7 @@ public class RecipeService {
     }
 
     private void validateReceivedIngredients(List<Ingredient> ingredientList) {
-        if (!ingredientList.stream().allMatch(ingredient -> ingredientRepository.findById(ingredient.getId()).orElse(null) != null)) {
+        if (ingredientList.stream().anyMatch(ingredient -> ingredientRepository.findById(ingredient.getId()).isEmpty())) {
             throw new MissingIDException("Nincs ilyen ID-val rendelkező hozzávaló!");
         }
     }
