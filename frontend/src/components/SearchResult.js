@@ -6,13 +6,6 @@ function SearchResult() {
   return (
     <>
       <div>Az eredmények</div>
-      <button
-        className="btn btn-success"
-        onClick={() => console.log(ingredients)}
-        type="button"
-      >
-        +
-      </button>
     </>
   );
 }
