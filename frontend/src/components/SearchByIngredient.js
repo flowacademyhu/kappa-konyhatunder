@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const recipeAPI = axios.create({
   baseURL: '/api/',
@@ -69,7 +70,7 @@ function SearchByIngredient() {
               onClick={() => {
                 setErtekTomb([...ertekTomb, ertek]);
                 console.log('A lista', ertekTomb);
-                recipes.filter(recipe);
+                recipes.filter((recipe) => recipe.ingredient.id);
               }}
               type="button"
             >
@@ -80,11 +81,16 @@ function SearchByIngredient() {
       ) : (
         <div>'Loading List...' </div>
       )}{' '}
-      {recipes.map((recipe) => (
-        <div key={recipe.id} className="row">
+      {recipes ? (
+        recipes.map((recipe) => (
           <div className="col">Recept neve : {recipe.name}</div>
-        </div>
-      ))}{' '}
+        ))
+      ) : (
+        <div>'Loading List...' </div>
+      )}
+      <Link className="btn btn-primary" to="/searchResult">
+        Keresés...
+      </Link>
     </>
   );
 }
