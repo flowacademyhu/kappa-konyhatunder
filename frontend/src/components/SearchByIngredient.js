@@ -81,7 +81,11 @@ function SearchByIngredient() {
           )}
         </div>
         <div className="col-1">
-          <Link className="btn btn-primary" to="/searchResult">
+          <Link
+            className="btn btn-primary"
+            to="/searchResult"
+            ingredientsArray={ingredientsArray}
+          >
             Keresés...
           </Link>
         </div>
