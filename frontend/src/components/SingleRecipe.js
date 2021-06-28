@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
 
+import { Link } from 'react-router-dom';
+import { getRecipeLists } from './apiCalls';
 export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
 
   useEffect(() => {
-    async function getRecipe() {
-      try {
-        const response = await axios.get(`/api/recipes/${id}`);
-        console.log(response.data);
-        setProduct(response.data);
-      } catch (err) {
-        console.error('Error during api call:', err);
-      }
-    }
-    getRecipe();
+    const getInitData = async () => {
+      setProduct(await getRecipeLists(id));
+    };
+    getInitData();
   }, [id]);
 
   return (
@@ -27,7 +21,7 @@ export default function SingleRecipe() {
           <div className="col-3">
             <img
               className="justify-content-center w-100"
-              src={`http://localhost:8081/api/image/${product.image.id}`}
+              src={`/api/image/${product.image.id}`}
               alt={product.title}
             />
           </div>

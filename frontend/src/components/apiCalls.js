@@ -69,6 +69,16 @@ export const getNewIngredientBaseMeasurements = async () => {
   }
 };
 
+export const getRecipeLists = async (id) => {
+  try {
+    const response = await axios.get(`/api/recipes/${id}`);
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    console.error('Error during api call:', err);
+  }
+};
+
 export const getLevels = async () => {
   try {
     const response = await axios.get(`/api/recipes/difficutlies`);
