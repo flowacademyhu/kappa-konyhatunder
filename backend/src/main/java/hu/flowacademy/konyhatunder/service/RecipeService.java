@@ -23,9 +23,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -126,17 +124,10 @@ public class RecipeService {
 
     public List<Recipe> sendRecipesByIngredients(List<Ingredient> ingredientList) {
         validateReceivedIngredients(ingredientList);
-        List<Recipe> foundRecipes = new ArrayList<>();
-        for (Ingredient ingredient : ingredientList) {
-            List<Recipe> foundRecipeList = recipeRepository.findByIngredientsIngredientId(ingredient.getId());
-            for (Recipe foundRecipe : foundRecipeList) {
-                if (!foundRecipes.contains(foundRecipe)) {
-                    foundRecipes.add(foundRecipe);
-                }
-            }
-        }
-        return foundRecipes;
-
+        Set<Recipe> foundRecipes = new HashSet<>();
+        ingredientList.forEach(ingredient ->
+                foundRecipes.addAll(recipeRepository.findByIngredientsIngredientId(ingredient.getId())));
+        return List.copyOf(foundRecipes);
     }
 
     private void validateReceivedIngredients(List<Ingredient> ingredientList) {
