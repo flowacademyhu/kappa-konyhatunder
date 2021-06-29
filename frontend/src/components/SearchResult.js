@@ -1,5 +1,5 @@
 import { Col, Row, Container } from 'react-bootstrap';
-import pic7 from '../images/avocado.jpeg';
+import defaultImage from '../images/defaultimage.png';
 import '../styles/SearchResult.css';
 import { IoIosAlarm, IoIosPricetags } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
@@ -29,7 +29,16 @@ function SearchResult() {
           {recipe
             ? recipe.map((r) => (
                 <div class="cont">
-                  <img src={pic7} alt="Pancake" />
+                  <img
+                    src={
+                      r.image
+                        ? r.image.fileName === 'abc'
+                          ? defaultImage
+                          : `/api/image/${r.image.id}`
+                        : defaultImage
+                    }
+                    alt="KÉP HELYE"
+                  />
                   <div class="cont__text">
                     <h1>{r.name}</h1>
                     <div class="cont__text__star">
