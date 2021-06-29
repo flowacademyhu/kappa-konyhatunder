@@ -1,8 +1,30 @@
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
+import axios from 'axios';
+
+const recipeAPI = axios.create({
+  baseURL: '/api/',
+});
 
 function SearchResultByCriteria() {
+  useEffect(() => {
+    async function getRecipeList() {
+      try {
+        const response = await recipeAPI.get('recipes');
+        setRecipes(response.data);
+        //*  let resultList = recipes.filter(
+        //    (recipe) => criterias.difficulty === recipe.difficulty );
+      } catch (err) {
+        console.error('Error during api call:', err);
+      }
+    }
+    getRecipeList();
+  }, []);
+
   const location = useLocation();
   const criterias = location.state.values;
+  const [recipes, setRecipes] = useState();
+
   return (
     <div className="container">
       {criterias ? (
@@ -27,6 +49,21 @@ function SearchResultByCriteria() {
       )}
 
       <div>Az eredmények</div>
+      <>
+        {recipes ? (
+          <>
+            {console.log('receptbol jött', recipes)}
+            {console.log('criteriabol jött', criterias.difficulty)}
+            {recipes
+              .filter((e) => e.preparationTime < criterias.preparationTime)
+              .map((recipes) => (
+                <div>{recipes.name}</div>
+              ))}{' '}
+          </>
+        ) : (
+          <div>'Loading List...' </div>
+        )}
+      </>
     </div>
   );
 }

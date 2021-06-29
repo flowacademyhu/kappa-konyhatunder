@@ -2,7 +2,7 @@ import { Formik, Form, Field } from 'formik';
 import { useEffect, useState } from 'react';
 import { getLevels, getCategorys } from './apiCalls';
 import { Link } from 'react-router-dom';
-
+import '../styles/Search.css';
 function SearchByCriteria() {
   useEffect(() => {
     const getInitData = async () => {
@@ -18,7 +18,7 @@ function SearchByCriteria() {
   return (
     <>
       <div className="container mt-4 align-items-center justify-content-between">
-        Keresés kritérium alapján
+        <h3 className="myFormTitle"> Keresés kritérium alapján </h3>
         <Formik
           initialValues={{
             name: '',
@@ -30,75 +30,66 @@ function SearchByCriteria() {
         >
           {({ values }) => (
             <Form>
-              <div className="row  align-items-center justify-content-between ">
-                <div className="col-10 justify-content-between ">
-                  <label>
-                    {' '}
-                    A recept neve
-                    <Field type="text" name="name" />
-                  </label>
-                  <label>
-                    {' '}
-                    A nehézség
-                    <Field as="select" required name="difficulty">
-                      {levels
-                        ? levels.map((level) => (
-                            <option key={level} value={level}>
-                              {level}
-                            </option>
-                          ))
-                        : 'loading'}
-                    </Field>
-                  </label>
-                  <div className="col-6 " id="my-radio-group">
-                    Elkészítés idő
-                  </div>
+              <div>
+                <h3 className="myFormTitle">A recept neve </h3>
+                <Field className="col" type="text" name="name" />
+              </div>
+              <div className="mt-4 col">
+                <h3 className="myFormTitle">Nehézség </h3>
+                <Field className="col" as="select" required name="difficulty">
+                  {levels
+                    ? levels.map((level) => (
+                        <option key={level} value={level}>
+                          {level}
+                        </option>
+                      ))
+                    : 'loading'}
+                </Field>
+              </div>
+              <div className="form-control mt-5" id="my-radio-group">
+                <h3 className="myFormTitle">Elkészítés idő </h3>
+                <div
+                  className="row"
+                  role="group"
+                  aria-labelledby="my-radio-group"
+                >
+                  {times.map((time) => (
+                    <div className="col-4" key={time}>
+                      <Field type="radio" name="preparationTime" value={time} />
+                      {time - 30} - {time - 1} perc
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div role="group" aria-labelledby="checkbox-group">
+                  <h3 className="myFormTitle">Kategóriák </h3>
                   <div
-                    className="form-control"
+                    className="row"
                     role="group"
-                    aria-labelledby="my-radio-group"
+                    aria-labelledby="categories"
                   >
-                    {times.map((time) => (
-                      <label className="col-4" key={time}>
-                        <Field
-                          type="radio"
-                          name="preparationTime"
-                          value={time}
-                        />
-                        {time - 30} - {time - 1} perc
-                      </label>
-                    ))}
-                  </div>
-
-                  <div role="group" aria-labelledby="checkbox-group">
-                    <div id="checkbox-group">categories</div>
-                    <div
-                      className="form-control"
-                      role="group"
-                      aria-labelledby="categories"
-                    >
-                      {categoryList.map((l) => (
-                        <>
+                    {categoryList.map((l) => (
+                      <div className="col-2" htmlFor={l.name}>
+                        {l.name}
+                        <div>
                           <Field
                             type="checkbox"
                             name="categories"
-                            className="mr-2 ml-2"
                             value={l.name}
                           />
-                          <label htmlFor={l.name}>{l.name}</label>
-                        </>
-                      ))}
-                    </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <label>
-                    <Field
-                      className="form-control"
-                      type="checkbox"
-                      name="picture"
-                    />
-                    Legyen kép a receptről?
-                  </label>
                 </div>
+              </div>
+              <div>
+                <h4 className="mt-5">
+                  {' '}
+                  Legyen kép a receptről?
+                  <Field className="size-l" type="checkbox" name="picture" />
+                </h4>
               </div>
               <Link
                 className="btn btn-success mt-3"
