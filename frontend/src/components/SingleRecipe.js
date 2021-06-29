@@ -43,7 +43,7 @@ export default function SingleRecipe() {
 
             <h3 className="m-2">Recept kategóriája : </h3>
             {product.categories.map((category) => (
-              <div className="" key={category.id}>
+              <div className="" key={category.name}>
                 {' '}
                 {category.name}
               </div>
@@ -52,13 +52,11 @@ export default function SingleRecipe() {
             <h3 className="mt-4">Recept alapanyagjai : </h3>
 
             {product.ingredients.map((ingredient) => (
-              <>
-                <div className="row mt-2" key={ingredient.ingredient.name}>
-                  <div className="col-2">{ingredient.ingredient.name}</div>
-                  <div className="col-2">{ingredient.amount}</div>
-                  <div className="col-2">{ingredient.unit}</div>
-                </div>
-              </>
+              <div className="row mt-2" key={ingredient.id}>
+                <div className="col-2">{ingredient.ingredient.name}</div>
+                <div className="col-2">{ingredient.amount}</div>
+                <div className="col-2">{ingredient.unit}</div>
+              </div>
             ))}
             <Link className="btn btn-success mt-4" to="/recipes">
               Vissza
