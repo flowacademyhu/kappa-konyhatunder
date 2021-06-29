@@ -1,6 +1,7 @@
 import { Formik, Form, Field } from 'formik';
 import { useEffect, useState } from 'react';
 import { getLevels, getCategorys } from './apiCalls';
+import { Link } from 'react-router-dom';
 
 function SearchByCriteria() {
   useEffect(() => {
@@ -13,6 +14,7 @@ function SearchByCriteria() {
 
   const [categoryList, setCategoryList] = useState([]);
   const [levels, setLevels] = useState([]);
+  const [criteriasArray, setCriteriasArray] = useState({});
   return (
     <>
       <div className="container">
@@ -28,11 +30,11 @@ function SearchByCriteria() {
           }}
           onSubmit={(values) => {
             console.log(values);
-
-            console.log(levels);
+            setCriteriasArray(...values);
+            console.log(criteriasArray);
           }}
         >
-          {({ isSubmitting }) => (
+          {({ handleSubmit, handleChange, handleBlur, values, errors }) => (
             <Form>
               <Field type="text" name="name" />
 
@@ -62,8 +64,9 @@ function SearchByCriteria() {
                 </label>
               </div>
 
-              <Field as="select" name="difficulty">
-                {levels[1]
+              <Field as="select" required name="difficulty">
+                <option disabled></option>
+                {levels
                   ? levels.map((level) => (
                       <option key={level} value={level}>
                         {level}
@@ -94,7 +97,20 @@ function SearchByCriteria() {
                 kép?
               </label>
               <br></br>
-              <button type="submit">Submit</button>
+              {/**   <button type="submit">Submit</button> */}
+              <Link
+                className="btn btn-success mt-3"
+                type="submit"
+                onClick={() => {
+                  console.log(values);
+                }}
+                to={{
+                  pathname: '/searchResultByCriteria',
+                  state: { values: values },
+                }}
+              >
+                Keresés...
+              </Link>
             </Form>
           )}
         </Formik>
