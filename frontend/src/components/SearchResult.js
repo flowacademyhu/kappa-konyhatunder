@@ -3,8 +3,21 @@ import pic7 from '../images/avocado.jpeg';
 import '../styles/SearchResult.css';
 import { IoIosAlarm, IoIosPricetags } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
+import { useLocation } from 'react-router';
+import { useEffect, useState } from 'react';
+import { getRecipesWithMatchingIngredients } from './apiCalls';
 
 function SearchResult() {
+  const [recipe, setRecipe] = useState(['']);
+  const location = useLocation();
+  const ingredients = location.state.ingredientsArray;
+  useEffect(() => {
+    const getRecipes = async () => {
+      setRecipe(await getRecipesWithMatchingIngredients(ingredients));
+    };
+    getRecipes();
+  }, []);
+
   return (
     <div>
       <Row>
