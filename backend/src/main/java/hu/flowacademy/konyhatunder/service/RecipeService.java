@@ -14,24 +14,21 @@ import hu.flowacademy.konyhatunder.repository.AmountOfIngredientRepository;
 import hu.flowacademy.konyhatunder.repository.CategoryRepository;
 import hu.flowacademy.konyhatunder.repository.IngredientRepository;
 import hu.flowacademy.konyhatunder.repository.RecipeRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class RecipeService {
 
     private final RecipeRepository recipeRepository;
@@ -39,6 +36,17 @@ public class RecipeService {
     private final AmountOfIngredientRepository amountOfIngredientRepository;
     private final ImageStorageService imageStorageService;
     private final IngredientRepository ingredientRepository;
+
+    @Autowired
+    public RecipeService(RecipeRepository recipeRepository, CategoryRepository categoryRepository,
+                         AmountOfIngredientRepository amountOfIngredientRepository, ImageStorageService imageStorageService,
+                         IngredientRepository ingredientRepository) {
+        this.recipeRepository = recipeRepository;
+        this.categoryRepository = categoryRepository;
+        this.amountOfIngredientRepository = amountOfIngredientRepository;
+        this.imageStorageService = imageStorageService;
+        this.ingredientRepository = ingredientRepository;
+    }
 
     public List<Recipe> listRecipes() {
         List<Recipe> allRecipes = recipeRepository.findAll();
@@ -114,21 +122,16 @@ public class RecipeService {
         return difficulties;
     }
 
-    public List<Recipe> sendRecipesByIngredients(List<Ingredient> ingredientList) {
+    public List<Recipe> listRecipesByIngredients(List<Ingredient> ingredientList) {
         validateReceivedIngredients(ingredientList);
-        List<Recipe> foundRecipes = new ArrayList<>();
-        for(Ingredient ingredient:ingredientList){
-            Recipe foundRecipe = recipeRepository.findByIngredientsIngredientId(ingredient.getId());
-            if(foundRecipes.stream().noneMatch(recipe ->recipe.getId().equals(foundRecipe.getId()))){
-                foundRecipes.add(foundRecipe);
-            }
-        }
-        return foundRecipes;
-
+        Set<Recipe> foundRecipes = new HashSet<>();
+        ingredientList.forEach(ingredient ->
+                foundRecipes.addAll(recipeRepository.findAllRecipesContainingIngredient(ingredient.getId())));
+        return List.copyOf(foundRecipes);
     }
 
     private void validateReceivedIngredients(List<Ingredient> ingredientList) {
-        if (!ingredientList.stream().allMatch(ingredient -> ingredientRepository.findById(ingredient.getId()).orElse(null) != null)) {
+        if (ingredientList.stream().anyMatch(ingredient -> ingredientRepository.findById(ingredient.getId()).isEmpty())) {
             throw new MissingIDException("Nincs ilyen ID-val rendelkező hozzávaló!");
         }
     }

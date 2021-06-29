@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 export const saveNewIngredient = async (ingredinet, measurement) => {
   const data = {
     name: ingredinet,
@@ -8,7 +7,7 @@ export const saveNewIngredient = async (ingredinet, measurement) => {
 
   try {
     const response = await axios.post(`/api/ingredients`, data);
-    console.log(response.data);
+
     return response.data;
   } catch (error) {
     console.error(error);
@@ -34,14 +33,11 @@ export const addRecipe = async (values, selectedFile, newIngredientsList) => {
   formData.append('image', selectedFile);
   formData.append('recipeDTO', JSON.stringify(recipe));
 
-  console.log(recipe);
   try {
     const config = {
       headers: { 'content-type': 'multipart/form-data' },
     };
-
     const response = axios.post('/api/recipes/', formData, config);
-
     console.log(response);
   } catch (error) {
     console.error(error);
@@ -66,6 +62,16 @@ export const getNewIngredientBaseMeasurements = async () => {
     return response.data;
   } catch (error) {
     console.error();
+  }
+};
+
+export const getRecipeList = async (id) => {
+  try {
+    const response = await axios.get(`/api/recipes/${id}`);
+
+    return response.data;
+  } catch (err) {
+    console.error('Error during api call:', err);
   }
 };
 

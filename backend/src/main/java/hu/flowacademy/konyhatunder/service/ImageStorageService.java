@@ -4,8 +4,8 @@ import hu.flowacademy.konyhatunder.exception.FileStorageException;
 import hu.flowacademy.konyhatunder.exception.MyFileNotFoundException;
 import hu.flowacademy.konyhatunder.model.Image;
 import hu.flowacademy.konyhatunder.repository.ImageRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,10 +15,14 @@ import java.util.Objects;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class ImageStorageService {
 
     private final ImageRepository imageRepository;
+
+    @Autowired
+    public ImageStorageService(ImageRepository imageRepository) {
+        this.imageRepository = imageRepository;
+    }
 
     public Image storeFile(MultipartFile file) {
         if (file == null) {

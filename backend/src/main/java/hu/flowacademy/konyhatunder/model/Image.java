@@ -17,7 +17,7 @@ public class Image {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
-    @JsonIgnore
+
     private String id;
 
     private String fileName;

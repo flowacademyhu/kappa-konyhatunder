@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { getIngredient } from './apiCalls';
 function SearchByIngredient() {
   const [ingredientsList, setIngredientsList] = useState();
-  const [ertek, setErtek] = useState('');
-  const [ertekTomb, setErtekTomb] = useState([]);
+  const [chosenIngredient, setChosenIngredient] = useState('');
+  const [ingredientsArray, setIngredientsArray] = useState([]);
 
   useEffect(() => {
     const loadingData = async () => {
@@ -15,45 +15,48 @@ function SearchByIngredient() {
   }, []);
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 align-items-center justify-content-between">
       <div className="row align-items-center justify-content-between">
         {ingredientsList ? (
           <>
-            <div className="col-6">
+            <div className="col-sm-6 mt-4">
               <select
                 className="form-control"
-                name="ingredient"
+                name="chosenIngredient"
                 id="data"
                 onChange={(e) => {
-                  setErtek(e.target.value);
-                  console.log(ertek);
+                  setChosenIngredient(e.target.value);
                 }}
               >
                 <option>Hozzávaló neve</option>
-                {ingredientsList.map((l) => (
-                  <option key={l.id} value={JSON.stringify(l)}>
-                    {l.name}
+                {ingredientsList.map((chosenIngredient) => (
+                  <option
+                    key={chosenIngredient.id}
+                    value={JSON.stringify(chosenIngredient)}
+                  >
+                    {chosenIngredient.name}
                   </option>
                 ))}
               </select>
             </div>
-            <div className="col-1">
+            <div className="col-sm-6">
               <button
-                className="btn btn-success"
+                className="btn btn-success mt-4"
                 onClick={() => {
-                  setErtekTomb([...ertekTomb, JSON.parse(ertek)]);
-                  console.log('A lista', ertekTomb);
-                  console.log(ertek);
+                  setIngredientsArray([
+                    ...ingredientsArray,
+                    JSON.parse(chosenIngredient),
+                  ]);
                   setIngredientsList(
                     ingredientsList.filter(
                       (ingredientItem) =>
-                        ingredientItem.id !== JSON.parse(ertek).id
+                        ingredientItem.id !== JSON.parse(chosenIngredient).id
                     )
                   );
                 }}
                 type="button"
               >
-                +
+                Hozzáadás
               </button>
             </div>
           </>
@@ -61,14 +64,14 @@ function SearchByIngredient() {
           <div>'Loading List...' </div>
         )}
 
-        <div className="col-4">
-          {ertekTomb ? (
+        <div className="col-sm-6 col-md-8 mt-5">
+          {ingredientsArray ? (
             <div>
               <div>A keresett hozzávalók listája:</div>
-              <div className="row">
-                {ertekTomb.map((ingredient) => (
-                  <div key={ingredient.id}>
-                    <> {ingredient.name} , </>
+              <div className="row ml-2">
+                {ingredientsArray.map((chosenIngredient) => (
+                  <div key={chosenIngredient.id}>
+                    <> {chosenIngredient.name} , </>
                   </div>
                 ))}
               </div>
@@ -77,8 +80,15 @@ function SearchByIngredient() {
             <div>Loading List... </div>
           )}
         </div>
-        <div className="col-1">
-          <Link className="btn btn-primary" to="/searchResult">
+
+        <div className="col-sm-6 ">
+          <Link
+            className="btn btn-success mt-3"
+            to={{
+              pathname: '/searchResult',
+              state: { ingredientsArray: ingredientsArray },
+            }}
+          >
             Keresés...
           </Link>
         </div>

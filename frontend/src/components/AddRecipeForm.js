@@ -65,6 +65,7 @@ const AddRecipeForm = () => {
         amount: amount,
       },
     ]);
+    setAmount('');
     setIngredientsList(
       ingredientsList.filter(
         (ingredientItem) => ingredientItem.name !== ingredient.name
@@ -80,7 +81,7 @@ const AddRecipeForm = () => {
       );
       setBaseMeasurementForNewIngredient(baseMeasurement);
       setNewMeasurement(response.data);
-      console.log(response.data);
+
       return response.data;
     } catch (error) {
       console.error();
@@ -154,7 +155,6 @@ const AddRecipeForm = () => {
         amount: addNewAmount,
       },
     ]);
-    console.log(newIngredientsList);
   };
 
   return (
@@ -268,7 +268,10 @@ const AddRecipeForm = () => {
               <select
                 className="form-control"
                 name="ingredient"
-                onChange={(e) => getIngredienTypeFunction(e.target.value)}
+                onChange={(e) => {
+                  getIngredienTypeFunction(e.target.value);
+                  setNewIngredientType(newIngredientType);
+                }}
               >
                 <option>Hozzávaló neve</option>
                 {ingredientsList.map((l) => (
@@ -287,7 +290,6 @@ const AddRecipeForm = () => {
                   setNewIngredientType(JSON.parse(e.target.value));
                 }}
               >
-                <option>Mértékegysége</option>
                 {newIngredientTypeList.map((l) => (
                   <option key={l} value={JSON.stringify(l)}>
                     {l}

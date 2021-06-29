@@ -4,20 +4,25 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.service.RecipeService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
 @Slf4j
 @RestController
-@AllArgsConstructor
 @RequestMapping("/api/recipes")
 public class RecipeController {
 
     private final RecipeService recipeService;
+
+    @Autowired
+    public RecipeController(RecipeService recipeService) {
+        this.recipeService = recipeService;
+    }
 
     @GetMapping
     public List<Recipe> listRecipes() {
@@ -27,14 +32,14 @@ public class RecipeController {
 
     @GetMapping("/{id}")
     public Recipe getRecipe(@PathVariable String id) {
-        log.debug("Get a Recipe with this id: {}",id);
+        log.debug("Get a Recipe with this id: {}", id);
         return recipeService.getRecipe(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Recipe createRecipe(@RequestPart String recipeDTO, @RequestPart(name = "image", required = false) MultipartFile image) throws JsonProcessingException {
-        log.debug("Try to save a Recipe with this params: {}",recipeDTO);
+        log.debug("Try to save a Recipe with this params: {}", recipeDTO);
         return recipeService.createRecipe(recipeDTO, image);
     }
 
@@ -45,8 +50,8 @@ public class RecipeController {
     }
 
     @PostMapping("/search/ingredients")
-    public List<Recipe> sendRecipesByIngredients(@RequestBody List<Ingredient> ingredientList){
-        log.debug("Recieved {} ingredtients",ingredientList.size());
-        return recipeService.sendRecipesByIngredients(ingredientList);
+    public List<Recipe> listRecipesByIngredients(@RequestBody List<Ingredient> ingredientList) {
+        log.debug("Recieved {} ingredtients", ingredientList.size());
+        return recipeService.listRecipesByIngredients(ingredientList);
     }
 }
