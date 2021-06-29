@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import picture from '../images/KonyhatunderDefaultImageWide.png';
 import { Link } from 'react-router-dom';
+import '../styles/SingleRecipe.css';
 import { getRecipeList } from './apiCalls';
+import { translateMeasurementUnits } from './translateMeasurementUnits';
+
 export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
@@ -36,10 +39,10 @@ export default function SingleRecipe() {
             style={{ gridColumn: 2, gridRow: 1, textAlign: 'center' }}
             className="d-flex justify-content-center"
           >
-            <h1>{product.name}</h1>
+            <h1 className="recipeName">{product.name}</h1>
           </div>
           <img
-            className="border border-dark w-50 mx-auto "
+            className="recipeImage"
             style={{ gridColumn: 2, gridRow: 2 }}
             src={
               product.image !== null && product.image.fileType !== 'abc'
@@ -53,6 +56,10 @@ export default function SingleRecipe() {
             className="d-flex justify-content-center"
           >
             <div key={product.id}>
+              <h5 className="m-2">
+                Elkészítési idő : {product.preparationTime} perc
+              </h5>
+              <p></p>
               <h3>Recept leírása : </h3>
               <div>{product.description}</div>
               <h3>Recept Nehézség : </h3>
@@ -63,8 +70,6 @@ export default function SingleRecipe() {
                   ? 'Közepes'
                   : 'Könnyű'}
               </p>
-              <h3 className="m-2">Recept elkész ideje : </h3>
-              <p>{product.preparationTime} perc</p>
 
               <h3>Recept kategóriája : </h3>
               {product.categories.map((category) => (
@@ -78,7 +83,7 @@ export default function SingleRecipe() {
                   <div key={ingredient.ingredient.name}>
                     <div>
                       {ingredient.ingredient.name} {ingredient.amount}{' '}
-                      {ingredient.unit}
+                      {translateMeasurementUnits(ingredient.unit)}
                     </div>
                   </div>
                 </>

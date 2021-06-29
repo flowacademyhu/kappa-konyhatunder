@@ -1,0 +1,11 @@
+.recipeName {
+  margin: 2%;
+}
+.recipeImage {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2%;
+  width: 30%;
+  border: solid grey 1px;
+  border-radius: 15px;
+}
