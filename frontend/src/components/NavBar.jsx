@@ -27,7 +27,7 @@ function NavBar() {
       <Router>
         <Navbar className="color-nav" variant="dark" expand="mr">
           <div className="container-fluid">
-            <NavLink href="MainPage">
+            <NavLink href="mainPage">
               <img
                 src={logo}
                 width="120"
@@ -77,6 +77,7 @@ function NavBar() {
         <Switch>
           <Route path="/mainPage">
             {isMobile ? <MainPageForMobie /> : <MainPage />}
+            <BodyPart />
           </Route>
           <Route path="/search-by-criteria">
             <SearchByCriteria />
@@ -86,6 +87,7 @@ function NavBar() {
           </Route>
           <Route path="/add-recipe">
             <AddRecipe />
+            <BodyPart />
           </Route>
           <Route path="/recipes/:id">
             <SingleRecipe />
@@ -99,7 +101,6 @@ function NavBar() {
           <Redirect from="/" to="/mainPage" />
         </Switch>
       </Router>
-      <BodyPart />
     </>
   );
 }
