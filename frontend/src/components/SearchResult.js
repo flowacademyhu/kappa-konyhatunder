@@ -39,18 +39,14 @@ function SearchResult() {
                       <span class="fa fa-star checked"></span>
                       <span class="fa fa-star checked"></span>
                     </div>
-                    <p>
-                      If you're fan of caramel cake, then you'll love our
-                      Caramel Cake Pancakes. We Complete these over-the-top
-                      pancakes with Caramel Syrup.
-                    </p>
+                    <p>{r.description}</p>
                     <div class="cont__text__timing">
                       <div class="cont__text__timing_time">
                         <div>
                           <div className="cardIcon">
                             <IoIosAlarm />
                           </div>
-                          <div className="time">30 perc</div>
+                          <div className="time">{r.preparationTime} perc</div>
                         </div>
                       </div>
                       <div class="cont__text__timing_time">
@@ -58,7 +54,7 @@ function SearchResult() {
                           <div className="cardIcon">
                             <IoBarbellSharp />
                           </div>
-                          <p>Nehéz</p>
+                          <p>{r.difficulty}</p>
                         </div>
                       </div>
                     </div>
