@@ -57,37 +57,37 @@ export default function SingleRecipe() {
           >
             <div key={product.id}>
               <h5 className="m-2">
-                Elkészítési idő : {product.preparationTime} perc
+                Elkészítési idő: {product.preparationTime} perc
               </h5>
-              <p></p>
-              <h3>Recept leírása : </h3>
-              <div>{product.description}</div>
-              <h3>Recept Nehézség : </h3>
-              <p>
+              <h5>
+                Nehézségi szint:
                 {product.difficulty === 'HARD'
-                  ? 'Nehéz'
+                  ? ' Nehéz'
                   : product.difficulty === 'MEDIUM'
-                  ? 'Közepes'
-                  : 'Könnyű'}
-              </p>
-
-              <h3>Recept kategóriája : </h3>
+                  ? ' Közepes'
+                  : ' Könnyű'}
+              </h5>
+              <h5>Kategóriák: </h5>
               {product.categories.map((category) => (
-                <div key={category.id}> {category.name}</div>
+                <div key={category.name}>
+                  <li> {category.name}</li>{' '}
+                </div>
               ))}
-
-              <h3>Recept alapanyagjai : </h3>
+              <h5>Hozzávalók: </h5>
 
               {product.ingredients.map((ingredient) => (
                 <>
                   <div key={ingredient.ingredient.name}>
-                    <div>
+                    <li>
                       {ingredient.ingredient.name} {ingredient.amount}{' '}
                       {translateMeasurementUnits(ingredient.unit)}
-                    </div>
+                    </li>
                   </div>
                 </>
               ))}
+              <h5>Elkészítés: </h5>
+              <div>{product.description}</div>
+
               <Link className="btn btn-success mt-4" to="/recipes">
                 Vissza
               </Link>

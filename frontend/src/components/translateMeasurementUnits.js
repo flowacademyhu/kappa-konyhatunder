@@ -28,5 +28,7 @@ export const translateMeasurementUnits = (unit) => {
       return 'teáskanál';
     case 'COFFEE_SPOON':
       return 'kávéskanál';
+    default:
+      return 'Ismeretlen mértékegység!';
   }
 };
