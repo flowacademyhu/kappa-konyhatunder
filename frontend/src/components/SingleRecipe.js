@@ -32,9 +32,15 @@ export default function SingleRecipe() {
           }}
           key={product.id}
         >
+          <div
+            style={{ gridColumn: 2, gridRow: 1, textAlign: 'center' }}
+            className="d-flex justify-content-center"
+          >
+            <h1>{product.name}</h1>
+          </div>
           <img
             className="border border-dark w-50 mx-auto "
-            style={{ gridColumn: 2, gridRow: 1 }}
+            style={{ gridColumn: 2, gridRow: 2 }}
             src={
               product.image !== null && product.image.fileType !== 'abc'
                 ? `/api/image/${product.image.id}`
@@ -43,12 +49,10 @@ export default function SingleRecipe() {
             alt={product.title}
           />
           <div
-            style={{ gridColumn: 2, gridRow: 2, textAlign: 'center' }}
+            style={{ gridColumn: 2, gridRow: 3, textAlign: 'center' }}
             className="d-flex justify-content-center"
           >
             <div key={product.id}>
-              <h3>Recept neve : </h3>
-              <p>{product.name}</p>
               <h3>Recept leírása : </h3>
               <div>{product.description}</div>
               <h3>Recept Nehézség : </h3>
