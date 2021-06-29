@@ -126,7 +126,7 @@ public class RecipeService {
         validateReceivedIngredients(ingredientList);
         Set<Recipe> foundRecipes = new HashSet<>();
         ingredientList.forEach(ingredient ->
-                foundRecipes.addAll(recipeRepository.findByIngredientsIngredientId(ingredient.getId())));
+                foundRecipes.addAll(recipeRepository.findAllRecipesContainingIngredient(ingredient.getId())));
         return List.copyOf(foundRecipes);
     }
 
