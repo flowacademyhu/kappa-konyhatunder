@@ -27,7 +27,7 @@ function NavBar() {
       <Router>
         <Navbar className="color-nav" variant="dark" expand="mr">
           <div className="container-fluid">
-            <NavLink href="mainPage">
+            <NavLink href="/mainPage">
               <img
                 src={logo}
                 width="120"
