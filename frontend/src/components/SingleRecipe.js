@@ -45,7 +45,7 @@ export default function SingleRecipe() {
             className="recipeImage"
             style={{ gridColumn: 2, gridRow: 2 }}
             src={
-              product.image !== null && product.image.fileType !== 'abc'
+              product.image.fileType !== 'abc'
                 ? `/api/image/${product.image.id}`
                 : picture
             }
