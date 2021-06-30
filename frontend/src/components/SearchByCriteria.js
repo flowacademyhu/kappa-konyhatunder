@@ -1,7 +1,6 @@
 import { Formik, Form, Field } from 'formik';
 import { useEffect, useState } from 'react';
 import { getLevels, getCategorys } from './apiCalls';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const times = ['30', '60', '120', '180', '240'];
@@ -135,16 +134,9 @@ function SearchByCriteria() {
                   <Field className="ml-5" type="checkbox" name="picture" />
                 </h5>
               </div>
-              <Link
-                className="btn btn-success mt-3"
-                type="submit"
-                to={{
-                  pathname: '/searchResult',
-                  state: { values: values, search: 'criteria' },
-                }}
-              >
+              <button className="btn btn-success mt-3" type="submit">
                 Keresés...
-              </Link>
+              </button>
             </Form>
           )}
         </Formik>
