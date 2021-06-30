@@ -13,5 +13,5 @@ public class SearchByCriteriaDTO {
     private int preparationTime;
     private String difficulty;
     private List<String> categories;
-    private boolean isHasPicture;
+    private boolean hasPicture;
 }
