@@ -2,9 +2,18 @@ import { Formik, Form, Field } from 'formik';
 import { useEffect, useState } from 'react';
 import { getLevels, getCategorys } from './apiCalls';
 import { Link } from 'react-router-dom';
-import '../styles/Search.css';
+import styled from 'styled-components';
 
 const times = ['30', '60', '120', '180', '240'];
+
+const StyledTitle = styled.h3`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: xx-large;
+  color: #2e850b;
+
+  font-family: 'Charmonman', cursive !important;
+`;
 
 function SearchByCriteria() {
   useEffect(() => {
@@ -21,7 +30,10 @@ function SearchByCriteria() {
   return (
     <>
       <div className="container mt-4 align-items-center justify-content-between">
-        <h3 className="myFormTitle"> Keresés kritérium alapján </h3>
+        <StyledTitle className="myFormTitle">
+          {' '}
+          Keresés kritérium alapján{' '}
+        </StyledTitle>
         <Formik
           initialValues={{
             name: '',
@@ -34,7 +46,9 @@ function SearchByCriteria() {
           {({ values }) => (
             <Form>
               <div>
-                <h3 className="myFormTitle">A recept neve </h3>
+                <StyledTitle className="myFormTitle">
+                  A recept neve{' '}
+                </StyledTitle>
                 <Field
                   className="col form-control-lg"
                   type="text"
@@ -43,7 +57,7 @@ function SearchByCriteria() {
                 />
               </div>
               <div className="mt-4 col">
-                <h3 className="myFormTitle">Nehézség </h3>
+                <StyledTitle className="myFormTitle">Nehézség </StyledTitle>
                 <Field
                   className="col custom-select-lg"
                   as="select"
@@ -60,7 +74,9 @@ function SearchByCriteria() {
                 </Field>
               </div>
               <div className="form-control mt-5" id="my-radio-group">
-                <h3 className="myFormTitle">Elkészítés idő </h3>
+                <StyledTitle className="myFormTitle">
+                  Elkészítés idő{' '}
+                </StyledTitle>
                 <div
                   className="row"
                   role="group"
@@ -76,7 +92,7 @@ function SearchByCriteria() {
               </div>
               <div>
                 <div role="group" aria-labelledby="checkbox-group">
-                  <h3 className="myFormTitle">Kategóriák </h3>
+                  <StyledTitle className="myFormTitle">Kategóriák </StyledTitle>
                   <div
                     className="row"
                     role="group"
