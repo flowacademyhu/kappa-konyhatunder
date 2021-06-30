@@ -1,7 +1,7 @@
-import { Col, Row, Container } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import defaultImage from '../images/defaultimage.png';
 import '../styles/SearchResult.css';
-import { IoIosAlarm, IoIosPricetags } from 'react-icons/io';
+import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
 import { useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
@@ -15,12 +15,11 @@ function SearchResult() {
   useEffect(() => {
     const getRecipes = async () => {
       const recipeList = await getRecipesWithMatchingIngredients(ingredients);
-
       recipeList.sort((a, b) => a.name.localeCompare(b.name));
       setRecipe(recipeList);
     };
     getRecipes();
-  }, []);
+  }, [ingredients]);
 
   return (
     <div>
