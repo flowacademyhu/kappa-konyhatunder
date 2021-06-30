@@ -3,23 +3,23 @@ import defaultImage from '../images/defaultimage.png';
 import '../styles/SearchResult.css';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
-import { useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
 
-function SearchResult() {
+function SearchResult({ ingredients, searchBy }) {
   const [recipe, setRecipe] = useState([{}]);
-  const location = useLocation();
-  const ingredients = location.state.ingredientsArray;
 
   useEffect(() => {
     const getRecipes = async () => {
-      const recipeList = await getRecipesWithMatchingIngredients(ingredients);
+      const recipeList = await getRecipesWithMatchingIngredients(
+        ingredients,
+        searchBy
+      );
       recipeList.sort((a, b) => a.name.localeCompare(b.name));
       setRecipe(recipeList);
     };
     getRecipes();
-  }, [ingredients]);
+  }, [ingredients, searchBy]);
 
   return (
     <div>

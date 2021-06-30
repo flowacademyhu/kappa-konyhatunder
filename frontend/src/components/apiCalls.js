@@ -102,10 +102,13 @@ export const getIngredient = async () => {
   }
 };
 
-export const getRecipesWithMatchingIngredients = async (ingredients) => {
+export const getRecipesWithMatchingIngredients = async (
+  ingredients,
+  searchBy
+) => {
   try {
     const response = await axios.post(
-      `/api/recipes/search/ingredients`,
+      `/api/recipes/search/${searchBy}`,
       ingredients
     );
 

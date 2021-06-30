@@ -1,25 +1,25 @@
-import { Col, Row, Container } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import defaultImage from '../images/defaultimage.png';
 import '../styles/SearchResultForMobile.css';
-import { IoIosAlarm, IoIosPricetags } from 'react-icons/io';
+import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
-import { useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
 
-function SearchResultForMobile() {
+function SearchResultForMobile({ ingredients, searchBy }) {
   const [recipe, setRecipe] = useState([{}]);
-  const location = useLocation();
-  const ingredients = location.state.ingredientsArray;
 
   useEffect(() => {
     const getRecipes = async () => {
-      const recipeList = await getRecipesWithMatchingIngredients(ingredients);
+      const recipeList = await getRecipesWithMatchingIngredients(
+        ingredients,
+        searchBy
+      );
       recipeList.sort((a, b) => a.name.localeCompare(b.name));
       setRecipe(recipeList);
     };
     getRecipes();
-  }, [ingredients]);
+  }, [ingredients, searchBy]);
 
   return (
     <div>
