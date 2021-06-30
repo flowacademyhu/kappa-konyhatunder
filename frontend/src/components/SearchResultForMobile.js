@@ -7,7 +7,7 @@ import { useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
 
-function SearchResult() {
+function SearchResultForMobile() {
   const [recipe, setRecipe] = useState([{}]);
   const location = useLocation();
   const ingredients = location.state.ingredientsArray;
