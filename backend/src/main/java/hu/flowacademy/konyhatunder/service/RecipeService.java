@@ -139,23 +139,32 @@ public class RecipeService {
         if (searchByCriteriaDTO.getPreparationTime() != 0) {
             switch (searchByCriteriaDTO.getPreparationTime()) {
                 case 30:
-                    foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getPreparationTime() < 30).collect(Collectors.toList());
+                    foundRecipes = foundRecipes.stream().filter(recipe ->
+                            recipe.getPreparationTime() < 30).collect(Collectors.toList());
                     break;
                 case 59:
-                    foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getPreparationTime() >= 30 && recipe.getPreparationTime() < 60).collect(Collectors.toList());
+                    foundRecipes = foundRecipes.stream().filter(recipe ->
+                            recipe.getPreparationTime() >= 30 && recipe.getPreparationTime() < 60).collect(Collectors.toList());
                     break;
                 case 119:
-                    foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getPreparationTime() >= 60 && recipe.getPreparationTime() < 120).collect(Collectors.toList());
+                    foundRecipes = foundRecipes.stream().filter(recipe ->
+                            recipe.getPreparationTime() >= 60 && recipe.getPreparationTime() < 120).collect(Collectors.toList());
                     break;
                 case 179:
-                    foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getPreparationTime() >= 120 && recipe.getPreparationTime() < 180).collect(Collectors.toList());
+                    foundRecipes = foundRecipes.stream().filter(recipe ->
+                            recipe.getPreparationTime() >= 120 && recipe.getPreparationTime() < 180).collect(Collectors.toList());
                     break;
                 case 180:
-                    foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getPreparationTime() >= 180).collect(Collectors.toList());
+                    foundRecipes = foundRecipes.stream().filter(recipe ->
+                            recipe.getPreparationTime() >= 180).collect(Collectors.toList());
                     break;
                 default:
                     throw new ValidationException("Nem megfelelő elkészítési idő intervallum!");
             }
+        }
+        if (StringUtils.hasText(searchByCriteriaDTO.getDifficulty())) {
+            foundRecipes = foundRecipes.stream().filter(recipe ->
+                    recipe.getDifficulty().equals(translateDifficulty(searchByCriteriaDTO.getDifficulty()))).collect(Collectors.toList());
         }
         return foundRecipes;
     }
