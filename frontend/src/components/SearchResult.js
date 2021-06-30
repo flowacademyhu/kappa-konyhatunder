@@ -14,9 +14,10 @@ function SearchResult() {
 
   useEffect(() => {
     const getRecipes = async () => {
-      const vmi = await getRecipesWithMatchingIngredients(ingredients);
-      console.log(vmi);
-      setRecipe(vmi);
+      const recipeList = await getRecipesWithMatchingIngredients(ingredients);
+
+      recipeList.sort((a, b) => a.name.localeCompare(b.name));
+      setRecipe(recipeList);
     };
     getRecipes();
   }, []);
@@ -40,15 +41,14 @@ function SearchResult() {
                     alt="KÉP HELYE"
                   />
                   <div class="cont__text">
-                    <h1>{r.name}</h1>
-                    <div class="cont__text__star">
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                    </div>
-                    <p>{r.description}</p>
+                    <h1>{r.name ? r.name.substring(0, 25) : 'loading'}</h1>
+
+                    <p>
+                      {r.description
+                        ? r.description.substring(0, 250)
+                        : 'loading'}
+                    </p>
+                    {/*meg kell számolni hány kerekter leirás fér ki rendesen */}
                     <div class="cont__text__timing">
                       <div class="cont__text__timing_time">
                         <div>
