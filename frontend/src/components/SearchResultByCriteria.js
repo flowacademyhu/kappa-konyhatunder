@@ -4,8 +4,6 @@ function SearchResultByCriteria() {
   const location = useLocation();
   const criterias = location.state.values;
 
-  const search = location.state.search;
-
   return (
     <div className="container">
       {criterias ? (

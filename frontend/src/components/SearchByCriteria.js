@@ -2,6 +2,8 @@ import { Formik, Form, Field } from 'formik';
 import { useEffect, useState } from 'react';
 import { getLevels, getCategorys } from './apiCalls';
 import styled from 'styled-components';
+import Modal from './Modal';
+import axios from 'axios';
 
 const times = ['30', '60', '120', '180', '240'];
 
@@ -22,9 +24,24 @@ function SearchByCriteria() {
     };
     getInitData();
   }, []);
+
+  const searchByValues = async (values) => {
+    try {
+      const response = await axios.post('/api/recipes/search/criteria', values);
+      if (response.data !== null) {
+        setStatus('Sikeres keresés');
+        setRecipes(response.data);
+      }
+      setStatus('sikertelen keresés');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const [categoryList, setCategoryList] = useState([]);
   const [levels, setLevels] = useState([]);
-
+  const [status, setStatus] = useState('Sikertelen keresés');
+  const [recipes, setRecipes] = useState([]);
   return (
     <>
       <div className="container mt-4 align-items-center justify-content-between">
@@ -34,11 +51,11 @@ function SearchByCriteria() {
         </StyledTitle>
         <Formik
           initialValues={{
-            name: '',
-            preparationTime: '',
-            difficulty: '',
-            categories: [],
-            picture: false,
+            name: null,
+            preparationTime: null,
+            difficulty: null,
+            categories: null,
+            hasPicture: null,
           }}
         >
           {({ values }) => (
@@ -133,12 +150,34 @@ function SearchByCriteria() {
                   <Field className="ml-5" type="checkbox" name="picture" />
                 </h5>
               </div>
-              <button className="btn btn-success mt-3" type="submit">
+              <button
+                className="btn btn-success"
+                data-toggle="modal"
+                data-target="#criteriaStatusModal"
+                onClick={() => searchByValues(values)}
+                type="submit"
+              >
                 Keresés...
               </button>
+              <Modal status={status} id="criteriaStatusModal" />
             </Form>
           )}
         </Formik>
+
+        {recipes ? (
+          <ul className="list-group">
+            {recipes.map((recipe) => (
+              <li
+                key={recipe.id}
+                className="list-group-item list-group-item-action"
+              >
+                <div key={recipe.id}>{recipe.name}</div>
+              </li>
+            ))}{' '}
+          </ul>
+        ) : (
+          <div>'Loading List...' </div>
+        )}
       </div>
     </>
   );
