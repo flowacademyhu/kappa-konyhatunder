@@ -1,7 +1,7 @@
-import { Col, Row, Container } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import defaultImage from '../images/defaultimage.png';
 import '../styles/SearchResult.css';
-import { IoIosAlarm, IoIosPricetags } from 'react-icons/io';
+import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
 import { useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
@@ -14,12 +14,12 @@ function SearchResult() {
 
   useEffect(() => {
     const getRecipes = async () => {
-      const vmi = await getRecipesWithMatchingIngredients(ingredients);
-      console.log(vmi);
-      setRecipe(vmi);
+      const recipeList = await getRecipesWithMatchingIngredients(ingredients);
+      recipeList.sort((a, b) => a.name.localeCompare(b.name));
+      setRecipe(recipeList);
     };
     getRecipes();
-  }, []);
+  }, [ingredients]);
 
   return (
     <div>
@@ -28,7 +28,7 @@ function SearchResult() {
         <Col>
           {recipe
             ? recipe.map((r) => (
-                <div class="cont">
+                <div className="cont" key={r.id}>
                   <img
                     src={
                       r.image
@@ -39,18 +39,17 @@ function SearchResult() {
                     }
                     alt="KÉP HELYE"
                   />
-                  <div class="cont__text">
-                    <h1>{r.name}</h1>
-                    <div class="cont__text__star">
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                    </div>
-                    <p>{r.description}</p>
-                    <div class="cont__text__timing">
-                      <div class="cont__text__timing_time">
+                  <div className="cont__text">
+                    <h1>{r.name ? r.name.substring(0, 25) : 'loading'}</h1>
+
+                    <p>
+                      {r.description
+                        ? r.description.substring(0, 250)
+                        : 'loading'}
+                    </p>
+                    {/*meg kell számolni hány kerekter leirás fér ki rendesen */}
+                    <div className="cont__text__timing">
+                      <div className="cont__text__timing_time">
                         <div>
                           <div className="cardIcon">
                             <IoIosAlarm />
@@ -58,7 +57,7 @@ function SearchResult() {
                           <div className="time">{r.preparationTime} perc</div>
                         </div>
                       </div>
-                      <div class="cont__text__timing_time">
+                      <div className="cont__text__timing_time">
                         <div>
                           <div className="cardIcon">
                             <IoBarbellSharp />
@@ -67,8 +66,8 @@ function SearchResult() {
                         </div>
                       </div>
                     </div>
-                    <button class="btn">
-                      <i class="fa fa-arrow-right">Elkészítem !</i>
+                    <button className="btn">
+                      <i className="fa fa-arrow-right">Elkészítem !</i>
                     </button>
                   </div>
                 </div>
