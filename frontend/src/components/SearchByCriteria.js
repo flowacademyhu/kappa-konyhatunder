@@ -45,34 +45,37 @@ function SearchByCriteria() {
         >
           {({ values }) => (
             <Form>
-              <div>
-                <StyledTitle className="myFormTitle">
-                  A recept neve{' '}
-                </StyledTitle>
-                <Field
-                  className="col form-control-lg"
-                  type="text"
-                  name="name"
-                  placeholder="Csilis bab"
-                />
+              <div className="row">
+                <div className="mt-4  col-lg-8">
+                  <StyledTitle className="myFormTitle">
+                    A recept neve{' '}
+                  </StyledTitle>
+                  <Field
+                    className="form-control-lg col w-100"
+                    type="text"
+                    name="name"
+                    placeholder="Csilis bab"
+                  />
+                </div>
+                <div className="mt-4 col ">
+                  <StyledTitle className="myFormTitle">Nehézség </StyledTitle>
+                  <Field
+                    className=" custom-select-lg col"
+                    as="select"
+                    required
+                    name="difficulty"
+                  >
+                    {levels
+                      ? levels.map((level) => (
+                          <option key={level} value={level}>
+                            {level}
+                          </option>
+                        ))
+                      : 'loading'}
+                  </Field>
+                </div>
               </div>
-              <div className="mt-4 col">
-                <StyledTitle className="myFormTitle">Nehézség </StyledTitle>
-                <Field
-                  className="col custom-select-lg"
-                  as="select"
-                  required
-                  name="difficulty"
-                >
-                  {levels
-                    ? levels.map((level) => (
-                        <option key={level} value={level}>
-                          {level}
-                        </option>
-                      ))
-                    : 'loading'}
-                </Field>
-              </div>
+
               <div className="form-control mt-5" id="my-radio-group">
                 <StyledTitle className="myFormTitle">
                   Elkészítés idő{' '}
@@ -84,7 +87,12 @@ function SearchByCriteria() {
                 >
                   {times.map((time) => (
                     <div className="col-4" key={time}>
-                      <Field type="radio" name="preparationTime" value={time} />
+                      <Field
+                        className="mr-4"
+                        type="radio"
+                        name="preparationTime"
+                        value={time}
+                      />
                       {time - 30} - {time - 1} perc
                     </div>
                   ))}
@@ -99,20 +107,24 @@ function SearchByCriteria() {
                     aria-labelledby="categories"
                   >
                     {categoryList.map((category) => (
-                      <div
-                        className="col-2"
-                        htmlFor={category.name}
-                        key={category.name}
-                      >
-                        {category.name}
+                      <>
                         <div>
                           <Field
+                            className="mx-4"
                             type="checkbox"
                             name="categories"
                             value={category.name}
                           />
                         </div>
-                      </div>
+                        <div
+                          className=""
+                          htmlFor={category.name}
+                          key={category.name}
+                        >
+                          {' '}
+                        </div>
+                        {category.name}
+                      </>
                     ))}
                   </div>
                 </div>
