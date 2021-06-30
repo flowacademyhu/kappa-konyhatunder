@@ -160,6 +160,7 @@ public class RecipeService {
             }
         }
         log.debug("Found {} recipe by criteria", foundRecipes.size());
+       foundRecipes.sort(Comparator.comparing(recipe -> recipe.getName().toLowerCase()));
         return foundRecipes;
     }
 
