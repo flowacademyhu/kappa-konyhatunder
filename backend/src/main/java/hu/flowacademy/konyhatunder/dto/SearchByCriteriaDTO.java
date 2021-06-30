@@ -14,5 +14,4 @@ public class SearchByCriteriaDTO {
     private String difficulty;
     private List<String> categories;
     private boolean isHasPicture;
-
 }

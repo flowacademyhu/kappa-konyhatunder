@@ -131,6 +131,14 @@ public class RecipeService {
         return List.copyOf(foundRecipes);
     }
 
+    public List<Recipe> listRecipesByCriteria(SearchByCriteriaDTO searchByCriteriaDTO) {
+        List<Recipe> foundRecipes = recipeRepository.findAll();
+        if (StringUtils.hasText(searchByCriteriaDTO.getName())) {
+            foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getName().equalsIgnoreCase(searchByCriteriaDTO.getName())).collect(Collectors.toList());
+        }
+        return foundRecipes;
+    }
+
     private void validateReceivedIngredients(List<Ingredient> ingredientList) {
         if (ingredientList.stream().anyMatch(ingredient -> ingredientRepository.findById(ingredient.getId()).isEmpty())) {
             throw new MissingIDException("Nincs ilyen ID-val rendelkező hozzávaló!");
@@ -167,9 +175,5 @@ public class RecipeService {
         if (CollectionUtils.isEmpty(recipeDTO.getIngredients())) {
             throw new ValidationException("Hozzávalók megadása kötelező!");
         }
-    }
-
-    public List<Recipe> listRecipesByCriteria(SearchByCriteriaDTO searchByCriteriaDTO) {
-        return null;
     }
 }
