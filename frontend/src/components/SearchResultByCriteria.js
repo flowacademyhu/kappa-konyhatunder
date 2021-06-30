@@ -3,12 +3,13 @@ import { useLocation } from 'react-router';
 function SearchResultByCriteria() {
   const location = useLocation();
   const criterias = location.state.values;
+  const search = location.state.search;
 
   return (
     <div className="container">
       {criterias ? (
         <div>
-          A kritériumok listája:
+          {console.log(search)}A kritériumok listája:
           <div className="row">
             <div className="col">A recept neve: {criterias.name}</div>
             <div className="col">
