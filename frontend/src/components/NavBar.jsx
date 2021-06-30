@@ -21,18 +21,6 @@ import SingleRecipe from './SingleRecipe';
 import SearchResult from './SearchResult';
 import SearchResultByCriteria from './SearchResultByCriteria';
 
-{
-  /*  const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`; */
-}
-
 function NavBar() {
   const isMobile = useMediaQuery({ query: `(max-width: 576px)` });
 
