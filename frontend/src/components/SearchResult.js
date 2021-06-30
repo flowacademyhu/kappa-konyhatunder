@@ -28,7 +28,7 @@ function SearchResult() {
         <Col>
           {recipe
             ? recipe.map((r) => (
-                <div class="cont">
+                <div className="cont" key={r.id}>
                   <img
                     src={
                       r.image
@@ -39,7 +39,7 @@ function SearchResult() {
                     }
                     alt="KÉP HELYE"
                   />
-                  <div class="cont__text">
+                  <div className="cont__text">
                     <h1>{r.name ? r.name.substring(0, 25) : 'loading'}</h1>
 
                     <p>
@@ -48,8 +48,8 @@ function SearchResult() {
                         : 'loading'}
                     </p>
                     {/*meg kell számolni hány kerekter leirás fér ki rendesen */}
-                    <div class="cont__text__timing">
-                      <div class="cont__text__timing_time">
+                    <div className="cont__text__timing">
+                      <div className="cont__text__timing_time">
                         <div>
                           <div className="cardIcon">
                             <IoIosAlarm />
@@ -57,7 +57,7 @@ function SearchResult() {
                           <div className="time">{r.preparationTime} perc</div>
                         </div>
                       </div>
-                      <div class="cont__text__timing_time">
+                      <div className="cont__text__timing_time">
                         <div>
                           <div className="cardIcon">
                             <IoBarbellSharp />
@@ -66,8 +66,8 @@ function SearchResult() {
                         </div>
                       </div>
                     </div>
-                    <button class="btn">
-                      <i class="fa fa-arrow-right">Elkészítem !</i>
+                    <button className="btn">
+                      <i className="fa fa-arrow-right">Elkészítem !</i>
                     </button>
                   </div>
                 </div>
