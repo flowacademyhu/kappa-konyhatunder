@@ -22,7 +22,6 @@ function SearchByCriteria() {
     };
     getInitData();
   }, []);
-
   const [categoryList, setCategoryList] = useState([]);
   const [levels, setLevels] = useState([]);
 
