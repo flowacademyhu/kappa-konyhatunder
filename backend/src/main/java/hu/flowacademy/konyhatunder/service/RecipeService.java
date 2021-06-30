@@ -24,6 +24,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.text.Collator;
+import java.text.RuleBasedCollator;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -160,7 +164,8 @@ public class RecipeService {
             }
         }
         log.debug("Found {} recipe by criteria", foundRecipes.size());
-       foundRecipes.sort(Comparator.comparing(recipe -> recipe.getName().toLowerCase()));
+        RuleBasedCollator myCollator = (RuleBasedCollator) Collator.getInstance(new Locale("hu", "HU"));
+        foundRecipes.sort((r1,r2)->myCollator.compare(r1.getName(), r2.getName()));
         return foundRecipes;
     }
 
