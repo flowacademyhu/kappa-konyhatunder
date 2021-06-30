@@ -104,8 +104,8 @@ function SearchByCriteria() {
                 className="btn btn-success mt-3"
                 type="submit"
                 to={{
-                  pathname: '/searchResultByCriteria',
-                  state: { values: values },
+                  pathname: '/searchResult',
+                  state: { values: values, search: 'criteria' },
                 }}
               >
                 Keresés...
