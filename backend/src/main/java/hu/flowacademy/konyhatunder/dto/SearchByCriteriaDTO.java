@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Builder(toBuilder = true)
-public class SearchByCriterionDTO {
+public class SearchByCriteriaDTO {
     private String name;
     private int preparationTime;
     private String difficulty;
