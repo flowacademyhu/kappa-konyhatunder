@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import { getLevels, getCategorys } from './apiCalls';
 import { Link } from 'react-router-dom';
 import '../styles/Search.css';
+
+const times = ['30', '60', '120', '180', '240'];
+
 function SearchByCriteria() {
   useEffect(() => {
     const getInitData = async () => {
@@ -11,7 +14,7 @@ function SearchByCriteria() {
     };
     getInitData();
   }, []);
-  const times = ['30', '60', '120', '180', '240'];
+
   const [categoryList, setCategoryList] = useState([]);
   const [levels, setLevels] = useState([]);
 
@@ -79,14 +82,18 @@ function SearchByCriteria() {
                     role="group"
                     aria-labelledby="categories"
                   >
-                    {categoryList.map((l) => (
-                      <div className="col-2" htmlFor={l.name}>
-                        {l.name}
+                    {categoryList.map((category) => (
+                      <div
+                        className="col-2"
+                        htmlFor={category.name}
+                        key={category.name}
+                      >
+                        {category.name}
                         <div>
                           <Field
                             type="checkbox"
                             name="categories"
-                            value={l.name}
+                            value={category.name}
                           />
                         </div>
                       </div>
