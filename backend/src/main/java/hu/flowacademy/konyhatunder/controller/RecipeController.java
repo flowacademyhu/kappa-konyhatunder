@@ -1,6 +1,7 @@
 package hu.flowacademy.konyhatunder.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import hu.flowacademy.konyhatunder.dto.SearchByCriteriaDTO;
 import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.service.RecipeService;
@@ -53,5 +54,10 @@ public class RecipeController {
     public List<Recipe> listRecipesByIngredients(@RequestBody List<Ingredient> ingredientList) {
         log.debug("Recieved {} ingredtients", ingredientList.size());
         return recipeService.listRecipesByIngredients(ingredientList);
+    }
+    @PostMapping("/search/criteria")
+    public List<Recipe> listRecipesByCriteria(@RequestBody SearchByCriteriaDTO searchByCriteriaDTO) {
+        log.debug("Search by these {} criteria", searchByCriteriaDTO);
+        return recipeService.listRecipesByCriteria(searchByCriteriaDTO);
     }
 }
