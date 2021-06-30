@@ -14,12 +14,12 @@ function SearchResultForMobile() {
 
   useEffect(() => {
     const getRecipes = async () => {
-      const vmi = await getRecipesWithMatchingIngredients(ingredients);
-      console.log(vmi);
-      setRecipe(vmi);
+      const recipeList = await getRecipesWithMatchingIngredients(ingredients);
+      recipeList.sort((a, b) => a.name.localeCompare(b.name));
+      setRecipe(recipeList);
     };
     getRecipes();
-  }, []);
+  }, [ingredients]);
 
   return (
     <div>
@@ -28,7 +28,7 @@ function SearchResultForMobile() {
         <Col>
           {recipe
             ? recipe.map((r) => (
-                <div class="contForMobile">
+                <div className="contForMobile">
                   <img
                     src={
                       r.image
@@ -39,18 +39,25 @@ function SearchResultForMobile() {
                     }
                     alt="KÉP HELYE"
                   />
-                  <div class="contForMobile__text">
-                    <div className="recipeNameForMobile">{r.name}</div>
-                    <div class="contForMobile__text__star">
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
+                  <div className="contForMobile__text">
+                    <div className="recipeNameForMobile">
+                      {r.name ? r.name.substring(0, 20) : 'loading'}
                     </div>
-                    <p className="description">{r.description}</p>
-                    <div class="contForMobile__text__timing">
-                      <div class="contForMobile__text__timing_time">
+                    <div className="contForMobile__text__star">
+                      <span className="fa fa-star checked"></span>
+                      <span className="fa fa-star checked"></span>
+                      <span className="fa fa-star checked"></span>
+                      <span className="fa fa-star checked"></span>
+                      <span className="fa fa-star checked"></span>
+                    </div>
+                    <p className="description">
+                      {' '}
+                      {r.description
+                        ? r.description.substring(0, 250)
+                        : 'loading'}
+                    </p>
+                    <div className="contForMobile__text__timing">
+                      <div className="contForMobile__text__timing_time">
                         <div>
                           <div className="cardIconForMobile">
                             <IoIosAlarm />
@@ -58,7 +65,7 @@ function SearchResultForMobile() {
                           <div className="time">{r.preparationTime} perc</div>
                         </div>
                       </div>
-                      <div class="contForMobile__text__timing_time">
+                      <div className="contForMobile__text__timing_time">
                         <div>
                           <div className="cardIconForMobile">
                             <IoBarbellSharp />
@@ -67,8 +74,10 @@ function SearchResultForMobile() {
                         </div>
                       </div>
                     </div>
-                    <button class="btnForMobile">
-                      <i class="fa fa-arrow-right">Elkészítem !</i>
+                    <button className="btnForMobile">
+                      <i className="fa fa-arrow-right" key={r.id}>
+                        Elkészítem !
+                      </i>
                     </button>
                   </div>
                 </div>
