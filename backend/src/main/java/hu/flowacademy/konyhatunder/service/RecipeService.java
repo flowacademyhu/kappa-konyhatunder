@@ -166,6 +166,10 @@ public class RecipeService {
             foundRecipes = foundRecipes.stream().filter(recipe ->
                     recipe.getDifficulty().equals(translateDifficulty(searchByCriteriaDTO.getDifficulty()))).collect(Collectors.toList());
         }
+        if(searchByCriteriaDTO.getCategories() != null){
+            foundRecipes = foundRecipes.stream().filter(recipe ->
+                  recipe.getCategories().stream().map(Category::getName).collect(Collectors.toList()).containsAll(searchByCriteriaDTO.getCategories())).collect(Collectors.toList());
+        }
         return foundRecipes;
     }
 
