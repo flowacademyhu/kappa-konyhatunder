@@ -20,6 +20,7 @@ import RecipeList from './RecipeList';
 import SingleRecipe from './SingleRecipe';
 import SearchResult from './SearchResult';
 import SearchResultForMobile from './SearchResultForMobile';
+import SearchResultByCriteria from './SearchResultByCriteria';
 function NavBar() {
   const isMobile = useMediaQuery({ query: `(max-width: 576px)` });
 
@@ -96,6 +97,9 @@ function NavBar() {
           </Route>
           <Route path="/searchResult">
             {isMobile ? <SearchResultForMobile /> : <SearchResult />}
+          </Route>
+          <Route path="/searchResultByCriteria">
+            <SearchResultByCriteria />
           </Route>
           <Redirect from="/" to="/mainPage" />
         </Switch>
