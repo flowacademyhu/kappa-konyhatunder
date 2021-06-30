@@ -98,25 +98,6 @@ public class RecipeService {
         return savedRecipeInRepository;
     }
 
-    private String translateUnit(Measurement measurement, String unit) {
-        switch (measurement.getHungarianTranslation()) {
-            case "Bögre":
-                return Arrays.stream(MeasurementCup.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
-            case "Kilogramm":
-                return Arrays.stream(MeasurementKilogram.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
-            case "Liter":
-                return Arrays.stream(MeasurementLiter.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
-            case "Darab":
-                return Arrays.stream(MeasurementPiece.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
-            case "Kanál":
-                return Arrays.stream(MeasurementSpoon.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
-            case "Egyéb":
-                return Arrays.stream(MeasurementOther.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
-            default:
-                throw new ValidationException("Nem megfelelő alapegység!");
-        }
-    }
-
     public List<String> listRecipeDifficulty() {
         List<String> difficulties = Arrays.stream(Difficulty.values()).map(Difficulty::getHungarianTranslation).collect(Collectors.toList());
         log.debug("Listing all: {} difficulties", difficulties.size());
@@ -128,6 +109,7 @@ public class RecipeService {
         Set<Recipe> foundRecipes = new HashSet<>();
         ingredientList.forEach(ingredient ->
                 foundRecipes.addAll(recipeRepository.findAllRecipesContainingIngredient(ingredient.getId())));
+        log.debug("Found {} recipe by criteria", foundRecipes.size());
         return List.copyOf(foundRecipes);
     }
 
@@ -166,11 +148,38 @@ public class RecipeService {
             foundRecipes = foundRecipes.stream().filter(recipe ->
                     recipe.getDifficulty().equals(translateDifficulty(searchByCriteriaDTO.getDifficulty()))).collect(Collectors.toList());
         }
-        if(searchByCriteriaDTO.getCategories() != null){
+        if (searchByCriteriaDTO.getCategories() != null) {
             foundRecipes = foundRecipes.stream().filter(recipe ->
-                  recipe.getCategories().stream().map(Category::getName).collect(Collectors.toList()).containsAll(searchByCriteriaDTO.getCategories())).collect(Collectors.toList());
+                    recipe.getCategories().stream().map(Category::getName).collect(Collectors.toList()).containsAll(searchByCriteriaDTO.getCategories())).collect(Collectors.toList());
         }
+        if (searchByCriteriaDTO.getHasPicture() != null) {
+            if (searchByCriteriaDTO.getHasPicture()) {
+                foundRecipes = foundRecipes.stream().filter(recipe -> !recipe.getImage().getFileName().equals("abc")).collect(Collectors.toList());
+            } else {
+                foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getImage().getFileName().equals("abc")).collect(Collectors.toList());
+            }
+        }
+        log.debug("Found {} recipe by criteria", foundRecipes.size());
         return foundRecipes;
+    }
+
+    private String translateUnit(Measurement measurement, String unit) {
+        switch (measurement.getHungarianTranslation()) {
+            case "Bögre":
+                return Arrays.stream(MeasurementCup.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+            case "Kilogramm":
+                return Arrays.stream(MeasurementKilogram.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+            case "Liter":
+                return Arrays.stream(MeasurementLiter.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+            case "Darab":
+                return Arrays.stream(MeasurementPiece.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+            case "Kanál":
+                return Arrays.stream(MeasurementSpoon.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+            case "Egyéb":
+                return Arrays.stream(MeasurementOther.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+            default:
+                throw new ValidationException("Nem megfelelő alapegység!");
+        }
     }
 
     private void validateReceivedIngredients(List<Ingredient> ingredientList) {
@@ -180,6 +189,7 @@ public class RecipeService {
     }
 
     private Difficulty translateDifficulty(String difficulty) {
+        log.debug("Translate difficulty to ENUM");
         if (Difficulty.EASY.getHungarianTranslation().equals(difficulty)) {
             return Difficulty.EASY;
         } else if (Difficulty.MEDIUM.getHungarianTranslation().equals(difficulty)) {
