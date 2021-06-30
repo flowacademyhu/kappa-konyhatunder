@@ -55,6 +55,7 @@ public class RecipeController {
         log.debug("Recieved {} ingredtients", ingredientList.size());
         return recipeService.listRecipesByIngredients(ingredientList);
     }
+
     @PostMapping("/search/criteria")
     public List<Recipe> listRecipesByCriteria(@RequestBody SearchByCriteriaDTO searchByCriteriaDTO) {
         log.debug("Search by these {} criteria", searchByCriteriaDTO);
