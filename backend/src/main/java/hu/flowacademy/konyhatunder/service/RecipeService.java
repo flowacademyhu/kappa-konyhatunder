@@ -122,7 +122,7 @@ public class RecipeService {
         if (StringUtils.hasText(searchByCriteriaDTO.getName())) {
             foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getName().equalsIgnoreCase(searchByCriteriaDTO.getName())).collect(Collectors.toList());
         }
-        if (searchByCriteriaDTO.getPreparationTime() != 0) {
+        if (searchByCriteriaDTO.getPreparationTime() != null) {
             switch (searchByCriteriaDTO.getPreparationTime()) {
                 case 30:
                     foundRecipes = foundRecipes.stream().filter(recipe ->
