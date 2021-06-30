@@ -32,11 +32,21 @@ function SearchByCriteria() {
             <Form>
               <div>
                 <h3 className="myFormTitle">A recept neve </h3>
-                <Field className="col" type="text" name="name" />
+                <Field
+                  className="col form-control-lg"
+                  type="text"
+                  name="name"
+                  placeholder="Csilis bab"
+                />
               </div>
               <div className="mt-4 col">
                 <h3 className="myFormTitle">Nehézség </h3>
-                <Field className="col" as="select" required name="difficulty">
+                <Field
+                  className="col custom-select-lg"
+                  as="select"
+                  required
+                  name="difficulty"
+                >
                   {levels
                     ? levels.map((level) => (
                         <option key={level} value={level}>
@@ -84,12 +94,11 @@ function SearchByCriteria() {
                   </div>
                 </div>
               </div>
-              <div>
-                <h4 className="mt-5">
-                  {' '}
+              <div className="">
+                <h5 className="mt-5">
                   Legyen kép a receptről?
-                  <Field className="size-l" type="checkbox" name="picture" />
-                </h4>
+                  <Field className="" type="checkbox" name="picture" />
+                </h5>
               </div>
               <Link
                 className="btn btn-success mt-3"
