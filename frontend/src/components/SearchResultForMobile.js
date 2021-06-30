@@ -81,4 +81,4 @@ function SearchResult() {
   );
 }
 
-export default SearchResult;
+export default SearchResultForMobile;
