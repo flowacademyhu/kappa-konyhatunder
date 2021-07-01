@@ -50,17 +50,19 @@ function SearchByIngredient() {
                 className="btn btn-success mt-4"
                 onClick={() =>
                   chosenIngredient
-                    ? (setIngredientsArray([
-                        ...ingredientsArray,
-                        JSON.parse(chosenIngredient),
-                      ]),
-                      setIngredientsList(
+                    ? (setIngredientsList(
                         ingredientsList.filter(
                           (ingredientItem) =>
                             ingredientItem.id !==
                             JSON.parse(chosenIngredient).id
                         )
-                      ))
+                      ),
+                      setIngredientsArray([
+                        ...ingredientsArray,
+                        JSON.parse(chosenIngredient),
+                      ]),
+                      setChosenIngredient(''),
+                      console.log(ingredientsArray))
                     : handleShowFail()
                 }
                 type="button"
