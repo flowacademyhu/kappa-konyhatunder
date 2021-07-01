@@ -109,21 +109,33 @@ public class RecipeService {
 
     public SearchByIngredientDTO listRecipesByIngredients(List<Ingredient> ingredientList) {
         validateReceivedIngredients(ingredientList);
-        log.debug("Search Recipes by {} ingredient",ingredientList.size());
+        log.debug("Search Recipes by {} ingredient", ingredientList.size());
         Set<Recipe> foundRecipes = new HashSet<>();
         ingredientList.forEach(ingredient ->
                 foundRecipes.addAll(recipeRepository.findAllRecipesContainingIngredient(ingredient.getId())));
         SearchByIngredientDTO response = new SearchByIngredientDTO();
-
         List<Recipe> withAllIngredient = foundRecipes.stream().filter(recipe ->
-              ingredientList.containsAll(recipe.getIngredients().stream().map(AmountOfIngredient::getIngredient)
-                      .collect(Collectors.toList()))).collect(Collectors.toList());
+                ingredientList.containsAll(recipe.getIngredients().stream().map(AmountOfIngredient::getIngredient)
+                        .collect(Collectors.toList()))).collect(Collectors.toList());
         response.setRecipesWithAllIngredient(withAllIngredient);
-
-        List<Recipe> differences = foundRecipes.stream()
+        log.debug("Found {} recipes which contains all Ingredient", withAllIngredient.size());
+        List<Recipe> remainingRecipes = foundRecipes.stream()
                 .filter(element -> !withAllIngredient.contains(element))
                 .collect(Collectors.toList());
-        response.setRecipesWithMinimumOneIngredient(differences);
+        List<Recipe> withAlmostAllIngredient = new ArrayList<>();
+        long sameIngredientCount = 0;
+        for (Recipe recipe : remainingRecipes) {
+            for (AmountOfIngredient amountOfIngredient : recipe.getIngredients()) {
+                sameIngredientCount += ingredientList.stream().filter(ingredient -> ingredient.getId().equals(amountOfIngredient.getIngredient().getId())).count();
+            }
+            if (sameIngredientCount >= ingredientList.size() / 2) {
+                withAlmostAllIngredient.add(
+                        recipe);
+            }
+            sameIngredientCount = 0;
+        }
+        log.debug("Found {} recipes which contains more than the half Ingredient", withAlmostAllIngredient.size());
+        response.setRecipesWithAlmostAllIngredient(withAlmostAllIngredient);
         return response;
     }
 
@@ -165,7 +177,6 @@ public class RecipeService {
                     foundRecipes = recipeRepository.findByImageFileNameNotContaining("defaultImage");
                 } else {
                     foundRecipes = recipeRepository.findByImageFileName("defaultImage");
-
                 }
 
             } else {
