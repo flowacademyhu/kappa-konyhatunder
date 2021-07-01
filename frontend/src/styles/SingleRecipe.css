@@ -76,6 +76,8 @@ hr.solid {
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 20px;
+  max-height: 100%;
+  max-width: 100%;
 }
 
 .recipe-title {
@@ -108,6 +110,8 @@ hr.solid {
   margin-top: 5px;
   margin-bottom: 80px;
   padding: 20px;
+  max-height: 100%;
+  max-width: 100%;
 }
 
 .description-title {
