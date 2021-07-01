@@ -118,9 +118,9 @@ public class RecipeService {
     }
 
     public List<Recipe> listRecipesByCriteria(SearchByCriteriaDTO searchByCriteriaDTO) {
-        List<Recipe> foundRecipes = recipeRepository.findAll();
+        List<Recipe> foundRecipes = null;
         if (StringUtils.hasText(searchByCriteriaDTO.getName())) {
-            foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getName().equalsIgnoreCase(searchByCriteriaDTO.getName())).collect(Collectors.toList());
+            foundRecipes = recipeRepository.findByNameContaining(searchByCriteriaDTO.getName());
         }
         if (searchByCriteriaDTO.getPreparationTime() != null) {
             switch (searchByCriteriaDTO.getPreparationTime()) {
@@ -149,8 +149,12 @@ public class RecipeService {
             }
         }
         if (StringUtils.hasText(searchByCriteriaDTO.getDifficulty())) {
-            foundRecipes = foundRecipes.stream().filter(recipe ->
-                    recipe.getDifficulty().equals(translateDifficulty(searchByCriteriaDTO.getDifficulty()))).collect(Collectors.toList());
+            if (foundRecipes == null) {
+                foundRecipes = recipeRepository.findByDifficulty(translateDifficulty(searchByCriteriaDTO.getDifficulty()));
+            } else {
+                foundRecipes = foundRecipes.stream().filter(recipe ->
+                        recipe.getDifficulty().equals(translateDifficulty(searchByCriteriaDTO.getDifficulty()))).collect(Collectors.toList());
+            }
         }
         if (searchByCriteriaDTO.getCategories() != null) {
             foundRecipes = foundRecipes.stream().filter(recipe ->
@@ -165,7 +169,7 @@ public class RecipeService {
         }
         log.debug("Found {} recipe by criteria", foundRecipes.size());
         RuleBasedCollator myCollator = (RuleBasedCollator) Collator.getInstance(new Locale("hu", "HU"));
-        foundRecipes.sort((r1,r2)->myCollator.compare(r1.getName(), r2.getName()));
+        foundRecipes.sort((r1, r2) -> myCollator.compare(r1.getName(), r2.getName()));
         return foundRecipes;
     }
 
