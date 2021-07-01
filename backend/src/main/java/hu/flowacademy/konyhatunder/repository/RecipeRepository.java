@@ -20,6 +20,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, String> {
 
     List<Recipe> findByDifficulty(Difficulty translateDifficulty);
 
-    List<Recipe> findByPreparationTimeBetween(Integer integer, Integer integer1);
+    List<Recipe> findByPreparationTimeBetween(Double start, Double end);
 }
 

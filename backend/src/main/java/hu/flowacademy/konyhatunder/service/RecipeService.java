@@ -121,13 +121,13 @@ public class RecipeService {
             foundRecipes = recipeRepository.findByNameContaining(searchByCriteriaDTO.getName());
         }
         if (searchByCriteriaDTO.getPreparationTimeInterval() != null) {
-            List<Integer> interval = searchByCriteriaDTO.getPreparationTimeInterval();
+            List<Double> interval = searchByCriteriaDTO.getPreparationTimeInterval();
             if (foundRecipes == null) {
                 foundRecipes = recipeRepository.findByPreparationTimeBetween(interval.get(0), interval.get(1));
             } else {
                 foundRecipes = foundRecipes.stream().filter(recipe ->
-                        recipe.getPreparationTime() > interval.get(0)
-                                && recipe.getPreparationTime() < interval.get(1)).collect(Collectors.toList());
+                        recipe.getPreparationTime() >= interval.get(0)
+                                && recipe.getPreparationTime() <= interval.get(1)).collect(Collectors.toList());
             }
         }
         if (StringUtils.hasText(searchByCriteriaDTO.getDifficulty())) {
