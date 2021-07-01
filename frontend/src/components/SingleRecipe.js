@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 import '../styles/SingleRecipe.css';
 import { getRecipeList } from './apiCalls';
 import { translateMeasurementUnits } from './translateMeasurementUnits';
+import { Container, Col, Row } from 'react-bootstrap';
+import { IoIosAlarm } from 'react-icons/io';
+import { IoBarbellSharp, IoPricetags } from 'react-icons/io5';
 
 export default function SingleRecipe() {
   const { id } = useParams();
@@ -18,85 +21,43 @@ export default function SingleRecipe() {
   }, [id]);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyItems: 'center',
-      }}
-    >
-      {product ? (
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'auto 1fr auto',
-            gridTemplateRows: 'auto auto',
-            width: '100%',
-          }}
-          key={product.id}
-        >
-          <div
-            style={{ gridColumn: 2, gridRow: 1, textAlign: 'center' }}
-            className="d-flex justify-content-center"
-          >
-            <h1 className="recipeName">{product.name}</h1>
-          </div>
-          <img
-            className="recipeImage"
-            style={{ gridColumn: 2, gridRow: 2 }}
-            src={
-              product.image.fileType !== 'abc'
-                ? `/api/image/${product.image.id}`
-                : picture
-            }
-            alt={product.title}
-          />
-          <div
-            style={{ gridColumn: 2, gridRow: 3, textAlign: 'center' }}
-            className="d-flex justify-content-center"
-          >
-            <div key={product.id}>
-              <h5 className="m-2">
-                Elkészítési idő: {product.preparationTime} perc
-              </h5>
-              <h5>
-                Nehézségi szint:
-                {product.difficulty === 'HARD'
-                  ? ' Nehéz'
-                  : product.difficulty === 'MEDIUM'
-                  ? ' Közepes'
-                  : ' Könnyű'}
-              </h5>
-              <h5>Kategóriák: </h5>
-              {product.categories.map((category) => (
-                <div key={category.name}>
-                  <li> {category.name}</li>{' '}
-                </div>
-              ))}
-              <h5>Hozzávalók: </h5>
+    <Container>
+      <Row>
+        <Col>
+          <div className="leftSide">
+            <div className="recipeI">
+              <img className="recipeImg" src={picture} />
+            </div>
 
-              {product.ingredients.map((ingredient) => (
-                <>
-                  <div key={ingredient.ingredient.name}>
-                    <li>
-                      {ingredient.ingredient.name} {ingredient.amount}{' '}
-                      {translateMeasurementUnits(ingredient.unit)}
-                    </li>
-                  </div>
-                </>
-              ))}
-              <h5>Elkészítés: </h5>
-              <div>{product.description}</div>
-
-              <Link className="btn btn-success mt-4" to="/recipes">
-                Vissza
-              </Link>
+            <div className="preparationTime">
+              <div className="icon">
+                <IoIosAlarm />
+              </div>
+              <div className="data">30 perc</div>
+            </div>
+            <hr class="solid" />
+            <div className="difficulty">
+              <div className="icon">
+                <IoBarbellSharp />
+              </div>
+              <div className="data"> Nehéz</div>
+            </div>
+            <hr class="solid" />
+            <div className="category">
+              <div className="icon">
+                <IoPricetags />
+              </div>
+              <div className="data">
+                magyar, egyszerű, sós, húsos, fűszeres, paprikás
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        'Loading...'
-      )}
-    </div>
+        </Col>
+        <Col>
+          masik hulyeseg
+          <Row>valami</Row>
+        </Col>
+      </Row>
+    </Container>
   );
 }

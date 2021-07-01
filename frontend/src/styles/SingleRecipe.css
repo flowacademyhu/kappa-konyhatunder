@@ -1,11 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Charmonman&display=swap');
+
 .recipeName {
   margin: 2%;
+  font-family: 'Charmonman', cursive !important;
+  color: #38a30e;
+  font-weight: 500;
+  font-size: 70px;
 }
-.recipeImage {
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 2%;
-  width: 30%;
-  border: solid grey 1px;
-  border-radius: 15px;
+
+.recipeImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.leftSide {
+  background-color: #c7c7c75b;
+
+  grid-template-columns: 450px 200px;
+  border-radius: 5px;
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.356);
+  margin-top: 20px;
+  margin-bottom: 80px;
+  padding: 20px;
+}
+
+.preparationTime {
+  display: flex;
+}
+
+.icon {
+  font-size: 50px;
+  margin-left: 50px;
+  margin-top: 15px;
+  color: #4e4e4e;
+}
+
+.data {
+  margin-top: 25px;
+  font-size: 25px;
+  margin-left: 20px;
+  color: #2e860b;
+  font-weight: 500;
+}
+
+.difficulty {
+  display: flex;
+}
+
+.category {
+  display: flex;
+}
+
+hr.solid {
+  border: none;
+  height: 20px;
+  width: 90%;
+  height: 50px;
+  margin-top: 0;
+  border-bottom: 1px solid #2e860b00;
+  box-shadow: 0 20px 20px -20px #174405c9;
+  margin: -50px auto 10px;
 }
