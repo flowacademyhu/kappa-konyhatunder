@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.flowacademy.konyhatunder.dto.RecipeDTO;
 import hu.flowacademy.konyhatunder.dto.SearchByCriteriaDTO;
+import hu.flowacademy.konyhatunder.dto.SearchByIngredientDTO;
 import hu.flowacademy.konyhatunder.enums.*;
 import hu.flowacademy.konyhatunder.enums.Difficulty;
 import hu.flowacademy.konyhatunder.enums.Measurement;
@@ -106,13 +107,13 @@ public class RecipeService {
         return difficulties;
     }
 
-    public List<Recipe> listRecipesByIngredients(List<Ingredient> ingredientList) {
+    public List<SearchByIngredientDTO> listRecipesByIngredients(List<Ingredient> ingredientList) {
         validateReceivedIngredients(ingredientList);
         Set<Recipe> foundRecipes = new HashSet<>();
         ingredientList.forEach(ingredient ->
                 foundRecipes.addAll(recipeRepository.findAllRecipesContainingIngredient(ingredient.getId())));
         log.debug("Found {} recipe by criteria", foundRecipes.size());
-        return List.copyOf(foundRecipes);
+        return null;
     }
 
     public List<Recipe> listRecipesByCriteria(SearchByCriteriaDTO searchByCriteriaDTO) {
