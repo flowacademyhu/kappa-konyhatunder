@@ -123,7 +123,9 @@ function SearchByCriteria() {
                         name="preparationTimeInterval"
                         value={time}
                       />
-                      {time - 30} - {time - 1} perc
+                      {time < 300 ? (time < 61 ? time - 30 : time - 60) : 300}{' '}
+                      {time < 300 ? '-' : '+'}
+                      {time < 300 ? time - 1 : ''} perc
                     </div>
                   ))}
                 </div>
