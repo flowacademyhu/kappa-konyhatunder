@@ -139,8 +139,12 @@ public class RecipeService {
             }
         }
         if (searchByCriteriaDTO.getCategories() != null) {
-            foundRecipes = foundRecipes.stream().filter(recipe ->
-                    recipe.getCategories().stream().map(Category::getName).collect(Collectors.toList()).containsAll(searchByCriteriaDTO.getCategories())).collect(Collectors.toList());
+            if (foundRecipes == null) {
+                foundRecipes = recipeRepository.findByCategoriesName(searchByCriteriaDTO.getCategories().get(0));
+            }
+                foundRecipes = foundRecipes.stream().filter(recipe ->
+                        recipe.getCategories().stream().map(Category::getName).collect(Collectors.toList())
+                                .containsAll(searchByCriteriaDTO.getCategories())).collect(Collectors.toList());
         }
         if (searchByCriteriaDTO.getHasPicture() != null) {
             if (searchByCriteriaDTO.getHasPicture()) {
