@@ -3,12 +3,15 @@ import SearchResultForMobile from './SearchResultForMobile';
 import SearchResult from './SearchResult';
 import { useMediaQuery } from 'react-responsive';
 import { getIngredient } from './apiCalls';
+import ModalForFail from './ModalForFail';
 
 function SearchByIngredient() {
   const [ingredientsList, setIngredientsList] = useState();
   const [chosenIngredient, setChosenIngredient] = useState('');
   const [ingredientsArray, setIngredientsArray] = useState([]);
   const isMobile = useMediaQuery({ query: `(max-width: 576px)` });
+  const [showFail, setShowFail] = useState(false);
+  const handleShowFail = () => setShowFail(true);
 
   useEffect(() => {
     const loadingData = async () => {
@@ -58,7 +61,7 @@ function SearchByIngredient() {
                             JSON.parse(chosenIngredient).id
                         )
                       ))
-                    : console.log('whoops')
+                    : handleShowFail()
                 }
                 type="button"
               >
@@ -97,6 +100,8 @@ function SearchByIngredient() {
       ) : (
         <SearchResult ingredients={ingredientsArray} searchBy={'ingredients'} />
       )}
+
+      <ModalForFail show={showFail} onHide={() => setShowFail(false)} />
     </div>
   );
 }
