@@ -40,11 +40,11 @@ public class InitDataLoader implements CommandLineRunner {
     public void run(String... args) {
         log.info("Starting init data loader...");
         if (recipeRepository.count() == 0) {
+            saveDefaultImage();
             saveNewCategory();
             saveNewIngredient();
             saveNewRecipes();
             saveNewAmountOfIngredient();
-            saveDefaultImage();
         }
     }
 
