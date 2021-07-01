@@ -115,9 +115,15 @@ public class RecipeService {
                 foundRecipes.addAll(recipeRepository.findAllRecipesContainingIngredient(ingredient.getId())));
         SearchByIngredientDTO response = new SearchByIngredientDTO();
 
-      response.setRecipesWithAllIngredient(foundRecipes.stream().filter(recipe ->
+        List<Recipe> withAllIngredient = foundRecipes.stream().filter(recipe ->
               ingredientList.containsAll(recipe.getIngredients().stream().map(AmountOfIngredient::getIngredient)
-                      .collect(Collectors.toList()))).collect(Collectors.toList()));
+                      .collect(Collectors.toList()))).collect(Collectors.toList());
+        response.setRecipesWithAllIngredient(withAllIngredient);
+
+        List<Recipe> differences = foundRecipes.stream()
+                .filter(element -> !withAllIngredient.contains(element))
+                .collect(Collectors.toList());
+        response.setRecipesWithMinimumOneIngredient(differences);
         return response;
     }
 
