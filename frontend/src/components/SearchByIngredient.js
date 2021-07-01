@@ -20,8 +20,11 @@ function SearchByIngredient() {
     loadingData();
   }, []);
 
-  const remove = (id) => {
-    setIngredientsArray(ingredientsArray.filter((x) => x.id !== id));
+  const remove = (chosenIngredient) => {
+    setIngredientsArray(
+      ingredientsArray.filter((x) => x.id !== chosenIngredient.id)
+    );
+    setIngredientsList([...ingredientsList, chosenIngredient]);
   };
 
   return (
@@ -93,7 +96,7 @@ function SearchByIngredient() {
                       <div className="col-6 col-md-4 col-lg-3 d-flex justify-content-start">
                         <button
                           className="btn btn-danger "
-                          onClick={() => remove(chosenIngredient.id)}
+                          onClick={() => remove(chosenIngredient)}
                         >
                           Törlés
                         </button>
