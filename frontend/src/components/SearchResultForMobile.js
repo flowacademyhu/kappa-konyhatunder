@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
 
 function SearchResultForMobile({ ingredients, searchBy }) {
-  const [recipe, setRecipe] = useState([{}]);
+  const [recipe, setRecipe] = useState([]);
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -15,7 +15,9 @@ function SearchResultForMobile({ ingredients, searchBy }) {
         ingredients,
         searchBy
       );
-      recipeList.sort((a, b) => a.name.localeCompare(b.name));
+      recipeList
+        ? recipeList.sort((a, b) => a.name.localeCompare(b.name))
+        : console.log('Loading');
       setRecipe(recipeList);
     };
     getRecipes();
@@ -40,9 +42,7 @@ function SearchResultForMobile({ ingredients, searchBy }) {
                     alt="KÉP HELYE"
                   />
                   <div className="contForMobile__text">
-                    <div className="recipeNameForMobile">
-                      {r.name ? r.name.substring(0, 20) : 'loading'}
-                    </div>
+                    <div className="recipeNameForMobile">{r.name}</div>
                     <div className="contForMobile__text__star">
                       <span className="fa fa-star checked"></span>
                       <span className="fa fa-star checked"></span>
@@ -50,12 +50,7 @@ function SearchResultForMobile({ ingredients, searchBy }) {
                       <span className="fa fa-star checked"></span>
                       <span className="fa fa-star checked"></span>
                     </div>
-                    <p className="description">
-                      {' '}
-                      {r.description
-                        ? r.description.substring(0, 250)
-                        : 'loading'}
-                    </p>
+                    <p className="description"> {r.description}</p>
                     <div className="contForMobile__text__timing">
                       <div className="contForMobile__text__timing_time">
                         <div>

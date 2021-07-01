@@ -54,6 +54,9 @@
 .cont__text h1 {
   color: #28700b;
   font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .cont__text .cont__text__star span {
   font-size: 0.8rem;
@@ -62,6 +65,9 @@
 }
 .cont__text p {
   font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .cont__text .cont__text__timing {
   display: flex;

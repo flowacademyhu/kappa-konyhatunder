@@ -15,7 +15,9 @@ function SearchResult({ ingredients, searchBy }) {
         ingredients,
         searchBy
       );
-      recipeList.sort((a, b) => a.name.localeCompare(b.name));
+      recipeList
+        ? recipeList.sort((a, b) => a.name.localeCompare(b.name))
+        : console.log('Loading');
       setRecipe(recipeList);
     };
     getRecipes();
@@ -37,17 +39,12 @@ function SearchResult({ ingredients, searchBy }) {
                           : `/api/image/${r.image.id}`
                         : defaultImage
                     }
-                    alt="KÉP HELYE"
+                    alt="Kép a receptről"
                   />
                   <div className="cont__text">
-                    <h1>{r.name ? r.name.substring(0, 25) : 'loading'}</h1>
+                    <h1>{r.name}</h1>
 
-                    <p>
-                      {r.description
-                        ? r.description.substring(0, 250)
-                        : 'loading'}
-                    </p>
-                    {/*meg kell számolni hány kerekter leirás fér ki rendesen */}
+                    <p>{r.description}</p>
                     <div className="cont__text__timing">
                       <div className="cont__text__timing_time">
                         <div>

@@ -43,6 +43,9 @@
   margin-bottom: 8px;
   font-weight: 200px;
   color: #28700b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cardIconForMobile {
@@ -74,4 +77,7 @@
 .description {
   margin-left: 10px;
   margin-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
