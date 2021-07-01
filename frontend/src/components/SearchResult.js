@@ -5,9 +5,12 @@ import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
+import ModalForSearch from './ModalForSearch';
 
 function SearchResult({ ingredients, searchBy }) {
-  const [recipe, setRecipe] = useState([]);
+  const [recipe, setRecipe] = useState(null);
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -15,12 +18,15 @@ function SearchResult({ ingredients, searchBy }) {
         ingredients,
         searchBy
       );
-      recipeList
-        ? recipeList.sort((a, b) => a.name.localeCompare(b.name))
-        : console.log('Loading');
+      recipeList?.sort((a, b) => a.name.localeCompare(b.name));
+
       setRecipe(recipeList);
+      if (recipeList.length === 0) handleShow();
     };
-    getRecipes();
+
+    if (ingredients.length !== 0) {
+      getRecipes();
+    }
   }, [ingredients, searchBy]);
 
   return (
@@ -71,6 +77,8 @@ function SearchResult({ ingredients, searchBy }) {
         </Col>
         <Col></Col>
       </Row>
+
+      <ModalForSearch show={show} onHide={() => setShow(false)} />
     </div>
   );
 }
