@@ -115,9 +115,9 @@ public class RecipeService {
                 foundRecipes.addAll(recipeRepository.findAllRecipesContainingIngredient(ingredient.getId())));
         SearchByIngredientDTO response = new SearchByIngredientDTO();
 
-//        response.setRecipesWithAllIngredient(foundRecipes.stream().filter(recipe ->
-//                recipe.getIngredients().stream().map(AmountOfIngredient::getIngredient)
-//                        .collect(Collectors.toList()).containsAll(ingredientList)).collect(Collectors.toList()));
+      response.setRecipesWithAllIngredient(foundRecipes.stream().filter(recipe ->
+              ingredientList.containsAll(recipe.getIngredients().stream().map(AmountOfIngredient::getIngredient)
+                      .collect(Collectors.toList()))).collect(Collectors.toList()));
         return response;
     }
 
