@@ -84,7 +84,7 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private List<Recipe> newRecipes(List<Category> categoryList) {
-        Image image= imageRepository.findByFileName("defaultImage").orElseThrow(() -> new MyFileNotFoundException("Nincs default image"));
+        Image image = imageRepository.findByFileName("defaultImage").orElseThrow(() -> new MyFileNotFoundException("Nincs default image"));
         List<Recipe> recipes = IntStream.range(0, 3)
                 .mapToObj(value -> Recipe.builder()
                         .name(faker().food().dish())
@@ -145,7 +145,7 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private void saveNewAmountOfIngredient() {
-       List<AmountOfIngredient> savedAmountOfIngredients =  amountOfIngredientRepository.saveAll(
+        List<AmountOfIngredient> savedAmountOfIngredients = amountOfIngredientRepository.saveAll(
                 newAmountOfIngredient());
         log.info("Saved {} AmountOfIngredients", savedAmountOfIngredients.size());
     }
