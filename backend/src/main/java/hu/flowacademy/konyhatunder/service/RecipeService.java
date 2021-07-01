@@ -166,9 +166,13 @@ public class RecipeService {
             }
         }
         log.debug("Found {} recipe by criteria", foundRecipes.size());
+
+        return sortRecipesByName(foundRecipes);
+    }
+    private List<Recipe> sortRecipesByName(List<Recipe> recipeList){
         RuleBasedCollator myCollator = (RuleBasedCollator) Collator.getInstance(new Locale("hu", "HU"));
-        foundRecipes.sort((r1, r2) -> myCollator.compare(r1.getName(), r2.getName()));
-        return foundRecipes;
+        recipeList.sort((r1, r2) -> myCollator.compare(r1.getName(), r2.getName()));
+        return recipeList;
     }
 
     private String translateUnit(Measurement measurement, String unit) {
