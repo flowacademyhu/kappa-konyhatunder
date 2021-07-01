@@ -19,6 +19,7 @@ import { Navbar, Button, Nav, NavLink } from 'react-bootstrap';
 import RecipeList from './RecipeList';
 import SingleRecipe from './SingleRecipe';
 import SearchResultByCriteria from './SearchResultByCriteria';
+
 function NavBar() {
   const isMobile = useMediaQuery({ query: `(max-width: 576px)` });
 

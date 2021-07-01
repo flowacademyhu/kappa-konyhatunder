@@ -2,6 +2,7 @@ package hu.flowacademy.konyhatunder.bootstrap;
 
 import com.github.javafaker.Faker;
 import hu.flowacademy.konyhatunder.enums.*;
+import hu.flowacademy.konyhatunder.exception.MyFileNotFoundException;
 import hu.flowacademy.konyhatunder.model.*;
 import hu.flowacademy.konyhatunder.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -39,11 +40,11 @@ public class InitDataLoader implements CommandLineRunner {
     public void run(String... args) {
         log.info("Starting init data loader...");
         if (recipeRepository.count() == 0) {
+            saveDefaultImage();
             saveNewCategory();
             saveNewIngredient();
             saveNewRecipes();
             saveNewAmountOfIngredient();
-            saveDefaultImage();
         }
     }
 
@@ -83,7 +84,7 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private List<Recipe> newRecipes(List<Category> categoryList) {
-
+        Image image = imageRepository.findByFileName("defaultImage").orElseThrow(() -> new MyFileNotFoundException("Nincs default image"));
         List<Recipe> recipes = IntStream.range(0, 3)
                 .mapToObj(value -> Recipe.builder()
                         .name(faker().food().dish())
@@ -91,6 +92,7 @@ public class InitDataLoader implements CommandLineRunner {
                         .categories(categoryList)
                         .description(faker().lorem().sentence(20))
                         .preparationTime(faker().number().randomDouble(1, 5, 300))
+                        .image(image)
                         .build()).collect(Collectors.toList());
         log.info("Created {} new Recipes", recipes.size());
         return recipes;
@@ -143,13 +145,13 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private void saveNewAmountOfIngredient() {
-       List<AmountOfIngredient> savedAmountOfIngredients =  amountOfIngredientRepository.saveAll(
+        List<AmountOfIngredient> savedAmountOfIngredients = amountOfIngredientRepository.saveAll(
                 newAmountOfIngredient());
         log.info("Saved {} AmountOfIngredients", savedAmountOfIngredients.size());
     }
 
     private void saveDefaultImage() {
-        Image image = new Image("abc", "abc", new byte[0]);
+        Image image = new Image("defaultImage", "defaultImage", new byte[0]);
         imageRepository.save(image);
         log.info("Saved a default image");
     }

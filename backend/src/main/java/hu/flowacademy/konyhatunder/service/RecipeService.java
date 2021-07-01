@@ -4,6 +4,7 @@ package hu.flowacademy.konyhatunder.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.flowacademy.konyhatunder.dto.RecipeDTO;
+import hu.flowacademy.konyhatunder.dto.SearchByCriteriaDTO;
 import hu.flowacademy.konyhatunder.enums.*;
 import hu.flowacademy.konyhatunder.enums.Difficulty;
 import hu.flowacademy.konyhatunder.enums.Measurement;
@@ -23,6 +24,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.text.Collator;
+import java.text.RuleBasedCollator;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -97,6 +100,88 @@ public class RecipeService {
         return savedRecipeInRepository;
     }
 
+    public List<String> listRecipeDifficulty() {
+        List<String> difficulties = Arrays.stream(Difficulty.values()).map(Difficulty::getHungarianTranslation).collect(Collectors.toList());
+        log.debug("Listing all: {} difficulties", difficulties.size());
+        return difficulties;
+    }
+
+    public List<Recipe> listRecipesByIngredients(List<Ingredient> ingredientList) {
+        validateReceivedIngredients(ingredientList);
+        Set<Recipe> foundRecipes = new HashSet<>();
+        ingredientList.forEach(ingredient ->
+                foundRecipes.addAll(recipeRepository.findAllRecipesContainingIngredient(ingredient.getId())));
+        log.debug("Found {} recipe by criteria", foundRecipes.size());
+        return List.copyOf(foundRecipes);
+    }
+
+    public List<Recipe> listRecipesByCriteria(SearchByCriteriaDTO searchByCriteriaDTO) {
+        validateSearchByCriteriaDTO(searchByCriteriaDTO);
+        List<Recipe> foundRecipes = null;
+        if (StringUtils.hasText(searchByCriteriaDTO.getName())) {
+            foundRecipes = recipeRepository.findByNameContaining(searchByCriteriaDTO.getName());
+        }
+        if (searchByCriteriaDTO.getPreparationTimeInterval() != null) {
+            List<Double> interval = searchByCriteriaDTO.getPreparationTimeInterval();
+            if (foundRecipes == null) {
+                foundRecipes = recipeRepository.findByPreparationTimeBetween(interval.get(0), interval.get(1));
+            } else {
+                foundRecipes = foundRecipes.stream().filter(recipe ->
+                        recipe.getPreparationTime() >= interval.get(0)
+                                && recipe.getPreparationTime() <= interval.get(1)).collect(Collectors.toList());
+            }
+        }
+        if (StringUtils.hasText(searchByCriteriaDTO.getDifficulty())) {
+            if (foundRecipes == null) {
+                foundRecipes = recipeRepository.findByDifficulty(translateDifficulty(searchByCriteriaDTO.getDifficulty()));
+            } else {
+                foundRecipes = foundRecipes.stream().filter(recipe ->
+                        recipe.getDifficulty().equals(translateDifficulty(searchByCriteriaDTO.getDifficulty()))).collect(Collectors.toList());
+            }
+        }
+        if (searchByCriteriaDTO.getCategories() != null) {
+            if (foundRecipes == null) {
+                foundRecipes = recipeRepository.findByCategoriesName(searchByCriteriaDTO.getCategories().get(0));
+            }
+            foundRecipes = foundRecipes.stream().filter(recipe ->
+                    recipe.getCategories().stream().map(Category::getName).collect(Collectors.toList())
+                            .containsAll(searchByCriteriaDTO.getCategories())).collect(Collectors.toList());
+        }
+        if (searchByCriteriaDTO.getHasPicture() != null) {
+            if (foundRecipes == null) {
+                if (searchByCriteriaDTO.getHasPicture()) {
+                    foundRecipes = recipeRepository.findByImageFileNameNotContaining("defaultImage");
+                } else {
+                    foundRecipes = recipeRepository.findByImageFileName("defaultImage");
+
+                }
+
+            } else {
+                if (searchByCriteriaDTO.getHasPicture()) {
+                    foundRecipes = foundRecipes.stream().filter(recipe -> !recipe.getImage().getFileName().equals("defaultImage")).collect(Collectors.toList());
+                } else {
+                    foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getImage().getFileName().equals("defaultImage")).collect(Collectors.toList());
+                }
+            }
+        }
+        log.debug("Found {} recipe by criteria", foundRecipes.size());
+        return sortRecipesByName(foundRecipes);
+    }
+
+    private void validateSearchByCriteriaDTO(SearchByCriteriaDTO searchByCriteriaDTO) {
+        if (searchByCriteriaDTO.getHasPicture() == null && searchByCriteriaDTO.getName() == null
+                && searchByCriteriaDTO.getDifficulty() == null && searchByCriteriaDTO.getCategories() == null
+                && searchByCriteriaDTO.getPreparationTimeInterval() == null) {
+            throw new ValidationException("Keresési feltétel megadása kötelező!");
+        }
+    }
+
+    private List<Recipe> sortRecipesByName(List<Recipe> recipeList) {
+        RuleBasedCollator myCollator = (RuleBasedCollator) Collator.getInstance(new Locale("hu", "HU"));
+        recipeList.sort((r1, r2) -> myCollator.compare(r1.getName(), r2.getName()));
+        return recipeList;
+    }
+
     private String translateUnit(Measurement measurement, String unit) {
         switch (measurement.getHungarianTranslation()) {
             case "Bögre":
@@ -116,20 +201,6 @@ public class RecipeService {
         }
     }
 
-    public List<String> listRecipeDifficulty() {
-        List<String> difficulties = Arrays.stream(Difficulty.values()).map(Difficulty::getHungarianTranslation).collect(Collectors.toList());
-        log.debug("Listing all: {} difficulties", difficulties.size());
-        return difficulties;
-    }
-
-    public List<Recipe> listRecipesByIngredients(List<Ingredient> ingredientList) {
-        validateReceivedIngredients(ingredientList);
-        Set<Recipe> foundRecipes = new HashSet<>();
-        ingredientList.forEach(ingredient ->
-                foundRecipes.addAll(recipeRepository.findAllRecipesContainingIngredient(ingredient.getId())));
-        return List.copyOf(foundRecipes);
-    }
-
     private void validateReceivedIngredients(List<Ingredient> ingredientList) {
         if (ingredientList.stream().anyMatch(ingredient -> ingredientRepository.findById(ingredient.getId()).isEmpty())) {
             throw new MissingIDException("Nincs ilyen ID-val rendelkező hozzávaló!");
@@ -137,6 +208,7 @@ public class RecipeService {
     }
 
     private Difficulty translateDifficulty(String difficulty) {
+        log.debug("Translate difficulty to ENUM");
         if (Difficulty.EASY.getHungarianTranslation().equals(difficulty)) {
             return Difficulty.EASY;
         } else if (Difficulty.MEDIUM.getHungarianTranslation().equals(difficulty)) {
