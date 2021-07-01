@@ -22,6 +22,7 @@
   margin-top: 20px;
   margin-bottom: 80px;
   padding: 20px;
+  min-height: 500px;
 }
 
 .preparation-time {
@@ -47,7 +48,7 @@
   max-width: 200px;
 }
 
-.difficulty {
+.diff {
   display: flex;
 }
 
