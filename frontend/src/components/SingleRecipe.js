@@ -76,7 +76,7 @@ export default function SingleRecipe() {
 
           <div className="right-side-bottom">
             <div className="description-title">Elkészítés</div>
-            <div className="description">{product.description}</div>
+            <div className="desc">{product.description}</div>
           </div>
         </Col>
       </Row>
