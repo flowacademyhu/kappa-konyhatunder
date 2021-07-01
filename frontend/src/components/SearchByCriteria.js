@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Modal from './Modal';
 import axios from 'axios';
 
-const times = ['30', '60', '120', '180', '240'];
+const times = ['30', '60', '120', '180', '240', '300'];
 
 const StyledTitle = styled.h3`
   margin-top: 20px;
@@ -26,8 +26,23 @@ function SearchByCriteria() {
   }, []);
 
   const searchByValues = async (values) => {
+    const data = {
+      ...values,
+      preparationTimeInterval:
+        values.preparationTimeInterval === null
+          ? values.preparationTimeInterval
+          : values.preparationTimeInterval < 300
+          ? [
+              values.preparationTimeInterval > 60
+                ? values.preparationTimeInterval - 60
+                : values.preparationTimeInterval - 30,
+              values.preparationTimeInterval,
+            ]
+          : [values.preparationTimeInterval, 999],
+    };
+
     try {
-      const response = await axios.post('/api/recipes/search/criteria', values);
+      const response = await axios.post('/api/recipes/search/criteria', data);
       if (response.data !== null) {
         setStatus('Sikeres keresés');
         setRecipes(response.data);
@@ -52,7 +67,7 @@ function SearchByCriteria() {
         <Formik
           initialValues={{
             name: null,
-            preparationTime: null,
+            preparationTimeInterval: null,
             difficulty: null,
             categories: null,
             hasPicture: null,
@@ -105,7 +120,7 @@ function SearchByCriteria() {
                       <Field
                         className="mr-4"
                         type="radio"
-                        name="preparationTime"
+                        name="preparationTimeInterval"
                         value={time}
                       />
                       {time - 30} - {time - 1} perc
