@@ -46,8 +46,9 @@ function SearchByCriteria() {
       if (response.data !== null) {
         setStatus('Sikeres keresés');
         setRecipes(response.data);
+      } else {
+        setStatus('sikertelen keresés');
       }
-      setStatus('sikertelen keresés');
     } catch (error) {
       console.error(error);
     }
@@ -61,8 +62,7 @@ function SearchByCriteria() {
     <>
       <div className="container mt-4 align-items-center justify-content-between">
         <StyledTitle className="myFormTitle">
-          {' '}
-          Keresés kritérium alapján{' '}
+          Keresés kritérium alapján
         </StyledTitle>
         <Formik
           initialValues={{
@@ -78,7 +78,7 @@ function SearchByCriteria() {
               <div className="row">
                 <div className="mt-4  col-lg-8">
                   <StyledTitle className="myFormTitle">
-                    A recept neve{' '}
+                    A recept neve
                   </StyledTitle>
                   <Field
                     className="form-control-lg col w-100"
@@ -108,7 +108,7 @@ function SearchByCriteria() {
 
               <div className="form-control mt-5" id="my-radio-group">
                 <StyledTitle className="myFormTitle">
-                  Elkészítés idő{' '}
+                  Elkészítés idő
                 </StyledTitle>
                 <div
                   className="row"
@@ -123,7 +123,9 @@ function SearchByCriteria() {
                         name="preparationTimeInterval"
                         value={time}
                       />
-                      {time - 30} - {time - 1} perc
+                      {time < 300 ? (time < 61 ? time - 30 : time - 60) : 300}{' '}
+                      {time < 300 ? '-' : '+'}
+                      {time < 300 ? time : ''} perc
                     </div>
                   ))}
                 </div>
@@ -150,9 +152,7 @@ function SearchByCriteria() {
                           className=""
                           htmlFor={category.name}
                           key={category.name}
-                        >
-                          {' '}
-                        </div>
+                        ></div>
                         {category.name}
                       </>
                     ))}
@@ -186,9 +186,9 @@ function SearchByCriteria() {
                 key={recipe.id}
                 className="list-group-item list-group-item-action"
               >
-                <div key={recipe.id}>{recipe.name}</div>
+                <div>{recipe.name}</div>
               </li>
-            ))}{' '}
+            ))}
           </ul>
         ) : (
           <div>'Loading List...' </div>
