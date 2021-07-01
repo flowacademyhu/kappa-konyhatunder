@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 public class SearchByCriteriaDTO {
     private String name;
-    private Integer preparationTime;
+    private List<Integer> preparationTimeInterval;
     private String difficulty;
     private List<String> categories;
     private Boolean hasPicture;
