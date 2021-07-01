@@ -158,9 +158,9 @@ public class RecipeService {
         }
         if (searchByCriteriaDTO.getHasPicture() != null) {
             if (searchByCriteriaDTO.getHasPicture()) {
-                foundRecipes = foundRecipes.stream().filter(recipe -> !recipe.getImage().getFileName().equals("abc")).collect(Collectors.toList());
+                foundRecipes = foundRecipes.stream().filter(recipe -> !recipe.getImage().getFileName().equals("defaultImage")).collect(Collectors.toList());
             } else {
-                foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getImage().getFileName().equals("abc")).collect(Collectors.toList());
+                foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getImage().getFileName().equals("defaultImage")).collect(Collectors.toList());
             }
         }
         log.debug("Found {} recipe by criteria", foundRecipes.size());
