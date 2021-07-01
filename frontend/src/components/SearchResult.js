@@ -3,14 +3,16 @@ import defaultImage from '../images/defaultimage.png';
 import '../styles/SearchResult.css';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
 import ModalForSearch from './ModalForSearch';
 
 function SearchResult({ ingredients, searchBy }) {
   const [recipes, setRecipes] = useState(null);
   const [show, setShow] = useState(false);
-  const handleShow = () => setShow(true);
+  const handleShow = useCallback(() => {
+    setShow(true);
+  }, []);
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -21,13 +23,15 @@ function SearchResult({ ingredients, searchBy }) {
       recipeList?.sort((a, b) => a.name.localeCompare(b.name));
 
       setRecipes(recipeList);
-      if (recipeList.length === 0) handleShow();
+      if (recipeList.length === 0) {
+        handleShow();
+      }
     };
 
     if (ingredients.length !== 0) {
       getRecipes();
     }
-  }, [ingredients, searchBy]);
+  }, [ingredients, searchBy, handleShow]);
 
   return (
     <div>
