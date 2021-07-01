@@ -118,7 +118,7 @@ public class RecipeService {
                 ingredientList.containsAll(recipe.getIngredients().stream().map(AmountOfIngredient::getIngredient)
                         .collect(Collectors.toList()))).collect(Collectors.toList());
         response.setRecipesWithAllIngredient(withAllIngredient);
-        log.debug("Found {} recipes which contains all Ingredient", withAllIngredient.size());
+        log.debug("Found {} recipes which contains all received Ingredient", withAllIngredient.size());
         List<Recipe> remainingRecipes = foundRecipes.stream()
                 .filter(element -> !withAllIngredient.contains(element))
                 .collect(Collectors.toList());
@@ -128,14 +128,19 @@ public class RecipeService {
             for (AmountOfIngredient amountOfIngredient : recipe.getIngredients()) {
                 sameIngredientCount += ingredientList.stream().filter(ingredient -> ingredient.getId().equals(amountOfIngredient.getIngredient().getId())).count();
             }
-            if (sameIngredientCount >= ingredientList.size() / 2) {
+            if (sameIngredientCount >= recipe.getIngredients().size() / 2) {
                 withAlmostAllIngredient.add(
                         recipe);
             }
             sameIngredientCount = 0;
         }
-        log.debug("Found {} recipes which contains more than the half Ingredient", withAlmostAllIngredient.size());
+        log.debug("Found {} recipes which contains more than the half Ingredient from the received list.", withAlmostAllIngredient.size());
         response.setRecipesWithAlmostAllIngredient(withAlmostAllIngredient);
+        List<Recipe> withMinimumOneIngredient = remainingRecipes.stream()
+                .filter(element -> !withAlmostAllIngredient.contains(element))
+                .collect(Collectors.toList());
+        response.setRecipesWithMinimumOneIngredient(withMinimumOneIngredient);
+        log.debug("Found {} recipes which contains minimum 1 Ingredient from the received list.", withMinimumOneIngredient.size());
         return response;
     }
 
