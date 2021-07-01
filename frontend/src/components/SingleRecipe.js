@@ -54,7 +54,7 @@ export default function SingleRecipe() {
                 <IoPricetags />
               </div>
               <div className="data">
-                {product.categories.map((category) => category.name + ' ')}
+                {product.categories.map((category) => ' #' + category.name)}
               </div>
             </div>
           </div>
