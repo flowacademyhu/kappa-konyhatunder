@@ -1,0 +1,83 @@
+.contForMobile {
+  background-color: #c7c7c75b;
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.356);
+  border-radius: 5px;
+  grid-template-columns: 150px 200px;
+  width: 300px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+}
+
+.contForMobile img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.contForMobile .btnForMobile {
+  position: relative;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  background-color: #38a30e;
+  color: #fff;
+  padding: 11px 22.5px;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.294);
+  font-family: 'Charmonman', cursive !important;
+  font-weight: 500;
+  align-items: center;
+  margin: auto;
+}
+
+.recipeNameForMobile {
+  font-size: x-large;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 8px;
+  font-weight: 200px;
+  color: #28700b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardIconForMobile {
+  color: #4e4e4e;
+  font-size: 27px;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.time {
+  text-align: center;
+}
+
+.contForMobile text timing time {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #28700b;
+}
+
+.difficulty {
+  color: #28700b;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-align: center;
+  height: 30px;
+}
+
+.description {
+  margin-left: 10px;
+  margin-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import SearchResultForMobile from './SearchResultForMobile';
+import SearchResult from './SearchResult';
+import { useMediaQuery } from 'react-responsive';
 import { getIngredient } from './apiCalls';
 function SearchByIngredient() {
   const [ingredientsList, setIngredientsList] = useState();
   const [chosenIngredient, setChosenIngredient] = useState('');
   const [ingredientsArray, setIngredientsArray] = useState([]);
+  const isMobile = useMediaQuery({ query: `(max-width: 576px)` });
 
   useEffect(() => {
     const loadingData = async () => {
@@ -81,18 +83,16 @@ function SearchByIngredient() {
           )}
         </div>
 
-        <div className="col-sm-6 ">
-          <Link
-            className="btn btn-success mt-3"
-            to={{
-              pathname: '/searchResult',
-              state: { ingredientsArray: ingredientsArray },
-            }}
-          >
-            Keresés...
-          </Link>
-        </div>
+        <div className="col-sm-6 "></div>
       </div>
+      {isMobile ? (
+        <SearchResultForMobile
+          ingredients={ingredientsArray}
+          searchBy={'ingredients'}
+        />
+      ) : (
+        <SearchResult ingredients={ingredientsArray} searchBy={'ingredients'} />
+      )}
     </div>
   );
 }

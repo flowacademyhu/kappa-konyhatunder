@@ -36,7 +36,7 @@ export default function SingleRecipe() {
               <div className="data">{product.preparationTime} perc</div>
             </div>
             <hr className="solid" />
-            <div className="difficulty">
+            <div className="diff">
               <div className="icon">
                 <IoBarbellSharp />
               </div>
