@@ -120,30 +120,14 @@ public class RecipeService {
         if (StringUtils.hasText(searchByCriteriaDTO.getName())) {
             foundRecipes = recipeRepository.findByNameContaining(searchByCriteriaDTO.getName());
         }
-        if (searchByCriteriaDTO.getPreparationTime() != null) {
-            switch (searchByCriteriaDTO.getPreparationTime()) {
-                case 30:
-                    foundRecipes = foundRecipes.stream().filter(recipe ->
-                            recipe.getPreparationTime() < 30).collect(Collectors.toList());
-                    break;
-                case 59:
-                    foundRecipes = foundRecipes.stream().filter(recipe ->
-                            recipe.getPreparationTime() >= 30 && recipe.getPreparationTime() < 60).collect(Collectors.toList());
-                    break;
-                case 119:
-                    foundRecipes = foundRecipes.stream().filter(recipe ->
-                            recipe.getPreparationTime() >= 60 && recipe.getPreparationTime() < 120).collect(Collectors.toList());
-                    break;
-                case 179:
-                    foundRecipes = foundRecipes.stream().filter(recipe ->
-                            recipe.getPreparationTime() >= 120 && recipe.getPreparationTime() < 180).collect(Collectors.toList());
-                    break;
-                case 180:
-                    foundRecipes = foundRecipes.stream().filter(recipe ->
-                            recipe.getPreparationTime() >= 180).collect(Collectors.toList());
-                    break;
-                default:
-                    throw new ValidationException("Nem megfelelő elkészítési idő intervallum!");
+        if (searchByCriteriaDTO.getPreparationTimeInterval() != null) {
+            List<Integer> interval = searchByCriteriaDTO.getPreparationTimeInterval();
+            if (foundRecipes == null) {
+                foundRecipes = recipeRepository.findByPreparationTimeBetween(interval.get(0), interval.get(1));
+            } else {
+                foundRecipes = foundRecipes.stream().filter(recipe ->
+                        recipe.getPreparationTime() > interval.get(0)
+                                && recipe.getPreparationTime() < interval.get(1)).collect(Collectors.toList());
             }
         }
         if (StringUtils.hasText(searchByCriteriaDTO.getDifficulty())) {
@@ -169,7 +153,8 @@ public class RecipeService {
 
         return sortRecipesByName(foundRecipes);
     }
-    private List<Recipe> sortRecipesByName(List<Recipe> recipeList){
+
+    private List<Recipe> sortRecipesByName(List<Recipe> recipeList) {
         RuleBasedCollator myCollator = (RuleBasedCollator) Collator.getInstance(new Locale("hu", "HU"));
         recipeList.sort((r1, r2) -> myCollator.compare(r1.getName(), r2.getName()));
         return recipeList;

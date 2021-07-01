@@ -19,5 +19,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, String> {
     List<Recipe> findByNameContaining(String name);
 
     List<Recipe> findByDifficulty(Difficulty translateDifficulty);
+
+    List<Recipe> findByPreparationTimeBetween(Integer integer, Integer integer1);
 }
 
