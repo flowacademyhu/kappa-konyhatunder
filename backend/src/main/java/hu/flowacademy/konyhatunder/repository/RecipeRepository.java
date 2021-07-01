@@ -22,5 +22,9 @@ public interface RecipeRepository extends JpaRepository<Recipe, String> {
     List<Recipe> findByPreparationTimeBetween(Double start, Double end);
 
     List<Recipe> findByCategoriesName(String name);
+
+    List<Recipe> findByImageFileName(String defaultImage);
+
+    List<Recipe> findByImageFileNameNotContaining(String defaultImage);
 }
 

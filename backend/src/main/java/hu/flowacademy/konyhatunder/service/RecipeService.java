@@ -116,6 +116,7 @@ public class RecipeService {
     }
 
     public List<Recipe> listRecipesByCriteria(SearchByCriteriaDTO searchByCriteriaDTO) {
+        validateSearchByCriteriaDTO(searchByCriteriaDTO);
         List<Recipe> foundRecipes = null;
         if (StringUtils.hasText(searchByCriteriaDTO.getName())) {
             foundRecipes = recipeRepository.findByNameContaining(searchByCriteriaDTO.getName());
@@ -142,20 +143,37 @@ public class RecipeService {
             if (foundRecipes == null) {
                 foundRecipes = recipeRepository.findByCategoriesName(searchByCriteriaDTO.getCategories().get(0));
             }
-                foundRecipes = foundRecipes.stream().filter(recipe ->
-                        recipe.getCategories().stream().map(Category::getName).collect(Collectors.toList())
-                                .containsAll(searchByCriteriaDTO.getCategories())).collect(Collectors.toList());
+            foundRecipes = foundRecipes.stream().filter(recipe ->
+                    recipe.getCategories().stream().map(Category::getName).collect(Collectors.toList())
+                            .containsAll(searchByCriteriaDTO.getCategories())).collect(Collectors.toList());
         }
         if (searchByCriteriaDTO.getHasPicture() != null) {
-            if (searchByCriteriaDTO.getHasPicture()) {
-                foundRecipes = foundRecipes.stream().filter(recipe -> !recipe.getImage().getFileName().equals("defaultImage")).collect(Collectors.toList());
+            if (foundRecipes == null) {
+                if (searchByCriteriaDTO.getHasPicture()) {
+                    foundRecipes = recipeRepository.findByImageFileNameNotContaining("defaultImage");
+                } else {
+                    foundRecipes = recipeRepository.findByImageFileName("defaultImage");
+
+                }
+
             } else {
-                foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getImage().getFileName().equals("defaultImage")).collect(Collectors.toList());
+                if (searchByCriteriaDTO.getHasPicture()) {
+                    foundRecipes = foundRecipes.stream().filter(recipe -> !recipe.getImage().getFileName().equals("defaultImage")).collect(Collectors.toList());
+                } else {
+                    foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getImage().getFileName().equals("defaultImage")).collect(Collectors.toList());
+                }
             }
         }
         log.debug("Found {} recipe by criteria", foundRecipes.size());
-
         return sortRecipesByName(foundRecipes);
+    }
+
+    private void validateSearchByCriteriaDTO(SearchByCriteriaDTO searchByCriteriaDTO) {
+        if (searchByCriteriaDTO.getHasPicture() == null && searchByCriteriaDTO.getName() == null
+                && searchByCriteriaDTO.getDifficulty() == null && searchByCriteriaDTO.getCategories() == null
+                && searchByCriteriaDTO.getPreparationTimeInterval() == null) {
+            throw new ValidationException("Keresési feltétel megadása kötelező!");
+        }
     }
 
     private List<Recipe> sortRecipesByName(List<Recipe> recipeList) {
