@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
 
 function SearchResult({ ingredients, searchBy }) {
-  const [recipe, setRecipe] = useState([{}]);
+  const [recipe, setRecipe] = useState([]);
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -33,11 +33,9 @@ function SearchResult({ ingredients, searchBy }) {
                 <div className="cont" key={r.id}>
                   <img
                     src={
-                      r.image
-                        ? r.image.fileName === 'abc'
-                          ? defaultImage
-                          : `/api/image/${r.image.id}`
-                        : defaultImage
+                      r.image.fileName === 'defaultImage'
+                        ? defaultImage
+                        : `/api/image/${r.image.id}`
                     }
                     alt="Kép a receptről"
                   />
