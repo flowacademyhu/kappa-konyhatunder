@@ -5,9 +5,15 @@ import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
+import { Link } from 'react-router-dom';
 
 function SearchResult({ ingredients, searchBy }) {
   const [recipe, setRecipe] = useState([]);
+
+  const linkStyle = {
+    textDecoration: 'none',
+    color: 'white',
+  };
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -62,7 +68,13 @@ function SearchResult({ ingredients, searchBy }) {
                       </div>
                     </div>
                     <button className="btn">
-                      <i className="fa fa-arrow-right">Elkészítem !</i>
+                      <Link
+                        to={`/recipes/${r.id}`}
+                        key={r.id}
+                        style={linkStyle}
+                      >
+                        <i className="fa fa-arrow-right">Elkészítem !</i>
+                      </Link>
                     </button>
                   </div>
                 </div>
