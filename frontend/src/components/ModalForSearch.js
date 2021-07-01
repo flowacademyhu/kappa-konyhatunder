@@ -9,7 +9,7 @@ function ModalForSearch(props) {
         </Modal.Header>
         <Modal.Body>Nincs ilyen hozzávalót tartalmazó recept</Modal.Body>
         <Modal.Footer>
-          <Button onClick={props.onHide}>Close</Button>
+          <Button onClick={props.onHide}>Bezárás</Button>
         </Modal.Footer>
       </Modal>
     </>
