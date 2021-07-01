@@ -3,6 +3,7 @@ import SearchResultForMobile from './SearchResultForMobile';
 import SearchResult from './SearchResult';
 import { useMediaQuery } from 'react-responsive';
 import { getIngredient } from './apiCalls';
+
 function SearchByIngredient() {
   const [ingredientsList, setIngredientsList] = useState();
   const [chosenIngredient, setChosenIngredient] = useState('');
@@ -44,18 +45,21 @@ function SearchByIngredient() {
             <div className="col-sm-6">
               <button
                 className="btn btn-success mt-4"
-                onClick={() => {
-                  setIngredientsArray([
-                    ...ingredientsArray,
-                    JSON.parse(chosenIngredient),
-                  ]);
-                  setIngredientsList(
-                    ingredientsList.filter(
-                      (ingredientItem) =>
-                        ingredientItem.id !== JSON.parse(chosenIngredient).id
-                    )
-                  );
-                }}
+                onClick={() =>
+                  chosenIngredient
+                    ? (setIngredientsArray([
+                        ...ingredientsArray,
+                        JSON.parse(chosenIngredient),
+                      ]),
+                      setIngredientsList(
+                        ingredientsList.filter(
+                          (ingredientItem) =>
+                            ingredientItem.id !==
+                            JSON.parse(chosenIngredient).id
+                        )
+                      ))
+                    : console.log('whoops')
+                }
                 type="button"
               >
                 Hozzáadás
