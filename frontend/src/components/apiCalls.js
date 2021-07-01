@@ -101,3 +101,19 @@ export const getIngredient = async () => {
     console.error(error);
   }
 };
+
+export const getRecipesWithMatchingIngredients = async (
+  ingredients,
+  searchBy
+) => {
+  try {
+    const response = await axios.post(
+      `/api/recipes/search/${searchBy}`,
+      ingredients
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error();
+  }
+};

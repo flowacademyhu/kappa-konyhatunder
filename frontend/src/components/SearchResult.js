@@ -1,48 +1,77 @@
-import { useLocation } from 'react-router';
+import { Col, Row } from 'react-bootstrap';
+import defaultImage from '../images/defaultimage.png';
+import '../styles/SearchResult.css';
+import { IoIosAlarm } from 'react-icons/io';
+import { IoBarbellSharp } from 'react-icons/io5';
+import { useEffect, useState } from 'react';
+import { getRecipesWithMatchingIngredients } from './apiCalls';
 
-function SearchResult() {
-  const location = useLocation();
-  const ingredients = location.state.ingredientsArray;
-  const criterias = location.state.values;
-  const search = location.state.search;
+function SearchResult({ ingredients, searchBy }) {
+  const [recipe, setRecipe] = useState([]);
+
+  useEffect(() => {
+    const getRecipes = async () => {
+      const recipeList = await getRecipesWithMatchingIngredients(
+        ingredients,
+        searchBy
+      );
+      recipeList
+        ? recipeList.sort((a, b) => a.name.localeCompare(b.name))
+        : console.log('Loading');
+      setRecipe(recipeList);
+    };
+    getRecipes();
+  }, [ingredients, searchBy]);
+
   return (
-    <>
-      {ingredients ? (
-        <div>
-          {console.log('crit', criterias, 'search', search)}
-          <div>A keresett hozzávalók listája:</div>
-          <div>
-            {ingredients.map((ingredient) => (
-              <div key={ingredient.id}>
-                <> {ingredient.name} , </>
-              </div>
-            ))}
-          </div>
-        </div>
-      ) : (
-        <div>Loading List... </div>
-      )}
-      <div>Az eredmények</div>
-      {criterias ? (
-        <div>
-          {console.log(search)}A kritériumok listája:
-          <div className="row">
-            <div className="col">A recept neve: {criterias.name}</div>
-            <div className="col">
-              Az Elkészítési idő :{criterias.preparationTime}
-            </div>
-            <div className="col">
-              A recept nehézsége :{criterias.difficulty}
-            </div>
-            <div></div> Legyen róla kép :
-            {criterias.picture ? <div>Igen</div> : <div>Nem</div>}
-          </div>
-          <div>A Kiválasztott kategóri(ák) :{criterias.categories}</div>
-        </div>
-      ) : (
-        <div>Loading List... </div>
-      )}
-    </>
+    <div>
+      <Row>
+        <Col></Col>
+        <Col>
+          {recipe
+            ? recipe.map((r) => (
+                <div className="cont" key={r.id}>
+                  <img
+                    src={
+                      r.image.fileName === 'defaultImage'
+                        ? defaultImage
+                        : `/api/image/${r.image.id}`
+                    }
+                    alt="Kép a receptről"
+                  />
+                  <div className="cont__text">
+                    <h1>{r.name}</h1>
+
+                    <p>{r.description}</p>
+                    <div className="cont__text__timing">
+                      <div className="cont__text__timing_time">
+                        <div>
+                          <div className="cardIcon">
+                            <IoIosAlarm />
+                          </div>
+                          <div className="time">{r.preparationTime} perc</div>
+                        </div>
+                      </div>
+                      <div className="cont__text__timing_time">
+                        <div>
+                          <div className="cardIcon">
+                            <IoBarbellSharp />
+                          </div>
+                          <p>{r.difficulty}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <button className="btn">
+                      <i className="fa fa-arrow-right">Elkészítem !</i>
+                    </button>
+                  </div>
+                </div>
+              ))
+            : 'Loading...'}
+        </Col>
+        <Col></Col>
+      </Row>
+    </div>
   );
 }
 

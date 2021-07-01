@@ -18,7 +18,6 @@ import { useMediaQuery } from 'react-responsive';
 import { Navbar, Button, Nav, NavLink } from 'react-bootstrap';
 import RecipeList from './RecipeList';
 import SingleRecipe from './SingleRecipe';
-import SearchResult from './SearchResult';
 import SearchResultByCriteria from './SearchResultByCriteria';
 function NavBar() {
   const isMobile = useMediaQuery({ query: `(max-width: 576px)` });
@@ -78,6 +77,7 @@ function NavBar() {
         <Switch>
           <Route path="/mainPage">
             {isMobile ? <MainPageForMobie /> : <MainPage />}
+            <BodyPart />
           </Route>
           <Route path="/search-by-criteria">
             <SearchByCriteria />
@@ -94,16 +94,12 @@ function NavBar() {
           <Route path="/recipes">
             <RecipeList />
           </Route>
-          <Route path="/searchResult">
-            <SearchResult />
-          </Route>
           <Route path="/searchResultByCriteria">
             <SearchResultByCriteria />
           </Route>
           <Redirect from="/" to="/mainPage" />
         </Switch>
       </Router>
-      <BodyPart />
     </>
   );
 }

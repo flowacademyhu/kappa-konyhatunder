@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Charmonman&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.cont {
+  background-color: #c7c7c75b;
+  position: relative;
+  display: grid;
+
+  grid-template-columns: 300px 600px;
+  border-radius: 5px;
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.356);
+  margin-top: 20px;
+  margin-bottom: 80px;
+}
+.cont img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.cont .btn {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  background-color: #38a30e;
+  color: #fff;
+  padding: 22px 45px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.294);
+  font-family: 'Charmonman', cursive !important;
+  font-weight: 500;
+}
+.cont .btn i {
+  margin-left: 0px;
+  margin-bottom: 0px;
+  font-size: 1.5rem;
+}
+
+.cont__text {
+  padding: 40px 40px 0;
+}
+.cont__text h1 {
+  color: #28700b;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cont__text .cont__text__star span {
+  font-size: 0.8rem;
+  color: #38a30e;
+  margin: -5px 0 20px;
+}
+.cont__text p {
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cont__text .cont__text__timing {
+  display: flex;
+  margin: 20px 0 10px;
+}
+.cont__text .cont__text__timing .cont__text__timing_time {
+  margin-right: 20px;
+}
+.cont__text .cont__text__timing h2 {
+  margin-bottom: 5px;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #818189;
+}
+.cont__text .cont__text__timing p {
+  color: #28700b;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.cardIcon {
+  font-size: 35px;
+  color: #4e4e4e;
+  margin: 5px;
+}
+
+.categories {
+  color: #28700b;
+  font-weight: bold;
+  font-size: 1.2rem;
+  max-width: 30px;
+}
+
+.time {
+  color: #28700b;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
