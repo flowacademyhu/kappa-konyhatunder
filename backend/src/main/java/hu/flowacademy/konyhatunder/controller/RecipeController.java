@@ -52,7 +52,7 @@ public class RecipeController {
     }
 
     @PostMapping("/search/ingredients")
-    public List<SearchByIngredientDTO> listRecipesByIngredients(@RequestBody List<Ingredient> ingredientList) {
+    public SearchByIngredientDTO listRecipesByIngredients(@RequestBody List<Ingredient> ingredientList) {
         log.debug("Recieved {} ingredtients", ingredientList.size());
         return recipeService.listRecipesByIngredients(ingredientList);
     }

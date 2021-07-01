@@ -107,13 +107,18 @@ public class RecipeService {
         return difficulties;
     }
 
-    public List<SearchByIngredientDTO> listRecipesByIngredients(List<Ingredient> ingredientList) {
+    public SearchByIngredientDTO listRecipesByIngredients(List<Ingredient> ingredientList) {
         validateReceivedIngredients(ingredientList);
+        log.debug("Search Recipes by {} ingredient",ingredientList.size());
         Set<Recipe> foundRecipes = new HashSet<>();
         ingredientList.forEach(ingredient ->
                 foundRecipes.addAll(recipeRepository.findAllRecipesContainingIngredient(ingredient.getId())));
-        log.debug("Found {} recipe by criteria", foundRecipes.size());
-        return null;
+        SearchByIngredientDTO response = new SearchByIngredientDTO();
+
+//        response.setRecipesWithAllIngredient(foundRecipes.stream().filter(recipe ->
+//                recipe.getIngredients().stream().map(AmountOfIngredient::getIngredient)
+//                        .collect(Collectors.toList()).containsAll(ingredientList)).collect(Collectors.toList()));
+        return response;
     }
 
     public List<Recipe> listRecipesByCriteria(SearchByCriteriaDTO searchByCriteriaDTO) {
@@ -170,6 +175,7 @@ public class RecipeService {
     }
 
     private void validateSearchByCriteriaDTO(SearchByCriteriaDTO searchByCriteriaDTO) {
+        log.debug("Validating searchByCriteriaDTO");
         if (searchByCriteriaDTO.getHasPicture() == null && searchByCriteriaDTO.getName() == null
                 && searchByCriteriaDTO.getDifficulty() == null && searchByCriteriaDTO.getCategories() == null
                 && searchByCriteriaDTO.getPreparationTimeInterval() == null) {
@@ -178,6 +184,7 @@ public class RecipeService {
     }
 
     private List<Recipe> sortRecipesByName(List<Recipe> recipeList) {
+        log.debug("Sorting response recipeList when filtering by Criteria.");
         RuleBasedCollator myCollator = (RuleBasedCollator) Collator.getInstance(new Locale("hu", "HU"));
         recipeList.sort((r1, r2) -> myCollator.compare(r1.getName(), r2.getName()));
         return recipeList;
