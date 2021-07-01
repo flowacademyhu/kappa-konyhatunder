@@ -8,7 +8,7 @@ import { getRecipesWithMatchingIngredients } from './apiCalls';
 import ModalForSearch from './ModalForSearch';
 
 function SearchResult({ ingredients, searchBy }) {
-  const [recipe, setRecipe] = useState(null);
+  const [recipes, setRecipes] = useState(null);
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
 
@@ -20,7 +20,7 @@ function SearchResult({ ingredients, searchBy }) {
       );
       recipeList?.sort((a, b) => a.name.localeCompare(b.name));
 
-      setRecipe(recipeList);
+      setRecipes(recipeList);
       if (recipeList.length === 0) handleShow();
     };
 
@@ -34,8 +34,8 @@ function SearchResult({ ingredients, searchBy }) {
       <Row>
         <Col></Col>
         <Col>
-          {recipe
-            ? recipe.map((r) => (
+          {recipes
+            ? recipes.map((r) => (
                 <div className="cont" key={r.id}>
                   <img
                     src={
