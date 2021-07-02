@@ -141,7 +141,7 @@ export default function SingleRecipe() {
               {product.ingredients.map((i) => (
                 <li key={i.id}>
                   {i.ingredient.name}: {i.amount}
-                  {translateMeasurementUnits(i.unit)}
+                  {' ' + translateMeasurementUnits(i.unit)}
                 </li>
               ))}
             </Text>
