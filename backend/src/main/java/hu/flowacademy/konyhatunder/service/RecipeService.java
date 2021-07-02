@@ -29,6 +29,7 @@ import java.text.Collator;
 import java.text.RuleBasedCollator;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -143,53 +144,54 @@ public class RecipeService {
 
     public List<Recipe> listRecipesByCriteria(SearchByCriteriaDTO searchByCriteriaDTO) {
         validateSearchByCriteriaDTO(searchByCriteriaDTO);
-        List<Recipe> foundRecipes = null;
+        Stream<Recipe> foundRecipes = null;
         if (StringUtils.hasText(searchByCriteriaDTO.getName())) {
-            foundRecipes = recipeRepository.findByNameContaining(searchByCriteriaDTO.getName());
+            foundRecipes = recipeRepository.findByNameContaining(searchByCriteriaDTO.getName()).stream();
         }
         if (searchByCriteriaDTO.getPreparationTimeInterval() != null) {
             List<Double> interval = searchByCriteriaDTO.getPreparationTimeInterval();
             if (foundRecipes == null) {
-                foundRecipes = recipeRepository.findByPreparationTimeBetween(interval.get(0), interval.get(1));
+                foundRecipes = recipeRepository.findByPreparationTimeBetween(interval.get(0), interval.get(1)).stream();
             } else {
-                foundRecipes = foundRecipes.stream().filter(recipe ->
+                foundRecipes = foundRecipes.filter(recipe ->
                         recipe.getPreparationTime() >= interval.get(0)
-                                && recipe.getPreparationTime() <= interval.get(1)).collect(Collectors.toList());
+                                && recipe.getPreparationTime() <= interval.get(1));
             }
         }
         if (StringUtils.hasText(searchByCriteriaDTO.getDifficulty())) {
             if (foundRecipes == null) {
-                foundRecipes = recipeRepository.findByDifficulty(translateDifficulty(searchByCriteriaDTO.getDifficulty()));
+                foundRecipes = recipeRepository.findByDifficulty(translateDifficulty(searchByCriteriaDTO.getDifficulty())).stream();
             } else {
-                foundRecipes = foundRecipes.stream().filter(recipe ->
-                        recipe.getDifficulty().equals(translateDifficulty(searchByCriteriaDTO.getDifficulty()))).collect(Collectors.toList());
+                foundRecipes = foundRecipes.filter(recipe ->
+                        recipe.getDifficulty().equals(translateDifficulty(searchByCriteriaDTO.getDifficulty())));
             }
         }
         if (searchByCriteriaDTO.getCategories() != null) {
             if (foundRecipes == null) {
-                foundRecipes = recipeRepository.findByCategoriesName(searchByCriteriaDTO.getCategories().get(0));
+                foundRecipes = recipeRepository.findByCategoriesName(searchByCriteriaDTO.getCategories().get(0)).stream();
             }
-            foundRecipes = foundRecipes.stream().filter(recipe ->
+            foundRecipes = foundRecipes.filter(recipe ->
                     recipe.getCategories().stream().map(Category::getName).collect(Collectors.toList())
-                            .containsAll(searchByCriteriaDTO.getCategories())).collect(Collectors.toList());
+                            .containsAll(searchByCriteriaDTO.getCategories()));
         }
         if (searchByCriteriaDTO.getHasPicture() != null) {
             if (foundRecipes == null) {
                 if (searchByCriteriaDTO.getHasPicture()) {
-                    foundRecipes = recipeRepository.findByImageFileNameNotContaining("defaultImage");
+                    foundRecipes = recipeRepository.findByImageFileNameNotContaining("defaultImage").stream();
                 } else {
-                    foundRecipes = recipeRepository.findByImageFileName("defaultImage");
+                    foundRecipes = recipeRepository.findByImageFileName("defaultImage").stream();
                 }
             } else {
                 if (searchByCriteriaDTO.getHasPicture()) {
-                    foundRecipes = foundRecipes.stream().filter(recipe -> !recipe.getImage().getFileName().equals("defaultImage")).collect(Collectors.toList());
+                    foundRecipes = foundRecipes.filter(recipe -> !recipe.getImage().getFileName().equals("defaultImage"));
                 } else {
-                    foundRecipes = foundRecipes.stream().filter(recipe -> recipe.getImage().getFileName().equals("defaultImage")).collect(Collectors.toList());
+                    foundRecipes = foundRecipes.filter(recipe -> recipe.getImage().getFileName().equals("defaultImage"));
                 }
             }
         }
-        log.debug("Found {} recipe by criteria", foundRecipes.size());
-        return sortRecipesByName(foundRecipes);
+        List<Recipe> response = foundRecipes.collect(Collectors.toList());
+        log.debug("Found {} recipe by criteria", response.size());
+        return sortRecipesByName(response);
     }
 
     private void validateSearchByCriteriaDTO(SearchByCriteriaDTO searchByCriteriaDTO) {
