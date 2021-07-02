@@ -5,7 +5,6 @@ import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
-import ModalForSearch from './ModalForSearch';
 
 function SearchResultForMobile({ ingredients, searchBy }) {
   const [recipe, setRecipe] = useState();
@@ -18,7 +17,6 @@ function SearchResultForMobile({ ingredients, searchBy }) {
       );
 
       setRecipe(recipeList);
-      if (recipeList.length === 0) handleShow();
     };
 
     if (ingredients.length !== 0) {
@@ -83,7 +81,6 @@ function SearchResultForMobile({ ingredients, searchBy }) {
         </Col>
         <Col></Col>
       </Row>
-      <ModalForSearch show={show} onHide={() => setShow(false)} />
     </div>
   );
 }
