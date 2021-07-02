@@ -3,11 +3,16 @@ import defaultImage from '../images/defaultimage.png';
 import '../styles/SearchResult.css';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
+import ModalForSearch from './ModalForSearch';
 
 function SearchResult({ ingredients, searchBy }) {
-  const [recipe, setRecipe] = useState([]);
+  const [recipes, setRecipes] = useState(null);
+  const [show, setShow] = useState(false);
+  const handleShow = useCallback(() => {
+    setShow(true);
+  }, []);
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -15,21 +20,26 @@ function SearchResult({ ingredients, searchBy }) {
         ingredients,
         searchBy
       );
-      recipeList
-        ? recipeList.sort((a, b) => a.name.localeCompare(b.name))
-        : console.log('Loading');
-      setRecipe(recipeList);
+      recipeList?.sort((a, b) => a.name.localeCompare(b.name));
+
+      setRecipes(recipeList);
+      if (recipeList.length === 0) {
+        handleShow();
+      }
     };
-    getRecipes();
-  }, [ingredients, searchBy]);
+
+    if (ingredients.length !== 0) {
+      getRecipes();
+    }
+  }, [ingredients, searchBy, handleShow]);
 
   return (
     <div>
       <Row>
         <Col></Col>
         <Col>
-          {recipe
-            ? recipe.map((r) => (
+          {recipes
+            ? recipes.map((r) => (
                 <div className="cont" key={r.id}>
                   <img
                     src={
@@ -71,6 +81,8 @@ function SearchResult({ ingredients, searchBy }) {
         </Col>
         <Col></Col>
       </Row>
+
+      <ModalForSearch show={show} onHide={() => setShow(false)} />
     </div>
   );
 }
