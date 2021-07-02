@@ -5,7 +5,88 @@ import { useMediaQuery } from 'react-responsive';
 import { getIngredient } from './apiCalls';
 import styled from 'styled-components';
 import { Col, Row } from 'react-bootstrap';
-import { TiDelete } from 'react-icons/ti';
+
+const StyledTitle = styled.div`
+  margin-top: 50px;
+  margin-bottom: 20px;
+  font-size: xx-large;
+  color: #2e850b;
+
+  font-family: 'Charmonman', cursive !important;
+`;
+
+const StyledSmallerTitle = styled.div`
+  font-size: xx-large;
+  color: #1e5707;
+  text-align: center;
+  font-family: 'Charmonman', cursive !important;
+  margin-top: 15px;
+  margin-left: 20px;
+  margin-bottom: 30px;
+  text-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const LeftSide = styled.div`
+  display: flex;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 80px;
+  grid-template-columns: 225px 100px;
+  width: 300px;
+`;
+
+const RightSide = styled.div`
+  display: flex;
+  background-image: linear-gradient(
+    0deg,
+    #fffbc4 45.45%,
+    #ebe7b0 45.45%,
+    #ebe7b0 50%,
+    #fffbc4 50%,
+    #fffbc4 95.45%,
+    #ebe7b0 95.45%,
+    #ebe7b0 100%
+  );
+  background-size: 22px 22px;
+  height: 400px;
+  width: 600px;
+  padding: 10px, 10px, 10px, 10px;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 40px;
+  grid-template-columns: 225px 100px;
+  margin-right: 20px;
+  margin-left: 20px;
+  padding: 10px;
+`;
+
+const ListItems = styled.div`
+  font-size: x-large;
+  color: #1e5707;
+  margin-left: 50px;
+  text-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const List = styled.div`
+  margin-top: 20px;
+`;
+
+const RecipesTitle = styled.div`
+  margin-top: 30px;
+  font-size: xx-large;
+  color: #1e5707;
+  text-align: center;
+  font-family: 'Charmonman', cursive !important;
+`;
+const Line = styled.hr`
+  border: none;
+  height: 20px;
+  width: 90%;
+  height: 50px;
+  margin-top: 0;
+  border-bottom: 1px solid #2e860b00;
+  box-shadow: 0 20px 20px -20px #174405c9;
+  margin: -50px auto 10px;
+`;
 
 function SearchByIngredient() {
   const [ingredientsList, setIngredientsList] = useState();
@@ -19,99 +100,6 @@ function SearchByIngredient() {
     };
     loadingData();
   }, []);
-
-  const remove = (chosenIngredient) => {
-    setIngredientsArray(
-      ingredientsArray.filter((x) => x.id !== chosenIngredient.id)
-    );
-    setIngredientsList([...ingredientsList, chosenIngredient]);
-  };
-
-  const StyledTitle = styled.h3`
-    margin-top: 50px;
-    margin-bottom: 20px;
-    font-size: xx-large;
-    color: #2e850b;
-
-    font-family: 'Charmonman', cursive !important;
-  `;
-
-  const StyledSmallerTitle = styled.h3`
-    font-size: xx-large;
-    color: #1e5707;
-    text-align: center;
-    font-family: 'Charmonman', cursive !important;
-    margin-top: 15px;
-    margin-left: 20px;
-    margin-bottom: 30px;
-    text-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
-  `;
-
-  const LeftSide = styled.h3`
-    display: flex;
-    padding: 20px;
-    margin-top: 20px;
-    margin-bottom: 80px;
-    grid-template-columns: 225px 100px;
-    width: 300px;
-  `;
-
-  const RightSide = styled.h3`
-    display: flex;
-    background-image: linear-gradient(
-      0deg,
-      #fffbc4 45.45%,
-      #ebe7b0 45.45%,
-      #ebe7b0 50%,
-      #fffbc4 50%,
-      #fffbc4 95.45%,
-      #ebe7b0 95.45%,
-      #ebe7b0 100%
-    );
-    background-size: 22px 22px;
-    height: 400px;
-    width: 600px;
-    padding: 10px, 10px, 10px, 10px;
-    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 40px;
-    grid-template-columns: 225px 100px;
-    margin-right: 20px;
-    margin-left: 20px;
-    padding: 10px;
-  `;
-
-  const ListItems = styled.h3`
-    font-size: x-large;
-    color: #1e5707;
-    margin-left: 50px;
-    text-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
-  `;
-
-  const List = styled.h3`
-    margin-top: 20px;
-  `;
-
-  const RecipesTitle = styled.h3`
-    margin-top: 30px;
-    font-size: xx-large;
-    color: #1e5707;
-    text-align: center;
-    font-family: 'Charmonman', cursive !important;
-  `;
-  const Line = styled.hr`
-    border: none;
-    height: 20px;
-    width: 90%;
-    height: 50px;
-    margin-top: 0;
-    border-bottom: 1px solid #2e860b00;
-    box-shadow: 0 20px 20px -20px #174405c9;
-    margin: -50px auto 10px;
-  `;
-
-  const ItemButton = styled.h3`
-    color: red;
-  `;
 
   return (
     <div className="container">

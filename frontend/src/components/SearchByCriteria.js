@@ -4,6 +4,7 @@ import { getLevels, getCategorys } from './apiCalls';
 import styled from 'styled-components';
 import Modal from './Modal';
 import axios from 'axios';
+import ListGenerator from './ListGenerator';
 
 const times = ['30', '60', '120', '180', '240', '300'];
 
@@ -180,16 +181,7 @@ function SearchByCriteria() {
         </Formik>
 
         {recipes ? (
-          <ul className="list-group">
-            {recipes.map((recipe) => (
-              <li
-                key={recipe.id}
-                className="list-group-item list-group-item-action"
-              >
-                <div>{recipe.name}</div>
-              </li>
-            ))}
-          </ul>
+          <ListGenerator recips={recipes} />
         ) : (
           <div>'Loading List...' </div>
         )}

@@ -2,7 +2,15 @@ import defaultImage from '../images/defaultimage.png';
 import '../styles/SearchResult.css';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
-
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+const StyledLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  font-size: 1.5rem;
+`;
 const ListGenerator = ({ recips }) => {
   return (
     <div>
@@ -35,12 +43,20 @@ const ListGenerator = ({ recips }) => {
                       <div className="cardIcon">
                         <IoBarbellSharp />
                       </div>
-                      <p>{r.difficulty}</p>
+                      <p>
+                        {r.difficulty === 'HARD'
+                          ? 'Nehéz'
+                          : r.difficulty === 'MEDIUM'
+                          ? 'Közepes'
+                          : 'Könnyű'}
+                      </p>
                     </div>
                   </div>
                 </div>
                 <button className="btn">
-                  <i className="fa fa-arrow-right">Elkészítem !</i>
+                  <StyledLink to={`/recipes/${r.id}`} key={r.id}>
+                    Elkészítem !
+                  </StyledLink>
                 </button>
               </div>
             </div>

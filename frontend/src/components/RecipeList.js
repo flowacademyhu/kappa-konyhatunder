@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+
 import axios from 'axios';
+import ListGenerator from './ListGenerator';
+import { Col, Row } from 'react-bootstrap';
 
 const recipeAPI = axios.create({
   baseURL: '/api/',
@@ -22,24 +24,19 @@ function RecipeList() {
   }, []);
 
   return (
-    <>
-      {recipes ? (
-        <ul className="list-group">
-          {recipes.map((recipe) => (
-            <li
-              key={recipe.id}
-              className="list-group-item list-group-item-action"
-            >
-              <Link to={`/recipes/${recipe.id}`} key={recipe.id}>
-                {recipe.name}
-              </Link>
-            </li>
-          ))}{' '}
-        </ul>
-      ) : (
-        <div>'Loading List...' </div>
-      )}
-    </>
+    <div>
+      <Row>
+        <Col></Col>{' '}
+        <Col>
+          {recipes ? (
+            <ListGenerator recips={recipes} />
+          ) : (
+            <div>'Loading List...' </div>
+          )}
+        </Col>
+        <Col></Col>
+      </Row>
+    </div>
   );
 }
 
