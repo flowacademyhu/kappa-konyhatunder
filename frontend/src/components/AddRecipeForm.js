@@ -311,7 +311,9 @@ const AddRecipeForm = () => {
             <div className="col">
               <button
                 className="btn btn-success"
-                onClick={addIngredientToRecipe}
+                onClick={
+                  ingredient && ingredient.name !== '' && addIngredientToRecipe
+                }
                 type="button"
               >
                 +
