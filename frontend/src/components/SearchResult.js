@@ -3,10 +3,11 @@ import defaultImage from '../images/defaultimage.png';
 import '../styles/SearchResult.css';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import ModalForSearch from './ModalForSearch';
 
 const StyledLink = styled(Link)`
   color: white;
@@ -16,7 +17,11 @@ const StyledLink = styled(Link)`
   font-size: 1.5rem;
 `;
 function SearchResult({ ingredients, searchBy }) {
-  const [recipe, setRecipe] = useState([]);
+  const [recipes, setRecipes] = useState(null);
+  const [show, setShow] = useState(false);
+  const handleShow = useCallback(() => {
+    setShow(true);
+  }, []);
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -24,13 +29,18 @@ function SearchResult({ ingredients, searchBy }) {
         ingredients,
         searchBy
       );
-      recipeList
-        ? recipeList.sort((a, b) => a.name.localeCompare(b.name))
-        : console.log('Loading');
-      setRecipe(recipeList);
+      recipeList?.sort((a, b) => a.name.localeCompare(b.name));
+
+      setRecipes(recipeList);
+      if (recipeList.length === 0) {
+        handleShow();
+      }
     };
-    getRecipes();
-  }, [ingredients, searchBy]);
+
+    if (ingredients.length !== 0) {
+      getRecipes();
+    }
+  }, [ingredients, searchBy, handleShow]);
 
   return (
     <div>
@@ -84,6 +94,8 @@ function SearchResult({ ingredients, searchBy }) {
         </Col>
         <Col></Col>
       </Row>
+
+      <ModalForSearch show={show} onHide={() => setShow(false)} />
     </div>
   );
 }

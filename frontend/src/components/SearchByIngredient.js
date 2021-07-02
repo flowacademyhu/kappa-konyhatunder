@@ -3,6 +3,7 @@ import SearchResultForMobile from './SearchResultForMobile';
 import SearchResult from './SearchResult';
 import { useMediaQuery } from 'react-responsive';
 import { getIngredient } from './apiCalls';
+
 function SearchByIngredient() {
   const [ingredientsList, setIngredientsList] = useState();
   const [chosenIngredient, setChosenIngredient] = useState('');
