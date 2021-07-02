@@ -1,9 +1,6 @@
 import { Col, Row } from 'react-bootstrap';
 import ListGenerator from './ListGenerator';
-import defaultImage from '../images/defaultimage.png';
 import '../styles/SearchResult.css';
-import { IoIosAlarm } from 'react-icons/io';
-import { IoBarbellSharp } from 'react-icons/io5';
 import { useEffect, useState, useCallback } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
 import styled from 'styled-components';
@@ -16,16 +13,7 @@ const RecipesTitle = styled.div`
   font-family: 'Charmonman', cursive !important;
 `;
 
-
-const StyledLink = styled(Link)`
-  color: white;
-  text-decoration: none;
-  margin-left: 0px;
-  margin-bottom: 0px;
-  font-size: 1.5rem;
-`;
 function SearchResult({ ingredients, searchBy }) {
-
   const [recipesWithAllIngredient, setRecipesWithAllIngredient] = useState([]);
   const [recipesWithAlmostAllIngredient, setRecipesWithAlmostAllIngredient] =
     useState([]);
@@ -35,7 +23,6 @@ function SearchResult({ ingredients, searchBy }) {
   const handleShow = useCallback(() => {
     setShow(true);
   }, []);
-
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -85,7 +72,6 @@ function SearchResult({ ingredients, searchBy }) {
               <ListGenerator recips={recipesWithMinimumOneIngredient} />
             </div>
           )}
-
         </Col>
         <Col></Col>
       </Row>

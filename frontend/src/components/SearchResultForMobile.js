@@ -10,7 +10,6 @@ import ModalForSearch from './ModalForSearch';
 function SearchResultForMobile({ ingredients, searchBy }) {
   const [recipe, setRecipe] = useState();
 
-
   useEffect(() => {
     const getRecipes = async () => {
       const recipeList = await getRecipesWithMatchingIngredients(
