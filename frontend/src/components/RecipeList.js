@@ -29,34 +29,37 @@ function RecipeList() {
   }, []);
 
   return (
-    <>
-      <div className="container">
+    <div className="container">
+      <div className="card-deck">
         {recipes ? (
-          <ul className="list-group">
+          <>
             {recipes.map((recipe) => (
-              <li key={recipe.id} className="list-group-item">
-                <div className="justify-content-between  row m-2">
+              <div key={recipe.id} className="col-4 my-3">
+                <div className="card">
                   <StyledImage
-                    className="col-3"
+                    className="card-img-top"
                     src={picture}
                     alt={recipe.title}
                   />
-                  <Link
-                    className="col-9"
-                    to={`/recipes/${recipe.id}`}
-                    key={recipe.id}
-                  >
-                    {recipe.name}
-                  </Link>
+                  <div className="card-body">
+                    <Link
+                      className="card-title"
+                      to={`/recipes/${recipe.id}`}
+                      key={recipe.id}
+                    >
+                      {recipe.name}
+                    </Link>
+                    <div className="card-text">{recipe.description}</div>
+                  </div>
                 </div>
-              </li>
+              </div>
             ))}{' '}
-          </ul>
+          </>
         ) : (
           <div>'Loading List...' </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

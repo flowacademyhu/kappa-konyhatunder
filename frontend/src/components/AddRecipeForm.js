@@ -311,8 +311,6 @@ const AddRecipeForm = () => {
             <div className="col">
               <button
                 className="btn btn-success"
-                data-toggle="modal"
-                data-target="#ringredientStatusModal"
                 onClick={addIngredientToRecipe}
                 type="button"
               >
@@ -422,7 +420,7 @@ const AddRecipeForm = () => {
           selectedFile={selectedFile}
           newIngredientsList={newIngredientsList}
         />
-        <Modal status={status} id="ingredientStatusModal" />
+        <Modal status={status} id="recipeSuccessStatusModal" />
       </div>
     </form>
   );
