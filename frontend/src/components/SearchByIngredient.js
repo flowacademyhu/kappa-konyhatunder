@@ -5,7 +5,7 @@ import { useMediaQuery } from 'react-responsive';
 import { getIngredient } from './apiCalls';
 import styled from 'styled-components';
 import { Col, Row } from 'react-bootstrap';
-import background from '../images/background.png';
+import { TiDelete } from 'react-icons/ti';
 
 function SearchByIngredient() {
   const [ingredientsList, setIngredientsList] = useState();
@@ -19,6 +19,13 @@ function SearchByIngredient() {
     };
     loadingData();
   }, []);
+
+  const remove = (chosenIngredient) => {
+    setIngredientsArray(
+      ingredientsArray.filter((x) => x.id !== chosenIngredient.id)
+    );
+    setIngredientsList([...ingredientsList, chosenIngredient]);
+  };
 
   const StyledTitle = styled.h3`
     margin-top: 50px;
@@ -64,9 +71,13 @@ function SearchByIngredient() {
     background-size: 22px 22px;
     height: 400px;
     width: 600px;
-    margin-left: 100px;
+    padding: 10px, 10px, 10px, 10px;
     box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
     margin-top: 40px;
+    grid-template-columns: 225px 100px;
+    margin-right: 20px;
+    margin-left: 20px;
+    padding: 10px;
   `;
 
   const ListItems = styled.h3`
@@ -78,6 +89,28 @@ function SearchByIngredient() {
 
   const List = styled.h3`
     margin-top: 20px;
+  `;
+
+  const RecipesTitle = styled.h3`
+    margin-top: 30px;
+    font-size: xx-large;
+    color: #1e5707;
+    text-align: center;
+    font-family: 'Charmonman', cursive !important;
+  `;
+  const Line = styled.hr`
+    border: none;
+    height: 20px;
+    width: 90%;
+    height: 50px;
+    margin-top: 0;
+    border-bottom: 1px solid #2e860b00;
+    box-shadow: 0 20px 20px -20px #174405c9;
+    margin: -50px auto 10px;
+  `;
+
+  const ItemButton = styled.h3`
+    color: red;
   `;
 
   return (
@@ -136,27 +169,32 @@ function SearchByIngredient() {
             )}
           </LeftSide>
         </Col>
-        <Col>
-          <RightSide>
-            {ingredientsArray ? (
-              <List>
-                <StyledSmallerTitle>
-                  A keresett hozzávalók listája :
-                </StyledSmallerTitle>
-                {ingredientsArray.map((chosenIngredient) => (
-                  <ListItems key={chosenIngredient.id}>
-                    <> - {chosenIngredient.name} </>
-                  </ListItems>
-                ))}
-              </List>
-            ) : (
-              <div>Loading List... </div>
-            )}
-          </RightSide>
-        </Col>
+
+        <RightSide>
+          {ingredientsArray ? (
+            <List>
+              <StyledSmallerTitle>
+                A keresett hozzávalók listája :
+              </StyledSmallerTitle>
+              {ingredientsArray.map((chosenIngredient) => (
+                <ListItems key={chosenIngredient.id}>
+                  <Row className="justify-content-space-between">
+                    <Col>
+                      <> - {chosenIngredient.name} </>
+                    </Col>
+                  </Row>
+                </ListItems>
+              ))}
+            </List>
+          ) : (
+            <div>Loading List... </div>
+          )}
+        </RightSide>
       </Row>
 
       <Col>
+        <RecipesTitle>Keresés eredménye</RecipesTitle>
+        <Line />
         {isMobile ? (
           <SearchResultForMobile
             ingredients={ingredientsArray}
