@@ -10,7 +10,7 @@ const recipeAPI = axios.create({
 const StyledImage = styled.img`
   width: 100%;
   height: auto;
-  max-width: 250px;
+  max-width: 400px;
 `;
 
 function RecipeList() {
@@ -37,7 +37,7 @@ function RecipeList() {
               <div key={recipe.id} className="col-4 my-3">
                 <div className="card">
                   <StyledImage
-                    className="card-img-top"
+                    className="card-img-top justify-content-between"
                     src={picture}
                     alt={recipe.title}
                   />
