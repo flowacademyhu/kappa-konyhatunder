@@ -1,23 +1,24 @@
 import { Col, Row } from 'react-bootstrap';
-import defaultImage from '../images/defaultimage.png';
+import ListGenerator from './ListGenerator';
 import '../styles/SearchResult.css';
-import { IoIosAlarm } from 'react-icons/io';
-import { IoBarbellSharp } from 'react-icons/io5';
 import { useEffect, useState, useCallback } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ModalForSearch from './ModalForSearch';
 
-const StyledLink = styled(Link)`
-  color: white;
-  text-decoration: none;
-  margin-left: 0px;
-  margin-bottom: 0px;
-  font-size: 1.5rem;
+const RecipesTitle = styled.div`
+  margin-top: 30px;
+  font-size: xx-large;
+  color: #1e5707;
+  font-family: 'Charmonman', cursive !important;
 `;
+
 function SearchResult({ ingredients, searchBy }) {
-  const [recipes, setRecipes] = useState(null);
+  const [recipesWithAllIngredient, setRecipesWithAllIngredient] = useState([]);
+  const [recipesWithAlmostAllIngredient, setRecipesWithAlmostAllIngredient] =
+    useState([]);
+  const [recipesWithMinimumOneIngredient, setRecipesWithMinimumOneIngredient] =
+    useState([]);
   const [show, setShow] = useState(false);
   const handleShow = useCallback(() => {
     setShow(true);
@@ -29,12 +30,14 @@ function SearchResult({ ingredients, searchBy }) {
         ingredients,
         searchBy
       );
-      recipeList?.sort((a, b) => a.name.localeCompare(b.name));
 
-      setRecipes(recipeList);
-      if (recipeList.length === 0) {
-        handleShow();
-      }
+      setRecipesWithAllIngredient(recipeList.recipesWithAllIngredient);
+      setRecipesWithAlmostAllIngredient(
+        recipeList.recipesWithAlmostAllIngredient
+      );
+      setRecipesWithMinimumOneIngredient(
+        recipeList.recipesWithMinimumOneIngredient
+      );
     };
 
     if (ingredients.length !== 0) {
@@ -45,52 +48,30 @@ function SearchResult({ ingredients, searchBy }) {
   return (
     <div>
       <Row>
-        <Col></Col>
+        <Col></Col>{' '}
         <Col>
-          {recipes
-            ? recipes.map((recipe) => (
-                <div className="cont" key={recipe.id}>
-                  <img
-                    src={
-                      recipe.image.fileName === 'defaultImage'
-                        ? defaultImage
-                        : `/api/image/${recipe.image.id}`
-                    }
-                    alt="Kép a receptről"
-                  />
-                  <div className="cont__text">
-                    <h1>{recipe.name}</h1>
-
-                    <p>{recipe.description}</p>
-                    <div className="cont__text__timing">
-                      <div className="cont__text__timing_time">
-                        <div>
-                          <div className="cardIcon">
-                            <IoIosAlarm />
-                          </div>
-                          <div className="time">
-                            {recipe.preparationTime} perc
-                          </div>
-                        </div>
-                      </div>
-                      <div className="cont__text__timing_time">
-                        <div>
-                          <div className="cardIcon">
-                            <IoBarbellSharp />
-                          </div>
-                          <p>{recipe.difficulty}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <button className="btn">
-                      <StyledLink to={`/recipes/${recipe.id}`} key={recipe.id}>
-                        Elkészítem !
-                      </StyledLink>
-                    </button>
-                  </div>
-                </div>
-              ))
-            : 'Loading...'}
+          {recipesWithAllIngredient[0] && (
+            <div>
+              <RecipesTitle>Receptek amihez nem kell vásárolni: </RecipesTitle>
+              <ListGenerator recips={recipesWithAllIngredient} />
+            </div>
+          )}
+          {recipesWithAlmostAllIngredient[0] && (
+            <div>
+              <RecipesTitle>
+                Receptek amihez keveset kell vásárolni:{' '}
+              </RecipesTitle>
+              <ListGenerator recips={recipesWithAlmostAllIngredient} />
+            </div>
+          )}
+          {recipesWithMinimumOneIngredient[0] && (
+            <div>
+              <RecipesTitle>
+                Receptek amihez nagy bevásárlás kell:{' '}
+              </RecipesTitle>
+              <ListGenerator recips={recipesWithMinimumOneIngredient} />
+            </div>
+          )}
         </Col>
         <Col></Col>
       </Row>

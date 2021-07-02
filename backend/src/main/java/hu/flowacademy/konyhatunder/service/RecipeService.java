@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.flowacademy.konyhatunder.dto.RecipeDTO;
 import hu.flowacademy.konyhatunder.dto.SearchByCriteriaDTO;
+import hu.flowacademy.konyhatunder.dto.SearchByIngredientDTO;
 import hu.flowacademy.konyhatunder.enums.*;
 import hu.flowacademy.konyhatunder.enums.Difficulty;
 import hu.flowacademy.konyhatunder.enums.Measurement;
@@ -90,9 +91,7 @@ public class RecipeService {
                     .ingredient(element.getIngredient())
                     .build();
             amountOfIngredientRepository.save(amountOfIng);
-
             amountOfIngredientList.add(amountOfIng);
-
         });
         savedRecipe.setIngredients(amountOfIngredientList);
         Recipe savedRecipeInRepository = recipeRepository.save(savedRecipe);
@@ -106,13 +105,40 @@ public class RecipeService {
         return difficulties;
     }
 
-    public List<Recipe> listRecipesByIngredients(List<Ingredient> ingredientList) {
+    public SearchByIngredientDTO listRecipesByIngredients(List<Ingredient> ingredientList) {
         validateReceivedIngredients(ingredientList);
+        log.debug("Search Recipes by {} ingredient", ingredientList.size());
         Set<Recipe> foundRecipes = new HashSet<>();
         ingredientList.forEach(ingredient ->
                 foundRecipes.addAll(recipeRepository.findAllRecipesContainingIngredient(ingredient.getId())));
-        log.debug("Found {} recipe by criteria", foundRecipes.size());
-        return List.copyOf(foundRecipes);
+        SearchByIngredientDTO response = new SearchByIngredientDTO();
+        List<Recipe> withAllIngredient = foundRecipes.stream().filter(recipe ->
+                ingredientList.containsAll(recipe.getIngredients().stream().map(AmountOfIngredient::getIngredient)
+                        .collect(Collectors.toList()))).collect(Collectors.toList());
+        response.setRecipesWithAllIngredient(withAllIngredient);
+        log.debug("Found {} recipes which contains all received Ingredient", withAllIngredient.size());
+        List<Recipe> remainingRecipes = foundRecipes.stream()
+                .filter(element -> !withAllIngredient.contains(element))
+                .collect(Collectors.toList());
+        List<Recipe> withAlmostAllIngredient = new ArrayList<>();
+        long sameIngredientCount = 0;
+        for (Recipe recipe : remainingRecipes) {
+            for (AmountOfIngredient amountOfIngredient : recipe.getIngredients()) {
+                sameIngredientCount += ingredientList.stream().filter(ingredient -> ingredient.getId().equals(amountOfIngredient.getIngredient().getId())).count();
+            }
+            if (sameIngredientCount >= recipe.getIngredients().size() / 2) {
+                withAlmostAllIngredient.add(recipe);
+            }
+            sameIngredientCount = 0;
+        }
+        log.debug("Found {} recipes which contains more than the half Ingredient from the received list.", withAlmostAllIngredient.size());
+        response.setRecipesWithAlmostAllIngredient(withAlmostAllIngredient);
+        List<Recipe> withMinimumOneIngredient = remainingRecipes.stream()
+                .filter(element -> !withAlmostAllIngredient.contains(element))
+                .collect(Collectors.toList());
+        response.setRecipesWithMinimumOneIngredient(withMinimumOneIngredient);
+        log.debug("Found {} recipes which contains minimum 1 Ingredient from the received list.", withMinimumOneIngredient.size());
+        return response;
     }
 
     public List<Recipe> listRecipesByCriteria(SearchByCriteriaDTO searchByCriteriaDTO) {
@@ -153,9 +179,7 @@ public class RecipeService {
                     foundRecipes = recipeRepository.findByImageFileNameNotContaining("defaultImage");
                 } else {
                     foundRecipes = recipeRepository.findByImageFileName("defaultImage");
-
                 }
-
             } else {
                 if (searchByCriteriaDTO.getHasPicture()) {
                     foundRecipes = foundRecipes.stream().filter(recipe -> !recipe.getImage().getFileName().equals("defaultImage")).collect(Collectors.toList());
@@ -169,6 +193,7 @@ public class RecipeService {
     }
 
     private void validateSearchByCriteriaDTO(SearchByCriteriaDTO searchByCriteriaDTO) {
+        log.debug("Validating searchByCriteriaDTO");
         if (searchByCriteriaDTO.getHasPicture() == null && searchByCriteriaDTO.getName() == null
                 && searchByCriteriaDTO.getDifficulty() == null && searchByCriteriaDTO.getCategories() == null
                 && searchByCriteriaDTO.getPreparationTimeInterval() == null) {
@@ -177,6 +202,7 @@ public class RecipeService {
     }
 
     private List<Recipe> sortRecipesByName(List<Recipe> recipeList) {
+        log.debug("Sorting response recipeList when filtering by Criteria.");
         RuleBasedCollator myCollator = (RuleBasedCollator) Collator.getInstance(new Locale("hu", "HU"));
         recipeList.sort((r1, r2) -> myCollator.compare(r1.getName(), r2.getName()));
         return recipeList;
@@ -225,16 +251,12 @@ public class RecipeService {
         log.debug("Validate Recipe");
         if (!StringUtils.hasText(recipeDTO.getName()))
             throw new ValidationException("A recept nevét kötelező megadni!");
-
         if (!StringUtils.hasText(recipeDTO.getDescription()))
             throw new ValidationException("A leírás mező nem lehet üres!");
-
         if (recipeDTO.getPreparationTime() <= 0)
             throw new ValidationException("Az elkészítési idő nem lehet 0 vagy annál kisebb!");
-
         if (recipeDTO.getDifficulty() == null)
             throw new ValidationException("Nehézségi szint megadása kötelező!");
-
         if (CollectionUtils.isEmpty(recipeDTO.getIngredients())) {
             throw new ValidationException("Hozzávalók megadása kötelező!");
         }

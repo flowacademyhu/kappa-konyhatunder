@@ -7,6 +7,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp, IoPricetags } from 'react-icons/io5';
 import styled from 'styled-components';
+import defaultImage from '../images/defaultimage.png';
 
 const LeftSide = styled.div`
   background-color: #c7c7c75b;
@@ -97,8 +98,12 @@ export default function SingleRecipe() {
           <LeftSide>
             <img
               className="recipeImg"
-              src={`/api/image/${product.image.id}`}
-              alt={product.image.fileName}
+              src={
+                product.image.fileName === 'defaultImage'
+                  ? defaultImage
+                  : `/api/image/${product.image.id}`
+              }
+              alt="Kép a receptről"
             />
             <LeftSideText>
               <Icon>
