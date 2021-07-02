@@ -5,8 +5,17 @@ import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
 import { useEffect, useState, useCallback } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import ModalForSearch from './ModalForSearch';
 
+const StyledLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  font-size: 1.5rem;
+`;
 function SearchResult({ ingredients, searchBy }) {
   const [recipes, setRecipes] = useState(null);
   const [show, setShow] = useState(false);
@@ -39,27 +48,29 @@ function SearchResult({ ingredients, searchBy }) {
         <Col></Col>
         <Col>
           {recipes
-            ? recipes.map((r) => (
-                <div className="cont" key={r.id}>
+            ? recipes.map((recipe) => (
+                <div className="cont" key={recipe.id}>
                   <img
                     src={
-                      r.image.fileName === 'defaultImage'
+                      recipe.image.fileName === 'defaultImage'
                         ? defaultImage
-                        : `/api/image/${r.image.id}`
+                        : `/api/image/${recipe.image.id}`
                     }
                     alt="Kép a receptről"
                   />
                   <div className="cont__text">
-                    <h1>{r.name}</h1>
+                    <h1>{recipe.name}</h1>
 
-                    <p>{r.description}</p>
+                    <p>{recipe.description}</p>
                     <div className="cont__text__timing">
                       <div className="cont__text__timing_time">
                         <div>
                           <div className="cardIcon">
                             <IoIosAlarm />
                           </div>
-                          <div className="time">{r.preparationTime} perc</div>
+                          <div className="time">
+                            {recipe.preparationTime} perc
+                          </div>
                         </div>
                       </div>
                       <div className="cont__text__timing_time">
@@ -67,12 +78,14 @@ function SearchResult({ ingredients, searchBy }) {
                           <div className="cardIcon">
                             <IoBarbellSharp />
                           </div>
-                          <p>{r.difficulty}</p>
+                          <p>{recipe.difficulty}</p>
                         </div>
                       </div>
                     </div>
                     <button className="btn">
-                      <i className="fa fa-arrow-right">Elkészítem !</i>
+                      <StyledLink to={`/recipes/${recipe.id}`} key={recipe.id}>
+                        Elkészítem !
+                      </StyledLink>
                     </button>
                   </div>
                 </div>
