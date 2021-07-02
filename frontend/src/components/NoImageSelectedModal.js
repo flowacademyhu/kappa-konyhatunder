@@ -36,9 +36,13 @@ const NoImageSelectedModal = ({
               type="button"
               data-toggle="modal"
               data-target={'#recipeSuccessStatusModal'}
-              onClick={() =>
-                addRecipe(formValuesForModal, selectedFile, newIngredientsList)
-              }
+              onClick={() => {
+                addRecipe(
+                  formValuesForModal,
+                  selectedFile,
+                  newIngredientsList.filter((e) => e.ingredient !== undefined)
+                );
+              }}
             >
               Folytatás kép nélkül
             </button>
