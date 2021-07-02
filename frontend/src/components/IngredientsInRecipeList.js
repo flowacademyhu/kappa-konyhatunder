@@ -3,19 +3,22 @@ function IngredientsInRecipeList({ ingredientsList }) {
     <>
       {ingredientsList ? (
         <div className="container">
-          {ingredientsList.map((ingredient) => (
-            <div
-              key={ingredient.ingredient.id ? ingredient.ingredient.id : '1'}
-              className="row"
-            >
-              <div className="col">
-                Hozzávaló : {ingredient.ingredient.name}
+          {ingredientsList
+            .filter((e) => e.ingredient !== undefined)
+            .map((ingredient) => (
+              <div
+                key={ingredient.ingredient.id ? ingredient.ingredient.id : '1'}
+                className="row"
+              >
+                <div className="col">
+                  Hozzávaló : {ingredient.ingredient.name}
+                </div>
+                <div className="col">
+                  Mennyiség : {ingredient.amount} {ingredient.unit}
+                </div>
+                {console.log(ingredient)}
               </div>
-              <div className="col">
-                Mennyiség : {ingredient.amount} {ingredient.unit}
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       ) : (
         <div>Loading List... </div>
