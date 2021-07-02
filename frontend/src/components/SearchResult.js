@@ -35,27 +35,29 @@ function SearchResult({ ingredients, searchBy }) {
         <Col></Col>
         <Col>
           {recipe
-            ? recipe.map((r) => (
-                <div className="cont" key={r.id}>
+            ? recipe.map((recipe) => (
+                <div className="cont" key={recipe.id}>
                   <img
                     src={
-                      r.image.fileName === 'defaultImage'
+                      recipe.image.fileName === 'defaultImage'
                         ? defaultImage
-                        : `/api/image/${r.image.id}`
+                        : `/api/image/${recipe.image.id}`
                     }
                     alt="Kép a receptről"
                   />
                   <div className="cont__text">
-                    <h1>{r.name}</h1>
+                    <h1>{recipe.name}</h1>
 
-                    <p>{r.description}</p>
+                    <p>{recipe.description}</p>
                     <div className="cont__text__timing">
                       <div className="cont__text__timing_time">
                         <div>
                           <div className="cardIcon">
                             <IoIosAlarm />
                           </div>
-                          <div className="time">{r.preparationTime} perc</div>
+                          <div className="time">
+                            {recipe.preparationTime} perc
+                          </div>
                         </div>
                       </div>
                       <div className="cont__text__timing_time">
@@ -63,14 +65,14 @@ function SearchResult({ ingredients, searchBy }) {
                           <div className="cardIcon">
                             <IoBarbellSharp />
                           </div>
-                          <p>{r.difficulty}</p>
+                          <p>{recipe.difficulty}</p>
                         </div>
                       </div>
                     </div>
                     <button className="btn">
                       <Link
-                        to={`/recipes/${r.id}`}
-                        key={r.id}
+                        to={`/recipes/${recipe.id}`}
+                        key={recipe.id}
                         style={linkStyle}
                       >
                         <i className="fa fa-arrow-right">Elkészítem !</i>
