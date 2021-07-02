@@ -252,7 +252,7 @@ const AddRecipeForm = () => {
                 className="btn btn-success"
                 onClick={() => addCategory(category)}
                 data-toggle="modal"
-                data-target="#recipeStatusModal"
+                data-target="#categoryAddModal"
                 type="button"
               >
                 +
@@ -302,7 +302,7 @@ const AddRecipeForm = () => {
               <input
                 className="form-control"
                 id="amount"
-                type="text"
+                type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="Mennyiség"
@@ -311,9 +311,9 @@ const AddRecipeForm = () => {
             <div className="col">
               <button
                 className="btn btn-success"
-                data-toggle="modal"
-                data-target="#ringredientStatusModal"
-                onClick={addIngredientToRecipe}
+                onClick={
+                  ingredient && ingredient.name !== '' && addIngredientToRecipe
+                }
                 type="button"
               >
                 +
@@ -371,10 +371,10 @@ const AddRecipeForm = () => {
             <input
               className="form-control"
               id="addNewAmount"
-              type="text"
+              type="number"
               value={addNewAmount}
               onChange={(e) => setAddNewAmount(e.target.value)}
-              placeholder="Adja meg a mennyiséget"
+              placeholder="Mennyiség"
             />
           </div>
           <div className="col-1">
@@ -415,14 +415,16 @@ const AddRecipeForm = () => {
           Hozzáadás
         </button>
         <Modal status={status} id="recipeStatusModal" />
+        <Modal status={status} id="categoryAddModal" />
         <NoImageSelectedModal
           status={'Lehetőség van fénykép hozzáadására!'}
+          sentstatus="Sikeres hozzáadás!"
           id="noFilePickedModal"
           formValuesForModal={formValuesForModal}
           selectedFile={selectedFile}
           newIngredientsList={newIngredientsList}
         />
-        <Modal status={status} id="ingredientStatusModal" />
+        <Modal status={status} id="recipeSuccessStatusModal" />
       </div>
     </form>
   );

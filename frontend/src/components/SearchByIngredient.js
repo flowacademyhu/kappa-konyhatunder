@@ -3,12 +3,15 @@ import SearchResultForMobile from './SearchResultForMobile';
 import SearchResult from './SearchResult';
 import { useMediaQuery } from 'react-responsive';
 import { getIngredient } from './apiCalls';
+import ModalForFail from './ModalForFail';
 
 function SearchByIngredient() {
   const [ingredientsList, setIngredientsList] = useState();
   const [chosenIngredient, setChosenIngredient] = useState('');
   const [ingredientsArray, setIngredientsArray] = useState([]);
   const isMobile = useMediaQuery({ query: `(max-width: 576px)` });
+  const [showFail, setShowFail] = useState(false);
+  const handleShowFail = () => setShowFail(true);
 
   useEffect(() => {
     const loadingData = async () => {
@@ -16,6 +19,13 @@ function SearchByIngredient() {
     };
     loadingData();
   }, []);
+
+  const remove = (chosenIngredient) => {
+    setIngredientsArray(
+      ingredientsArray.filter((x) => x.id !== chosenIngredient.id)
+    );
+    setIngredientsList([...ingredientsList, chosenIngredient]);
+  };
 
   return (
     <div className="container mt-4 align-items-center justify-content-between">
@@ -45,18 +55,23 @@ function SearchByIngredient() {
             <div className="col-sm-6">
               <button
                 className="btn btn-success mt-4"
-                onClick={() => {
-                  setIngredientsArray([
-                    ...ingredientsArray,
-                    JSON.parse(chosenIngredient),
-                  ]);
-                  setIngredientsList(
-                    ingredientsList.filter(
-                      (ingredientItem) =>
-                        ingredientItem.id !== JSON.parse(chosenIngredient).id
-                    )
-                  );
-                }}
+                onClick={() =>
+                  chosenIngredient
+                    ? (setIngredientsList(
+                        ingredientsList.filter(
+                          (ingredientItem) =>
+                            ingredientItem.id !==
+                            JSON.parse(chosenIngredient).id
+                        )
+                      ),
+                      setIngredientsArray([
+                        ...ingredientsArray,
+                        JSON.parse(chosenIngredient),
+                      ]),
+                      setChosenIngredient(''),
+                      console.log(ingredientsArray))
+                    : handleShowFail()
+                }
                 type="button"
               >
                 Hozzáadás
@@ -71,10 +86,22 @@ function SearchByIngredient() {
           {ingredientsArray ? (
             <div>
               <div>A keresett hozzávalók listája:</div>
-              <div className="row ml-2">
+              <div className="list-group m-2">
                 {ingredientsArray.map((chosenIngredient) => (
-                  <div key={chosenIngredient.id}>
-                    <> {chosenIngredient.name} , </>
+                  <div className="list-group-item  " key={chosenIngredient.id}>
+                    <div className="row align-items-center justify-content-space-evenly">
+                      <div className="col-6 col-md-4 col-lg-3 d-flex justify-content-end">
+                        {chosenIngredient.name}
+                      </div>
+                      <div className="col-6 col-md-4 col-lg-3 d-flex justify-content-start">
+                        <button
+                          className="btn btn-danger "
+                          onClick={() => remove(chosenIngredient)}
+                        >
+                          Törlés
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -94,6 +121,8 @@ function SearchByIngredient() {
       ) : (
         <SearchResult ingredients={ingredientsArray} searchBy={'ingredients'} />
       )}
+
+      <ModalForFail show={showFail} onHide={() => setShowFail(false)} />
     </div>
   );
 }
