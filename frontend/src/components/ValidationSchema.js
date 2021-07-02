@@ -12,6 +12,5 @@ export const validationSchema = yup.object().shape({
   preparationTime: yup
     .number('Nem szám formátum')
     .required('Kötelező mező')
-    .max(1000, 'Túl sok')
-    .integer('Szám formátum szükséges '),
+    .max(1000, 'Túl sok'),
 });
