@@ -91,9 +91,7 @@ public class RecipeService {
                     .ingredient(element.getIngredient())
                     .build();
             amountOfIngredientRepository.save(amountOfIng);
-
             amountOfIngredientList.add(amountOfIng);
-
         });
         savedRecipe.setIngredients(amountOfIngredientList);
         Recipe savedRecipeInRepository = recipeRepository.save(savedRecipe);
@@ -129,8 +127,7 @@ public class RecipeService {
                 sameIngredientCount += ingredientList.stream().filter(ingredient -> ingredient.getId().equals(amountOfIngredient.getIngredient().getId())).count();
             }
             if (sameIngredientCount >= recipe.getIngredients().size() / 2) {
-                withAlmostAllIngredient.add(
-                        recipe);
+                withAlmostAllIngredient.add(recipe);
             }
             sameIngredientCount = 0;
         }
@@ -183,7 +180,6 @@ public class RecipeService {
                 } else {
                     foundRecipes = recipeRepository.findByImageFileName("defaultImage");
                 }
-
             } else {
                 if (searchByCriteriaDTO.getHasPicture()) {
                     foundRecipes = foundRecipes.stream().filter(recipe -> !recipe.getImage().getFileName().equals("defaultImage")).collect(Collectors.toList());
@@ -255,16 +251,12 @@ public class RecipeService {
         log.debug("Validate Recipe");
         if (!StringUtils.hasText(recipeDTO.getName()))
             throw new ValidationException("A recept nevét kötelező megadni!");
-
         if (!StringUtils.hasText(recipeDTO.getDescription()))
             throw new ValidationException("A leírás mező nem lehet üres!");
-
         if (recipeDTO.getPreparationTime() <= 0)
             throw new ValidationException("Az elkészítési idő nem lehet 0 vagy annál kisebb!");
-
         if (recipeDTO.getDifficulty() == null)
             throw new ValidationException("Nehézségi szint megadása kötelező!");
-
         if (CollectionUtils.isEmpty(recipeDTO.getIngredients())) {
             throw new ValidationException("Hozzávalók megadása kötelező!");
         }
