@@ -1,15 +1,16 @@
 package hu.flowacademy.konyhatunder.enums;
 
-public enum MeasurementLiter {
-    CL("centiliter"),ML("milliliter"),DL("deciliter"),L("liter");
+public enum MeasurementQuantity {
+    G("gramm"),DKG("dekagramm"),KG("kilogramm");
 
     private final String hungarianTranslation;
 
-    private MeasurementLiter(String value){
+    private MeasurementQuantity(String value){
         hungarianTranslation = value;
     }
 
     public String getHungarianTranslation(){
         return hungarianTranslation;
     }
+
 }

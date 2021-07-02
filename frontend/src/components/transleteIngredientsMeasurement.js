@@ -6,10 +6,10 @@ export const translateIngredient = (name, measurement) => {
       ? 'Bögre'
       : measurement === 'SPOON'
       ? 'Kanál'
-      : measurement === 'LITER'
-      ? 'Liter'
+      : measurement === 'VOLUME'
+      ? 'Térfogat'
       : measurement === 'OTHER'
       ? 'Egyéb'
-      : 'Kilogramm'
+      : 'Tömeg'
   })`;
 };

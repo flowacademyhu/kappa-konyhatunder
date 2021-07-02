@@ -1,7 +1,7 @@
 package hu.flowacademy.konyhatunder.enums;
 
 public enum Measurement {
-    KG("Kilogramm"), LITER("Liter"), SPOON("Kanál"), CUP("Bögre"), PIECE("Darab"), OTHER("Egyéb");
+    QUANTITY("Tömeg"), VOLUME("Térfogat"), SPOON("Kanál"), CUP("Bögre"), PIECE("Darab"), OTHER("Egyéb");
 
     private final String hungarianTranslation;
 
