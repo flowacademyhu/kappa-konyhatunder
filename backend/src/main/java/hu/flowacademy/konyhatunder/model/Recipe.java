@@ -31,6 +31,7 @@ public class Recipe {
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
+    @Column(length = 10000)
     private String description;
     private double preparationTime;
     @ManyToOne

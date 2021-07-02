@@ -43,10 +43,10 @@ public class IngredientService {
         List<String> typeList = null;
         if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.CUP.getHungarianTranslation())) {
             typeList = Arrays.stream(MeasurementCup.values()).map(MeasurementCup::getHungarianTranslation).collect(Collectors.toList());
-        } else if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.KG.getHungarianTranslation())) {
-            typeList = Arrays.stream(MeasurementKilogram.values()).map(MeasurementKilogram::getHungarianTranslation).collect(Collectors.toList());
-        } else if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.LITER.getHungarianTranslation())) {
-            typeList = Arrays.stream(MeasurementLiter.values()).map(MeasurementLiter::getHungarianTranslation).collect(Collectors.toList());
+        } else if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.QUANTITY.getHungarianTranslation())) {
+            typeList = Arrays.stream(MeasurementQuantity.values()).map(MeasurementQuantity::getHungarianTranslation).collect(Collectors.toList());
+        } else if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.VOLUME.getHungarianTranslation())) {
+            typeList = Arrays.stream(MeasurementVolume.values()).map(MeasurementVolume::getHungarianTranslation).collect(Collectors.toList());
         } else if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.OTHER.getHungarianTranslation())) {
             typeList = Arrays.stream(MeasurementOther.values()).map(MeasurementOther::getHungarianTranslation).collect(Collectors.toList());
         } else if (ingredient.getMeasurement().getHungarianTranslation().equals(Measurement.PIECE.getHungarianTranslation())) {
@@ -69,10 +69,10 @@ public class IngredientService {
     public List<String> listMeasurementsUnit(String unit) {
         log.debug("List all Unit of a Measurement.");
         switch (unit) {
-            case "Kilogramm":
-                return Arrays.stream(MeasurementKilogram.values()).map(MeasurementKilogram::getHungarianTranslation).collect(Collectors.toList());
-            case "Liter":
-                return Arrays.stream(MeasurementLiter.values()).map(MeasurementLiter::getHungarianTranslation).collect(Collectors.toList());
+            case "Tömeg":
+                return Arrays.stream(MeasurementQuantity.values()).map(MeasurementQuantity::getHungarianTranslation).collect(Collectors.toList());
+            case "Térfogat":
+                return Arrays.stream(MeasurementVolume.values()).map(MeasurementVolume::getHungarianTranslation).collect(Collectors.toList());
             case "Kanál":
                 return Arrays.stream(MeasurementSpoon.values()).map(MeasurementSpoon::getHungarianTranslation).collect(Collectors.toList());
             case "Bögre":
@@ -119,10 +119,10 @@ public class IngredientService {
     private Measurement translateMeasurement(String measurement) {
         if (Measurement.CUP.getHungarianTranslation().equals(measurement)) {
             return Measurement.CUP;
-        } else if (Measurement.KG.getHungarianTranslation().equals(measurement)) {
-            return Measurement.KG;
-        } else if (Measurement.LITER.getHungarianTranslation().equals(measurement)) {
-            return Measurement.LITER;
+        } else if (Measurement.QUANTITY.getHungarianTranslation().equals(measurement)) {
+            return Measurement.QUANTITY;
+        } else if (Measurement.VOLUME.getHungarianTranslation().equals(measurement)) {
+            return Measurement.VOLUME;
         } else if (Measurement.SPOON.getHungarianTranslation().equals(measurement)) {
             return Measurement.SPOON;
         } else if (Measurement.PIECE.getHungarianTranslation().equals(measurement)) {

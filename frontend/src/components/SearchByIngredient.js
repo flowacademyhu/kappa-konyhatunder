@@ -5,6 +5,7 @@ import { useMediaQuery } from 'react-responsive';
 import { getIngredient } from './apiCalls';
 import styled from 'styled-components';
 import { Col, Row } from 'react-bootstrap';
+import ModalForFail from './ModalForFail';
 
 const StyledTitle = styled.div`
   margin-top: 50px;
@@ -88,11 +89,16 @@ const Line = styled.hr`
   margin: -50px auto 10px;
 `;
 
+
+
+
 function SearchByIngredient() {
   const [ingredientsList, setIngredientsList] = useState();
   const [chosenIngredient, setChosenIngredient] = useState('');
   const [ingredientsArray, setIngredientsArray] = useState([]);
   const isMobile = useMediaQuery({ query: `(max-width: 576px)` });
+  const [showFail, setShowFail] = useState(false);
+  const handleShowFail = () => setShowFail(true);
 
   useEffect(() => {
     const loadingData = async () => {
@@ -100,6 +106,13 @@ function SearchByIngredient() {
     };
     loadingData();
   }, []);
+
+  const remove = (chosenIngredient) => {
+    setIngredientsArray(
+      ingredientsArray.filter((x) => x.id !== chosenIngredient.id)
+    );
+    setIngredientsList([...ingredientsList, chosenIngredient]);
+  };
 
   return (
     <div className="container">
@@ -118,18 +131,40 @@ function SearchByIngredient() {
                       setChosenIngredient(e.target.value);
                     }}
                   >
-                    <option>Hozzávaló neve</option>
-                    {ingredientsList.map((chosenIngredient) => (
-                      <option
-                        key={chosenIngredient.id}
-                        value={JSON.stringify(chosenIngredient)}
-                      >
-                        {chosenIngredient.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
+                    {chosenIngredient.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="col-sm-6">
+              <button
+                className="btn btn-success mt-4"
+                onClick={() =>
+                  chosenIngredient
+                    ? (setIngredientsList(
+                        ingredientsList.filter(
+                          (ingredientItem) =>
+                            ingredientItem.id !==
+                            JSON.parse(chosenIngredient).id
+                        )
+                      ),
+                      setIngredientsArray([
+                        ...ingredientsArray,
+                        JSON.parse(chosenIngredient),
+                      ]),
+                      setChosenIngredient(''),
+                      console.log(ingredientsArray))
+                    : handleShowFail()
+                }
+                type="button"
+              >
+                Hozzáadás
+              </button>
+            </div>
+          </>
+        ) : (
+          <div>'Loading List...' </div>
+        )}
                 <div className="col-sm-6">
                   <button
                     className="btn btn-success mt-4"
@@ -157,7 +192,6 @@ function SearchByIngredient() {
             )}
           </LeftSide>
         </Col>
-
         <RightSide>
           {ingredientsArray ? (
             <List>
@@ -179,7 +213,6 @@ function SearchByIngredient() {
           )}
         </RightSide>
       </Row>
-
       <Col>
         <RecipesTitle>Keresés eredménye</RecipesTitle>
         <Line />

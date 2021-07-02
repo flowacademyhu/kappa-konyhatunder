@@ -67,9 +67,9 @@ public class InitDataLoader implements CommandLineRunner {
 
     private List<Ingredient> newIngredient() {
         List<Ingredient> ingredientList = List.of(
-                Ingredient.builder().name("Liszt").measurement(Measurement.KG).build(),
+                Ingredient.builder().name("Liszt").measurement(Measurement.QUANTITY).build(),
                 Ingredient.builder().name("Cukor").measurement(Measurement.CUP).build(),
-                Ingredient.builder().name("Tej").measurement(Measurement.LITER).build(),
+                Ingredient.builder().name("Tej").measurement(Measurement.VOLUME).build(),
                 Ingredient.builder().name("Só").measurement(Measurement.OTHER).build(),
                 Ingredient.builder().name("Sütopor").measurement(Measurement.SPOON).build(),
                 Ingredient.builder().name("Tojás").measurement(Measurement.PIECE).build()
@@ -111,7 +111,7 @@ public class InitDataLoader implements CommandLineRunner {
         List<AmountOfIngredient> amountOfIngredients = List.of(
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Liszt")).findFirst().get())
                         .amount(1)
-                        .unit(MeasurementKilogram.KG.toString())
+                        .unit(MeasurementQuantity.KG.toString())
                         .recipe(recipeList.get(0))
                         .build(),
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Cukor")).findFirst().get())
@@ -121,7 +121,7 @@ public class InitDataLoader implements CommandLineRunner {
                         .build(),
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Tej")).findFirst().get())
                         .amount(0.5)
-                        .unit(MeasurementLiter.L.toString())
+                        .unit(MeasurementVolume.L.toString())
                         .recipe(recipeList.get(0))
                         .build(),
                 AmountOfIngredient.builder().ingredient(ingredientList.stream().filter(e -> e.getName().equals("Só")).findFirst().get())

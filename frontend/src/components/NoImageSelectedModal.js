@@ -1,7 +1,9 @@
 import { addRecipe } from './apiCalls';
+import Modal from './Modal';
 
 const NoImageSelectedModal = ({
   status,
+  sentstatus,
   id,
   formValuesForModal,
   selectedFile,
@@ -32,16 +34,22 @@ const NoImageSelectedModal = ({
             <button
               className="btn btn-warning"
               type="button"
-              data-dismiss="modal"
-              onClick={() =>
-                addRecipe(formValuesForModal, selectedFile, newIngredientsList)
-              }
+              data-toggle="modal"
+              data-target={'#recipeSuccessStatusModal'}
+              onClick={() => {
+                addRecipe(
+                  formValuesForModal,
+                  selectedFile,
+                  newIngredientsList.filter((e) => e.ingredient !== undefined)
+                );
+              }}
             >
               Folytatás kép nélkül
             </button>
           </div>
         </div>
       </div>
+      <Modal status={sentstatus} id="recipeSuccessStatusModal" />
     </div>
   );
 };

@@ -8,10 +8,10 @@ export const validationSchema = yup.object().shape({
   description: yup
     .string()
     .required('Az elkészítés mező kötelező!')
-    .min(10, 'Minimum 10 karakter.'),
+    .min(10, 'Minimum 10 karakter.')
+    .max(10000, 'Maximum 10 ezer karakter lehetséges!'),
   preparationTime: yup
     .number('Nem szám formátum')
     .required('Kötelező mező')
-    .max(1000, 'Túl sok')
-    .integer('Szám formátum szükséges '),
+    .max(1000, 'Maximum 1000 perc adható meg!'),
 });
