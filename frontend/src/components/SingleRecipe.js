@@ -1,8 +1,84 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import picture from '../images/avocado.jpeg';
-import { Link } from 'react-router-dom';
+import '../styles/SingleRecipe.css';
 import { getRecipeList } from './apiCalls';
+import { translateMeasurementUnits } from './translateMeasurementUnits';
+import { Container, Col, Row } from 'react-bootstrap';
+import { IoIosAlarm } from 'react-icons/io';
+import { IoBarbellSharp, IoPricetags } from 'react-icons/io5';
+import styled from 'styled-components';
+
+const LeftSide = styled.div`
+  background-color: #c7c7c75b;
+  grid-template-columns: 225px 100px;
+  border-radius: 5px;
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.356);
+  margin-top: 20px;
+  margin-bottom: 80px;
+  padding: 20px;
+`;
+
+const LeftSideText = styled.div`
+  display: flex;
+`;
+
+const DisplayText = styled.div`
+  margin-top: 25px;
+  font-size: 25px;
+  margin-left: 20px;
+  color: #2e860b;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+`;
+
+const Icon = styled.div`
+  font-size: 50px;
+  margin-left: 50px;
+  margin-top: 15px;
+  color: #4e4e4e;
+`;
+
+const Line = styled.hr`
+  border: none;
+  height: 20px;
+  width: 90%;
+  height: 50px;
+  margin-top: 0;
+  border-bottom: 1px solid #2e860b00;
+  box-shadow: 0 20px 20px -20px #174405c9;
+  margin: -50px auto 10px;
+`;
+
+const RightSide = styled.div`
+  background-color: #c7c7c75b;
+  width: 700px;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.356);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  max-height: 100%;
+  max-width: 100%;
+`;
+
+const Title = styled.div`
+  font-size: ${(props) => props.size}px;
+  font-family: ${(props) =>
+    props.fancy ? 'Charmonman, cursive !important' : ''};
+  color: #267009;
+  margin-top: 40px;
+  margin-left: 30px;
+`;
+
+const Text = styled.div`
+  color: #424242;
+  font-size: 20px;
+  margin: 30px 10px 20px 10px;
+`;
+
 export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
@@ -14,58 +90,71 @@ export default function SingleRecipe() {
     getInitData();
   }, [id]);
 
-  return (
-    <>
-      {product ? (
-        <div className="row justify-content-center " key={product.id}>
-          <div className="justify-content-center col-8 col-sm-3 m-2">
+  return product ? (
+    <Container>
+      <Row>
+        <Col>
+          <LeftSide>
             <img
-              className="border border-dark mt-4 w-100"
-              src={product.image ? `/api/image/${product.image.id}` : picture}
-              alt={product.title}
+              className="recipeImg"
+              src={`/api/image/${product.image.id}`}
+              alt={product.image.fileName}
             />
-          </div>
-          <div className="col-8" key={product.id}>
-            <h3 className="m-2">Recept neve : </h3>
-            <p>{product.name}</p>
-            <h3 className="m-2">Recept leírása : </h3>
-            <div className="col-9">{product.description}</div>
-            <h3 className="m-2">Recept Nehézség : </h3>
-            <p>
-              {product.difficulty === 'HARD'
-                ? 'Nehéz'
-                : product.difficulty === 'MEDIUM'
-                ? 'Közepes'
-                : 'Könnyű'}
-            </p>
-            <h3 className="m-2">Recept elkész ideje : </h3>
-            <p>{product.preparationTime} perc</p>
+            <LeftSideText>
+              <Icon>
+                <IoIosAlarm />
+              </Icon>
+              <DisplayText>{product.preparationTime} perc</DisplayText>
+            </LeftSideText>
+            <Line />
+            <LeftSideText>
+              <Icon>
+                <IoBarbellSharp />
+              </Icon>
+              <DisplayText>
+                {product.difficulty === 'HARD'
+                  ? ' Nehéz'
+                  : product.difficulty === 'MEDIUM'
+                  ? ' Közepes'
+                  : ' Könnyű'}
+              </DisplayText>
+            </LeftSideText>
+            <Line />
+            <LeftSideText>
+              <Icon>
+                <IoPricetags />
+              </Icon>
+              <DisplayText>
+                {product.categories.map((category) => ' #' + category.name)}
+              </DisplayText>
+            </LeftSideText>
+          </LeftSide>
+        </Col>
+        <Col>
+          <RightSide>
+            <Title size="60" fancy="true">
+              {product.name}
+            </Title>
+            <Line />
+            <Title size="30">Hozzávalók</Title>
+            <Text>
+              {product.ingredients.map((i) => (
+                <li key={i.id}>
+                  {i.ingredient.name}: {i.amount}
+                  {' ' + translateMeasurementUnits(i.unit)}
+                </li>
+              ))}
+            </Text>
+          </RightSide>
 
-            <h3 className="m-2">Recept kategóriája : </h3>
-            {product.categories.map((category) => (
-              <div className="" key={category.name}>
-                {' '}
-                {category.name}
-              </div>
-            ))}
-
-            <h3 className="mt-4">Recept alapanyagjai : </h3>
-
-            {product.ingredients.map((ingredient) => (
-              <div className="row mt-2" key={ingredient.id}>
-                <div className="col-2">{ingredient.ingredient.name}</div>
-                <div className="col-2">{ingredient.amount}</div>
-                <div className="col-2">{ingredient.unit}</div>
-              </div>
-            ))}
-            <Link className="btn btn-success mt-4" to="/recipes">
-              Vissza
-            </Link>
-          </div>
-        </div>
-      ) : (
-        'Loading...'
-      )}
-    </>
+          <RightSide>
+            <Title size="30">Elkészítés</Title>
+            <Text>{product.description}</Text>
+          </RightSide>
+        </Col>
+      </Row>
+    </Container>
+  ) : (
+    'Loading'
   );
 }
