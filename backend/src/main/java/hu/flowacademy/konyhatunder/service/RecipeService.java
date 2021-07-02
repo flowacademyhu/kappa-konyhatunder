@@ -213,17 +213,17 @@ public class RecipeService {
     private String translateUnit(Measurement measurement, String unit) {
         switch (measurement.getHungarianTranslation()) {
             case "Bögre":
-                return Arrays.stream(MeasurementCup.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+                return Arrays.stream(MeasurementCup.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().toString();
             case "Tömeg":
-                return Arrays.stream(MeasurementQuantity.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+                return Arrays.stream(MeasurementQuantity.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().toString();
             case "Térfogat":
-                return Arrays.stream(MeasurementVolume.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+                return Arrays.stream(MeasurementVolume.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().toString();
             case "Darab":
-                return Arrays.stream(MeasurementPiece.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+                return Arrays.stream(MeasurementPiece.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().toString();
             case "Kanál":
-                return Arrays.stream(MeasurementSpoon.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+                return Arrays.stream(MeasurementSpoon.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().toString();
             case "Egyéb":
-                return Arrays.stream(MeasurementOther.values()).filter(u -> u.getHungarianTranslation().equals(unit)).collect(Collectors.toList()).get(0).toString();
+                return Arrays.stream(MeasurementOther.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().toString();
             default:
                 throw new ValidationException("Nem megfelelő alapegység!");
         }
