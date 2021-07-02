@@ -252,7 +252,7 @@ const AddRecipeForm = () => {
                 className="btn btn-success"
                 onClick={() => addCategory(category)}
                 data-toggle="modal"
-                data-target="#recipeStatusModal"
+                data-target="#categoryAddModal"
                 type="button"
               >
                 +
@@ -413,6 +413,7 @@ const AddRecipeForm = () => {
           Hozzáadás
         </button>
         <Modal status={status} id="recipeStatusModal" />
+        <Modal status={status} id="categoryAddModal" />
         <NoImageSelectedModal
           status={'Lehetőség van fénykép hozzáadására!'}
           id="noFilePickedModal"

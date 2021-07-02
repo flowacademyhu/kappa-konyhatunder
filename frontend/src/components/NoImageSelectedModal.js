@@ -33,9 +33,13 @@ const NoImageSelectedModal = ({
               className="btn btn-warning"
               type="button"
               data-dismiss="modal"
-              onClick={() =>
-                addRecipe(formValuesForModal, selectedFile, newIngredientsList)
-              }
+              onClick={() => {
+                addRecipe(
+                  formValuesForModal,
+                  selectedFile,
+                  newIngredientsList.filter((e) => e.ingredient !== undefined)
+                );
+              }}
             >
               Folytatás kép nélkül
             </button>
