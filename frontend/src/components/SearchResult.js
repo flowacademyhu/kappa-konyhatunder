@@ -47,8 +47,8 @@ function SearchResult({ ingredients, searchBy }) {
       <Row>
         <Col></Col>
         <Col>
-          {recipe
-            ? recipe.map((recipe) => (
+          {recipes
+            ? recipes.map((recipe) => (
                 <div className="cont" key={recipe.id}>
                   <img
                     src={
