@@ -302,7 +302,7 @@ const AddRecipeForm = () => {
               <input
                 className="form-control"
                 id="amount"
-                type="text"
+                type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="Mennyiség"
@@ -369,10 +369,10 @@ const AddRecipeForm = () => {
             <input
               className="form-control"
               id="addNewAmount"
-              type="text"
+              type="number"
               value={addNewAmount}
               onChange={(e) => setAddNewAmount(e.target.value)}
-              placeholder="Adja meg a mennyiséget"
+              placeholder="Mennyiség"
             />
           </div>
           <div className="col-1">
