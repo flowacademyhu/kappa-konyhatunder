@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { getRecipesWithMatchingIngredients } from './apiCalls';
 
 function SearchResultForMobile({ ingredients, searchBy }) {
-  const [recipe, setRecipe] = useState([]);
+  const [recipe, setRecipe] = useState();
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -15,9 +15,7 @@ function SearchResultForMobile({ ingredients, searchBy }) {
         ingredients,
         searchBy
       );
-      recipeList
-        ? recipeList.sort((a, b) => a.name.localeCompare(b.name))
-        : console.log('Loading');
+
       setRecipe(recipeList);
     };
     getRecipes();

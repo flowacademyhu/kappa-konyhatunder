@@ -72,9 +72,7 @@ function SearchByIngredient() {
               <div>A keresett hozzávalók listája:</div>
               <div className="row ml-2">
                 {ingredientsArray.map((chosenIngredient) => (
-                  <div key={chosenIngredient.id}>
-                    <> {chosenIngredient.name} , </>
-                  </div>
+                  <div key={chosenIngredient.id}>{chosenIngredient.name}, </div>
                 ))}
               </div>
             </div>
@@ -85,14 +83,7 @@ function SearchByIngredient() {
 
         <div className="col-sm-6 "></div>
       </div>
-      {isMobile ? (
-        <SearchResultForMobile
-          ingredients={ingredientsArray}
-          searchBy={'ingredients'}
-        />
-      ) : (
-        <SearchResult ingredients={ingredientsArray} searchBy={'ingredients'} />
-      )}
+      <SearchResult ingredients={ingredientsArray} searchBy={'ingredients'} />
     </div>
   );
 }
