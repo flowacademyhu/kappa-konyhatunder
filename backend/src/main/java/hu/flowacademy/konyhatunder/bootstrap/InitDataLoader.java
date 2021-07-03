@@ -42,14 +42,18 @@ public class InitDataLoader implements CommandLineRunner {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public void run(String... args) throws IOException {
+    public void run(String... args) {
         log.info("Starting init data loader...");
         if (recipeRepository.count() == 0) {
-            saveDefaultImage();
-            saveNewCategory();
-            saveNewIngredient();
-            saveNewRecipes();
-            saveNewAmountOfIngredient();
+            try {
+                saveDefaultImage();
+                saveNewCategory();
+                saveNewIngredient();
+                saveNewRecipes();
+                saveNewAmountOfIngredient();
+            } catch (Exception e) {
+                log.warn("Something went wrong in InitDataLoader.");
+            }
         }
     }
 
@@ -155,13 +159,17 @@ public class InitDataLoader implements CommandLineRunner {
         log.info("Saved {} AmountOfIngredients", savedAmountOfIngredients.size());
     }
 
-    private void saveDefaultImage() throws IOException {
-        BufferedImage bImage = ImageIO.read(new File("/app/defaultimage.png"));
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ImageIO.write(bImage, "png", bos );
-        byte [] data = bos.toByteArray();
-        Image image = new Image("defaultImage.png", "image/png", data);
-        imageRepository.save(image);
-        log.info("Saved a default image");
+    private void saveDefaultImage() {
+        try {
+            BufferedImage bImage = ImageIO.read(new File("/app/defaultimage.png"));
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(bImage, "png", bos);
+            byte[] data = bos.toByteArray();
+            Image image = new Image("defaultImage.png", "image/png", data);
+            imageRepository.save(image);
+            log.info("Saved a default image");
+        } catch (IOException e) {
+            log.error("Error while reading default image.");
+        }
     }
 }
