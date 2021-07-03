@@ -13,6 +13,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -37,7 +42,7 @@ public class InitDataLoader implements CommandLineRunner {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws IOException {
         log.info("Starting init data loader...");
         if (recipeRepository.count() == 0) {
             saveDefaultImage();
@@ -84,7 +89,7 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private List<Recipe> newRecipes(List<Category> categoryList) {
-        Image image = imageRepository.findByFileName("defaultImage").orElseThrow(() -> new MyFileNotFoundException("Nincs default image"));
+        Image image = imageRepository.findByFileName("defaultImage.png").orElseThrow(() -> new MyFileNotFoundException("Nincs default image"));
         List<Recipe> recipes = IntStream.range(0, 3)
                 .mapToObj(value -> Recipe.builder()
                         .name(faker().food().dish())
@@ -150,8 +155,12 @@ public class InitDataLoader implements CommandLineRunner {
         log.info("Saved {} AmountOfIngredients", savedAmountOfIngredients.size());
     }
 
-    private void saveDefaultImage() {
-        Image image = new Image("defaultImage", "defaultImage", new byte[0]);
+    private void saveDefaultImage() throws IOException {
+        BufferedImage bImage = ImageIO.read(new File("/app/defaultimage.png"));
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(bImage, "png", bos );
+        byte [] data = bos.toByteArray();
+        Image image = new Image("defaultImage.png", "image/png", data);
         imageRepository.save(image);
         log.info("Saved a default image");
     }
