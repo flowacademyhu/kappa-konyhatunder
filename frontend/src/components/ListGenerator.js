@@ -1,4 +1,3 @@
-import defaultImage from '../images/defaultimage.png';
 import '../styles/SearchResult.css';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
@@ -17,14 +16,7 @@ const ListGenerator = ({ recips }) => {
       {recips
         ? recips.map((r) => (
             <div className="cont" key={r.id}>
-              <img
-                src={
-                  r.image.fileName === 'defaultImage'
-                    ? defaultImage
-                    : `/api/image/${r.image.id}`
-                }
-                alt="Kép a receptről"
-              />
+              <img src={`/api/image/${r.image.id}`} alt="Kép a receptről" />
               <div className="cont__text">
                 <h1>{r.name}</h1>
 

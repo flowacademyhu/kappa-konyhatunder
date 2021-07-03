@@ -1,5 +1,4 @@
 import { Col, Row } from 'react-bootstrap';
-import defaultImage from '../images/defaultimage.png';
 import '../styles/SearchResultForMobile.css';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp } from 'react-icons/io5';
@@ -31,16 +30,7 @@ function SearchResultForMobile({ ingredients, searchBy }) {
           {recipe
             ? recipe.map((r) => (
                 <div className="contForMobile">
-                  <img
-                    src={
-                      r.image
-                        ? r.image.fileName === 'abc'
-                          ? defaultImage
-                          : `/api/image/${r.image.id}`
-                        : defaultImage
-                    }
-                    alt="KÉP HELYE"
-                  />
+                  <img src={`/api/image/${r.image.id}`} alt="KÉP HELYE" />
                   <div className="contForMobile__text">
                     <div className="recipeNameForMobile">{r.name}</div>
                     <div className="contForMobile__text__star">
