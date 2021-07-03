@@ -27,7 +27,7 @@ public class ImageStorageService {
     public Image storeFile(MultipartFile file) {
         if (file == null) {
             log.debug("No image uploaded");
-            return imageRepository.findByFileName("defaultImage").orElseThrow(() -> new MyFileNotFoundException("Nincs default image"));
+            return imageRepository.findByFileName("defaultImage.png").orElseThrow(() -> new MyFileNotFoundException("Nincs default image"));
         }
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         try {
