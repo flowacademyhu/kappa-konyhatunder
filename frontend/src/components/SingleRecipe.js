@@ -3,7 +3,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import '../styles/SingleRecipe.css';
 import { getRecipeList, recommend } from './apiCalls';
 import { translateMeasurementUnits } from './translateMeasurementUnits';
-import { Container, Col, Row, Spinner, Button, Badge } from 'react-bootstrap';
+import { Container, Col, Row, Spinner, Button } from 'react-bootstrap';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp, IoPricetags } from 'react-icons/io5';
 import styled from 'styled-components';
@@ -88,8 +88,8 @@ const IngredientText = styled.div`
 export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
-
   const [recommendations, setRecommendations] = useState();
+
   const location = useLocation();
   const ingredients = location.state.ingredient;
 
@@ -158,21 +158,15 @@ export default function SingleRecipe() {
               </Icon>
               <LeftSideText>
                 {product.categories.map((category) => ' #' + category.name)}
-              </DisplayText>
-            </LeftSideText>
+              </LeftSideText>
+            </LeftSideTextArea>
             <Line />
             <LeftSideText>
               <Button variant="success" onClick={handleRecomend}>
                 Ajánlanád?
-                {recommendations === 0 ? (
-                  ''
-                ) : (
-                  <Badge variant="light"> {recommendations}</Badge>
-                )}
                 <span className="sr-only">Ajánlások</span>
               </Button>
             </LeftSideText>
-            </LeftSideTextArea>
           </LeftSide>
         </Col>
         <Col>
