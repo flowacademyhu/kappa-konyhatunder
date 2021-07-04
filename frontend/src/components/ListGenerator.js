@@ -53,6 +53,11 @@ const ListGenerator = ({ recips }) => {
                     </div>
                   </div>
                 </div>
+                {r.recommendations !== undefined && r.recommendations !== 0 ? (
+                  <p>A receptet {r.recommendations} ember ajánlja! </p>
+                ) : (
+                  ''
+                )}
                 <button className="btn">
                   <StyledLink to={`/recipes/${r.id}`} key={r.id}>
                     Elkészítem !

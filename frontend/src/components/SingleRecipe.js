@@ -5,7 +5,7 @@ import { getRecipeList, recommend } from './apiCalls';
 import { translateMeasurementUnits } from './translateMeasurementUnits';
 import { Container, Col, Row, Spinner, Button, Badge } from 'react-bootstrap';
 import { IoIosAlarm } from 'react-icons/io';
-import { IoBarbellSharp, IoPricetags } from 'react-icons/io5';
+import { IoBarbellSharp, IoPricetags, IoHeartSharp } from 'react-icons/io5';
 import styled from 'styled-components';
 import defaultImage from '../images/defaultimage.png';
 
@@ -157,14 +157,22 @@ export default function SingleRecipe() {
               </DisplayText>
             </LeftSideText>
             <Line />
+            {recommendations !== undefined && recommendations !== 0 ? (
+              <>
+                <LeftSideText>
+                  <Icon>
+                    <IoHeartSharp />
+                  </Icon>
+                  <DisplayText>{recommendations} ajánlás</DisplayText>
+                </LeftSideText>
+                <Line />
+              </>
+            ) : (
+              ''
+            )}
             <LeftSideText>
               <Button variant="success" onClick={handleRecomend}>
                 Ajánlanád?
-                {recommendations === 0 ? (
-                  ''
-                ) : (
-                  <Badge variant="light"> {recommendations}</Badge>
-                )}
                 <span className="sr-only">Ajánlások</span>
               </Button>
             </LeftSideText>
