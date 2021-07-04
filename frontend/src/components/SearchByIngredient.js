@@ -145,8 +145,7 @@ function SearchByIngredient() {
                             ...ingredientsArray,
                             JSON.parse(chosenIngredient),
                           ]),
-                          setChosenIngredient(''),
-                          console.log(ingredientsArray))
+                          setChosenIngredient(''))
                         : ''
                     }
                     type="button"

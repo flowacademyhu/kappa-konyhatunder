@@ -42,7 +42,6 @@ public class InitDataLoader implements CommandLineRunner {
         this.imageRepository = imageRepository;
     }
 
-
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public void run(String... args) {
@@ -202,7 +201,6 @@ public class InitDataLoader implements CommandLineRunner {
                 )
         );
         log.info("Saved meatsoup's AmountOfIngredients");
-
     }
 
     private void saveMeatSoupImage() {
@@ -232,7 +230,6 @@ public class InitDataLoader implements CommandLineRunner {
                         Category.builder()
                                 .name("Főétel")
                                 .build()
-
                 )))
                 .difficulty(Difficulty.EASY)
                 .description("A csirkemellet kockára vágjuk, a vöröshagymát megtisztíjuk és apróra vágjuk. \n\n" +
@@ -240,7 +237,6 @@ public class InitDataLoader implements CommandLineRunner {
                         "A tűzről levéve megszórjuk a pirospaprikával, sózzuk, borsozzuk. Ráöntjük a vizet, majd visszatesszük a tűzre és fedő alatt 25-30 perc alatt puhára főzzük.\n\n" +
                         "A tésztát a csomagoláson található előírás szerint lobogó, forró vízben kifőzzük és leszűrjük. ")
                 .build();
-
         log.info("Saved {} recipe.", stew.getName());
         return recipeRepository.save(stew);
     }
@@ -352,7 +348,7 @@ public class InitDataLoader implements CommandLineRunner {
         );
         log.info("Saved stew's AmountOfIngredients");
     }
-
+  
     private void saveStewImage() {
         try {
             BufferedImage bImage = ImageIO.read(new File("/app/porkolt.jpg"));

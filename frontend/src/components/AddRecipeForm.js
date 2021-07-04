@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { validationSchema } from './ValidationSchema';
 import Modal from './Modal';
 import IngredientsInRecipeList from './IngredientsInRecipeList';
@@ -16,6 +16,15 @@ import {
 } from './apiCalls';
 import { translateIngredient } from './transleteIngredientsMeasurement';
 import NoImageSelectedModal from './NoImageSelectedModal';
+import styled from 'styled-components';
+
+const Image = styled.img`
+  object-fit: cover;
+  width: 100px;
+  height: 100px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+`;
 
 const AddRecipeForm = () => {
   const [formValuesForModal, setFormValuesForModal] = useState('');
@@ -38,6 +47,9 @@ const AddRecipeForm = () => {
   const [newMeasurement, setNewMeasurement] = useState([]);
   const [selectedFile, setSelectedFile] = useState();
   const [isFilePicked, setIsFilePicked] = useState(false);
+  const [preview, setPreview] = useState();
+
+  const inputFile = useRef(null);
 
   const fileSelectedHandler = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -97,6 +109,16 @@ const AddRecipeForm = () => {
     };
     getInitData();
   }, []);
+
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+  }, [selectedFile]);
 
   const formik = useFormik({
     initialValues: {
@@ -396,9 +418,21 @@ const AddRecipeForm = () => {
 
         <div>
           <p>Kép hozzáadása</p>
-          <div className="ImageUploader">
-            <input type="file" onChange={fileSelectedHandler} />
+          <div>
+            {selectedFile && <Image src={preview} />}
+            <input
+              style={{ display: 'none' }}
+              type="file"
+              onChange={fileSelectedHandler}
+              ref={inputFile}
+            />
           </div>
+          <button
+            className="btn btn-success mt-4"
+            onClick={() => inputFile.current.click()}
+          >
+            Kép feltöltése
+          </button>
         </div>
 
         <p>Kiválasztott hozzávalók:</p>
