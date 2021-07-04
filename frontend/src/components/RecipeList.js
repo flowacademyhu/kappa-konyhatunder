@@ -7,7 +7,7 @@ const recipeAPI = axios.create({
   baseURL: '/api/',
 });
 
-function RecipeList() {
+function RecipeList({ ingredients }) {
   const [recipes, setRecipes] = useState();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ function RecipeList() {
         <Col></Col>{' '}
         <Col>
           {recipes ? (
-            <ListGenerator recips={recipes} />
+            <ListGenerator recips={recipes} ingredients={ingredients} />
           ) : (
             <div>'Loading List...' </div>
           )}
