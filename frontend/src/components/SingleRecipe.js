@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import '../styles/SingleRecipe.css';
 import { getRecipeList, recommend } from './apiCalls';
 import { translateMeasurementUnits } from './translateMeasurementUnits';
-import { Container, Col, Row, Spinner, Button, Badge } from 'react-bootstrap';
+import { Container, Col, Row, Spinner, Button } from 'react-bootstrap';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp, IoPricetags, IoHeartSharp } from 'react-icons/io5';
 import styled from 'styled-components';
