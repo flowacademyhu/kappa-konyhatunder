@@ -27,9 +27,11 @@ public class InitDataLoader implements CommandLineRunner {
     private final RecipeRepository recipeRepository;
     private final AmountOfIngredientRepository amountOfIngredientRepository;
     private final ImageRepository imageRepository;
+    private final MissingIDException exception = new MissingIDException("Nincs ilyen hozzávaló");
     private Image meatSoupImage;
     private Image stewImage;
     private Image pizzaImage;
+    private Image panCakeImage;
 
     @Autowired
     public InitDataLoader(CategoryRepository categoryRepository, IngredientRepository ingredientRepository, RecipeRepository recipeRepository, AmountOfIngredientRepository amountOfIngredientRepository, ImageRepository imageRepository) {
@@ -54,6 +56,8 @@ public class InitDataLoader implements CommandLineRunner {
                 stewAmountOfIngredients();
                 savePizzaImage();
                 pizzaAmountOfIngredients();
+                savePanCakeImage();
+                panCakeAmountOfIngredients();
             } catch (Exception e) {
                 log.warn("Something went wrong in InitDataLoader.");
             }
@@ -73,9 +77,9 @@ public class InitDataLoader implements CommandLineRunner {
                                 .name("Leves")
                                 .build()
                 )))
-                .difficulty(Difficulty.EASY)
+                .difficulty(Difficulty.MEDIUM)
                 .description("A sárgarépát, a fehérrépát, a zellert, a karalábét, valamint a vöröshagymát meghámozzuk. A répákat hasábokra vágjuk. A konyhakész csirkét megmossuk, darabokra vágjuk.\n\n" +
-                        "Mindent egy nagyobb lábasba tesszük, és kissé megpirítjuk. Meghintjük pirospaprikával és felöntjük annyi vízzel, hogy ellepje, sózzuk és hozzáadunk néhány szem fekete borsot. Felforraljuk, majd mérsékeljük a hőt, és félig lefedve kb. 1,5-2 óra alatt készre főzzük a levest. Ha nagyon elfővi a levét, vízzel pótoljuk, és megkóstoljuk, hogy elég sós-e.\n\n" +
+                        "Mindent egy nagyobb lábasba tesszük, és kissé megpirítjuk. Felöntjük annyi vízzel, hogy ellepje, sózzuk és hozzáadunk néhány szem fekete borsot. Felforraljuk, majd mérsékeljük a hőt, és félig lefedve kb. 1,5-2 óra alatt készre főzzük a levest. Ha nagyon elfővi a levét, vízzel pótoljuk, és megkóstoljuk, hogy elég sós-e.\n\n" +
                         "A cérnametéltet forrásban lévő sós vízben kifőzzük. Leszűrjük és szétosztjuk a tányérokba. Mindbe egy kevés zöldséget és egy-egy darab húst is teszünk. Végül rászűrjük a forró levest. Aprított petrezselyemmel tálaljuk.")
                 .build();
 
@@ -84,7 +88,7 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private List<Ingredient> meatSoupIngredients() {
-        log.info("Saved meatsoup ingredients");
+        log.info("Saved meatsoup's ingredients");
         return ingredientRepository.saveAll(
                 List.of(
                         Ingredient.builder()
@@ -132,7 +136,6 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private void meatSoupAmountOfIngredients() {
-        MissingIDException exception = new MissingIDException("Nincs ilyen hozzávaló");
         List<Ingredient> ingredients = meatSoupIngredients();
         Recipe meatSoup = saveDefaultMeatSoup();
         amountOfIngredientRepository.saveAll(List.of(
@@ -198,7 +201,7 @@ public class InitDataLoader implements CommandLineRunner {
                         .build()
                 )
         );
-        log.info("Saved meatsoup AmountOfIngredients");
+        log.info("Saved meatsoup's AmountOfIngredients");
 
     }
 
@@ -243,7 +246,7 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private List<Ingredient> stewIngredients() {
-        log.info("Saved stew ingredients");
+        log.info("Saved stew's ingredients");
         return ingredientRepository.saveAll(
                 List.of(
                         Ingredient.builder()
@@ -282,7 +285,6 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private void stewAmountOfIngredients() {
-        MissingIDException exception = new MissingIDException("Nincs ilyen hozzávaló");
         List<Ingredient> ingredients = stewIngredients();
         Recipe stew = saveDefaultStew();
         amountOfIngredientRepository.saveAll(List.of(
@@ -348,7 +350,7 @@ public class InitDataLoader implements CommandLineRunner {
                         .build()
                 )
         );
-        log.info("Saved stew AmountOfIngredients");
+        log.info("Saved stew's AmountOfIngredients");
     }
 
     private void saveStewImage() {
@@ -362,20 +364,6 @@ public class InitDataLoader implements CommandLineRunner {
             log.info("Saved an image for stew");
         } catch (IOException e) {
             log.error("Error while reading stew image.");
-        }
-    }
-
-    private void saveDefaultImage() {
-        try {
-            BufferedImage bImage = ImageIO.read(new File("/app/defaultimage.png"));
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ImageIO.write(bImage, "png", bos);
-            byte[] data = bos.toByteArray();
-            Image image = new Image("defaultImage.png", "image/png", data);
-            imageRepository.save(image);
-            log.info("Saved a default image");
-        } catch (IOException e) {
-            log.error("Error while reading default image.");
         }
     }
 
@@ -404,7 +392,7 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private List<Ingredient> pizzaIngredients() {
-        log.info("Saved pizza ingredients");
+        log.info("Saved pizza's ingredients");
         return ingredientRepository.saveAll(
                 List.of(
                         Ingredient.builder()
@@ -445,12 +433,11 @@ public class InitDataLoader implements CommandLineRunner {
                                 .build(),
                         ingredientRepository.findByNameAndMeasurement("Só", Measurement.SPOON),
                         ingredientRepository.findByNameAndMeasurement("Víz", Measurement.VOLUME)
-                        )
+                )
         );
     }
 
     private void pizzaAmountOfIngredients() {
-        MissingIDException exception = new MissingIDException("Nincs ilyen hozzávaló");
         List<Ingredient> ingredients = pizzaIngredients();
         Recipe pizza = saveDefaultPizza();
         amountOfIngredientRepository.saveAll(List.of(
@@ -522,7 +509,7 @@ public class InitDataLoader implements CommandLineRunner {
                         .build()
                 )
         );
-        log.info("Saved stew AmountOfIngredients");
+        log.info("Saved pizza's AmountOfIngredients");
     }
 
     private void savePizzaImage() {
@@ -536,6 +523,129 @@ public class InitDataLoader implements CommandLineRunner {
             log.info("Saved an image for pizza");
         } catch (IOException e) {
             log.error("Error while reading pizza image.");
+        }
+    }
+
+    private Recipe saveDefaultPanCake() {
+        Recipe panCake = Recipe.builder()
+                .name("Palacsinta")
+                .image(panCakeImage)
+                .preparationTime(60)
+                .categories(categoryRepository.saveAll(List.of(
+                        categoryRepository.findByName("Gyors"),
+                        Category.builder()
+                                .name("Desszert")
+                                .build(),
+                        Category.builder()
+                                .name("Olcsó")
+                                .build()
+                )))
+                .difficulty(Difficulty.EASY)
+                .description("A palacsintatészta hozzávalóit összekeverjük egy tálban, majd pár percig pihentetjük.\n\n" +
+                        "Az első palacsinta sütése előtt a forró serpenyőbe egy kevés olajat öntünk. ( a következő palacsintáknál erre már nincs szükség, maximálisan elegendő, ami kisül a tésztából)\n\n" +
+                        "A palacsintákat egyenként kisütjük, majd ízlés szerinti töltelékkel kínáljuk.")
+                .build();
+
+        log.info("Saved {} recipe.", panCake.getName());
+        return recipeRepository.save(panCake);
+    }
+
+    private List<Ingredient> panCakeIngredients() {
+        log.info("Saved panCake's ingredients");
+        return ingredientRepository.saveAll(
+                List.of(
+                        Ingredient.builder()
+                                .name("Tojás")
+                                .measurement(Measurement.PIECE)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Tej")
+                                .measurement(Measurement.VOLUME)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Szénsavas ásványvíz")
+                                .measurement(Measurement.VOLUME)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Olaj")
+                                .measurement(Measurement.VOLUME)
+                                .build(),
+                        ingredientRepository.findByNameAndMeasurement("Finomliszt", Measurement.QUANTITY),
+                        ingredientRepository.findByNameAndMeasurement("Só", Measurement.SPOON)
+                )
+        );
+    }
+
+    private void panCakeAmountOfIngredients() {
+        List<Ingredient> ingredients = panCakeIngredients();
+        Recipe panCake = saveDefaultPanCake();
+        amountOfIngredientRepository.saveAll(List.of(
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Finomliszt")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementQuantity.DKG.toString())
+                        .amount(20)
+                        .recipe(panCake)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Só")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementSpoon.COFFEE_SPOON.toString())
+                        .amount(0.5)
+                        .recipe(panCake)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Olaj")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementVolume.DL.toString())
+                        .amount(0.75)
+                        .recipe(panCake)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Tojás")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementPiece.PIECE.toString())
+                        .amount(2)
+                        .recipe(panCake)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Tej")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementVolume.DL.toString())
+                        .amount(3)
+                        .recipe(panCake)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Szénsavas ásványvíz")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementVolume.DL.toString())
+                        .amount(2)
+                        .recipe(panCake)
+                        .build()
+                )
+        );
+        log.info("Saved panCake's AmountOfIngredients");
+    }
+
+    private void savePanCakeImage() {
+        try {
+            BufferedImage bImage = ImageIO.read(new File("/app/palacsinta.jpg"));
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(bImage, "jpg", bos);
+            byte[] data = bos.toByteArray();
+            Image image = new Image("palacsinta.jpg", "image/jpg", data);
+            panCakeImage = imageRepository.save(image);
+            log.info("Saved an image for panCake");
+        } catch (IOException e) {
+            log.error("Error while reading panCake image.");
+        }
+    }
+
+    private void saveDefaultImage() {
+        try {
+            BufferedImage bImage = ImageIO.read(new File("/app/defaultimage.png"));
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(bImage, "png", bos);
+            byte[] data = bos.toByteArray();
+            Image image = new Image("defaultImage.png", "image/png", data);
+            imageRepository.save(image);
+            log.info("Saved a default image");
+        } catch (IOException e) {
+            log.error("Error while reading default image.");
         }
     }
 }
