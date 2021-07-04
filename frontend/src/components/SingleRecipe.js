@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import '../styles/SingleRecipe.css';
 import { getRecipeList } from './apiCalls';
 import { translateMeasurementUnits } from './translateMeasurementUnits';
-import { Container, Col, Row } from 'react-bootstrap';
+import { Container, Col, Row, Spinner, Button, Badge } from 'react-bootstrap';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp, IoPricetags } from 'react-icons/io5';
 import styled from 'styled-components';
@@ -83,13 +83,25 @@ const Text = styled.div`
 export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
+  const [recommendations, setRecommendations] = useState('');
 
   useEffect(() => {
     const getInitData = async () => {
       setProduct(await getRecipeList(id));
     };
     getInitData();
+    setRecommendations(10);
   }, [id]);
+
+  const handleRecomend = () => {
+    if (!localStorage.getItem(`${product.id}`)) {
+      setRecommendations(recommendations + 1);
+      localStorage.setItem(`${product.id}`, true);
+    } else {
+      setRecommendations(recommendations - 1);
+      localStorage.removeItem(`${product.id}`);
+    }
+  };
 
   return product ? (
     <Container>
@@ -133,6 +145,13 @@ export default function SingleRecipe() {
                 {product.categories.map((category) => ' #' + category.name)}
               </DisplayText>
             </LeftSideText>
+            <Line />
+            <LeftSideText>
+              <Button variant="success" onClick={handleRecomend}>
+                Ajánlanád? <Badge variant="light">{recommendations}</Badge>
+                <span className="sr-only">Ajánlások</span>
+              </Button>
+            </LeftSideText>
           </LeftSide>
         </Col>
         <Col>
@@ -160,6 +179,6 @@ export default function SingleRecipe() {
       </Row>
     </Container>
   ) : (
-    'Loading'
+    <Spinner animation="border" />
   );
 }
