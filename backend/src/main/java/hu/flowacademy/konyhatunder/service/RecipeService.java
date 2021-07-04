@@ -230,21 +230,22 @@ public class RecipeService {
     }
 
     private String translateUnit(Measurement measurement, String unit) {
+        ValidationException exception = new ValidationException("Nem megfelelő alapegység!");
         switch (measurement.getHungarianTranslation()) {
             case "Bögre":
-                return Arrays.stream(MeasurementCup.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().toString();
+                return Arrays.stream(MeasurementCup.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(()->exception).toString();
             case "Tömeg":
-                return Arrays.stream(MeasurementQuantity.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().toString();
+                return Arrays.stream(MeasurementQuantity.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(()->exception).toString();
             case "Térfogat":
-                return Arrays.stream(MeasurementVolume.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().toString();
+                return Arrays.stream(MeasurementVolume.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(()->exception).toString();
             case "Darab":
-                return Arrays.stream(MeasurementPiece.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().toString();
+                return Arrays.stream(MeasurementPiece.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(()->exception).toString();
             case "Kanál":
-                return Arrays.stream(MeasurementSpoon.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().toString();
+                return Arrays.stream(MeasurementSpoon.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(()->exception).toString();
             case "Egyéb":
-                return Arrays.stream(MeasurementOther.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().toString();
+                return Arrays.stream(MeasurementOther.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(()->exception).toString();
             default:
-                throw new ValidationException("Nem megfelelő alapegység!");
+                throw exception;
         }
     }
 
