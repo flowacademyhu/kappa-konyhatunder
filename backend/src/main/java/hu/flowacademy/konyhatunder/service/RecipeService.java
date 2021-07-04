@@ -196,15 +196,19 @@ public class RecipeService {
 
     public void recommendARecipe(String recommend, String id) {
         Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new ValidationException("Nincs ilyen ID-val rendelkező recept!"));
+        Integer recommendations = recipe.getRecommendations();
+        if (recommendations == null) {
+            recommendations = 0;
+        }
 
-        if(recommend.equalsIgnoreCase("plus")){
+        if (recommend.equalsIgnoreCase("plus")) {
             recipeRepository.save(recipe.toBuilder()
-                    .recommendations(recipe.getRecommendations() + 1)
+                    .recommendations(recommendations + 1)
                     .build());
         }
-        if(recommend.equalsIgnoreCase("minus")){
+        if (recommend.equalsIgnoreCase("minus")) {
             recipeRepository.save(recipe.toBuilder()
-                    .recommendations(recipe.getRecommendations() - 1)
+                    .recommendations(recommendations - 1 < 0 ? null : recommendations - 1)
                     .build());
         }
     }

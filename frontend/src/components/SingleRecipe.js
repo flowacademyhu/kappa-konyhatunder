@@ -93,7 +93,13 @@ export default function SingleRecipe() {
   }, [id]);
 
   useEffect(() => {
-    setRecommendations(product ? product.recommendations : 0);
+    setRecommendations(
+      product
+        ? product.recommendations === undefined
+          ? 0
+          : product.recommendations
+        : 0
+    );
   }, [product]);
 
   const handleRecomend = () => {
