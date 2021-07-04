@@ -13,6 +13,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -40,11 +45,15 @@ public class InitDataLoader implements CommandLineRunner {
     public void run(String... args) {
         log.info("Starting init data loader...");
         if (recipeRepository.count() == 0) {
-            saveDefaultImage();
-            saveNewCategory();
-            saveNewIngredient();
-            saveNewRecipes();
-            saveNewAmountOfIngredient();
+            try {
+                saveDefaultImage();
+                saveNewCategory();
+                saveNewIngredient();
+                saveNewRecipes();
+                saveNewAmountOfIngredient();
+            } catch (Exception e) {
+                log.warn("Something went wrong in InitDataLoader.");
+            }
         }
     }
 
@@ -84,7 +93,7 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private List<Recipe> newRecipes(List<Category> categoryList) {
-        Image image = imageRepository.findByFileName("defaultImage").orElseThrow(() -> new MyFileNotFoundException("Nincs default image"));
+        Image image = imageRepository.findByFileName("defaultImage.png").orElseThrow(() -> new MyFileNotFoundException("Nincs default image"));
         List<Recipe> recipes = IntStream.range(0, 3)
                 .mapToObj(value -> Recipe.builder()
                         .name(faker().food().dish())
@@ -151,8 +160,16 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private void saveDefaultImage() {
-        Image image = new Image("defaultImage", "defaultImage", new byte[0]);
-        imageRepository.save(image);
-        log.info("Saved a default image");
+        try {
+            BufferedImage bImage = ImageIO.read(new File("/app/defaultimage.png"));
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(bImage, "png", bos);
+            byte[] data = bos.toByteArray();
+            Image image = new Image("defaultImage.png", "image/png", data);
+            imageRepository.save(image);
+            log.info("Saved a default image");
+        } catch (IOException e) {
+            log.error("Error while reading default image.");
+        }
     }
 }
