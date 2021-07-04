@@ -163,12 +163,12 @@ export default function SingleRecipe() {
             <Line />
             {recommendations !== undefined && recommendations !== 0 ? (
               <>
-                <LeftSideText>
+                <LeftSideTextArea>
                   <Icon>
                     <IoHeartSharp />
                   </Icon>
-                  <DisplayText>{recommendations} ajánlás</DisplayText>
-                </LeftSideText>
+                  <LeftSideText>{recommendations} ajánlás</LeftSideText>
+                </LeftSideTextArea>
                 <Line />
               </>
             ) : (
