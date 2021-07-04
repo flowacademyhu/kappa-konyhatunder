@@ -1,6 +1,6 @@
 import '../styles/SearchResult.css';
 import { IoIosAlarm } from 'react-icons/io';
-import { IoBarbellSharp } from 'react-icons/io5';
+import { IoBarbellSharp, IoHeartSharp } from 'react-icons/io5';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -50,7 +50,10 @@ const ListGenerator = ({ recips, ingredients }) => {
                   </div>
                 </div>
                 {r.recommendations !== undefined && r.recommendations !== 0 ? (
-                  <p>A receptet {r.recommendations} ember ajánlja! </p>
+                  <p className="cardIcon">
+                    <IoHeartSharp /> A receptet {r.recommendations} ember
+                    ajánlja!{' '}
+                  </p>
                 ) : (
                   ''
                 )}
