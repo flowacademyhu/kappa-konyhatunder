@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/SingleRecipe.css';
-import { getRecipeList } from './apiCalls';
+import { getRecipeList, recommend } from './apiCalls';
 import { translateMeasurementUnits } from './translateMeasurementUnits';
 import { Container, Col, Row, Spinner, Button, Badge } from 'react-bootstrap';
 import { IoIosAlarm } from 'react-icons/io';
@@ -83,23 +83,28 @@ const Text = styled.div`
 export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
-  const [recommendations, setRecommendations] = useState('');
+  const [recommendations, setRecommendations] = useState();
 
   useEffect(() => {
     const getInitData = async () => {
       setProduct(await getRecipeList(id));
     };
     getInitData();
-    setRecommendations(10);
   }, [id]);
+
+  useEffect(() => {
+    setRecommendations(product ? product.recommendations : 0);
+  }, [product]);
 
   const handleRecomend = () => {
     if (!localStorage.getItem(`${product.id}`)) {
       setRecommendations(recommendations + 1);
       localStorage.setItem(`${product.id}`, true);
+      recommend(product.id, 'plus');
     } else {
       setRecommendations(recommendations - 1);
       localStorage.removeItem(`${product.id}`);
+      recommend(product.id, 'minus');
     }
   };
 

@@ -263,4 +263,19 @@ public class RecipeService {
             throw new ValidationException("Hozzávalók megadása kötelező!");
         }
     }
+
+    public void recommendARecipe(String recommend, String id) {
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new ValidationException("Nincs ilyen id-val recept"));
+
+        if(recommend.toLowerCase(Locale.ROOT).equals("plus")){
+            recipeRepository.save(recipe.toBuilder()
+                    .recommendations(recipe.getRecommendations() + 1)
+                    .build());
+        }
+        if(recommend.toLowerCase(Locale.ROOT).equals("minus")){
+            recipeRepository.save(recipe.toBuilder()
+                    .recommendations(recipe.getRecommendations() - 1)
+                    .build());
+        }
+    }
 }

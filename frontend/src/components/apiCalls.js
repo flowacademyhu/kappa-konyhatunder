@@ -119,3 +119,15 @@ export const getRecipesWithMatchingIngredients = async (
     console.error();
   }
 };
+
+export const recommend = async (id, operator) => {
+  try {
+    const response = await axios.post(
+      `/api/recipes/${id}/recommend?recommend=${operator}`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error();
+  }
+};

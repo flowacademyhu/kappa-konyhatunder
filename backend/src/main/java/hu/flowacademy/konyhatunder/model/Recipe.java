@@ -36,5 +36,6 @@ public class Recipe {
     private double preparationTime;
     @ManyToOne
     private Image image;
+    private int recommendations;
 
 }
