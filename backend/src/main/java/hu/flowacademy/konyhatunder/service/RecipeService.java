@@ -194,6 +194,21 @@ public class RecipeService {
         return sortRecipesByName(response);
     }
 
+    public void recommendARecipe(String recommend, String id) {
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new ValidationException("Nincs ilyen ID-val rendelkező recept!"));
+
+        if(recommend.equalsIgnoreCase("plus")){
+            recipeRepository.save(recipe.toBuilder()
+                    .recommendations(recipe.getRecommendations() + 1)
+                    .build());
+        }
+        if(recommend.equalsIgnoreCase("minus")){
+            recipeRepository.save(recipe.toBuilder()
+                    .recommendations(recipe.getRecommendations() - 1)
+                    .build());
+        }
+    }
+
     private void validateSearchByCriteriaDTO(SearchByCriteriaDTO searchByCriteriaDTO) {
         log.debug("Validating searchByCriteriaDTO");
         if (searchByCriteriaDTO.getHasPicture() == null && searchByCriteriaDTO.getName() == null
@@ -261,21 +276,6 @@ public class RecipeService {
             throw new ValidationException("Nehézségi szint megadása kötelező!");
         if (CollectionUtils.isEmpty(recipeDTO.getIngredients())) {
             throw new ValidationException("Hozzávalók megadása kötelező!");
-        }
-    }
-
-    public void recommendARecipe(String recommend, String id) {
-        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new ValidationException("Nincs ilyen id-val recept"));
-
-        if(recommend.toLowerCase(Locale.ROOT).equals("plus")){
-            recipeRepository.save(recipe.toBuilder()
-                    .recommendations(recipe.getRecommendations() + 1)
-                    .build());
-        }
-        if(recommend.toLowerCase(Locale.ROOT).equals("minus")){
-            recipeRepository.save(recipe.toBuilder()
-                    .recommendations(recipe.getRecommendations() - 1)
-                    .build());
         }
     }
 }
