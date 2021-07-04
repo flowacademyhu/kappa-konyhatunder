@@ -62,4 +62,10 @@ public class RecipeController {
         log.debug("Search by these {} criteria", searchByCriteriaDTO);
         return recipeService.listRecipesByCriteria(searchByCriteriaDTO);
     }
+
+    @PostMapping("{id}/")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void recommendARecipe(@RequestParam(name = "recommend") String recommend, @PathVariable String id){
+        recipeService.recommendARecipe(recommend, id);
+    }
 }

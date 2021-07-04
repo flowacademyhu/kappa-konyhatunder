@@ -1,5 +1,6 @@
 package hu.flowacademy.konyhatunder.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import hu.flowacademy.konyhatunder.enums.Difficulty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,5 +37,7 @@ public class Recipe {
     private double preparationTime;
     @ManyToOne
     private Image image;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer recommendations;
 
 }

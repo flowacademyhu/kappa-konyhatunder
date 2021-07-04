@@ -194,6 +194,25 @@ public class RecipeService {
         return sortRecipesByName(response);
     }
 
+    public void recommendARecipe(String recommend, String id) {
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new ValidationException("Nincs ilyen ID-val rendelkező recept!"));
+        Integer recommendations = recipe.getRecommendations();
+        if (recommendations == null) {
+            recommendations = 0;
+        }
+
+        if (recommend.equalsIgnoreCase("plus")) {
+            recipeRepository.save(recipe.toBuilder()
+                    .recommendations(recommendations + 1)
+                    .build());
+        }
+        if (recommend.equalsIgnoreCase("minus")) {
+            recipeRepository.save(recipe.toBuilder()
+                    .recommendations(recommendations - 1 < 0 ? null : recommendations - 1)
+                    .build());
+        }
+    }
+
     private void validateSearchByCriteriaDTO(SearchByCriteriaDTO searchByCriteriaDTO) {
         log.debug("Validating searchByCriteriaDTO");
         if (searchByCriteriaDTO.getHasPicture() == null && searchByCriteriaDTO.getName() == null
