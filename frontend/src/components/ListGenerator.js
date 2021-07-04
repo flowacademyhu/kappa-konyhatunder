@@ -49,9 +49,9 @@ const ListGenerator = ({ recips, ingredients }) => {
                     </div>
                   </div>
                 </div>
-                {r.recommendations !== undefined && r.recommendations !== 0 ? (
+                {recipe.recommendations !== undefined && recipe.recommendations !== 0 ? (
                   <p className="cardIcon">
-                    <IoHeartSharp /> A receptet {r.recommendations} ember
+                    <IoHeartSharp /> A receptet {recipe.recommendations} ember
                     ajánlja!{' '}
                   </p>
                 ) : (
