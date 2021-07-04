@@ -29,6 +29,7 @@ public class InitDataLoader implements CommandLineRunner {
     private final ImageRepository imageRepository;
     private Image meatSoupImage;
     private Image stewImage;
+    private Image pizzaImage;
 
     @Autowired
     public InitDataLoader(CategoryRepository categoryRepository, IngredientRepository ingredientRepository, RecipeRepository recipeRepository, AmountOfIngredientRepository amountOfIngredientRepository, ImageRepository imageRepository) {
@@ -51,6 +52,8 @@ public class InitDataLoader implements CommandLineRunner {
                 meatSoupAmountOfIngredients();
                 saveStewImage();
                 stewAmountOfIngredients();
+                savePizzaImage();
+                pizzaAmountOfIngredients();
             } catch (Exception e) {
                 log.warn("Something went wrong in InitDataLoader.");
             }
@@ -240,7 +243,7 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private List<Ingredient> stewIngredients() {
-        log.info("Saved meatsoup ingredients");
+        log.info("Saved stew ingredients");
         return ingredientRepository.saveAll(
                 List.of(
                         Ingredient.builder()
@@ -373,6 +376,166 @@ public class InitDataLoader implements CommandLineRunner {
             log.info("Saved a default image");
         } catch (IOException e) {
             log.error("Error while reading default image.");
+        }
+    }
+
+    private Recipe saveDefaultPizza() {
+        Recipe pizza = Recipe.builder()
+                .name("Paradicsomos mozzarellás pizza")
+                .image(pizzaImage)
+                .preparationTime(60)
+                .categories(categoryRepository.saveAll(List.of(
+                        categoryRepository.findByName("Gyors"),
+                        categoryRepository.findByName("Főétel"),
+                        Category.builder()
+                                .name("Olasz")
+                                .build()
+                )))
+                .difficulty(Difficulty.HARD)
+                .description("Összedolgozzuk a finomlisztet a kukoricaliszttel, sóval, porcukorral, a szárított élesztővel, olívaolajjal és kb. 1,7 dl langyos vízzel. Tiszta ruhával letakarjuk, és kb. 45 percig kelesztjük a tésztát.\n\n" +
+                        "\n\n" +
+                        "Belisztezett deszkán 10 részre osztjuk a tésztát, majd a tésztadarabokat lepény formájúra nyújtjuk. A bazsalikomot leöblítjük. Néhány levelet félrerakunk, a többit felaprítjuk. A paradicsompüréhez keverjük a bazsalikomot, némi sót, és megkenjük vele a lepényeket, majd sütőpapírral kibélelt tepsire tesszük őket, és 200 fokra előmelegített sütőbe toljuk 10 percre.\n\n" +
+                        "\n\n" +
+                        "A pizzákon elosztjuk a koktélparadicsomot, valamint a mozzarellagolyót, és még néhány percig sütjük. A félretett bazsalikomlevelekkel díszítve kínáljuk.")
+                .build();
+
+        log.info("Saved {} recipe.", pizza.getName());
+        return recipeRepository.save(pizza);
+    }
+
+    private List<Ingredient> pizzaIngredients() {
+        log.info("Saved pizza ingredients");
+        return ingredientRepository.saveAll(
+                List.of(
+                        Ingredient.builder()
+                                .name("Finomliszt")
+                                .measurement(Measurement.QUANTITY)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Kukoricaliszt")
+                                .measurement(Measurement.QUANTITY)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Porcukor")
+                                .measurement(Measurement.SPOON)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Szárított élesztő")
+                                .measurement(Measurement.SPOON)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Olívaolaj")
+                                .measurement(Measurement.SPOON)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Bazsalikom")
+                                .measurement(Measurement.QUANTITY)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Paradicsompüré")
+                                .measurement(Measurement.QUANTITY)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Koktélparadicsom")
+                                .measurement(Measurement.QUANTITY)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Mozzarella")
+                                .measurement(Measurement.QUANTITY)
+                                .build(),
+                        ingredientRepository.findByNameAndMeasurement("Só", Measurement.SPOON),
+                        ingredientRepository.findByNameAndMeasurement("Víz", Measurement.VOLUME)
+                        )
+        );
+    }
+
+    private void pizzaAmountOfIngredients() {
+        MissingIDException exception = new MissingIDException("Nincs ilyen hozzávaló");
+        List<Ingredient> ingredients = pizzaIngredients();
+        Recipe pizza = saveDefaultPizza();
+        amountOfIngredientRepository.saveAll(List.of(
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Finomliszt")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementQuantity.DKG.toString())
+                        .amount(20)
+                        .recipe(pizza)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Kukoricaliszt")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementQuantity.DKG.toString())
+                        .amount(5)
+                        .recipe(pizza)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Só")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementSpoon.TEA_SPOON.toString())
+                        .amount(0.5)
+                        .recipe(pizza)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Szárított élesztő")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementSpoon.TEA_SPOON.toString())
+                        .amount(1)
+                        .recipe(pizza)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Porcukor")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementSpoon.TEA_SPOON.toString())
+                        .amount(0.5)
+                        .recipe(pizza)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Olívaolaj")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementSpoon.TABLE_SPOON.toString())
+                        .amount(2)
+                        .recipe(pizza)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Bazsalikom")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementQuantity.DKG.toString())
+                        .amount(2)
+                        .recipe(pizza)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Paradicsompüré")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementQuantity.DKG.toString())
+                        .amount(12)
+                        .recipe(pizza)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Koktélparadicsom")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementQuantity.KG.toString())
+                        .amount(0.5)
+                        .recipe(pizza)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Mozzarella")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementQuantity.DKG.toString())
+                        .amount(40)
+                        .recipe(pizza)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Víz")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementVolume.DL.toString())
+                        .amount(1.7)
+                        .recipe(pizza)
+                        .build()
+                )
+        );
+        log.info("Saved stew AmountOfIngredients");
+    }
+
+    private void savePizzaImage() {
+        try {
+            BufferedImage bImage = ImageIO.read(new File("/app/pizza.jpg"));
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(bImage, "jpg", bos);
+            byte[] data = bos.toByteArray();
+            Image image = new Image("pizza.jpg", "image/jpg", data);
+            pizzaImage = imageRepository.save(image);
+            log.info("Saved an image for pizza");
+        } catch (IOException e) {
+            log.error("Error while reading pizza image.");
         }
     }
 }
