@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import '../styles/SingleRecipe.css';
 import { getRecipeList } from './apiCalls';
 import { translateMeasurementUnits } from './translateMeasurementUnits';
@@ -19,11 +19,11 @@ const LeftSide = styled.div`
   padding: 20px;
 `;
 
-const LeftSideText = styled.div`
+const LeftSideTextArea = styled.div`
   display: flex;
 `;
 
-const DisplayText = styled.div`
+const LeftSideText = styled.div`
   margin-top: 25px;
   font-size: 25px;
   margin-left: 20px;
@@ -80,9 +80,17 @@ const Text = styled.div`
   margin: 30px 10px 20px 10px;
 `;
 
+const IngredientText = styled.div`
+  color: #${(props) => (props.available ? '38a30e' : 'a30e0e')};
+  font-size: 20px;
+  margin: 10px;
+`;
+
 export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
+  const location = useLocation();
+  const ingredients = location.state.ingredient;
 
   useEffect(() => {
     const getInitData = async () => {
@@ -105,34 +113,34 @@ export default function SingleRecipe() {
               }
               alt="Kép a receptről"
             />
-            <LeftSideText>
+            <LeftSideTextArea>
               <Icon>
                 <IoIosAlarm />
               </Icon>
-              <DisplayText>{product.preparationTime} perc</DisplayText>
-            </LeftSideText>
+              <LeftSideText>{product.preparationTime} perc</LeftSideText>
+            </LeftSideTextArea>
             <Line />
-            <LeftSideText>
+            <LeftSideTextArea>
               <Icon>
                 <IoBarbellSharp />
               </Icon>
-              <DisplayText>
+              <LeftSideText>
                 {product.difficulty === 'HARD'
                   ? ' Nehéz'
                   : product.difficulty === 'MEDIUM'
                   ? ' Közepes'
                   : ' Könnyű'}
-              </DisplayText>
-            </LeftSideText>
+              </LeftSideText>
+            </LeftSideTextArea>
             <Line />
-            <LeftSideText>
+            <LeftSideTextArea>
               <Icon>
                 <IoPricetags />
               </Icon>
-              <DisplayText>
+              <LeftSideText>
                 {product.categories.map((category) => ' #' + category.name)}
-              </DisplayText>
-            </LeftSideText>
+              </LeftSideText>
+            </LeftSideTextArea>
           </LeftSide>
         </Col>
         <Col>
@@ -142,14 +150,24 @@ export default function SingleRecipe() {
             </Title>
             <Line />
             <Title size="30">Hozzávalók</Title>
-            <Text>
-              {product.ingredients.map((i) => (
-                <li key={i.id}>
+
+            {product.ingredients.map((i) => (
+              <IngredientText
+                available={
+                  ingredients
+                    ? ingredients.some(
+                        (item) => item.name === i.ingredient.name
+                      )
+                    : true
+                }
+                key={i.id}
+              >
+                <li>
                   {i.ingredient.name}: {i.amount}
                   {' ' + translateMeasurementUnits(i.unit)}
                 </li>
-              ))}
-            </Text>
+              </IngredientText>
+            ))}
           </RightSide>
 
           <RightSide>
