@@ -49,6 +49,11 @@ const ListGenerator = ({ recips, ingredients }) => {
                     </div>
                   </div>
                 </div>
+                {r.recommendations !== undefined && r.recommendations !== 0 ? (
+                  <p>A receptet {r.recommendations} ember ajánlja! </p>
+                ) : (
+                  ''
+                )}
                 <button className="btn">
                   <StyledLink
                     to={{
