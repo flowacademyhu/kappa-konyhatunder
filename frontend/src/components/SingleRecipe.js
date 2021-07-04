@@ -159,7 +159,12 @@ export default function SingleRecipe() {
             <Line />
             <LeftSideText>
               <Button variant="success" onClick={handleRecomend}>
-                Ajánlanád? <Badge variant="light">{recommendations}</Badge>
+                Ajánlanád?
+                {recommendations === 0 ? (
+                  ''
+                ) : (
+                  <Badge variant="light"> {recommendations}</Badge>
+                )}
                 <span className="sr-only">Ajánlások</span>
               </Button>
             </LeftSideText>
