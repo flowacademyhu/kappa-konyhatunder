@@ -53,7 +53,10 @@ function SearchResult({ ingredients, searchBy }) {
           {recipesWithAllIngredient[0] && (
             <div>
               <RecipesTitle>Receptek amihez nem kell vásárolni: </RecipesTitle>
-              <ListGenerator recips={recipesWithAllIngredient} />
+              <ListGenerator
+                recips={recipesWithAllIngredient}
+                ingredients={ingredients}
+              />
             </div>
           )}
           {recipesWithAlmostAllIngredient[0] && (
@@ -61,7 +64,10 @@ function SearchResult({ ingredients, searchBy }) {
               <RecipesTitle>
                 Receptek amihez keveset kell vásárolni:{' '}
               </RecipesTitle>
-              <ListGenerator recips={recipesWithAlmostAllIngredient} />
+              <ListGenerator
+                recips={recipesWithAlmostAllIngredient}
+                ingredients={ingredients}
+              />
             </div>
           )}
           {recipesWithMinimumOneIngredient[0] && (
@@ -69,7 +75,10 @@ function SearchResult({ ingredients, searchBy }) {
               <RecipesTitle>
                 Receptek amihez nagy bevásárlás kell:{' '}
               </RecipesTitle>
-              <ListGenerator recips={recipesWithMinimumOneIngredient} />
+              <ListGenerator
+                recips={recipesWithMinimumOneIngredient}
+                ingredients={ingredients}
+              />
             </div>
           )}
         </Col>
