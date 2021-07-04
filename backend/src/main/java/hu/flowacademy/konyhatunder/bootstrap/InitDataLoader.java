@@ -28,6 +28,7 @@ public class InitDataLoader implements CommandLineRunner {
     private final AmountOfIngredientRepository amountOfIngredientRepository;
     private final ImageRepository imageRepository;
     private Image meatSoupImage;
+    private Image stewImage;
 
     @Autowired
     public InitDataLoader(CategoryRepository categoryRepository, IngredientRepository ingredientRepository, RecipeRepository recipeRepository, AmountOfIngredientRepository amountOfIngredientRepository, ImageRepository imageRepository) {
@@ -48,6 +49,8 @@ public class InitDataLoader implements CommandLineRunner {
                 saveDefaultImage();
                 saveMeatSoupImage();
                 meatSoupAmountOfIngredients();
+                saveStewImage();
+                stewAmountOfIngredients();
             } catch (Exception e) {
                 log.warn("Something went wrong in InitDataLoader.");
             }
@@ -68,8 +71,8 @@ public class InitDataLoader implements CommandLineRunner {
                                 .build()
                 )))
                 .difficulty(Difficulty.EASY)
-                .description("A sárgarépát, a fehérrépát, a zellert, a karalábét, valamint a vöröshagymát meghámozzuk. A répákat hasábokra vágjuk. A konyhakész csirkét megmossuk, darabokra vágjuk.\n" +
-                        "Mindent egy nagyobb lábasba tesszük, és kissé megpirítjuk. Meghintjük pirospaprikával és felöntjük annyi vízzel, hogy ellepje, sózzuk és hozzáadunk néhány szem fekete borsot. Felforraljuk, majd mérsékeljük a hőt, és félig lefedve kb. 1,5-2 óra alatt készre főzzük a levest. Ha nagyon elfővi a levét, vízzel pótoljuk, és megkóstoljuk, hogy elég sós-e.\n" +
+                .description("A sárgarépát, a fehérrépát, a zellert, a karalábét, valamint a vöröshagymát meghámozzuk. A répákat hasábokra vágjuk. A konyhakész csirkét megmossuk, darabokra vágjuk.\n\n" +
+                        "Mindent egy nagyobb lábasba tesszük, és kissé megpirítjuk. Meghintjük pirospaprikával és felöntjük annyi vízzel, hogy ellepje, sózzuk és hozzáadunk néhány szem fekete borsot. Felforraljuk, majd mérsékeljük a hőt, és félig lefedve kb. 1,5-2 óra alatt készre főzzük a levest. Ha nagyon elfővi a levét, vízzel pótoljuk, és megkóstoljuk, hogy elég sós-e.\n\n" +
                         "A cérnametéltet forrásban lévő sós vízben kifőzzük. Leszűrjük és szétosztjuk a tányérokba. Mindbe egy kevés zöldséget és egy-egy darab húst is teszünk. Végül rászűrjük a forró levest. Aprított petrezselyemmel tálaljuk.")
                 .build();
 
@@ -207,6 +210,155 @@ public class InitDataLoader implements CommandLineRunner {
             log.info("Saved an image for meatSoup");
         } catch (IOException e) {
             log.error("Error while reading meatsoup image.");
+        }
+    }
+
+    private Recipe saveDefaultStew() {
+        Recipe stew = Recipe.builder()
+                .name("Csirkemell pörkölt tésztával")
+                .image(stewImage)
+                .preparationTime(45)
+                .categories(categoryRepository.saveAll(List.of(
+                        categoryRepository.findByName("Magyar"),
+                        Category.builder()
+                                .name("Gyors")
+                                .build(),
+                        Category.builder()
+                                .name("Főétel")
+                                .build()
+
+                )))
+                .difficulty(Difficulty.EASY)
+                .description("A csirkemellet kockára vágjuk, a vöröshagymát megtisztíjuk és apróra vágjuk. \n\n" +
+                        "A felforrósított olajon megpároljuk a vöröshagymát, amikor kezd üvegesedni hozzáadjuk a negyedekbe vágott paradicsomot és a paprikát és együtt pároljuk. Hozzáadjuk a csirkemellet és fehéredésig sütjük. \n\n" +
+                        "A tűzről levéve megszórjuk a pirospaprikával, sózzuk, borsozzuk. Ráöntjük a vizet, majd visszatesszük a tűzre és fedő alatt 25-30 perc alatt puhára főzzük.\n\n" +
+                        "A tésztát a csomagoláson található előírás szerint lobogó, forró vízben kifőzzük és leszűrjük. ")
+                .build();
+
+        log.info("Saved {} recipe.", stew.getName());
+        return recipeRepository.save(stew);
+    }
+
+    private List<Ingredient> stewIngredients() {
+        log.info("Saved meatsoup ingredients");
+        return ingredientRepository.saveAll(
+                List.of(
+                        Ingredient.builder()
+                                .name("Csirkemell")
+                                .measurement(Measurement.QUANTITY)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Bors")
+                                .measurement(Measurement.SPOON)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Paradicsom")
+                                .measurement(Measurement.PIECE)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Paprika")
+                                .measurement(Measurement.PIECE)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Őrölt pirospaprika")
+                                .measurement(Measurement.SPOON)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Étolaj")
+                                .measurement(Measurement.SPOON)
+                                .build(),
+                        Ingredient.builder()
+                                .name("Fussili tészta")
+                                .measurement(Measurement.QUANTITY)
+                                .build(),
+                        ingredientRepository.findByNameAndMeasurement("Só", Measurement.SPOON),
+                        ingredientRepository.findByNameAndMeasurement("Víz", Measurement.VOLUME),
+                        ingredientRepository.findByNameAndMeasurement("Vöröshagyma", Measurement.PIECE)
+                )
+        );
+    }
+
+    private void stewAmountOfIngredients() {
+        MissingIDException exception = new MissingIDException("Nincs ilyen hozzávaló");
+        List<Ingredient> ingredients = stewIngredients();
+        Recipe stew = saveDefaultStew();
+        amountOfIngredientRepository.saveAll(List.of(
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Csirkemell")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementQuantity.KG.toString())
+                        .amount(0.5)
+                        .recipe(stew)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Bors")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementSpoon.TEA_SPOON.toString())
+                        .amount(1)
+                        .recipe(stew)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Víz")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementVolume.DL.toString())
+                        .amount(1)
+                        .recipe(stew)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Só")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementSpoon.TEA_SPOON.toString())
+                        .amount(2)
+                        .recipe(stew)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Vöröshagyma")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementPiece.PIECE.toString())
+                        .amount(1)
+                        .recipe(stew)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Étolaj")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementSpoon.TABLE_SPOON.toString())
+                        .amount(1)
+                        .recipe(stew)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Paradicsom")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementPiece.PIECE.toString())
+                        .amount(1)
+                        .recipe(stew)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Paprika")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementPiece.PIECE.toString())
+                        .amount(1)
+                        .recipe(stew)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Őrölt pirospaprika")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementSpoon.TEA_SPOON.toString())
+                        .amount(2)
+                        .recipe(stew)
+                        .build(),
+                AmountOfIngredient.builder()
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Fussili tészta")).findFirst().orElseThrow(() -> exception))
+                        .unit(MeasurementQuantity.DKG.toString())
+                        .amount(50)
+                        .recipe(stew)
+                        .build()
+                )
+        );
+        log.info("Saved stew AmountOfIngredients");
+    }
+
+    private void saveStewImage() {
+        try {
+            BufferedImage bImage = ImageIO.read(new File("/app/porkolt.jpg"));
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(bImage, "jpg", bos);
+            byte[] data = bos.toByteArray();
+            Image image = new Image("porkolt.jpg", "image/jpg", data);
+            stewImage = imageRepository.save(image);
+            log.info("Saved an image for stew");
+        } catch (IOException e) {
+            log.error("Error while reading stew image.");
         }
     }
 
