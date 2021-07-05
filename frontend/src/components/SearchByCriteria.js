@@ -118,15 +118,18 @@ function SearchByCriteria() {
                 >
                   {times.map((time) => (
                     <div className="col-4" key={time}>
-                      <Field
-                        className="mr-4"
-                        type="radio"
-                        name="preparationTimeInterval"
-                        value={time}
-                      />
-                      {time < 300 ? (time < 61 ? time - 30 : time - 60) : 300}{' '}
-                      {time < 300 ? '-' : '+'}
-                      {time < 300 ? time : ''} perc
+                      <label>
+                        {' '}
+                        <Field
+                          className="mr-4"
+                          type="radio"
+                          name="preparationTimeInterval"
+                          value={time}
+                        />
+                        {time < 300 ? (time < 61 ? time - 30 : time - 60) : 300}{' '}
+                        {time < 300 ? '-' : '+'}
+                        {time < 300 ? time : ''} perc
+                      </label>
                     </div>
                   ))}
                 </div>
@@ -173,7 +176,7 @@ function SearchByCriteria() {
                 onClick={() => searchByValues(values)}
                 type="submit"
               >
-                Keresés...
+                Keresés
               </button>
               <Modal status={status} id="criteriaStatusModal" />
             </Form>
