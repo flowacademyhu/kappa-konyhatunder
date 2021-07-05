@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import SearchResultForMobile from './SearchResultForMobile';
 import SearchResult from './SearchResult';
-import { useMediaQuery } from 'react-responsive';
 import { getIngredient } from './apiCalls';
 import styled from 'styled-components';
 import { Col, Row } from 'react-bootstrap';
@@ -92,7 +90,6 @@ function SearchByIngredient() {
   const [ingredientsList, setIngredientsList] = useState();
   const [chosenIngredient, setChosenIngredient] = useState('');
   const [ingredientsArray, setIngredientsArray] = useState([]);
-  const isMobile = useMediaQuery({ query: `(max-width: 576px)` });
 
   useEffect(() => {
     const loadingData = async () => {
@@ -168,9 +165,7 @@ function SearchByIngredient() {
               {ingredientsArray.map((chosenIngredient) => (
                 <ListItems key={chosenIngredient.id}>
                   <Row className="justify-content-space-between">
-                    <Col>
-                      <> - {chosenIngredient.name} </>
-                    </Col>
+                    <Col>- {chosenIngredient.name}</Col>
                   </Row>
                 </ListItems>
               ))}
@@ -183,17 +178,7 @@ function SearchByIngredient() {
       <Col>
         <RecipesTitle>Keresés eredménye</RecipesTitle>
         <Line />
-        {isMobile ? (
-          <SearchResultForMobile
-            ingredients={ingredientsArray}
-            searchBy={'ingredients'}
-          />
-        ) : (
-          <SearchResult
-            ingredients={ingredientsArray}
-            searchBy={'ingredients'}
-          />
-        )}
+        <SearchResult ingredients={ingredientsArray} searchBy={'ingredients'} />
       </Col>
     </div>
   );

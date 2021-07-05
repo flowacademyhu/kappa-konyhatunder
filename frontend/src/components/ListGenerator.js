@@ -10,55 +10,165 @@ const StyledLink = styled(Link)`
   margin-left: 0px;
   margin-bottom: 0px;
   font-size: 1.5rem;
+  @media screen and (max-width: 576px) {
+    font-size: 1.1rem;
+  }
 `;
+
+const RecipeCard = styled.div`
+  background-color: #c7c7c75b;
+  position: relative;
+  display: grid;
+  grid-template-columns: 300px 600px;
+  border-radius: 5px;
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.356);
+  margin-top: 20px;
+  margin-bottom: 80px;
+  @media screen and (max-width: 576px) {
+    grid-template-columns: 150px 200px;
+    width: 300px;
+    margin-bottom: 10px;
+    padding-bottom: 20px;
+    flex-direction: column;
+    display: flex;
+  }
+`;
+
+const GreenButton = styled.button`
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  background-color: #38a30e;
+  color: #fff;
+  padding: 22px 45px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.294);
+  font-family: 'Charmonman', cursive !important;
+  font-weight: 500;
+  @media screen and (max-width: 576px) {
+    position: relative;
+    border: none;
+    outline: none;
+    align-items: center;
+    background-color: #38a30e;
+    color: #fff;
+    padding: 11px 22.5px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.294);
+    font-family: 'Charmonman', cursive !important;
+    font-weight: 500;
+    align-items: center;
+    margin: auto;
+  }
+`;
+
+const Image = styled.img`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  @media screen and (max-width: 576px) {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+`;
+
+const Text = styled.div`
+  padding: 40px 40px 0;
+`;
+
+const RecipeName = styled.h1`
+  color: #28700b;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  @media screen and (max-width: 576px) {
+    font-size: xx-large;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 8px;
+    font-weight: 200px;
+    color: #28700b;
+  }
+`;
+
+const Description = styled.p`
+  margin-left: 10px;
+  margin-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const InfoText = styled.div`
+  flex-direction: column;
+  display: flex;
+  margin: 20px 10px 10px;
+  color: #28700b;
+  font-weight: bold;
+  font-size: 1.2rem;
+`;
+
+const Infos = styled.div`
+  display: flex;
+`;
+
 const ListGenerator = ({ recips, ingredients }) => {
   return (
-    <div>
+    <>
       {recips
         ? recips.map((recipe) => (
-            <div className="cont" key={recipe.id}>
-              <img
+            <RecipeCard>
+              <Image
                 src={`/api/image/${recipe.image.id}`}
                 alt="Kép a receptről"
               />
-              <div className="cont__text">
-                <h1>{recipe.name}</h1>
+              <Text>
+                <RecipeName>{recipe.name}</RecipeName>
+                <Description>{recipe.description}</Description>
+                <Infos>
+                  <InfoText>
+                    <div className="cardIcon">
+                      <IoIosAlarm />
+                    </div>
+                    {recipe.preparationTime} perc
+                  </InfoText>
+                  <InfoText>
+                    <div className="cardIcon">
+                      <IoBarbellSharp />
+                    </div>
+                    <p>
+                      {recipe.difficulty === 'HARD'
+                        ? 'Nehéz'
+                        : recipe.difficulty === 'MEDIUM'
+                        ? 'Közepes'
+                        : 'Könnyű'}
+                    </p>
+                  </InfoText>
+                  {recipe.recommendations !== undefined &&
+                  recipe.recommendations !== 0 ? (
+                    <Text>
+                      <IoHeartSharp /> A receptet {recipe.recommendations} ember
+                      ajánlja!
+                    </Text>
+                  ) : (
+                    ''
+                  )}
+                </Infos>
 
-                <p>{recipe.description}</p>
-                <div className="cont__text__timing">
-                  <div className="cont__text__timing_time">
-                    <div>
-                      <div className="cardIcon">
-                        <IoIosAlarm />
-                      </div>
-                      <div className="time">{recipe.preparationTime} perc</div>
-                    </div>
-                  </div>
-                  <div className="cont__text__timing_time">
-                    <div>
-                      <div className="cardIcon">
-                        <IoBarbellSharp />
-                      </div>
-                      <p>
-                        {recipe.difficulty === 'HARD'
-                          ? 'Nehéz'
-                          : recipe.difficulty === 'MEDIUM'
-                          ? 'Közepes'
-                          : 'Könnyű'}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                {recipe.recommendations !== undefined &&
-                recipe.recommendations !== 0 ? (
-                  <p className="cardIcon">
-                    <IoHeartSharp /> A receptet {recipe.recommendations} ember
-                    ajánlja!{' '}
-                  </p>
-                ) : (
-                  ''
-                )}
-                <button className="btn">
+                <GreenButton>
                   <StyledLink
                     to={{
                       pathname: `/recipes/${recipe.id}`,
@@ -68,12 +178,12 @@ const ListGenerator = ({ recips, ingredients }) => {
                   >
                     Elkészítem !
                   </StyledLink>
-                </button>
-              </div>
-            </div>
+                </GreenButton>
+              </Text>
+            </RecipeCard>
           ))
         : 'Loading...'}
-    </div>
+    </>
   );
 };
 
