@@ -14,6 +14,5 @@ export const validationSchema = yup.object().shape({
   comment: yup
     .string()
     .required('Üres hozzászólás küldése nem lehetséges!')
-    .min(10, 'Minimum 10 karakter.')
     .max(255, 'Maximum 255 karakter lehetséges!'),
 });
