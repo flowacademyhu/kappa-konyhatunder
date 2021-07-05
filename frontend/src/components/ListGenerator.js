@@ -11,7 +11,7 @@ const StyledLink = styled(Link)`
   margin-bottom: 0px;
   font-size: 1.5rem;
   @media screen and (max-width: 576px) {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
   }
 `;
 
@@ -27,7 +27,7 @@ const RecipeCard = styled.div`
   @media screen and (max-width: 576px) {
     grid-template-columns: 150px 200px;
     width: 300px;
-    margin-bottom: 10px;
+    margin-bottom: 80px;
     padding-bottom: 20px;
     flex-direction: column;
     display: flex;
@@ -52,7 +52,7 @@ const GreenButton = styled.button`
   font-family: 'Charmonman', cursive !important;
   font-weight: 500;
   @media screen and (max-width: 576px) {
-    position: relative;
+    position: sticky;
     border: none;
     outline: none;
     align-items: center;
@@ -66,7 +66,10 @@ const GreenButton = styled.button`
     font-family: 'Charmonman', cursive !important;
     font-weight: 500;
     align-items: center;
-    margin: auto;
+    margin-top: 30px;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 `;
 
@@ -107,6 +110,7 @@ const RecipeName = styled.h1`
 const Description = styled.p`
   margin-left: 10px;
   margin-right: 10px;
+  margin-top: 20px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -119,6 +123,7 @@ const InfoText = styled.div`
   color: #28700b;
   font-weight: bold;
   font-size: 1.2rem;
+  text-align: center;
 `;
 
 const Infos = styled.div`
@@ -159,12 +164,20 @@ const ListGenerator = ({ recips, ingredients }) => {
                   </InfoText>
                   {recipe.recommendations !== undefined &&
                   recipe.recommendations !== 0 ? (
-                    <Text>
-                      <IoHeartSharp /> A receptet {recipe.recommendations} ember
-                      ajánlja!
-                    </Text>
+                    <InfoText>
+                      <div className="cardIcon">
+                        <IoHeartSharp />
+                      </div>
+                      {recipe.recommendations} ajánlás
+                    </InfoText>
                   ) : (
-                    ''
+                    <InfoText>
+                      {' '}
+                      <div className="cardIcon">
+                        <IoHeartSharp />{' '}
+                      </div>
+                      0 ajánlás{' '}
+                    </InfoText>
                   )}
                 </Infos>
 
