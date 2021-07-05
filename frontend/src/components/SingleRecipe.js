@@ -85,6 +85,14 @@ const Title = styled.div`
   margin-top: 40px;
   margin-left: 30px;
 `;
+const CommentTitle = styled.div`
+  font-size: ${(props) => props.size}px;
+  font-family: ${(props) =>
+    props.fancy ? 'Charmonman, cursive !important' : ''};
+  color: #267009;
+  margin-top: 10px;
+  margin-bottom: 20px;
+`;
 
 const Text = styled.div`
   color: #424242;
@@ -228,14 +236,12 @@ export default function SingleRecipe() {
         </Col>
         <Col>
           <Comments>
-            <Title size="30" className="mb-3">
-              Hozzászólás a recepthez
-            </Title>
+            <CommentTitle size="30">Hozzászólás a recepthez</CommentTitle>
             <textarea className="form-control mb-3" type="text" />
             <Button variant="success">Hozzászólás</Button>
           </Comments>
           <Comments>
-            <Title size="30">Hozzászólások</Title>
+            <CommentTitle size="30">Hozzászólások</CommentTitle>
             <Text>
               {product.comments === undefined
                 ? 'Ehhez a recepthez még nem érkezett hozzászólás, legyél te az első!'
