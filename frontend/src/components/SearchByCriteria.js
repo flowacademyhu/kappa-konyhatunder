@@ -85,7 +85,6 @@ function SearchByCriteria() {
                     className="form-control-lg col w-100"
                     type="text"
                     name="name"
-                    placeholder="Csilis bab"
                   />
                 </div>
                 <div className="mt-4 col ">
@@ -96,6 +95,7 @@ function SearchByCriteria() {
                     required
                     name="difficulty"
                   >
+                    <option>Nehézségi szint</option>
                     {levels
                       ? levels.map((level) => (
                           <option key={level} value={level}>
@@ -118,15 +118,18 @@ function SearchByCriteria() {
                 >
                   {times.map((time) => (
                     <div className="col-4" key={time}>
-                      <Field
-                        className="mr-4"
-                        type="radio"
-                        name="preparationTimeInterval"
-                        value={time}
-                      />
-                      {time < 300 ? (time < 61 ? time - 30 : time - 60) : 300}{' '}
-                      {time < 300 ? '-' : '+'}
-                      {time < 300 ? time : ''} perc
+                      <label>
+                        {' '}
+                        <Field
+                          className="mr-4"
+                          type="radio"
+                          name="preparationTimeInterval"
+                          value={time}
+                        />
+                        {time < 300 ? (time < 61 ? time - 30 : time - 60) : 300}{' '}
+                        {time < 300 ? '-' : '+'}
+                        {time < 300 ? time : ''} perc
+                      </label>
                     </div>
                   ))}
                 </div>
@@ -168,12 +171,10 @@ function SearchByCriteria() {
               </div>
               <button
                 className="btn btn-success"
-                data-toggle="modal"
-                data-target="#criteriaStatusModal"
                 onClick={() => searchByValues(values)}
                 type="submit"
               >
-                Keresés...
+                Keresés
               </button>
               <Modal status={status} id="criteriaStatusModal" />
             </Form>

@@ -35,6 +35,7 @@ const LeftSide = styled.div`
 
 const RightSide = styled.div`
   display: flex;
+  flex-direction: column;
   background-image: linear-gradient(
     0deg,
     #fffbc4 45.45%,
@@ -66,6 +67,23 @@ const ListItems = styled.div`
 
 const List = styled.div`
   margin-top: 20px;
+  overflow: auto;
+  overflow-x: hidden;
+  ::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+    background-color: #faedb9;
+  }
 `;
 
 const RecipesTitle = styled.div`
@@ -158,18 +176,22 @@ function SearchByIngredient() {
         </Col>
         <RightSide>
           {ingredientsArray ? (
-            <List>
+            <>
               <StyledSmallerTitle>
                 A keresett hozzávalók listája :
               </StyledSmallerTitle>
-              {ingredientsArray.map((chosenIngredient) => (
-                <ListItems key={chosenIngredient.id}>
-                  <Row className="justify-content-space-between">
-                    <Col>- {chosenIngredient.name}</Col>
-                  </Row>
-                </ListItems>
-              ))}
-            </List>
+              <List>
+                {ingredientsArray.map((chosenIngredient) => (
+                  <ListItems key={chosenIngredient.id}>
+                    <Row className="justify-content-space-between">
+                      <Col>
+                        <> - {chosenIngredient.name} </>
+                      </Col>
+                    </Row>
+                  </ListItems>
+                ))}
+              </List>
+            </>
           ) : (
             <div>Loading List... </div>
           )}
