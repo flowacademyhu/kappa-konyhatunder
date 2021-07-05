@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.text.Collator;
 import java.text.RuleBasedCollator;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -215,17 +214,19 @@ public class RecipeService {
         }
     }
 
-    public void commentARecipe(CommentDTO commentDTO, String id) {
+    public void commentARecipe(CommentDTO commentDTO, String recipeId) {
+        log.info("Received a comment for this recipe: {}",recipeId);
         if(!StringUtils.hasText(commentDTO.getText())){
             throw new ValidationException("Komment szöveg megadása kötelező!");
         }
-        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new ValidationException("Nincs ilyen ID-val rendelkező recept!"));
+        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new ValidationException("Nincs ilyen ID-val rendelkező recept!"));
         Comment comment = Comment.builder()
                 .text(commentDTO.getText())
                 .recipe(recipe)
                 .timeStamp(LocalDateTime.now())
                 .build();
-        commentRepository.save(comment);
+        Comment savedComment = commentRepository.save(comment);
+        log.debug("Created comment: {}",savedComment);
     }
 
     private void validateSearchByCriteriaDTO(SearchByCriteriaDTO searchByCriteriaDTO) {

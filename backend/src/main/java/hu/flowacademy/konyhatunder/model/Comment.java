@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -26,4 +25,14 @@ public class Comment {
     @ManyToOne
     private Recipe recipe;
     private LocalDateTime timeStamp;
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id='" + id + '\'' +
+                ", text='" + text + '\'' +
+                ", recipe=" + (recipe != null ? recipe.getId() :"null")+
+                ", timeStamp=" + timeStamp +
+                '}';
+    }
 }
