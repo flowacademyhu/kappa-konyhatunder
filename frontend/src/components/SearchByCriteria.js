@@ -171,8 +171,6 @@ function SearchByCriteria() {
               </div>
               <button
                 className="btn btn-success"
-                data-toggle="modal"
-                data-target="#criteriaStatusModal"
                 onClick={() => searchByValues(values)}
                 type="submit"
               >
