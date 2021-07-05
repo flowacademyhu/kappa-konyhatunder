@@ -3,6 +3,7 @@ package hu.flowacademy.konyhatunder.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hu.flowacademy.konyhatunder.dto.CommentDTO;
 import hu.flowacademy.konyhatunder.dto.RecipeDTO;
 import hu.flowacademy.konyhatunder.dto.SearchByCriteriaDTO;
 import hu.flowacademy.konyhatunder.dto.SearchByIngredientDTO;
@@ -12,10 +13,7 @@ import hu.flowacademy.konyhatunder.enums.Measurement;
 import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.*;
-import hu.flowacademy.konyhatunder.repository.AmountOfIngredientRepository;
-import hu.flowacademy.konyhatunder.repository.CategoryRepository;
-import hu.flowacademy.konyhatunder.repository.IngredientRepository;
-import hu.flowacademy.konyhatunder.repository.RecipeRepository;
+import hu.flowacademy.konyhatunder.repository.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.text.Collator;
 import java.text.RuleBasedCollator;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -41,16 +41,18 @@ public class RecipeService {
     private final AmountOfIngredientRepository amountOfIngredientRepository;
     private final ImageStorageService imageStorageService;
     private final IngredientRepository ingredientRepository;
+    private final CommentRepository commentRepository;
 
     @Autowired
     public RecipeService(RecipeRepository recipeRepository, CategoryRepository categoryRepository,
                          AmountOfIngredientRepository amountOfIngredientRepository, ImageStorageService imageStorageService,
-                         IngredientRepository ingredientRepository) {
+                         IngredientRepository ingredientRepository, CommentRepository commentRepository) {
         this.recipeRepository = recipeRepository;
         this.categoryRepository = categoryRepository;
         this.amountOfIngredientRepository = amountOfIngredientRepository;
         this.imageStorageService = imageStorageService;
         this.ingredientRepository = ingredientRepository;
+        this.commentRepository = commentRepository;
     }
 
     public List<Recipe> listRecipes() {
@@ -211,6 +213,19 @@ public class RecipeService {
                     .recommendations(recommendations - 1 < 0 ? null : recommendations - 1)
                     .build());
         }
+    }
+
+    public void commentARecipe(CommentDTO commentDTO, String id) {
+        if(!StringUtils.hasText(commentDTO.getText())){
+            throw new ValidationException("Komment szöveg megadása kötelező!");
+        }
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new ValidationException("Nincs ilyen ID-val rendelkező recept!"));
+        Comment comment = Comment.builder()
+                .text(commentDTO.getText())
+                .recipe(recipe)
+                .timeStamp(LocalDateTime.now())
+                .build();
+        commentRepository.save(comment);
     }
 
     private void validateSearchByCriteriaDTO(SearchByCriteriaDTO searchByCriteriaDTO) {

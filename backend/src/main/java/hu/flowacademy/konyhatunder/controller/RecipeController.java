@@ -1,8 +1,10 @@
 package hu.flowacademy.konyhatunder.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import hu.flowacademy.konyhatunder.dto.CommentDTO;
 import hu.flowacademy.konyhatunder.dto.SearchByCriteriaDTO;
 import hu.flowacademy.konyhatunder.dto.SearchByIngredientDTO;
+import hu.flowacademy.konyhatunder.model.Comment;
 import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.model.Recipe;
 import hu.flowacademy.konyhatunder.service.RecipeService;
@@ -67,5 +69,11 @@ public class RecipeController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void recommendARecipe(@RequestParam(name = "recommend") String recommend, @PathVariable String id){
         recipeService.recommendARecipe(recommend, id);
+    }
+
+    @PostMapping("comment/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void commentARecipe(@RequestBody CommentDTO commentDTO, @PathVariable String id){
+        recipeService.commentARecipe(commentDTO,id);
     }
 }
