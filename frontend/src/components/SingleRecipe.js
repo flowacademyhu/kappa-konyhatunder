@@ -64,6 +64,19 @@ const RightSide = styled.div`
   max-width: 100%;
 `;
 
+const Comments = styled.div`
+  background-color: #c7c7c75b;
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.356);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  max-height: 100%;
+  max-width: 100%;
+`;
+
 const Title = styled.div`
   font-size: ${(props) => props.size}px;
   font-family: ${(props) =>
@@ -208,11 +221,20 @@ export default function SingleRecipe() {
               </IngredientText>
             ))}
           </RightSide>
-
           <RightSide>
             <Title size="30">Elkészítés</Title>
             <Text>{product.description}</Text>
-          </RightSide>
+          </RightSide>{' '}
+        </Col>
+        <Col>
+          <Comments>
+            <Title size="30">Hozzászólások</Title>
+            <Text>
+              {product.comments === undefined
+                ? 'Ehhez a recepthez még nem érkezett hozzászólás, legyél te az első!'
+                : product.comments}{' '}
+            </Text>
+          </Comments>
         </Col>
       </Row>
     </Container>
