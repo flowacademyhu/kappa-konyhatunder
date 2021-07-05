@@ -137,7 +137,7 @@ export const comment = async (id, text) => {
     text: text,
   };
   try {
-    const response = await axios.post(`/api/recipes/comment/${id}`, data);
+    const response = await axios.post(`/api/recipes/${id}/comment`, data);
     return response.data;
   } catch (error) {
     console.error();

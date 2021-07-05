@@ -77,6 +77,19 @@ const Comments = styled.div`
   max-width: 100%;
 `;
 
+const SingleComment = styled.div`
+  background-color: #c7c7c75b;
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.356);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  max-height: 100%;
+  max-width: 100%;
+`;
+
 const Title = styled.div`
   font-size: ${(props) => props.size}px;
   font-family: ${(props) =>
@@ -86,6 +99,15 @@ const Title = styled.div`
   margin-left: 30px;
 `;
 const CommentTitle = styled.div`
+  font-size: ${(props) => props.size}px;
+  font-family: ${(props) =>
+    props.fancy ? 'Charmonman, cursive !important' : ''};
+  color: #267009;
+  margin-top: 10px;
+  margin-bottom: 20px;
+`;
+
+const Time = styled.div`
   font-size: ${(props) => props.size}px;
   font-family: ${(props) =>
     props.fancy ? 'Charmonman, cursive !important' : ''};
@@ -110,6 +132,7 @@ export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
   const [recommendations, setRecommendations] = useState();
+  const [comment, setComment] = useState([]);
 
   const location = useLocation();
   const ingredients = location.state.ingredient;
@@ -142,6 +165,8 @@ export default function SingleRecipe() {
       recommend(product.id, 'minus');
     }
   };
+
+  const addComment = (id, text) => {};
 
   return product ? (
     <Container>
@@ -238,14 +263,23 @@ export default function SingleRecipe() {
           <Comments>
             <CommentTitle size="30">Hozzászólás a recepthez</CommentTitle>
             <textarea className="form-control mb-3" type="text" />
-            <Button variant="success">Hozzászólás</Button>
+            <Button variant="success" onClick={() => addComment()}>
+              Hozzászólás
+            </Button>
           </Comments>
           <Comments>
             <CommentTitle size="30">Hozzászólások</CommentTitle>
+            {console.log(product)}
             <Text>
-              {product.comments === undefined
+              {product.comments.length === 0
                 ? 'Ehhez a recepthez még nem érkezett hozzászólás, legyél te az első!'
-                : product.comments}{' '}
+                : product.comments.map((comment) => (
+                    <SingleComment>
+                      {console.log(comment.text)}
+                      <Time>{comment.timeStamp}</Time>
+                      <Text>{comment.text}</Text>
+                    </SingleComment>
+                  ))}{' '}
             </Text>
           </Comments>
         </Col>
