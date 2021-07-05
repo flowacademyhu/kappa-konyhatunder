@@ -132,12 +132,12 @@ export const recommend = async (id, operator) => {
   }
 };
 
-export const comment = async (id, text) => {
+export const postComment = async (id, text) => {
   const data = {
     text: text,
   };
   try {
-    const response = await axios.post(`/api/recipes/${id}/comment`, data);
+    const response = await axios.post(`/api/recipes/${id}/comments`, data);
     return response.data;
   } catch (error) {
     console.error();

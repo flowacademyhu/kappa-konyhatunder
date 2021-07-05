@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import '../styles/SingleRecipe.css';
-import { getRecipeList, recommend } from './apiCalls';
+import { getRecipeList, recommend, postComment } from './apiCalls';
 import { translateMeasurementUnits } from './translateMeasurementUnits';
 import { Container, Col, Row, Spinner, Button } from 'react-bootstrap';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp, IoPricetags, IoHeartSharp } from 'react-icons/io5';
+import { formatLocalDateTime } from './formatLocalDateTime';
 import styled from 'styled-components';
 
 const LeftSide = styled.div`
@@ -78,7 +79,7 @@ const Comments = styled.div`
 `;
 
 const SingleComment = styled.div`
-  background-color: #c7c7c75b;
+  background-color: white;
   width: 100%;
   height: auto;
   border-radius: 5px;
@@ -133,6 +134,7 @@ export default function SingleRecipe() {
   const [product, setProduct] = useState();
   const [recommendations, setRecommendations] = useState();
   const [comment, setComment] = useState([]);
+  const [allComments, setAllComments] = useState([]);
 
   const location = useLocation();
   const ingredients = location.state.ingredient;
@@ -154,6 +156,10 @@ export default function SingleRecipe() {
     );
   }, [product]);
 
+  useEffect(() => {
+    setAllComments([...allComments]);
+  }, []);
+
   const handleRecomend = () => {
     if (!localStorage.getItem(`${product.id}`)) {
       setRecommendations(recommendations + 1);
@@ -166,7 +172,11 @@ export default function SingleRecipe() {
     }
   };
 
-  const addComment = (id, text) => {};
+  const addComment = (id, text) => {
+    postComment(text, id);
+    const comments = product.comments;
+    setAllComments([...comments]);
+  };
 
   return product ? (
     <Container>
@@ -262,8 +272,15 @@ export default function SingleRecipe() {
         <Col>
           <Comments>
             <CommentTitle size="30">Hozzászólás a recepthez</CommentTitle>
-            <textarea className="form-control mb-3" type="text" />
-            <Button variant="success" onClick={() => addComment()}>
+            <textarea
+              className="form-control mb-3"
+              type="text"
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <Button
+              variant="success"
+              onClick={() => addComment(comment, product.id)}
+            >
               Hozzászólás
             </Button>
           </Comments>
@@ -276,7 +293,7 @@ export default function SingleRecipe() {
                 : product.comments.map((comment) => (
                     <SingleComment>
                       {console.log(comment.text)}
-                      <Time>{comment.timeStamp}</Time>
+                      <Time>{formatLocalDateTime(comment.timeStamp)}</Time>
                       <Text>{comment.text}</Text>
                     </SingleComment>
                   ))}{' '}
