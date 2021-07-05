@@ -16,7 +16,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         WebContentInterceptor interceptor = new WebContentInterceptor();
         interceptor.addCacheMapping(CacheControl.noCache()
                 .noTransform().cachePrivate()
-                .mustRevalidate(), "/api/*");
+                .mustRevalidate(), "/api/**");
         registry.addInterceptor(interceptor);
     }
 }
