@@ -228,6 +228,13 @@ export default function SingleRecipe() {
         </Col>
         <Col>
           <Comments>
+            <Title size="30" className="mb-3">
+              Hozzászólás a recepthez
+            </Title>
+            <textarea className="form-control mb-3" id="comment" type="text" />
+            <Button variant="success">Hozzászólás</Button>
+          </Comments>
+          <Comments>
             <Title size="30">Hozzászólások</Title>
             <Text>
               {product.comments === undefined
