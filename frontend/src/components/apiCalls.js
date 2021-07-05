@@ -131,3 +131,15 @@ export const recommend = async (id, operator) => {
     console.error();
   }
 };
+
+export const comment = async (id, text) => {
+  const data = {
+    text: text,
+  };
+  try {
+    const response = await axios.post(`/api/recipes/comment/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error();
+  }
+};
