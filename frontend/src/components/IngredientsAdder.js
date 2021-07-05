@@ -78,6 +78,7 @@ export default function IngredientsAdder({
             }}
           >
             <option>Hozzávaló neve</option>
+
             {ingredientsList
               .filter(
                 (ingredient) =>

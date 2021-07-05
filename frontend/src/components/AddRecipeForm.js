@@ -314,11 +314,12 @@ const AddRecipeForm = () => {
             <button
               className="btn btn-success"
               onClick={() => {
-                sendNewIngredient(
-                  addNewIngredient,
-                  ingredientTypeFromUser,
-                  addNewAmount
-                );
+                addNewIngredient &&
+                  sendNewIngredient(
+                    addNewIngredient,
+                    ingredientTypeFromUser,
+                    addNewAmount
+                  );
               }}
               type="button"
             >
