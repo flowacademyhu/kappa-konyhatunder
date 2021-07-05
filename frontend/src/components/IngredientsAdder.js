@@ -7,7 +7,6 @@ export default function IngredientsAdder({
   onIngredientAdded,
   exludedIngredients,
 }) {
-  console.log(exludedIngredients);
   const [amount, setAmount] = useState('');
   const [ingredient, setIngredient] = useState('');
   const [newIngredientType, setNewIngredientType] = useState('-');
@@ -74,12 +73,15 @@ export default function IngredientsAdder({
             className="form-control"
             name="ingredient"
             onChange={(e) => {
-              onIngredientTypeChange(e.target.value);
+              e.target.value
+                ? onIngredientTypeChange(e.target.value)
+                : onIngredientTypeChange('');
             }}
           >
             <option>Hozzávaló neve</option>
 
             {ingredientsList
+
               .filter(
                 (ingredient) =>
                   !exludedIngredients
