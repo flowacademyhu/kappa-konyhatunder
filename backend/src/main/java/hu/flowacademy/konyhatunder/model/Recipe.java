@@ -40,6 +40,6 @@ public class Recipe {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer recommendations;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<String> comments;
-
+    @OneToMany(mappedBy ="recipe")
+    private List<Comment> comments;
 }
