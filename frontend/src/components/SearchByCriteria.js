@@ -85,7 +85,6 @@ function SearchByCriteria() {
                     className="form-control-lg col w-100"
                     type="text"
                     name="name"
-                    placeholder="Csilis bab"
                   />
                 </div>
                 <div className="mt-4 col ">
@@ -96,6 +95,7 @@ function SearchByCriteria() {
                     required
                     name="difficulty"
                   >
+                    <option>Nehézségi szint</option>
                     {levels
                       ? levels.map((level) => (
                           <option key={level} value={level}>
