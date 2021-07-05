@@ -6,5 +6,5 @@ import java.time.LocalDate;
 
 @Data
 public class CommentDTO {
-    String text;
+  private String text;
 }
