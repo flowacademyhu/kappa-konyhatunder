@@ -366,7 +366,11 @@ const AddRecipeForm = () => {
         <Modal status={status} id="categoryAddModal" />
         <NoImageSelectedModal
           status={'Lehetőség van fénykép hozzáadására!'}
-          sentstatus="Sikertelen hozzáadás!"
+          sentstatus={
+            status !== 'Sikertelen hozzáadás'
+              ? 'Sikeres hozzáadás'
+              : 'Sikertelen hozzáadás'
+          }
           id="noFilePickedModal"
           formValuesForModal={formValuesForModal}
           selectedFile={selectedFile}
