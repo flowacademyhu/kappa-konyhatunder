@@ -39,8 +39,6 @@ export const addRecipe = async (values, selectedFile, newIngredientsList) => {
     };
     const response = axios.post('/api/recipes/', formData, config);
     console.log(response);
-
-    console.log(response);
   } catch (error) {
     console.error(error);
     return false;
