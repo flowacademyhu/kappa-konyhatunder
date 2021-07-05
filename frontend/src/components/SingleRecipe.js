@@ -85,20 +85,6 @@ const IngredientText = styled.div`
   margin: 10px;
 `;
 
-const ButtonGroup = styled.div`
-  display: flex;
-`;
-
-const ButtonStyle = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 28px;
-  margin-left: 5px;
-  @media screen and (max-width: 576px) {
-    padding: 23px;
-  }
-`;
-
 export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
@@ -188,20 +174,12 @@ export default function SingleRecipe() {
             ) : (
               ''
             )}
-            <ButtonGroup>
-              <ButtonStyle>
-                <Button variant="success" onClick={handleRecomend}>
-                  Ajánlanád?
-                  <span className="sr-only">Ajánlások</span>
-                </Button>{' '}
-              </ButtonStyle>{' '}
-              <ButtonStyle>
-                <Button variant="success" onClick={handleRecomend}>
-                  Nyomtatás
-                  <span className="sr-only">Ajánlások</span>
-                </Button>
-              </ButtonStyle>
-            </ButtonGroup>
+            <LeftSideText>
+              <Button variant="success" onClick={handleRecomend}>
+                Ajánlanád?
+                <span className="sr-only">Ajánlások</span>
+              </Button>
+            </LeftSideText>
           </LeftSide>
         </Col>
         <Col>
