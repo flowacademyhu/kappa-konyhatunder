@@ -214,7 +214,7 @@ public class RecipeService {
         }
     }
 
-    public void commentARecipe(CommentDTO commentDTO, String recipeId) {
+    public Comment commentARecipe(CommentDTO commentDTO, String recipeId) {
         log.info("Received a comment for this recipe: {}",recipeId);
         if(!StringUtils.hasText(commentDTO.getText())){
             throw new ValidationException("Komment szöveg megadása kötelező!");
@@ -227,6 +227,7 @@ public class RecipeService {
                 .build();
         Comment savedComment = commentRepository.save(comment);
         log.debug("Created comment: {}",savedComment);
+        return savedComment;
     }
 
     private void validateSearchByCriteriaDTO(SearchByCriteriaDTO searchByCriteriaDTO) {

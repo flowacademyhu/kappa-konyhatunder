@@ -73,7 +73,7 @@ public class RecipeController {
 
     @PostMapping("{id}/comments")
     @ResponseStatus(HttpStatus.CREATED)
-    public void commentARecipe(@RequestBody CommentDTO commentDTO, @PathVariable String id){
-        recipeService.commentARecipe(commentDTO,id);
+    public Comment commentARecipe(@RequestBody CommentDTO commentDTO, @PathVariable String id){
+       return recipeService.commentARecipe(commentDTO,id);
     }
 }
