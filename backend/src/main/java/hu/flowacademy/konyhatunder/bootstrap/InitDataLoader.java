@@ -562,7 +562,10 @@ public class InitDataLoader implements CommandLineRunner {
                                 .name("Szénsavas ásványvíz")
                                 .measurement(Measurement.VOLUME)
                                 .build(),
-                        ingredientRepository.findByNameAndMeasurement("Étolaj", Measurement.VOLUME),
+                        Ingredient.builder()
+                                .name("Étolaj")
+                                .measurement(Measurement.VOLUME)
+                                .build(),
                         ingredientRepository.findByNameAndMeasurement("Finomliszt", Measurement.QUANTITY),
                         ingredientRepository.findByNameAndMeasurement("Só", Measurement.SPOON)
                 )
