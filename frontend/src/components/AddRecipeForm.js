@@ -68,7 +68,7 @@ const AddRecipeForm = () => {
     }
     setCategoryList([...categoryList, { name: value }]);
     addNewCategory(value)
-      ? setStatus('Sikeres hozzáadás!')
+      ? setStatus('Sikeres kategória hozzáadás!')
       : setStatus('Sikertelen hozzáadás');
     setCategory('');
   }
@@ -146,6 +146,7 @@ const AddRecipeForm = () => {
         amount: addNewAmount,
       },
     ]);
+    setStatus('Sikeres hozzáadás');
   };
 
   return (
@@ -243,8 +244,6 @@ const AddRecipeForm = () => {
               <button
                 className="btn btn-success"
                 onClick={() => addCategory(category)}
-                data-toggle="modal"
-                data-target="#categoryAddModal"
                 type="button"
               >
                 +
@@ -330,6 +329,8 @@ const AddRecipeForm = () => {
                   );
               }}
               type="button"
+              data-toggle="modal"
+              data-target="#ingredientAddModal"
             >
               +
             </button>
@@ -369,7 +370,7 @@ const AddRecipeForm = () => {
           Hozzáadás
         </button>
         <Modal status={status} id="recipeStatusModal" />
-        <Modal status={status} id="categoryAddModal" />
+        <Modal status={status} id="ingredientAddModal" />
         <NoImageSelectedModal
           status={'Lehetőség van fénykép hozzáadására!'}
           sentstatus={
