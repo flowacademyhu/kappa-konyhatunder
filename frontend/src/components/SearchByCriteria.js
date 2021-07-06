@@ -43,6 +43,9 @@ function SearchByCriteria() {
     };
 
     try {
+      if (data.name === '') {
+        data.name = null;
+      }
       const response = await axios.post('/api/recipes/search/criteria', data);
       if (response.data !== null) {
         setStatus('Sikeres keresés');
