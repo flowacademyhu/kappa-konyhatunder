@@ -45,7 +45,7 @@ function SearchResult({ ingredients, searchBy }) {
     }
   }, [ingredients, searchBy, handleShow]);
 
-  return (
+  return ingredients[0] ? (
     <div>
       <Row>
         <Col></Col>{' '}
@@ -85,6 +85,8 @@ function SearchResult({ ingredients, searchBy }) {
 
       <ModalForSearch show={show} onHide={() => setShow(false)} />
     </div>
+  ) : (
+    'Adjon meg hozzávalókat'
   );
 }
 

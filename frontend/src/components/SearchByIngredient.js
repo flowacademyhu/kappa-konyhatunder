@@ -116,6 +116,10 @@ function SearchByIngredient() {
     loadingData();
   }, []);
 
+  const deleteIngredient = (id) => {
+    setIngredientsArray(ingredientsArray.filter((e) => e.id !== id));
+  };
+
   return (
     <div className="container">
       <Row>
@@ -185,7 +189,16 @@ function SearchByIngredient() {
                   <ListItems key={chosenIngredient.id}>
                     <Row className="justify-content-space-between">
                       <Col>
-                        <> - {chosenIngredient.name} </>
+                        <>
+                          - {chosenIngredient.name}
+                          <button
+                            onClick={() =>
+                              deleteIngredient(chosenIngredient.id)
+                            }
+                          >
+                            x
+                          </button>
+                        </>
                       </Col>
                     </Row>
                   </ListItems>
