@@ -134,14 +134,17 @@ function SearchByIngredient() {
                     }}
                   >
                     <option>Hozzávaló neve</option>
-                    {ingredientsList.sort((a,b)=> a.name.localeCompare(b.name)) && ingredientsList.map((chosenIngredient) => (
-                      <option
-                        key={chosenIngredient.id}
-                        value={JSON.stringify(chosenIngredient)}
-                      >
-                        {chosenIngredient.name}
-                      </option>
-                    ))}
+                    {ingredientsList.sort((a, b) =>
+                      a.name.localeCompare(b.name)
+                    ) &&
+                      ingredientsList.map((chosenIngredient) => (
+                        <option
+                          key={chosenIngredient.id}
+                          value={JSON.stringify(chosenIngredient)}
+                        >
+                          {chosenIngredient.name}
+                        </option>
+                      ))}
                   </select>
                 </div>
                 <div className="col-sm-6">
