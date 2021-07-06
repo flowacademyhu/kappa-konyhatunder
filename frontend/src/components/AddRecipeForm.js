@@ -247,6 +247,70 @@ const AddRecipeForm = () => {
               <button
                 className="btn btn-success"
                 onClick={() => addCategory(category)}
+                data-toggle="modal"
+                data-target="#categoryAddModal"
+                type="button"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <label className="mt-2" htmlFor="long">
+            Hozzávaló hozzáadása
+          </label>
+          <div className="row align-items-center justify-content-between">
+            <div className="col-4">
+              <select
+                className="form-control"
+                name="ingredient"
+                onChange={(e) => {
+                  getIngredienTypeFunction(e.target.value);
+                  setNewIngredientType(newIngredientType);
+                }}
+              >
+                <option>Hozzávaló neve</option>
+                {ingredientsList.sort((a, b) => a.name.localeCompare(b.name)) &&
+                  ingredientsList.map((l) => (
+                    <option key={l.id} value={JSON.stringify(l)}>
+                      {translateIngredient(l.name, l.measurement)}
+                    </option>
+                  ))}
+              </select>
+            </div>
+            <div className="col-2">
+              <select
+                className="form-control"
+                name="ingredientType"
+                onChange={(e) => {
+                  setNewIngredientType(JSON.parse(e.target.value));
+                }}
+              >
+                {newIngredientTypeList.map((l) => (
+                  <option key={l} value={JSON.stringify(l)}>
+                    {l}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="col-3">
+              <input
+                className="form-control"
+                id="amount"
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="Mennyiség"
+              />
+            </div>
+            <div className="col">
+              <button
+                className="btn btn-success"
+                onClick={
+                  ingredient && ingredient.name !== '' && addIngredientToRecipe
+                }
+
                 type="button"
               >
                 +

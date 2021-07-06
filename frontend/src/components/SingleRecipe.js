@@ -171,7 +171,8 @@ export default function SingleRecipe() {
   };
 
   const addComment = async (id, text) => {
-    if (comment === '') {
+    if (comment.replace(/ /g, '') === '') {
+      setComment('');
       return;
     }
     const newComment = await postComment(text, id);
