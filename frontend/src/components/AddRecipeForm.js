@@ -29,12 +29,14 @@ const Image = styled.img`
 const AddRecipeForm = () => {
   const [formValuesForModal, setFormValuesForModal] = useState('');
   const [status, setStatus] = useState('Sikertelen hozzáadás');
+  const [statusForIngredient, setStatusForIngredient] = useState(
+    'Sikertelen hozzáadás'
+  );
   const [levels, setLevels] = useState([]);
   const [category, setCategory] = useState('');
   const [newIngredientsList, setNewIngredientsList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [addNewIngredient, setAddNewIngredient] = useState('');
-
   const [ingredientTypeList, setIngredientTypeList] = useState([]);
   const [addNewAmount, setAddNewAmount] = useState('');
   const [ingredientTypeFromUser, setIngredientTypeFromUser] = useState('-');
@@ -146,7 +148,7 @@ const AddRecipeForm = () => {
         amount: addNewAmount,
       },
     ]);
-    setStatus('Sikeres hozzáadás');
+    setStatusForIngredient('Sikeres hozzávaló hozzáadás');
   };
 
   return (
@@ -320,7 +322,6 @@ const AddRecipeForm = () => {
                 addNewIngredient &&
                   ingredientTypeFromUser &&
                   baseMeasurementForNewIngredient &&
-                  ingredientTypeFromUser !== '' &&
                   addNewAmount &&
                   sendNewIngredient(
                     addNewIngredient,
@@ -370,7 +371,7 @@ const AddRecipeForm = () => {
           Hozzáadás
         </button>
         <Modal status={status} id="recipeStatusModal" />
-        <Modal status={status} id="ingredientAddModal" />
+        <Modal status={statusForIngredient} id="ingredientAddModal" />
         <NoImageSelectedModal
           status={'Lehetőség van fénykép hozzáadására!'}
           sentstatus={
