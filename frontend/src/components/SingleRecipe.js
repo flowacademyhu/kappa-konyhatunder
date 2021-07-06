@@ -133,7 +133,7 @@ export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
   const [recommendations, setRecommendations] = useState();
-  const [comment, setComment] = useState([]);
+  const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
 
   const location = useLocation();
@@ -157,8 +157,8 @@ export default function SingleRecipe() {
   }, [product]);
 
   useEffect(() => {
-    setAllComments([...allComments]);
-  }, []);
+    product && setAllComments([...product.comments]);
+  }, [product]);
 
   const handleRecomend = () => {
     if (!localStorage.getItem(`${product.id}`)) {
@@ -172,10 +172,11 @@ export default function SingleRecipe() {
     }
   };
 
-  const addComment = (id, text) => {
-    postComment(text, id);
+  const addComment = async (id, text) => {
+    const newComment = await postComment(text, id);
     const comments = product.comments;
-    setAllComments([...comments]);
+    setAllComments([newComment, ...comments]);
+    setComment('');
   };
 
   return product ? (
@@ -276,6 +277,7 @@ export default function SingleRecipe() {
               className="form-control mb-3"
               type="text"
               onChange={(e) => setComment(e.target.value)}
+              value={comment}
             />
             <Button
               variant="success"
@@ -286,13 +288,14 @@ export default function SingleRecipe() {
           </Comments>
           <Comments>
             <CommentTitle size="30">Hozzászólások</CommentTitle>
-            {console.log(product)}
             <Text>
-              {product.comments.length === 0
+              {allComments.length === 0
                 ? 'Ehhez a recepthez még nem érkezett hozzászólás, legyél te az első!'
-                : product.comments.map((comment) => (
+                : allComments.sort(function (a, b) {
+                    return b.timeStamp.localeCompare(a.timeStamp);
+                  }) &&
+                  allComments.map((comment) => (
                     <SingleComment>
-                      {console.log(comment.text)}
                       <Time>{formatLocalDateTime(comment.timeStamp)}</Time>
                       <Text>{comment.text}</Text>
                     </SingleComment>
