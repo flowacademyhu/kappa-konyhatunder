@@ -11,4 +11,5 @@ export const validationSchema = yup.object().shape({
     .number('Nem szám formátum')
     .required('Kötelező mező')
     .max(1000, 'Maximum 1000 perc adható meg!'),
+  categoryList: yup.array().min(1, 'Kategória választás köteező!'),
 });

@@ -213,7 +213,10 @@ const AddRecipeForm = () => {
                 ))
               : 'loading'}
           </select>
-          <p className="mt-2">Kategória választás:</p>
+
+          <p className="mt-2">
+            <span className="text-danger">★</span>Kategória választás:
+          </p>
 
           <div className="row">
             {categoryList.map((l) => (
