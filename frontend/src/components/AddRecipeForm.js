@@ -317,6 +317,10 @@ const AddRecipeForm = () => {
               className="btn btn-success"
               onClick={() => {
                 addNewIngredient &&
+                  ingredientTypeFromUser &&
+                  baseMeasurementForNewIngredient &&
+                  ingredientTypeFromUser !== '' &&
+                  addNewAmount &&
                   sendNewIngredient(
                     addNewIngredient,
                     ingredientTypeFromUser,
