@@ -9,9 +9,6 @@ import { IoBarbellSharp, IoPricetags, IoHeartSharp } from 'react-icons/io5';
 import styled from 'styled-components';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
-import domtoimage from 'dom-to-image';
-
-const doc = new jsPDF();
 
 const LeftSide = styled.div`
   background-color: #c7c7c75b;
@@ -141,6 +138,7 @@ export default function SingleRecipe() {
   };
 
   const PDFGenerator = () => {
+    let doc = new jsPDF();
     doc.setFontSize(22);
     doc.text(20, 20, product.name);
     doc.setFont('helvetica');
@@ -148,12 +146,16 @@ export default function SingleRecipe() {
     product.ingredients.map((i) =>
       bodyArr.push({
         ingredient: i.ingredient.name
+          .replace(/['Ő']/g, 'Ö')
+          .replace(/['Ű']/g, 'Ü')
           .replace(/['ő']/g, 'ö')
           .replace(/['ű']/g, 'ü'),
         amount:
           i.amount +
           ' ' +
           translateMeasurementUnits(i.unit)
+            .replace(/['Ő']/g, 'Ö')
+            .replace(/['Ű']/g, 'Ü')
             .replace(/['ő']/g, 'ö')
             .replace(/['ű']/g, 'ü'),
       })
@@ -177,13 +179,18 @@ export default function SingleRecipe() {
     doc.setFontSize(12);
 
     var splitTitle = doc.splitTextToSize(
-      product.description.replace(/['ő']/g, 'ö').replace(/['ű']/g, 'ü'),
+      product.description
+        .replace(/['Ő']/g, 'Ö')
+        .replace(/['Ű']/g, 'Ü')
+        .replace(/['ő']/g, 'ö')
+        .replace(/['ű']/g, 'ü'),
       150
     );
 
     doc.text(20, 80 + bodyArr.length * 6, splitTitle);
 
     doc.save('ReceptKonyhatunder.pdf');
+    doc = new jsPDF('portrait');
   };
 
   return product ? (
