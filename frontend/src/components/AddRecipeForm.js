@@ -297,11 +297,12 @@ const AddRecipeForm = () => {
                 }}
               >
                 <option>Hozzávaló neve</option>
-                {ingredientsList.map((l) => (
-                  <option key={l.id} value={JSON.stringify(l)}>
-                    {translateIngredient(l.name, l.measurement)}
-                  </option>
-                ))}
+                {ingredientsList.sort((a, b) => a.name.localeCompare(b.name)) &&
+                  ingredientsList.map((l) => (
+                    <option key={l.id} value={JSON.stringify(l)}>
+                      {translateIngredient(l.name, l.measurement)}
+                    </option>
+                  ))}
               </select>
             </div>
 
