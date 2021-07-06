@@ -135,7 +135,6 @@ export default function SingleRecipe() {
   const [recommendations, setRecommendations] = useState();
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
-
   const location = useLocation();
   const ingredients = location.state.ingredient;
 
@@ -173,9 +172,16 @@ export default function SingleRecipe() {
   };
 
   const addComment = async (id, text) => {
+    if (comment === '') {
+      return;
+    }
     const newComment = await postComment(text, id);
     const comments = product.comments;
-    setAllComments([newComment, ...comments]);
+    if (allComments.length === 0) {
+      setAllComments([newComment, ...comments]);
+    } else {
+      setAllComments([newComment, ...allComments]);
+    }
     setComment('');
   };
 
@@ -278,14 +284,18 @@ export default function SingleRecipe() {
               type="text"
               onChange={(e) => setComment(e.target.value)}
               value={comment}
+              id="comment"
             />
             <Button
+              className={`${comment === '' ? 'disabled' : ''}`}
               variant="success"
               onClick={() => addComment(comment, product.id)}
             >
+              {console.log(comment)}
               Hozzászólás
             </Button>
           </Comments>
+
           <Comments>
             <CommentTitle size="30">Hozzászólások</CommentTitle>
             <Text>
