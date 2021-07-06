@@ -7,6 +7,7 @@ import hu.flowacademy.konyhatunder.dto.SearchByIngredientDTO;
 import hu.flowacademy.konyhatunder.model.Comment;
 import hu.flowacademy.konyhatunder.model.Ingredient;
 import hu.flowacademy.konyhatunder.model.Recipe;
+import hu.flowacademy.konyhatunder.service.CommentService;
 import hu.flowacademy.konyhatunder.service.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,12 @@ import java.util.List;
 public class RecipeController {
 
     private final RecipeService recipeService;
+    private final CommentService commentService;
 
     @Autowired
-    public RecipeController(RecipeService recipeService) {
+    public RecipeController(RecipeService recipeService, CommentService commentService) {
         this.recipeService = recipeService;
+        this.commentService = commentService;
     }
 
     @GetMapping
@@ -74,6 +77,6 @@ public class RecipeController {
     @PostMapping("{id}/comments")
     @ResponseStatus(HttpStatus.CREATED)
     public Comment commentARecipe(@RequestBody CommentDTO commentDTO, @PathVariable String id){
-       return recipeService.commentARecipe(commentDTO,id);
+       return commentService.commentARecipe(commentDTO,id);
     }
 }
