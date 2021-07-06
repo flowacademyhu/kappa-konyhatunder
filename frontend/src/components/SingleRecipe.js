@@ -285,7 +285,9 @@ export default function SingleRecipe() {
               id="comment"
             />
             <Button
-              className={`${comment === '' ? 'disabled' : ''}`}
+              className={`${
+                comment.replace(/ /g, '') === '' ? 'disabled' : ''
+              }`}
               variant="success"
               onClick={() => addComment(comment, product.id)}
             >
