@@ -116,7 +116,7 @@ export const getRecipesWithMatchingIngredients = async (
 
     return response.data;
   } catch (error) {
-    console.error();
+    console.error(error);
   }
 };
 
@@ -128,6 +128,18 @@ export const recommend = async (id, operator) => {
 
     return response.data;
   } catch (error) {
-    console.error();
+    console.error(error);
+  }
+};
+
+export const postComment = async (id, text) => {
+  const data = {
+    text: text,
+  };
+  try {
+    const response = await axios.post(`/api/recipes/${id}/comments`, data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
   }
 };
