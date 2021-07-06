@@ -78,6 +78,7 @@ const Comments = styled.div`
   max-width: 100%;
 `;
 
+
 const SingleComment = styled.div`
   background-color: white;
   width: 100%;
@@ -90,7 +91,6 @@ const SingleComment = styled.div`
   max-height: 100%;
   max-width: 100%;
 `;
-
 const Title = styled.div`
   font-size: ${(props) => props.size}px;
   font-family: ${(props) =>
@@ -252,7 +252,6 @@ export default function SingleRecipe() {
             </Title>
             <Line />
             <Title size="30">Hozzávalók</Title>
-
             {product.ingredients.map((i) => (
               <IngredientText
                 available={
@@ -295,7 +294,6 @@ export default function SingleRecipe() {
               Hozzászólás
             </Button>
           </Comments>
-
           <Comments>
             <CommentTitle size="30">Hozzászólások</CommentTitle>
             <Text>

@@ -62,7 +62,7 @@ function SearchResult({ ingredients, searchBy }) {
           {recipesWithAlmostAllIngredient[0] && (
             <div>
               <RecipesTitle>
-                Receptek amihez keveset kell vásárolni:{' '}
+                Receptek amihez keveset kell vásárolni:
               </RecipesTitle>
               <ListGenerator
                 recips={recipesWithAlmostAllIngredient}
@@ -72,9 +72,7 @@ function SearchResult({ ingredients, searchBy }) {
           )}
           {recipesWithMinimumOneIngredient[0] && (
             <div>
-              <RecipesTitle>
-                Receptek amihez nagy bevásárlás kell:{' '}
-              </RecipesTitle>
+              <RecipesTitle>Receptek amihez nagy bevásárlás kell:</RecipesTitle>
               <ListGenerator
                 recips={recipesWithMinimumOneIngredient}
                 ingredients={ingredients}
