@@ -374,7 +374,7 @@ const AddRecipeForm = () => {
           status={'Lehetőség van fénykép hozzáadására!'}
           sentstatus={
             status !== 'Sikertelen hozzáadás'
-              ? 'Sikeres hozzáadás'
+              ? 'Sikeres hozzáadás!'
               : 'Sikertelen hozzáadás'
           }
           id="noFilePickedModal"
