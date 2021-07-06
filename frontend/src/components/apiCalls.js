@@ -37,8 +37,7 @@ export const addRecipe = async (values, selectedFile, newIngredientsList) => {
     const config = {
       headers: { 'content-type': 'multipart/form-data' },
     };
-    const response = axios.post('/api/recipes/', formData, config);
-    console.log(response);
+    axios.post('/api/recipes/', formData, config);
   } catch (error) {
     console.error(error);
     return false;

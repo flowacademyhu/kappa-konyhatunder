@@ -46,11 +46,9 @@ export default function IngredientsAdder({
       !amount ||
       !newIngredientType
     ) {
-      console.log('sikertelen', ingredient, amount);
-
       return;
     }
-    console.log('sikertelen', ingredient, amount);
+
     onIngredientAdded({
       ingredient: ingredient,
       unit: newIngredientType,
@@ -79,9 +77,7 @@ export default function IngredientsAdder({
             }}
           >
             <option>Hozzávaló neve</option>
-
             {ingredientsList
-
               .filter(
                 (ingredient) =>
                   !exludedIngredients

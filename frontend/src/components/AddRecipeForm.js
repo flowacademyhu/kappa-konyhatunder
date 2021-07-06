@@ -122,10 +122,8 @@ const AddRecipeForm = () => {
         ? (await addRecipe(values, selectedFile, newIngredientsList))
           ? setStatus('Sikeres hozzáadás!')
           : setStatus('Sikertelen hozzáadás')
-        : console.log(newIngredientsList);
+        : setStatus('Sikertelen hozzáadás');
       setFormValuesForModal(values);
-      console.log(newIngredientsList);
-      console.log(values);
     },
   });
 

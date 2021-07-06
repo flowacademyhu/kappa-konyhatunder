@@ -22,7 +22,7 @@ function SearchByCriteria() {
     const getInitData = async () => {
       setCategoryList(await getCategorys());
       setLevels(await getLevels());
-      setStatus('X');
+      setStatus('requestFinished');
     };
     getInitData();
   }, []);
@@ -176,7 +176,7 @@ function SearchByCriteria() {
             </Form>
           )}
         </Formik>
-        {recipes.length === 0 && status !== 'X' && (
+        {recipes.length === 0 && status !== 'requestFinished' && (
           <StyledTitle>Nincs találat </StyledTitle>
         )}
 
