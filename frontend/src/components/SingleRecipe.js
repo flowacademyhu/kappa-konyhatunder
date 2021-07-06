@@ -7,6 +7,11 @@ import { Container, Col, Row, Spinner, Button } from 'react-bootstrap';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp, IoPricetags, IoHeartSharp } from 'react-icons/io5';
 import styled from 'styled-components';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
+import domtoimage from 'dom-to-image';
+
+const doc = new jsPDF();
 
 const LeftSide = styled.div`
   background-color: #c7c7c75b;
@@ -106,7 +111,6 @@ export default function SingleRecipe() {
 
   const location = useLocation();
   const ingredients = location.state.ingredient;
-
   useEffect(() => {
     const getInitData = async () => {
       setProduct(await getRecipeList(id));
@@ -134,6 +138,52 @@ export default function SingleRecipe() {
       localStorage.removeItem(`${product.id}`);
       recommend(product.id, 'minus');
     }
+  };
+
+  const PDFGenerator = () => {
+    doc.setFontSize(22);
+    doc.text(20, 20, product.name);
+    doc.setFont('helvetica');
+    let bodyArr = [];
+    product.ingredients.map((i) =>
+      bodyArr.push({
+        ingredient: i.ingredient.name
+          .replace(/['ő']/g, 'ö')
+          .replace(/['ű']/g, 'ü'),
+        amount:
+          i.amount +
+          ' ' +
+          translateMeasurementUnits(i.unit)
+            .replace(/['ő']/g, 'ö')
+            .replace(/['ű']/g, 'ü'),
+      })
+    );
+    doc.setFontSize(16);
+    doc.text(20, 35, 'Hozzávalók');
+
+    doc.autoTable({
+      styles: { fillColor: [0, 255, 0] },
+      columnStyles: { 0: { halign: 'left' } }, // Cells in first column centered and green
+      margin: { top: 40 },
+      body: bodyArr,
+      columns: [
+        { header: 'Hozzávaló', dataKey: 'ingredient' },
+        { header: 'Mennyiség', dataKey: 'amount' },
+      ],
+    });
+    doc.setFontSize(16);
+    doc.text(20, 75 + bodyArr.length * 6, 'Elkészítés');
+
+    doc.setFontSize(12);
+
+    var splitTitle = doc.splitTextToSize(
+      product.description.replace(/['ő']/g, 'ö').replace(/['ű']/g, 'ü'),
+      150
+    );
+
+    doc.text(20, 80 + bodyArr.length * 6, splitTitle);
+
+    doc.save('a4.pdf');
   };
 
   return product ? (
@@ -196,7 +246,7 @@ export default function SingleRecipe() {
                 </Button>{' '}
               </ButtonStyle>{' '}
               <ButtonStyle>
-                <Button variant="success" onClick={handleRecomend}>
+                <Button variant="success" onClick={PDFGenerator}>
                   Nyomtatás
                   <span className="sr-only">Ajánlások</span>
                 </Button>
