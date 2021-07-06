@@ -20,11 +20,10 @@ function IngredientsInRecipeList({ ingredientsList, setIngredientsList }) {
                 <div className="col">
                   Mennyiség : {ingredient.amount} {ingredient.unit}
                 </div>
-                {console.log(ingredient)}
+
                 <button
                   className="btn btn-danger"
                   onClick={() => {
-                    console.log(ingredientsList);
                     remove(ingredient.ingredient.id);
                   }}
                 >
