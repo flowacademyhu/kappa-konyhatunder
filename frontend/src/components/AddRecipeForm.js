@@ -357,6 +357,7 @@ const AddRecipeForm = () => {
           <button
             className="btn btn-success mt-4"
             onClick={() => inputFile.current.click()}
+            type="button"
           >
             Kép feltöltése
           </button>
