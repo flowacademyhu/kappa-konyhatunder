@@ -212,7 +212,7 @@ public class RecipeService {
 
     private void validateSearchByCriteriaDTO(SearchByCriteriaDTO searchByCriteriaDTO) {
         log.debug("Validating searchByCriteriaDTO");
-        if (searchByCriteriaDTO.getHasPicture() == null && searchByCriteriaDTO.getName() == null
+        if (searchByCriteriaDTO.getHasPicture() == null && searchByCriteriaDTO.getName() == null || searchByCriteriaDTO.getName().equals("")
                 && searchByCriteriaDTO.getDifficulty() == null && searchByCriteriaDTO.getCategories() == null
                 && searchByCriteriaDTO.getPreparationTimeInterval() == null) {
             throw new ValidationException("Keresési feltétel megadása kötelező!");
