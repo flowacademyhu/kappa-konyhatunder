@@ -183,7 +183,7 @@ export default function SingleRecipe() {
 
     doc.text(20, 80 + bodyArr.length * 6, splitTitle);
 
-    doc.save('a4.pdf');
+    doc.save('ReceptKonyhatunder.pdf');
   };
 
   return product ? (
