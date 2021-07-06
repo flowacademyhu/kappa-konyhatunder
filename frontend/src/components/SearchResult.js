@@ -86,7 +86,9 @@ function SearchResult({ ingredients, searchBy }) {
       <ModalForSearch show={show} onHide={() => setShow(false)} />
     </div>
   ) : (
-    'Adjon meg hozzávalókat'
+    <div style={{ textAlign: 'center', marginTop: '30px' }}>
+      Adjon meg hozzávalókat!{' '}
+    </div>
   );
 }
 
