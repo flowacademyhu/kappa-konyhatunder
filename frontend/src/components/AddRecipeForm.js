@@ -365,7 +365,10 @@ const AddRecipeForm = () => {
 
         <p>Kiválasztott hozzávalók:</p>
 
-        <IngredientsInRecipeList ingredientsList={newIngredientsList} />
+        <IngredientsInRecipeList
+          ingredientsList={newIngredientsList}
+          setIngredientsList={setNewIngredientsList}
+        />
         <button
           className="btn btn-success mt-4"
           type={isFilePicked ? 'submit' : 'button'}

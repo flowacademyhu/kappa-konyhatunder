@@ -1,4 +1,8 @@
-function IngredientsInRecipeList({ ingredientsList }) {
+function IngredientsInRecipeList({ ingredientsList, setIngredientsList }) {
+  const remove = async (id) => {
+    setIngredientsList(ingredientsList.filter((x) => x.ingredient.id !== id));
+  };
+
   return (
     <>
       {ingredientsList ? (
@@ -8,7 +12,7 @@ function IngredientsInRecipeList({ ingredientsList }) {
             .map((ingredient) => (
               <div
                 key={ingredient.ingredient.id ? ingredient.ingredient.id : '1'}
-                className="row"
+                className="row mt-4"
               >
                 <div className="col">
                   Hozzávaló : {ingredient.ingredient.name}
@@ -17,6 +21,15 @@ function IngredientsInRecipeList({ ingredientsList }) {
                   Mennyiség : {ingredient.amount} {ingredient.unit}
                 </div>
                 {console.log(ingredient)}
+                <button
+                  className="btn btn-danger"
+                  onClick={() => {
+                    console.log(ingredientsList);
+                    remove(ingredient.ingredient.id);
+                  }}
+                >
+                  Törlés
+                </button>
               </div>
             ))}
         </div>
