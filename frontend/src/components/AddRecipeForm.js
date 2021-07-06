@@ -101,6 +101,7 @@ const AddRecipeForm = () => {
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined);
+      setStatus('Sikertelen hozzáadás! Hibás fájl / nem kép formátum ');
       return;
     }
 
