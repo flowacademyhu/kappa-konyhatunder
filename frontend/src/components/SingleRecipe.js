@@ -291,7 +291,6 @@ export default function SingleRecipe() {
               variant="success"
               onClick={() => addComment(comment, product.id)}
             >
-              {console.log(comment)}
               Hozzászólás
             </Button>
           </Comments>
