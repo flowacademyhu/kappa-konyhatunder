@@ -118,10 +118,14 @@ const AddRecipeForm = () => {
     validationSchema,
 
     onSubmit: async (values) => {
-      (await addRecipe(values, selectedFile, newIngredientsList))
-        ? setStatus('Sikeres hozzáadás!')
-        : setStatus('Sikertelen hozzáadás');
+      newIngredientsList.length > 0
+        ? (await addRecipe(values, selectedFile, newIngredientsList))
+          ? setStatus('Sikeres hozzáadás!')
+          : setStatus('Sikertelen hozzáadás')
+        : console.log(newIngredientsList);
       setFormValuesForModal(values);
+      console.log(newIngredientsList);
+      console.log(values);
     },
   });
 
