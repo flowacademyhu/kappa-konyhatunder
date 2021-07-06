@@ -78,7 +78,6 @@ const Comments = styled.div`
   max-width: 100%;
 `;
 
-
 const SingleComment = styled.div`
   background-color: white;
   width: 100%;
