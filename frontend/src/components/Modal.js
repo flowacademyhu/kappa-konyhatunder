@@ -13,7 +13,7 @@ function Modal({ status, id }) {
           <div className="modal-body">{status}</div>
 
           <div className="modal-footer">
-            {id !== 'categoryAddModal' && status === 'Sikeres hozzáadás!' ? (
+            {status === 'Sikeres hozzáadás!' ? (
               <a className="btn btn-success" href="./">
                 Főoldal
               </a>

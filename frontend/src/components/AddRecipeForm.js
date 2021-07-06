@@ -9,14 +9,14 @@ import {
   saveNewIngredient,
   addRecipe,
   addNewCategory,
-  getNewIngredientBaseMeasurements,
   getLevels,
   getCategorys,
-  getIngredient,
+  getNewIngredientBaseMeasurements,
 } from './apiCalls';
-import { translateIngredient } from './transleteIngredientsMeasurement';
+
 import NoImageSelectedModal from './NoImageSelectedModal';
 import styled from 'styled-components';
+import IngredientsAdder from './IngredientsAdder';
 
 const Image = styled.img`
   object-fit: cover;
@@ -29,15 +29,13 @@ const Image = styled.img`
 const AddRecipeForm = () => {
   const [formValuesForModal, setFormValuesForModal] = useState('');
   const [status, setStatus] = useState('Sikertelen hozzáadás');
+  const [statusForIngredient, setStatusForIngredient] = useState(
+    'Sikertelen hozzáadás'
+  );
   const [levels, setLevels] = useState([]);
-  const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
-  const [ingredient, setIngredient] = useState('');
-  const [newIngredientType, setNewIngredientType] = useState('-');
-  const [categoryList, setCategoryList] = useState([]);
-  const [ingredientsList, setIngredientsList] = useState([]);
   const [newIngredientsList, setNewIngredientsList] = useState([]);
-  const [newIngredientTypeList, setNewIngredientTypeList] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
   const [addNewIngredient, setAddNewIngredient] = useState('');
   const [ingredientTypeList, setIngredientTypeList] = useState([]);
   const [addNewAmount, setAddNewAmount] = useState('');
@@ -56,6 +54,15 @@ const AddRecipeForm = () => {
     setIsFilePicked(true);
   };
 
+  const addIngredientToRecipe = (ingredient) => {
+    setNewIngredientsList([
+      ...newIngredientsList.filter(
+        (ingredientItem) => ingredientItem.name !== ingredient.ingredient.name
+      ),
+      ingredient,
+    ]);
+  };
+
   async function addCategory(value) {
     if (value === '') {
       setStatus('Kategória megadása kötelező!');
@@ -63,28 +70,10 @@ const AddRecipeForm = () => {
     }
     setCategoryList([...categoryList, { name: value }]);
     addNewCategory(value)
-      ? setStatus('Sikeres hozzáadás!')
+      ? setStatus('Sikeres kategória hozzáadás!')
       : setStatus('Sikertelen hozzáadás');
     setCategory('');
   }
-
-  const addIngredientToRecipe = () => {
-    setNewIngredientsList([
-      ...newIngredientsList,
-      {
-        ingredient: ingredient,
-        unit: newIngredientType,
-        amount: amount,
-      },
-    ]);
-    setAmount('');
-    setIngredientsList(
-      ingredientsList.filter(
-        (ingredientItem) => ingredientItem.name !== ingredient.name
-      )
-    );
-    setNewIngredientTypeList([]);
-  };
 
   const getMeasurements = async (baseMeasurement) => {
     try {
@@ -104,7 +93,6 @@ const AddRecipeForm = () => {
     const getInitData = async () => {
       setLevels(await getLevels());
       setCategoryList(await getCategorys());
-      setIngredientsList(await getIngredient());
       setIngredientTypeList(await getNewIngredientBaseMeasurements());
     };
     getInitData();
@@ -113,7 +101,7 @@ const AddRecipeForm = () => {
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined);
-      setStatus('Sikertelen hozzáadás! Hibás fájl / nem kép formátum ');
+
       return;
     }
 
@@ -125,40 +113,23 @@ const AddRecipeForm = () => {
     initialValues: {
       name: '',
       description: '',
-      preparationTime: 0,
+      preparationTime: 1,
       level: 'Könnyű',
       ingredients: [],
       categoryList: [],
     },
     validationSchema,
 
-    onSubmit: (values) => {
-      if (isFilePicked) {
-        addRecipe(values, selectedFile, newIngredientsList)
+    onSubmit: async (values) => {
+      newIngredientsList.length > 0
+        ? (await addRecipe(values, selectedFile, newIngredientsList))
           ? setStatus('Sikeres hozzáadás!')
-          : setStatus('Sikertelen hozzáadás');
-      } else {
-        setFormValuesForModal(values);
-      }
+          : setStatus('Sikertelen hozzáadás')
+        : setStatus('Sikertelen hozzáadás');
+      setFormValuesForModal(values);
     },
   });
 
-  async function getIngredienTypeFunction(newIngredientString) {
-    const newIngredientObject = JSON.parse(newIngredientString);
-    try {
-      const response = await axios.get(
-        `/api/ingredients/${newIngredientObject.id}`
-      );
-
-      setIngredient(newIngredientObject);
-
-      setNewIngredientType(response.data.measurements[0]);
-
-      setNewIngredientTypeList(response.data.measurements);
-    } catch (error) {
-      console.error(error);
-    }
-  }
   //
   const sendNewIngredient = async (
     addNewIngredient,
@@ -178,6 +149,7 @@ const AddRecipeForm = () => {
         amount: addNewAmount,
       },
     ]);
+    setStatusForIngredient('Sikeres hozzávaló hozzáadás');
   };
 
   return (
@@ -218,6 +190,7 @@ const AddRecipeForm = () => {
           className="form-control"
           id="preparationTime"
           type="number"
+          min="0"
           {...formik.getFieldProps('preparationTime')}
         />
         {formik.touched.preparationTime && formik.errors.preparationTime ? (
@@ -283,67 +256,12 @@ const AddRecipeForm = () => {
             </div>
           </div>
 
-          <label className="mt-2" htmlFor="long">
-            Hozzávaló hozzáadása
-          </label>
-          <div className="row align-items-center justify-content-between">
-            <div className="col-4">
-              <select
-                className="form-control"
-                name="ingredient"
-                onChange={(e) => {
-                  getIngredienTypeFunction(e.target.value);
-                  setNewIngredientType(newIngredientType);
-                }}
-              >
-                <option>Hozzávaló neve</option>
-                {ingredientsList.sort((a, b) => a.name.localeCompare(b.name)) &&
-                  ingredientsList.map((l) => (
-                    <option key={l.id} value={JSON.stringify(l)}>
-                      {translateIngredient(l.name, l.measurement)}
-                    </option>
-                  ))}
-              </select>
-            </div>
-
-            <div className="col-2">
-              <select
-                className="form-control"
-                name="ingredientType"
-                onChange={(e) => {
-                  setNewIngredientType(JSON.parse(e.target.value));
-                }}
-              >
-                {newIngredientTypeList.map((l) => (
-                  <option key={l} value={JSON.stringify(l)}>
-                    {l}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="col-3">
-              <input
-                className="form-control"
-                id="amount"
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="Mennyiség"
-              />
-            </div>
-            <div className="col">
-              <button
-                className="btn btn-success"
-                onClick={
-                  ingredient && ingredient.name !== '' && addIngredientToRecipe
-                }
-                type="button"
-              >
-                +
-              </button>
-            </div>
-          </div>
+          <IngredientsAdder
+            exludedIngredients={newIngredientsList.filter(
+              (e) => e.ingredient !== undefined
+            )}
+            onIngredientAdded={addIngredientToRecipe}
+          />
         </div>
 
         <div className="d-flex align-items-center">
@@ -405,13 +323,19 @@ const AddRecipeForm = () => {
             <button
               className="btn btn-success"
               onClick={() => {
-                sendNewIngredient(
-                  addNewIngredient,
-                  ingredientTypeFromUser,
-                  addNewAmount
-                );
+                addNewIngredient &&
+                  ingredientTypeFromUser &&
+                  baseMeasurementForNewIngredient &&
+                  addNewAmount &&
+                  sendNewIngredient(
+                    addNewIngredient,
+                    ingredientTypeFromUser,
+                    addNewAmount
+                  );
               }}
               type="button"
+              data-toggle="modal"
+              data-target="#ingredientAddModal"
             >
               +
             </button>
@@ -425,6 +349,7 @@ const AddRecipeForm = () => {
             <input
               style={{ display: 'none' }}
               type="file"
+              accept="image/*"
               onChange={fileSelectedHandler}
               ref={inputFile}
             />
@@ -442,7 +367,7 @@ const AddRecipeForm = () => {
         <IngredientsInRecipeList ingredientsList={newIngredientsList} />
         <button
           className="btn btn-success mt-4"
-          type="submit"
+          type={isFilePicked ? 'submit' : 'button'}
           data-toggle="modal"
           data-target={
             isFilePicked ? '#recipeStatusModal' : '#noFilePickedModal'
@@ -451,10 +376,14 @@ const AddRecipeForm = () => {
           Hozzáadás
         </button>
         <Modal status={status} id="recipeStatusModal" />
-        <Modal status={status} id="categoryAddModal" />
+        <Modal status={statusForIngredient} id="ingredientAddModal" />
         <NoImageSelectedModal
           status={'Lehetőség van fénykép hozzáadására!'}
-          sentstatus="Sikeres hozzáadás!"
+          sentstatus={
+            status !== 'Sikertelen hozzáadás'
+              ? 'Sikeres hozzáadás!'
+              : 'Sikertelen hozzáadás'
+          }
           id="noFilePickedModal"
           formValuesForModal={formValuesForModal}
           selectedFile={selectedFile}
