@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class MostRecommendedRecipesDTO {
+public class MostRecommendedRecipeDTO {
     private String id;
     private String name;
     private String description;

@@ -2,7 +2,7 @@ package hu.flowacademy.konyhatunder.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import hu.flowacademy.konyhatunder.dto.CommentDTO;
-import hu.flowacademy.konyhatunder.dto.MostRecommendedRecipesDTO;
+import hu.flowacademy.konyhatunder.dto.MostRecommendedRecipeDTO;
 import hu.flowacademy.konyhatunder.dto.SearchByCriteriaDTO;
 import hu.flowacademy.konyhatunder.dto.SearchByIngredientDTO;
 import hu.flowacademy.konyhatunder.model.Comment;
@@ -82,7 +82,7 @@ public class RecipeController {
     }
 
     @GetMapping("/mostrecommended")
-    public List<MostRecommendedRecipesDTO> listMostRecommendedRecipes(){
+    public List<MostRecommendedRecipeDTO> listMostRecommendedRecipes(){
         return recipeService.listMostRecommendedRecipes();
     }
 }
