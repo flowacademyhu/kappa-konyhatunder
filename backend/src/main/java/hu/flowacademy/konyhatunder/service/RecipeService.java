@@ -3,6 +3,7 @@ package hu.flowacademy.konyhatunder.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hu.flowacademy.konyhatunder.dto.MostRecommendedRecipesDTO;
 import hu.flowacademy.konyhatunder.dto.RecipeDTO;
 import hu.flowacademy.konyhatunder.dto.SearchByCriteriaDTO;
 import hu.flowacademy.konyhatunder.dto.SearchByIngredientDTO;
@@ -286,5 +287,9 @@ public class RecipeService {
         if (CollectionUtils.isEmpty(recipeDTO.getCategories())) {
             throw new ValidationException("Kategória megadása kötelező!");
         }
+    }
+
+    public List<MostRecommendedRecipesDTO> listMostRecommendedRecipes() {
+        return null;
     }
 }
