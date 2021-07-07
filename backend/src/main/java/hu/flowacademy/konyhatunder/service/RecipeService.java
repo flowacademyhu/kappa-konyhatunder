@@ -289,9 +289,17 @@ public class RecipeService {
         }
     }
 
-    public List<Recipe> listMostRecommendedRecipes() {
+    public List<MostRecommendedRecipesDTO> listMostRecommendedRecipes() {
         List<Recipe> foundRecipes= recipeRepository.findMostRecommendedRecipes().stream().limit(7).collect(Collectors.toList());
+        List<MostRecommendedRecipesDTO> response = foundRecipes.stream().map(recipe ->
+                MostRecommendedRecipesDTO.builder()
+                        .id(recipe.getId())
+                        .name(recipe.getName())
+                        .description(recipe.getDescription())
+                        .recommendations(recipe.getRecommendations())
+                        .image(recipe.getImage())
+                        .build()).collect(Collectors.toList());
         log.debug("Return the most recommended recipes.");
-        return foundRecipes;
+        return response;
     }
 }
