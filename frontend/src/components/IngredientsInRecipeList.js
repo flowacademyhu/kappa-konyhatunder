@@ -1,6 +1,8 @@
 function IngredientsInRecipeList({ ingredientsList, setIngredientsList }) {
   const remove = async (id) => {
-    setIngredientsList(ingredientsList.filter((x) => x.ingredient.id !== id));
+    setIngredientsList(
+      ingredientsList.filter((ingredients) => ingredients.ingredient.id !== id)
+    );
   };
 
   return (
