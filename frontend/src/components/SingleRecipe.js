@@ -162,7 +162,7 @@ export default function SingleRecipe() {
       result.map((i) =>
         shoppingArr.push({
           ingredient: i.ingredient.name,
-          amount: i.amount + ' ' + translateMeasurementUnits(i.unit),
+          amount: i.amount + '  ' + translateMeasurementUnits(i.unit),
         })
       );
     }
