@@ -34,6 +34,7 @@ import java.util.stream.Stream;
 @Transactional
 public class RecipeService {
 
+    private static final int MOST_RECOMMENDED_RECIPE_NUMBER = 7;
     private final RecipeRepository recipeRepository;
     private final CategoryRepository categoryRepository;
     private final AmountOfIngredientRepository amountOfIngredientRepository;
@@ -290,7 +291,7 @@ public class RecipeService {
     }
 
     public List<MostRecommendedRecipesDTO> listMostRecommendedRecipes() {
-        List<Recipe> foundRecipes= recipeRepository.findMostRecommendedRecipes().stream().limit(7).collect(Collectors.toList());
+        List<Recipe> foundRecipes= recipeRepository.findMostRecommendedRecipes().stream().limit(MOST_RECOMMENDED_RECIPE_NUMBER).collect(Collectors.toList());
         List<MostRecommendedRecipesDTO> response = foundRecipes.stream().map(recipe ->
                 MostRecommendedRecipesDTO.builder()
                         .id(recipe.getId())
