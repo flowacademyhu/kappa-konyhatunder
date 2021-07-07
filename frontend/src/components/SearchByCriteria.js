@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import axios from 'axios';
 import ListGenerator from './ListGenerator';
-
+import ModalForSearch from './ModalForSearch';
 const times = ['30', '60', '120', '180', '240', '300'];
 
 const StyledTitle = styled.h3`
@@ -18,6 +18,8 @@ const StyledTitle = styled.h3`
 `;
 
 function SearchByCriteria() {
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
   useEffect(() => {
     const getInitData = async () => {
       setCategoryList(await getCategorys());
@@ -35,7 +37,7 @@ function SearchByCriteria() {
       values.categories === null
     ) {
       console.log('Mind null');
-
+      handleShow();
       return;
     }
     const data = {
@@ -204,6 +206,7 @@ function SearchByCriteria() {
           <div>'Loading List...' </div>
         )}
       </div>
+      <ModalForSearch show={show} onHide={() => setShow(false)} />
     </>
   );
 }
