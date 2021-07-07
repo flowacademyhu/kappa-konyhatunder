@@ -28,6 +28,16 @@ function SearchByCriteria() {
   }, []);
 
   const searchByValues = async (values) => {
+    if (
+      values.name === null &&
+      values.preparationTimeInterval === null &&
+      values.difficulty === null &&
+      values.categories === null
+    ) {
+      console.log('Mind null');
+
+      return;
+    }
     const data = {
       ...values,
       preparationTimeInterval:
@@ -172,6 +182,7 @@ function SearchByCriteria() {
                   <Field className="ml-5" type="checkbox" name="picture" />
                 </h5>
               </div>
+
               <button
                 className="btn btn-success"
                 onClick={() => searchByValues(values)}
