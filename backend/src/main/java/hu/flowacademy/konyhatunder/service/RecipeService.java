@@ -17,6 +17,9 @@ import hu.flowacademy.konyhatunder.repository.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -291,7 +294,8 @@ public class RecipeService {
     }
 
     public List<MostRecommendedRecipesDTO> listMostRecommendedRecipes() {
-        List<Recipe> foundRecipes= recipeRepository.findMostRecommendedRecipes().stream().limit(MOST_RECOMMENDED_RECIPE_NUMBER).collect(Collectors.toList());
+        Page<Recipe> recipePage = recipeRepository.findAll(PageRequest.of(0, MOST_RECOMMENDED_RECIPE_NUMBER, Sort.by(Sort.Direction.DESC, "recommendations")));
+        List<Recipe> foundRecipes = recipePage.toList();
         List<MostRecommendedRecipesDTO> response = foundRecipes.stream().map(recipe ->
                 MostRecommendedRecipesDTO.builder()
                         .id(recipe.getId())
