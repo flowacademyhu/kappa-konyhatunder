@@ -1,6 +1,15 @@
 import { getMostRecommendedRecipes } from './components/apiCalls';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const SmallDescription = styled.p`
+  width: 300px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
 
 function BodyPart() {
   const [recipeList, setRecipeList] = useState([]);
@@ -61,15 +70,8 @@ function BodyPart() {
                   style={{ objectFit: 'cover', height: 217.8 }}
                 />
                 <div className="card-body">
-                  <h5 className="card-title">
-                    {recipe.name.length > 33
-                      ? recipe.name.substring(0, 33) + '...'
-                      : recipe.name}
-                  </h5>
-                  <p className="card-text">
-                    {' '}
-                    {recipe.description.substring(0, 100) + '...'}
-                  </p>
+                  <h5 className="card-title">{recipe.name}</h5>
+                  <SmallDescription> {recipe.description}</SmallDescription>
                   <p>Ezt a receptet {recipe.recommendations} ember ajánlja</p>
                 </div>
               </Link>
