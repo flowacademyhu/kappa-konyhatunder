@@ -159,7 +159,7 @@ function SearchByCriteria() {
                     aria-labelledby="categories"
                   >
                     {categoryList.map((category) => (
-                      <>
+                      <div key={category.name}>
                         <div>
                           <Field
                             className="mx-4"
@@ -174,7 +174,7 @@ function SearchByCriteria() {
                           key={category.name}
                         ></div>
                         {category.name}
-                      </>
+                      </div>
                     ))}
                   </div>
                 </div>
