@@ -136,20 +136,35 @@ const AddRecipeForm = () => {
     ingredientTypeFromUser,
     addNewAmount
   ) => {
-    const ingrid = await saveNewIngredient(
-      addNewIngredient,
-      baseMeasurementForNewIngredient
-    );
+    if (
+      !(
+        addNewIngredient &&
+        ingredientTypeFromUser &&
+        baseMeasurementForNewIngredient &&
+        addNewAmount
+      )
+    ) {
+      return;
+    }
+    try {
+      const ingredient = await saveNewIngredient(
+        addNewIngredient,
+        baseMeasurementForNewIngredient
+      );
 
-    setNewIngredientsList([
-      ...newIngredientsList,
-      {
-        ingredient: ingrid,
-        unit: ingredientTypeFromUser,
-        amount: addNewAmount,
-      },
-    ]);
-    setStatusForIngredient('Sikeres hozzávaló hozzáadás');
+      setNewIngredientsList([
+        ...newIngredientsList,
+        {
+          ingredient,
+          unit: ingredientTypeFromUser,
+          amount: addNewAmount,
+        },
+      ]);
+      setStatusForIngredient('Sikeres hozzávaló hozzáadás');
+    } catch (e) {
+      console.error(e);
+      setStatusForIngredient('Sikertelen hozzáadás');
+    }
   };
 
   return (
@@ -257,9 +272,7 @@ const AddRecipeForm = () => {
           </div>
 
           <IngredientsAdder
-            exludedIngredients={newIngredientsList.filter(
-              (e) => e.ingredient !== undefined
-            )}
+            exludedIngredients={newIngredientsList}
             onIngredientAdded={addIngredientToRecipe}
           />
         </div>
@@ -323,15 +336,11 @@ const AddRecipeForm = () => {
             <button
               className="btn btn-success"
               onClick={() => {
-                addNewIngredient &&
-                  ingredientTypeFromUser &&
-                  baseMeasurementForNewIngredient &&
-                  addNewAmount &&
-                  sendNewIngredient(
-                    addNewIngredient,
-                    ingredientTypeFromUser,
-                    addNewAmount
-                  );
+                sendNewIngredient(
+                  addNewIngredient,
+                  ingredientTypeFromUser,
+                  addNewAmount
+                );
               }}
               type="button"
               data-toggle="modal"

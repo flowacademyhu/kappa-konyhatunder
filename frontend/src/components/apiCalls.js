@@ -5,13 +5,8 @@ export const saveNewIngredient = async (ingredinet, measurement) => {
     measurement: measurement,
   };
 
-  try {
-    const response = await axios.post(`/api/ingredients`, data);
-
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
+  const response = await axios.post(`/api/ingredients`, data);
+  return response.data;
 };
 
 export const addRecipe = async (values, selectedFile, newIngredientsList) => {

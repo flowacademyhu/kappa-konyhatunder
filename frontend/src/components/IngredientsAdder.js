@@ -18,7 +18,7 @@ export default function IngredientsAdder({
       setIngredientsList(await getIngredient());
     };
     getInitData();
-  }, []);
+  }, [exludedIngredients]);
 
   async function onIngredientTypeChange(newIngredientString) {
     const newIngredientObject = JSON.parse(newIngredientString);
@@ -54,7 +54,11 @@ export default function IngredientsAdder({
       unit: newIngredientType,
       amount: amount,
     });
-
+    setIngredientsList(...ingredientsList, {
+      ingredient: ingredient,
+      unit: newIngredientType,
+      amount: amount,
+    });
     setAmount('');
     setNewIngredientTypeList([]);
   };
