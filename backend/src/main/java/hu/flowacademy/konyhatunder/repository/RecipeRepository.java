@@ -26,8 +26,5 @@ public interface RecipeRepository extends JpaRepository<Recipe, String> {
     List<Recipe> findByImageFileName(String defaultImage);
 
     List<Recipe> findByImageFileNameNotContaining(String defaultImage);
-
-    @Query("Select r from Recipe r ORDER BY r.recommendations DESC")
-    List<Recipe> findMostRecommendedRecipes();
 }
 
