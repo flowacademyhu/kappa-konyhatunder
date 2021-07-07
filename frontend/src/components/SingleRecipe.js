@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import '../styles/SingleRecipe.css';
-import { getRecipeList, recommend, postComment } from './apiCalls';
+import { getRecipeList, recommend } from './apiCalls';
 import { translateMeasurementUnits } from './translateMeasurementUnits';
 import { Container, Col, Row, Spinner, Button } from 'react-bootstrap';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp, IoPricetags, IoHeartSharp } from 'react-icons/io5';
-import { formatLocalDateTime } from './formatLocalDateTime';
 import styled from 'styled-components';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
+
+import myFont from '../images/Montserrat-Regular.ttf';
 
 const LeftSide = styled.div`
   background-color: #c7c7c75b;
@@ -65,31 +68,6 @@ const RightSide = styled.div`
   max-width: 100%;
 `;
 
-const Comments = styled.div`
-  background-color: #c7c7c75b;
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.356);
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 20px;
-  max-height: 100%;
-  max-width: 100%;
-`;
-
-const SingleComment = styled.div`
-  background-color: white;
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.356);
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 20px;
-  max-height: 100%;
-  max-width: 100%;
-`;
 const Title = styled.div`
   font-size: ${(props) => props.size}px;
   font-family: ${(props) =>
@@ -97,23 +75,6 @@ const Title = styled.div`
   color: #267009;
   margin-top: 40px;
   margin-left: 30px;
-`;
-const CommentTitle = styled.div`
-  font-size: ${(props) => props.size}px;
-  font-family: ${(props) =>
-    props.fancy ? 'Charmonman, cursive !important' : ''};
-  color: #267009;
-  margin-top: 10px;
-  margin-bottom: 20px;
-`;
-
-const Time = styled.div`
-  font-size: ${(props) => props.size}px;
-  font-family: ${(props) =>
-    props.fancy ? 'Charmonman, cursive !important' : ''};
-  color: #267009;
-  margin-top: 10px;
-  margin-bottom: 20px;
 `;
 
 const Text = styled.div`
@@ -142,21 +103,18 @@ const ButtonStyle = styled.div`
   }
 `;
 
-const ShoppingListButton = styled.button`
-  display: flex-column;
-  margin-left: 180px;
-  font-size: 18px;
+const ShoppingListButton = styled.div`
+  margin-top: 20px;
+  text-align: right;
 `;
 
 export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
   const [recommendations, setRecommendations] = useState();
-  const [comment, setComment] = useState('');
-  const [allComments, setAllComments] = useState([]);
+
   const location = useLocation();
   const ingredients = location.state.ingredient;
-
   useEffect(() => {
     const getInitData = async () => {
       setProduct(await getRecipeList(id));
@@ -174,10 +132,6 @@ export default function SingleRecipe() {
     );
   }, [product]);
 
-  useEffect(() => {
-    product && setAllComments([...product.comments]);
-  }, [product]);
-
   const handleRecomend = () => {
     if (!localStorage.getItem(`${product.id}`)) {
       setRecommendations(recommendations + 1);
@@ -190,19 +144,46 @@ export default function SingleRecipe() {
     }
   };
 
-  const addComment = async (id, text) => {
-    if (comment.replace(/ /g, '') === '') {
-      setComment('');
-      return;
-    }
-    const newComment = await postComment(text, id);
-    const comments = product.comments;
-    if (allComments.length === 0) {
-      setAllComments([newComment, ...comments]);
-    } else {
-      setAllComments([newComment, ...allComments]);
-    }
-    setComment('');
+  const PDFGenerator = () => {
+    let doc = new jsPDF();
+
+    doc.addFont(myFont, 'Montserrat-Regular', 'normal');
+    doc.setFont('Montserrat-Regular');
+
+    doc.setFontSize(22);
+    doc.text(20, 20, product.name);
+
+    let bodyArr = [];
+    product.ingredients.map((i) =>
+      bodyArr.push({
+        ingredient: i.ingredient.name,
+        amount: i.amount + ' ' + translateMeasurementUnits(i.unit),
+      })
+    );
+    doc.setFontSize(16);
+    doc.text(20, 35, 'Hozzávalók');
+
+    doc.autoTable({
+      styles: { fillColor: [0, 255, 0], font: 'Montserrat-Regular' },
+      columnStyles: { 0: { halign: 'left' } }, // Cells in first column centered and green
+      margin: { top: 40 },
+      body: bodyArr,
+      columns: [
+        { header: 'Hozzávaló', dataKey: 'ingredient' },
+        { header: 'Mennyiség', dataKey: 'amount' },
+      ],
+    });
+    doc.setFontSize(16);
+    doc.text(20, 75 + bodyArr.length * 6, 'Elkészítés');
+
+    doc.setFontSize(12);
+
+    var splitTitle = doc.splitTextToSize(product.description, 150);
+
+    doc.text(20, 80 + bodyArr.length * 6, splitTitle);
+
+    doc.save(`${product.name}-KonyhaTunder.pdf`);
+    doc = new jsPDF('portrait');
   };
 
   return product ? (
@@ -257,12 +238,19 @@ export default function SingleRecipe() {
             ) : (
               ''
             )}
-            <LeftSideText>
-              <Button variant="success" onClick={handleRecomend}>
-                Ajánlanád?
-                <span className="sr-only">Ajánlások</span>
-              </Button>
-            </LeftSideText>
+            <ButtonGroup>
+              <ButtonStyle>
+                <Button variant="success" onClick={handleRecomend}>
+                  Ajánlanád?
+                  <span className="sr-only">Ajánlások</span>
+                </Button>{' '}
+              </ButtonStyle>{' '}
+              <ButtonStyle>
+                <Button variant="success" onClick={PDFGenerator}>
+                  Nyomtatás
+                </Button>
+              </ButtonStyle>
+            </ButtonGroup>
           </LeftSide>
         </Col>
         <Col>
@@ -271,10 +259,7 @@ export default function SingleRecipe() {
               {product.name}
             </Title>
             <Line />
-            <Title size="30">
-              Hozzávalók{' '}
-              <ShoppingListButton>Bevásárlólista nyomtatása</ShoppingListButton>
-            </Title>
+            <Title size="30">Hozzávalók </Title>
 
             {product.ingredients.map((i) => (
               <IngredientText
@@ -293,48 +278,15 @@ export default function SingleRecipe() {
                 </li>
               </IngredientText>
             ))}
+            <ShoppingListButton>
+              <Button variant="success">Bevásárlólista nyomtatása</Button>
+            </ShoppingListButton>
           </RightSide>
+
           <RightSide>
             <Title size="30">Elkészítés</Title>
             <Text>{product.description}</Text>
-          </RightSide>{' '}
-        </Col>
-        <Col>
-          <Comments>
-            <CommentTitle size="30">Hozzászólás a recepthez</CommentTitle>
-            <textarea
-              className="form-control mb-3"
-              type="text"
-              onChange={(e) => setComment(e.target.value)}
-              value={comment}
-              id="comment"
-            />
-            <Button
-              className={`${
-                comment.replace(/ /g, '') === '' ? 'disabled' : ''
-              }`}
-              variant="success"
-              onClick={() => addComment(comment, product.id)}
-            >
-              Hozzászólás
-            </Button>
-          </Comments>
-          <Comments>
-            <CommentTitle size="30">Hozzászólások</CommentTitle>
-            <Text>
-              {allComments.length === 0
-                ? 'Ehhez a recepthez még nem érkezett hozzászólás, legyél te az első!'
-                : allComments.sort(function (a, b) {
-                    return b.timeStamp.localeCompare(a.timeStamp);
-                  }) &&
-                  allComments.map((comment) => (
-                    <SingleComment>
-                      <Time>{formatLocalDateTime(comment.timeStamp)}</Time>
-                      <Text>{comment.text}</Text>
-                    </SingleComment>
-                  ))}{' '}
-            </Text>
-          </Comments>
+          </RightSide>
         </Col>
       </Row>
     </Container>
