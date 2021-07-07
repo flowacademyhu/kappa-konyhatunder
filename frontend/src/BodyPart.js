@@ -11,6 +11,11 @@ const SmallDescription = styled.p`
   text-overflow: ellipsis;
 `;
 
+const SmallImage = styled.img`
+  object-fit: cover;
+  height: 217.8px;
+`;
+
 function BodyPart() {
   const [recipeList, setRecipeList] = useState([]);
   useEffect(() => {
@@ -63,11 +68,10 @@ function BodyPart() {
                   state: { ingredient: null },
                 }}
               >
-                <img
+                <SmallImage
                   className="card-img-top"
                   src={`/api/image/${recipe.image.id}`}
                   alt={`${recipe.image.id}`}
-                  style={{ objectFit: 'cover', height: 217.8 }}
                 />
                 <div className="card-body">
                   <h5 className="card-title">{recipe.name}</h5>
