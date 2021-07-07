@@ -290,6 +290,7 @@ public class RecipeService {
                         .name(recipe.getName())
                         .description(recipe.getDescription())
                         .recommendations(recipe.getRecommendations())
+                        .image(recipe.getImage())
                         .build()).collect(Collectors.toList());
         log.debug("Return the most recommended recipes.");
         return response;
