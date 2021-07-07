@@ -9,6 +9,7 @@ import { IoBarbellSharp, IoPricetags, IoHeartSharp } from 'react-icons/io5';
 import styled from 'styled-components';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import myFont from '../images/Montserrat-Regular.ttf';
 
 const LeftSide = styled.div`
   background-color: #c7c7c75b;
@@ -139,32 +140,25 @@ export default function SingleRecipe() {
 
   const PDFGenerator = () => {
     let doc = new jsPDF();
+
+    doc.addFont(myFont, 'Montserrat-Regular', 'normal');
+    doc.setFont('Montserrat-Regular');
+
     doc.setFontSize(22);
     doc.text(20, 20, product.name);
-    doc.setFont('helvetica');
+
     let bodyArr = [];
     product.ingredients.map((i) =>
       bodyArr.push({
-        ingredient: i.ingredient.name
-          .replace(/['Ő']/g, 'Ö')
-          .replace(/['Ű']/g, 'Ü')
-          .replace(/['ő']/g, 'ö')
-          .replace(/['ű']/g, 'ü'),
-        amount:
-          i.amount +
-          ' ' +
-          translateMeasurementUnits(i.unit)
-            .replace(/['Ő']/g, 'Ö')
-            .replace(/['Ű']/g, 'Ü')
-            .replace(/['ő']/g, 'ö')
-            .replace(/['ű']/g, 'ü'),
+        ingredient: i.ingredient.name,
+        amount: i.amount + ' ' + translateMeasurementUnits(i.unit),
       })
     );
     doc.setFontSize(16);
     doc.text(20, 35, 'Hozzávalók');
 
     doc.autoTable({
-      styles: { fillColor: [0, 255, 0] },
+      styles: { fillColor: [0, 255, 0], font: 'Montserrat-Regular' },
       columnStyles: { 0: { halign: 'left' } }, // Cells in first column centered and green
       margin: { top: 40 },
       body: bodyArr,
@@ -178,18 +172,11 @@ export default function SingleRecipe() {
 
     doc.setFontSize(12);
 
-    var splitTitle = doc.splitTextToSize(
-      product.description
-        .replace(/['Ő']/g, 'Ö')
-        .replace(/['Ű']/g, 'Ü')
-        .replace(/['ő']/g, 'ö')
-        .replace(/['ű']/g, 'ü'),
-      150
-    );
+    var splitTitle = doc.splitTextToSize(product.description, 150);
 
     doc.text(20, 80 + bodyArr.length * 6, splitTitle);
 
-    doc.save('ReceptKonyhatunder.pdf');
+    doc.save(`${product.name}-KonyhaTunder.pdf`);
     doc = new jsPDF('portrait');
   };
 
@@ -255,7 +242,6 @@ export default function SingleRecipe() {
               <ButtonStyle>
                 <Button variant="success" onClick={PDFGenerator}>
                   Nyomtatás
-                  <span className="sr-only">Ajánlások</span>
                 </Button>
               </ButtonStyle>
             </ButtonGroup>
