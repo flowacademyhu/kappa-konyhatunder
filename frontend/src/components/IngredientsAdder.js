@@ -5,7 +5,7 @@ import { getIngredient } from './apiCalls';
 
 export default function IngredientsAdder({
   onIngredientAdded,
-  exludedIngredients,
+  excludedIngredients,
 }) {
   const [amount, setAmount] = useState('');
   const [ingredient, setIngredient] = useState('');
@@ -80,7 +80,7 @@ export default function IngredientsAdder({
             {ingredientsList
               .filter(
                 (ingredient) =>
-                  !exludedIngredients.some(
+                  !excludedIngredients.some(
                     (excluded) => excluded.ingredient.id === ingredient.id
                   )
               )
