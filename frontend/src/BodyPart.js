@@ -18,7 +18,7 @@ function BodyPart() {
           {recipeList
             .map((recipe) => (
               <Link
-                class="card"
+                className="card"
                 style={{ width: '100%' }}
                 to={{
                   pathname: `/recipes/${recipe.id}`,
@@ -26,14 +26,14 @@ function BodyPart() {
                 }}
               >
                 <img
-                  class="card-img-top"
+                  className="card-img-top"
                   src={`/api/image/${recipe.image.id}`}
                   alt={`${recipe.image.id}`}
                   style={{ objectFit: 'cover', height: 550 }}
                 />
-                <div class="card-body">
-                  <h5 class="card-title">{recipe.name}</h5>
-                  <p class="card-text">
+                <div className="card-body">
+                  <h5 className="card-title">{recipe.name}</h5>
+                  <p className="card-text">
                     {' '}
                     {recipe.description.substring(0, 200) + '...'}
                   </p>
@@ -47,7 +47,7 @@ function BodyPart() {
           {recipeList
             .map((recipe) => (
               <Link
-                class="card"
+                className="card"
                 style={{ width: '100%', height: 450 }}
                 to={{
                   pathname: `/recipes/${recipe.id}`,
@@ -55,14 +55,18 @@ function BodyPart() {
                 }}
               >
                 <img
-                  class="card-img-top"
+                  className="card-img-top"
                   src={`/api/image/${recipe.image.id}`}
                   alt={`${recipe.image.id}`}
                   style={{ objectFit: 'cover', height: 217.8 }}
                 />
-                <div class="card-body">
-                  <h5 class="card-title">{recipe.name}</h5>
-                  <p class="card-text">
+                <div className="card-body">
+                  <h5 className="card-title">
+                    {recipe.name.length > 33
+                      ? recipe.name.substring(0, 33) + '...'
+                      : recipe.name}
+                  </h5>
+                  <p className="card-text">
                     {' '}
                     {recipe.description.substring(0, 100) + '...'}
                   </p>
