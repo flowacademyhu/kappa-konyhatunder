@@ -128,6 +128,26 @@ const IngredientText = styled.div`
   margin: 10px;
 `;
 
+const ButtonGroup = styled.div`
+  display: flex;
+`;
+
+const ButtonStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 28px;
+  margin-left: 5px;
+  @media screen and (max-width: 576px) {
+    padding: 23px;
+  }
+`;
+
+const ShoppingListButton = styled.button`
+  display: flex-column;
+  margin-left: 180px;
+  font-size: 18px;
+`;
+
 export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
@@ -251,7 +271,11 @@ export default function SingleRecipe() {
               {product.name}
             </Title>
             <Line />
-            <Title size="30">Hozzávalók</Title>
+            <Title size="30">
+              Hozzávalók{' '}
+              <ShoppingListButton>Bevásárlólista nyomtatása</ShoppingListButton>
+            </Title>
+
             {product.ingredients.map((i) => (
               <IngredientText
                 available={
