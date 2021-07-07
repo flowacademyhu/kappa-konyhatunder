@@ -13,7 +13,7 @@ import {
   getCategorys,
   getNewIngredientBaseMeasurements,
 } from './apiCalls';
-
+import ModalForFail from './ModalForFail';
 import NoImageSelectedModal from './NoImageSelectedModal';
 import styled from 'styled-components';
 import IngredientsAdder from './IngredientsAdder';
@@ -46,7 +46,8 @@ const AddRecipeForm = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [isFilePicked, setIsFilePicked] = useState(false);
   const [preview, setPreview] = useState();
-
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
   const inputFile = useRef(null);
 
   const fileSelectedHandler = (event) => {
@@ -353,16 +354,18 @@ const AddRecipeForm = () => {
         </div>
 
         <div>
-          <p className="mt-4">Kép hozzáadása (Maximum 1 MB megengedett) </p>
+          <p className="mt-4">Kép hozzáadása (Maximum 1 MB) </p>
           <div>
             {selectedFile && <Image src={preview} />}
             <input
               style={{ display: 'none' }}
               type="file"
               accept="image/*"
-              onChange={(e) =>
-                e.target.files[0].size < 1048576 && fileSelectedHandler
-              }
+              onChange={(e) => {
+                e.target.files[0].size < 1048576
+                  ? fileSelectedHandler(e)
+                  : handleShow();
+              }}
               ref={inputFile}
             />
           </div>
@@ -392,7 +395,7 @@ const AddRecipeForm = () => {
           Hozzáadás
         </button>
         <Modal status={status} id="recipeStatusModal" />
-        <Modal status={status} id="fileStatusModal" />
+        <ModalForFail show={show} onHide={() => setShow(false)} />
         <Modal status={statusForIngredient} id="ingredientAddModal" />
         <NoImageSelectedModal
           status={'Lehetőség van fénykép hozzáadására!'}
