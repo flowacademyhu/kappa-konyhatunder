@@ -31,12 +31,20 @@ function SearchByCriteria() {
 
   const searchByValues = async (values) => {
     if (
-      values.name === null &&
-      values.preparationTimeInterval === null &&
-      values.difficulty === null &&
-      values.categories === null
+      !values.name &&
+      !values.preparationTimeInterval &&
+      !values.difficulty &&
+      !values.categories
     ) {
-      console.log('Mind null');
+      handleShow();
+      return;
+    }
+    if (
+      !values.name &&
+      !values.preparationTimeInterval &&
+      !values.difficulty &&
+      values.categories.length === 0
+    ) {
       handleShow();
       return;
     }
@@ -109,10 +117,9 @@ function SearchByCriteria() {
                   <Field
                     className=" custom-select-lg col"
                     as="select"
-                    required
                     name="difficulty"
                   >
-                    <option>Nehézségi szint</option>
+                    <option value="">Nehézségi szint</option>
                     {levels
                       ? levels.map((level) => (
                           <option key={level} value={level}>
