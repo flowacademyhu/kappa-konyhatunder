@@ -51,8 +51,9 @@ const AddRecipeForm = () => {
   const inputFile = useRef(null);
 
   const fileSelectedHandler = (event) => {
-    setSelectedFile(event.target.files[0]);
-    console.log(event.target.files[0].size);
+    event.target.files[0].size > 1048576
+      ? handleShow()
+      : setSelectedFile(event.target.files[0]);
     setIsFilePicked(true);
   };
 
@@ -362,9 +363,7 @@ const AddRecipeForm = () => {
               type="file"
               accept="image/*"
               onChange={(e) => {
-                e.target.files[0].size < 1048576
-                  ? fileSelectedHandler(e)
-                  : handleShow();
+                fileSelectedHandler(e);
               }}
               ref={inputFile}
             />
