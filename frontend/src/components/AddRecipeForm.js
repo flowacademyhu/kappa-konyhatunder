@@ -260,7 +260,7 @@ const AddRecipeForm = () => {
           </div>
 
           <IngredientsAdder
-            exludedIngredients={newIngredientsList.filter(
+            excludedIngredients={newIngredientsList.filter(
               (e) => e.ingredient !== undefined
             )}
             onIngredientAdded={addIngredientToRecipe}
