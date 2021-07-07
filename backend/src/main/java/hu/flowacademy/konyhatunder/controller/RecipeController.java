@@ -81,7 +81,7 @@ public class RecipeController {
        return commentService.commentARecipe(commentDTO,id);
     }
 
-    @GetMapping
+    @GetMapping("/mostrecommended")
     public List<MostRecommendedRecipesDTO> listMostRecommendedRecipes(){
         return recipeService.listMostRecommendedRecipes();
     }
