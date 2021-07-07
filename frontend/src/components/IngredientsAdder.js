@@ -113,6 +113,7 @@ export default function IngredientsAdder({
             className="form-control"
             id="amount"
             type="number"
+            min="0.1"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             placeholder="Mennyiség"
