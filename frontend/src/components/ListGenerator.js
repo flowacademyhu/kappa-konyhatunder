@@ -135,7 +135,7 @@ const ListGenerator = ({ recips, ingredients }) => {
     <>
       {recips
         ? recips.map((recipe) => (
-            <RecipeCard>
+            <RecipeCard key={recipe.id}>
               <Image
                 src={`/api/image/${recipe.image.id}`}
                 alt="Kép a receptről"
