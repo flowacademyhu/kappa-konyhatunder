@@ -156,11 +156,15 @@ export default function SingleRecipe() {
       );
     } else {
       let allIngredients = [...product.ingredients];
-      console.log(
-        allIngredients.map((i) => ingredients.includes(i.ingredient))
+      const result = allIngredients.filter((ad) =>
+        ingredients.every((fd) => fd.name !== ad.ingredient.name)
       );
-      console.log(allIngredients);
-      console.log(ingredients);
+      result.map((i) =>
+        shoppingArr.push({
+          ingredient: i.ingredient.name,
+          amount: i.amount + ' ' + translateMeasurementUnits(i.unit),
+        })
+      );
     }
 
     doc.addFont(myFont, 'Montserrat-Regular', 'normal');
