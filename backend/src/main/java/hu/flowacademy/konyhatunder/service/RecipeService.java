@@ -215,6 +215,21 @@ public class RecipeService {
         }
     }
 
+    public List<MostRecommendedRecipeDTO> listMostRecommendedRecipes() {
+        Page<Recipe> recipePage = recipeRepository.findAll(PageRequest.of(0, MOST_RECOMMENDED_RECIPE_NUMBER, Sort.by(Sort.Direction.DESC, "recommendations")));
+        List<Recipe> foundRecipes = recipePage.toList();
+        List<MostRecommendedRecipeDTO> mostRecommendedRecipes = foundRecipes.stream().map(recipe ->
+                MostRecommendedRecipeDTO.builder()
+                        .id(recipe.getId())
+                        .name(recipe.getName())
+                        .description(recipe.getDescription())
+                        .recommendations(recipe.getRecommendations())
+                        .image(recipe.getImage())
+                        .build()).collect(Collectors.toList());
+        log.debug("Return the most recommended recipes.");
+        return mostRecommendedRecipes;
+    }
+
     private void validateSearchByCriteriaDTO(SearchByCriteriaDTO searchByCriteriaDTO) {
         log.debug("Validating searchByCriteriaDTO");
         if (searchByCriteriaDTO.getHasPicture() == null && searchByCriteriaDTO.getName() == null
@@ -291,20 +306,5 @@ public class RecipeService {
         if (CollectionUtils.isEmpty(recipeDTO.getCategories())) {
             throw new ValidationException("Kategória megadása kötelező!");
         }
-    }
-
-    public List<MostRecommendedRecipeDTO> listMostRecommendedRecipes() {
-        Page<Recipe> recipePage = recipeRepository.findAll(PageRequest.of(0, MOST_RECOMMENDED_RECIPE_NUMBER, Sort.by(Sort.Direction.DESC, "recommendations")));
-        List<Recipe> foundRecipes = recipePage.toList();
-        List<MostRecommendedRecipeDTO> response = foundRecipes.stream().map(recipe ->
-                MostRecommendedRecipeDTO.builder()
-                        .id(recipe.getId())
-                        .name(recipe.getName())
-                        .description(recipe.getDescription())
-                        .recommendations(recipe.getRecommendations())
-                        .image(recipe.getImage())
-                        .build()).collect(Collectors.toList());
-        log.debug("Return the most recommended recipes.");
-        return response;
     }
 }
