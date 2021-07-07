@@ -87,6 +87,7 @@ function SearchByCriteria() {
             categories: null,
             hasPicture: null,
           }}
+          onSubmit={(values) => searchByValues(values)}
         >
           {({ values }) => (
             <Form>
