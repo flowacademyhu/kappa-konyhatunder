@@ -48,7 +48,7 @@ function BodyPart() {
             .map((recipe) => (
               <Link
                 className="card"
-                style={{ width: '100%', height: 450 }}
+                style={{ width: '100%', overflow: 'hidden' }}
                 to={{
                   pathname: `/recipes/${recipe.id}`,
                   state: { ingredient: null },
