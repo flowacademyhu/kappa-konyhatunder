@@ -29,6 +29,7 @@ function BodyPart() {
                   class="card-img-top"
                   src={`/api/image/${recipe.image.id}`}
                   alt={`${recipe.image.id}`}
+                  style={{ objectFit: 'cover', height: 550 }}
                 />
                 <div class="card-body">
                   <h5 class="card-title">{recipe.name}</h5>
@@ -47,7 +48,7 @@ function BodyPart() {
             .map((recipe) => (
               <Link
                 class="card"
-                style={{ width: '100%', height: 430 }}
+                style={{ width: '100%', height: 450 }}
                 to={{
                   pathname: `/recipes/${recipe.id}`,
                   state: { ingredient: null },
