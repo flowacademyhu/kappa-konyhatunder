@@ -80,11 +80,9 @@ export default function IngredientsAdder({
             {ingredientsList
               .filter(
                 (ingredient) =>
-                  !exludedIngredients
-                    .map(
-                      (excludedIngredient) => excludedIngredient.ingredient.id
-                    )
-                    .includes(ingredient.id)
+                  !exludedIngredients.some(
+                    (excluded) => excluded.ingredient.id === ingredient.id
+                  )
               )
               .map((l) => (
                 <option key={l.id} value={JSON.stringify(l)}>
