@@ -140,3 +140,12 @@ export const postComment = async (id, text) => {
     console.error(error);
   }
 };
+
+export const getMostRecommendedRecipes = async () => {
+  try {
+    const response = await axios.get(`/api/recipes/mostrecommended`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
