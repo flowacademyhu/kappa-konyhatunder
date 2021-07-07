@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Set;
 
@@ -26,5 +28,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, String> {
     List<Recipe> findByImageFileName(String defaultImage);
 
     List<Recipe> findByImageFileNameNotContaining(String defaultImage);
+
+    @Query("Select r from Recipe r ORDER BY r.recommendations DESC")
+    List<Recipe> findMostRecommendedRecipes();
 }
 
