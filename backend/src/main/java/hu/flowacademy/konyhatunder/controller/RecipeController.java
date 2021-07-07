@@ -82,7 +82,7 @@ public class RecipeController {
     }
 
     @GetMapping("/mostrecommended")
-    public List<MostRecommendedRecipesDTO> listMostRecommendedRecipes(){
+    public List<Recipe> listMostRecommendedRecipes(){
         return recipeService.listMostRecommendedRecipes();
     }
 }
