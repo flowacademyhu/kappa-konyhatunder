@@ -144,6 +144,52 @@ export default function SingleRecipe() {
     }
   };
 
+  const ShoppingListGenerator = () => {
+    let doc = new jsPDF();
+    let shoppingArr = [];
+    if (ingredients === undefined) {
+      product.ingredients.map((i) =>
+        shoppingArr.push({
+          ingredient: i.ingredient.name,
+          amount: i.amount + ' ' + translateMeasurementUnits(i.unit),
+        })
+      );
+    } else {
+      let allIngredients = [...product.ingredients];
+      console.log(
+        allIngredients.map((i) => ingredients.includes(i.ingredient))
+      );
+      console.log(allIngredients);
+      console.log(ingredients);
+    }
+
+    doc.addFont(myFont, 'Montserrat-Regular', 'normal');
+    doc.setFont('Montserrat-Regular');
+
+    doc.setFontSize(22);
+    doc.text(20, 20, 'Bevásárlólista');
+    doc.setFontSize(16);
+    doc.text(20, 35, product.name);
+
+    doc.autoTable({
+      styles: {
+        fillColor: [0, 255, 0],
+        textColor: [0, 0, 0],
+        font: 'Montserrat-Regular',
+        halign: 'center',
+      },
+      columnStyles: { 0: { halign: 'left' }, 1: { halign: 'left' } }, // Cells in first column centered and green
+      margin: { top: 40 },
+      body: shoppingArr,
+      columns: [
+        { header: 'Hozzávaló', dataKey: 'ingredient' },
+        { header: 'Mennyiség', dataKey: 'amount' },
+      ],
+    });
+    doc.save(`Bevasarlolista-${product.name}-KonyhaTunder.pdf`);
+    doc = new jsPDF('portrait');
+  };
+
   const PDFGenerator = () => {
     let doc = new jsPDF();
 
@@ -164,8 +210,13 @@ export default function SingleRecipe() {
     doc.text(20, 35, 'Hozzávalók');
 
     doc.autoTable({
-      styles: { fillColor: [0, 255, 0], font: 'Montserrat-Regular' },
-      columnStyles: { 0: { halign: 'left' } }, // Cells in first column centered and green
+      styles: {
+        fillColor: [0, 255, 0],
+        textColor: [0, 0, 0],
+        font: 'Montserrat-Regular',
+        halign: 'center',
+      },
+      columnStyles: { 0: { halign: 'left' }, 1: { halign: 'left' } }, // Cells in first column centered and green
       margin: { top: 40 },
       body: bodyArr,
       columns: [
@@ -279,7 +330,9 @@ export default function SingleRecipe() {
               </IngredientText>
             ))}
             <ShoppingListButton>
-              <Button variant="success">Bevásárlólista nyomtatása</Button>
+              <Button variant="success" onClick={ShoppingListGenerator}>
+                Bevásárlólista nyomtatása
+              </Button>
             </ShoppingListButton>
           </RightSide>
 
