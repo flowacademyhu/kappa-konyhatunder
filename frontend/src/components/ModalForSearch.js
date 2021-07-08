@@ -7,7 +7,9 @@ function ModalForSearch(props) {
         <Modal.Header closeButton>
           <Modal.Title>Konyhatündér üzenet</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Nincs ilyen hozzávalót tartalmazó recept</Modal.Body>
+        <Modal.Body>
+          Minimum egy kritérium megadása kötelező a képen felül
+        </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Bezárás</Button>
         </Modal.Footer>

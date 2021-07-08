@@ -13,7 +13,7 @@ import {
   getCategorys,
   getNewIngredientBaseMeasurements,
 } from './apiCalls';
-
+import ModalForFail from './ModalForFail';
 import NoImageSelectedModal from './NoImageSelectedModal';
 import styled from 'styled-components';
 import IngredientsAdder from './IngredientsAdder';
@@ -46,11 +46,14 @@ const AddRecipeForm = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [isFilePicked, setIsFilePicked] = useState(false);
   const [preview, setPreview] = useState();
-
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
   const inputFile = useRef(null);
 
   const fileSelectedHandler = (event) => {
-    setSelectedFile(event.target.files[0]);
+    event.target.files[0].size > 1048576
+      ? handleShow()
+      : setSelectedFile(event.target.files[0]);
     setIsFilePicked(true);
   };
 
@@ -228,7 +231,10 @@ const AddRecipeForm = () => {
                 ))
               : 'loading'}
           </select>
-          <p className="mt-2">Kategória választás:</p>
+
+          <p className="mt-2">
+            <span className="text-danger">★</span>Kategória választás:
+          </p>
 
           <div className="row">
             {categoryList.map((l) => (
@@ -272,7 +278,9 @@ const AddRecipeForm = () => {
           </div>
 
           <IngredientsAdder
-            excludedIngredients={newIngredientsList}
+            excludedIngredients={newIngredientsList.filter(
+              (e) => e.ingredient !== undefined
+            )}
             onIngredientAdded={addIngredientToRecipe}
           />
         </div>
@@ -353,14 +361,16 @@ const AddRecipeForm = () => {
         </div>
 
         <div>
-          <p>Kép hozzáadása</p>
+          <p className="mt-4">Kép hozzáadása (Maximum 1 MB) </p>
           <div>
             {selectedFile && <Image src={preview} />}
             <input
               style={{ display: 'none' }}
               type="file"
               accept="image/*"
-              onChange={fileSelectedHandler}
+              onChange={(e) => {
+                fileSelectedHandler(e);
+              }}
               ref={inputFile}
             />
           </div>
@@ -390,6 +400,7 @@ const AddRecipeForm = () => {
           Hozzáadás
         </button>
         <Modal status={status} id="recipeStatusModal" />
+        <ModalForFail show={show} onHide={() => setShow(false)} />
         <Modal status={statusForIngredient} id="ingredientAddModal" />
         <NoImageSelectedModal
           status={'Lehetőség van fénykép hozzáadására!'}

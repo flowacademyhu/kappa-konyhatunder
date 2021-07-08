@@ -15,7 +15,9 @@ export default function IngredientsAdder({
 
   useEffect(() => {
     const getInitData = async () => {
-      setIngredientsList(await getIngredient());
+      const ingredients = await getIngredient();
+      ingredients.sort((a, b) => a.name.localeCompare(b.name));
+      setIngredientsList(ingredients);
     };
     getInitData();
   }, [excludedIngredients]);
