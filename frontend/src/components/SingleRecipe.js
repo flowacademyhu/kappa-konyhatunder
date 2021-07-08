@@ -120,6 +120,8 @@ const Text = styled.div`
   color: #424242;
   font-size: 20px;
   margin: 30px 10px 20px 10px;
+  text-align: justify;
+  text-justify: inter-word;
 `;
 
 const IngredientText = styled.div`
