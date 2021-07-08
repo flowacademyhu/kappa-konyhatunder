@@ -335,7 +335,7 @@ const AddRecipeForm = () => {
               className="form-control"
               id="addNewAmount"
               type="number"
-              min="0.1"
+              min="0"
               value={addNewAmount}
               onChange={(e) => setAddNewAmount(e.target.value)}
               placeholder="Mennyiség"

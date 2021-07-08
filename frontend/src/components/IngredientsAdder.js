@@ -20,7 +20,7 @@ export default function IngredientsAdder({
       setIngredientsList(ingredients);
     };
     getInitData();
-  }, []);
+  }, [excludedIngredients]);
 
   async function onIngredientTypeChange(newIngredientString) {
     const newIngredientObject = JSON.parse(newIngredientString);
@@ -115,7 +115,7 @@ export default function IngredientsAdder({
             className="form-control"
             id="amount"
             type="number"
-            min="0.1"
+            min="0"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             placeholder="Mennyiség"
