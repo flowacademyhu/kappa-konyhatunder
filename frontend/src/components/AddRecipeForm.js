@@ -215,7 +215,7 @@ const AddRecipeForm = () => {
           className="form-control"
           id="preparationTime"
           type="number"
-          min="0"
+          min="1"
           {...formik.getFieldProps('preparationTime')}
         />
         {formik.touched.preparationTime && formik.errors.preparationTime ? (
