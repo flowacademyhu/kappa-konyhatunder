@@ -135,7 +135,7 @@ const ButtonGroup = styled.div`
 const ButtonStyle = styled.div`
   display: flex;
   justify-content: center;
-  padding: 28px;
+  padding: 18px;
   margin-left: 5px;
   @media screen and (max-width: 576px) {
     padding: 23px;
@@ -262,7 +262,11 @@ export default function SingleRecipe() {
             <ButtonGroup>
               <ButtonStyle>
                 <Button variant="success" onClick={handleRecomend}>
-                  Ajánlanád?
+                  {` ${
+                    !localStorage.getItem(`${product.id}`)
+                      ? 'Ajánlanád?'
+                      : 'Mégsem ajánlom'
+                  }`}
                   <span className="sr-only">Ajánlások</span>
                 </Button>{' '}
               </ButtonStyle>{' '}
