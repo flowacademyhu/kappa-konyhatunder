@@ -37,10 +37,7 @@ export const addRecipe = async (values, selectedFile, newIngredientsList) => {
     const config = {
       headers: { 'content-type': 'multipart/form-data' },
     };
-    const response = axios.post('/api/recipes/', formData, config);
-    console.log(response);
-
-    console.log(response);
+    axios.post('/api/recipes/', formData, config);
   } catch (error) {
     console.error(error);
     return false;
@@ -116,7 +113,7 @@ export const getRecipesWithMatchingIngredients = async (
 
     return response.data;
   } catch (error) {
-    console.error();
+    console.error(error);
   }
 };
 
@@ -128,6 +125,18 @@ export const recommend = async (id, operator) => {
 
     return response.data;
   } catch (error) {
-    console.error();
+    console.error(error);
+  }
+};
+
+export const postComment = async (id, text) => {
+  const data = {
+    text: text,
+  };
+  try {
+    const response = await axios.post(`/api/recipes/${id}/comments`, data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
   }
 };

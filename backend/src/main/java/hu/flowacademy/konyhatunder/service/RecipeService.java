@@ -12,10 +12,7 @@ import hu.flowacademy.konyhatunder.enums.Measurement;
 import hu.flowacademy.konyhatunder.exception.MissingIDException;
 import hu.flowacademy.konyhatunder.exception.ValidationException;
 import hu.flowacademy.konyhatunder.model.*;
-import hu.flowacademy.konyhatunder.repository.AmountOfIngredientRepository;
-import hu.flowacademy.konyhatunder.repository.CategoryRepository;
-import hu.flowacademy.konyhatunder.repository.IngredientRepository;
-import hu.flowacademy.konyhatunder.repository.RecipeRepository;
+import hu.flowacademy.konyhatunder.repository.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -233,17 +230,17 @@ public class RecipeService {
         ValidationException exception = new ValidationException("Nem megfelelő alapegység!");
         switch (measurement.getHungarianTranslation()) {
             case "Bögre":
-                return Arrays.stream(MeasurementCup.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(()->exception).toString();
+                return Arrays.stream(MeasurementCup.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(() -> exception).toString();
             case "Tömeg":
-                return Arrays.stream(MeasurementQuantity.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(()->exception).toString();
+                return Arrays.stream(MeasurementQuantity.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(() -> exception).toString();
             case "Térfogat":
-                return Arrays.stream(MeasurementVolume.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(()->exception).toString();
+                return Arrays.stream(MeasurementVolume.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(() -> exception).toString();
             case "Darab":
-                return Arrays.stream(MeasurementPiece.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(()->exception).toString();
+                return Arrays.stream(MeasurementPiece.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(() -> exception).toString();
             case "Kanál":
-                return Arrays.stream(MeasurementSpoon.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(()->exception).toString();
+                return Arrays.stream(MeasurementSpoon.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(() -> exception).toString();
             case "Egyéb":
-                return Arrays.stream(MeasurementOther.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(()->exception).toString();
+                return Arrays.stream(MeasurementOther.values()).filter(u -> u.getHungarianTranslation().equals(unit)).findFirst().orElseThrow(() -> exception).toString();
             default:
                 throw exception;
         }
@@ -271,16 +268,23 @@ public class RecipeService {
     @SneakyThrows
     private void validate(RecipeDTO recipeDTO) {
         log.debug("Validate Recipe");
-        if (!StringUtils.hasText(recipeDTO.getName()))
+        if (!StringUtils.hasText(recipeDTO.getName())) {
             throw new ValidationException("A recept nevét kötelező megadni!");
-        if (!StringUtils.hasText(recipeDTO.getDescription()))
+        }
+        if (!StringUtils.hasText(recipeDTO.getDescription())) {
             throw new ValidationException("A leírás mező nem lehet üres!");
-        if (recipeDTO.getPreparationTime() <= 0)
+        }
+        if (recipeDTO.getPreparationTime() <= 0) {
             throw new ValidationException("Az elkészítési idő nem lehet 0 vagy annál kisebb!");
-        if (recipeDTO.getDifficulty() == null)
+        }
+        if (recipeDTO.getDifficulty() == null) {
             throw new ValidationException("Nehézségi szint megadása kötelező!");
+        }
         if (CollectionUtils.isEmpty(recipeDTO.getIngredients())) {
             throw new ValidationException("Hozzávalók megadása kötelező!");
+        }
+        if (CollectionUtils.isEmpty(recipeDTO.getCategories())) {
+            throw new ValidationException("Kategória megadása kötelező!");
         }
     }
 }

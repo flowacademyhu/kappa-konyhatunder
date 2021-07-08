@@ -3,6 +3,7 @@ import SearchResult from './SearchResult';
 import { getIngredient } from './apiCalls';
 import styled from 'styled-components';
 import { Col, Row } from 'react-bootstrap';
+import { TiDelete } from 'react-icons/ti';
 
 const StyledTitle = styled.div`
   margin-top: 50px;
@@ -104,6 +105,16 @@ const Line = styled.hr`
   margin: -50px auto 10px;
 `;
 
+const DelButton = styled.button`
+  color: red;
+  background-color: transparent;
+  border: none;
+  font-size: 25px;
+  :focus {
+    outline: none;
+  }
+`;
+
 function SearchByIngredient() {
   const [ingredientsList, setIngredientsList] = useState();
   const [chosenIngredient, setChosenIngredient] = useState('');
@@ -115,6 +126,10 @@ function SearchByIngredient() {
     };
     loadingData();
   }, []);
+
+  const deleteIngredient = (id) => {
+    setIngredientsArray(ingredientsArray.filter((e) => e.id !== id));
+  };
 
   return (
     <div className="container">
@@ -134,14 +149,17 @@ function SearchByIngredient() {
                     }}
                   >
                     <option>Hozzávaló neve</option>
-                    {ingredientsList.map((chosenIngredient) => (
-                      <option
-                        key={chosenIngredient.id}
-                        value={JSON.stringify(chosenIngredient)}
-                      >
-                        {chosenIngredient.name}
-                      </option>
-                    ))}
+                    {ingredientsList.sort((a, b) =>
+                      a.name.localeCompare(b.name)
+                    ) &&
+                      ingredientsList.map((chosenIngredient) => (
+                        <option
+                          key={chosenIngredient.id}
+                          value={JSON.stringify(chosenIngredient)}
+                        >
+                          {chosenIngredient.name}
+                        </option>
+                      ))}
                   </select>
                 </div>
                 <div className="col-sm-6">
@@ -185,7 +203,17 @@ function SearchByIngredient() {
                   <ListItems key={chosenIngredient.id}>
                     <Row className="justify-content-space-between">
                       <Col>
-                        <> - {chosenIngredient.name} </>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <div>- {chosenIngredient.name}</div>
+                          <DelButton
+                            style={{ marginTop: 10 }}
+                            onClick={() =>
+                              deleteIngredient(chosenIngredient.id)
+                            }
+                          >
+                            <TiDelete />
+                          </DelButton>
+                        </div>
                       </Col>
                     </Row>
                   </ListItems>

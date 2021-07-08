@@ -2,7 +2,7 @@ import { Formik, Form, Field } from 'formik';
 import { useEffect, useState } from 'react';
 import { getLevels, getCategorys } from './apiCalls';
 import styled from 'styled-components';
-import Modal from './Modal';
+
 import axios from 'axios';
 import ListGenerator from './ListGenerator';
 
@@ -22,6 +22,7 @@ function SearchByCriteria() {
     const getInitData = async () => {
       setCategoryList(await getCategorys());
       setLevels(await getLevels());
+      setStatus('requestFinished');
     };
     getInitData();
   }, []);
@@ -43,10 +44,13 @@ function SearchByCriteria() {
     };
 
     try {
+      if (data.name === '') {
+        data.name = null;
+      }
       const response = await axios.post('/api/recipes/search/criteria', data);
       if (response.data !== null) {
-        setStatus('Sikeres keresés');
         setRecipes(response.data);
+        setStatus('');
       } else {
         setStatus('sikertelen keresés');
       }
@@ -57,7 +61,7 @@ function SearchByCriteria() {
 
   const [categoryList, setCategoryList] = useState([]);
   const [levels, setLevels] = useState([]);
-  const [status, setStatus] = useState('Sikertelen keresés');
+  const [status, setStatus] = useState('');
   const [recipes, setRecipes] = useState([]);
   return (
     <>
@@ -106,7 +110,6 @@ function SearchByCriteria() {
                   </Field>
                 </div>
               </div>
-
               <div className="form-control mt-5" id="my-radio-group">
                 <StyledTitle className="myFormTitle">
                   Elkészítés idő
@@ -176,10 +179,12 @@ function SearchByCriteria() {
               >
                 Keresés
               </button>
-              <Modal status={status} id="criteriaStatusModal" />
             </Form>
           )}
         </Formik>
+        {recipes.length === 0 && status !== 'requestFinished' && (
+          <StyledTitle>Nincs találat </StyledTitle>
+        )}
 
         {recipes ? (
           <ListGenerator recips={recipes} />

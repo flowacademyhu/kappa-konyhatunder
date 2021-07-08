@@ -563,7 +563,7 @@ public class InitDataLoader implements CommandLineRunner {
                                 .measurement(Measurement.VOLUME)
                                 .build(),
                         Ingredient.builder()
-                                .name("Olaj")
+                                .name("Étolaj")
                                 .measurement(Measurement.VOLUME)
                                 .build(),
                         ingredientRepository.findByNameAndMeasurement("Finomliszt", Measurement.QUANTITY),
@@ -589,7 +589,7 @@ public class InitDataLoader implements CommandLineRunner {
                         .recipe(panCake)
                         .build(),
                 AmountOfIngredient.builder()
-                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Olaj")).findFirst().orElseThrow(() -> exception))
+                        .ingredient(ingredients.stream().filter(i -> i.getName().equals("Étolaj")).findFirst().orElseThrow(() -> exception))
                         .unit(MeasurementVolume.DL.toString())
                         .amount(0.75)
                         .recipe(panCake)
