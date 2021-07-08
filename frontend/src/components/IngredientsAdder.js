@@ -5,7 +5,7 @@ import { getIngredient } from './apiCalls';
 
 export default function IngredientsAdder({
   onIngredientAdded,
-  exludedIngredients,
+  excludedIngredients,
 }) {
   const [amount, setAmount] = useState('');
   const [ingredient, setIngredient] = useState('');
@@ -15,7 +15,9 @@ export default function IngredientsAdder({
 
   useEffect(() => {
     const getInitData = async () => {
-      setIngredientsList(await getIngredient());
+      const ingredients = await getIngredient();
+      ingredients.sort((a, b) => a.name.localeCompare(b.name));
+      setIngredientsList(ingredients);
     };
     getInitData();
   }, []);
@@ -80,11 +82,9 @@ export default function IngredientsAdder({
             {ingredientsList
               .filter(
                 (ingredient) =>
-                  !exludedIngredients
-                    .map(
-                      (excludedIngredient) => excludedIngredient.ingredient.id
-                    )
-                    .includes(ingredient.id)
+                  !excludedIngredients.some(
+                    (excluded) => excluded.ingredient.id === ingredient.id
+                  )
               )
               .map((l) => (
                 <option key={l.id} value={JSON.stringify(l)}>
@@ -115,6 +115,7 @@ export default function IngredientsAdder({
             className="form-control"
             id="amount"
             type="number"
+            min="0.1"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             placeholder="Mennyiség"
