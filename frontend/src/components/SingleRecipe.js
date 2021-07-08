@@ -346,7 +346,7 @@ export default function SingleRecipe() {
                       <Time>{formatLocalDateTime(comment.timeStamp)}</Time>
                       <Text>{comment.text}</Text>
                     </SingleComment>
-                  ))}{' '}
+                  ))}
             </Text>
           </Comments>
         </Col>
