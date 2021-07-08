@@ -272,7 +272,7 @@ const AddRecipeForm = () => {
           </div>
 
           <IngredientsAdder
-            exludedIngredients={newIngredientsList}
+            excludedIngredients={newIngredientsList}
             onIngredientAdded={addIngredientToRecipe}
           />
         </div>

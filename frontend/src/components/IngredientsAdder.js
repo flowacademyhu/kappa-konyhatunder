@@ -5,7 +5,7 @@ import { getIngredient } from './apiCalls';
 
 export default function IngredientsAdder({
   onIngredientAdded,
-  exludedIngredients,
+  excludedIngredients,
 }) {
   const [amount, setAmount] = useState('');
   const [ingredient, setIngredient] = useState('');
@@ -18,7 +18,7 @@ export default function IngredientsAdder({
       setIngredientsList(await getIngredient());
     };
     getInitData();
-  }, [exludedIngredients]);
+  }, [excludedIngredients]);
 
   async function onIngredientTypeChange(newIngredientString) {
     const newIngredientObject = JSON.parse(newIngredientString);
@@ -54,11 +54,7 @@ export default function IngredientsAdder({
       unit: newIngredientType,
       amount: amount,
     });
-    setIngredientsList(...ingredientsList, {
-      ingredient: ingredient,
-      unit: newIngredientType,
-      amount: amount,
-    });
+
     setAmount('');
     setNewIngredientTypeList([]);
   };
@@ -84,11 +80,9 @@ export default function IngredientsAdder({
             {ingredientsList
               .filter(
                 (ingredient) =>
-                  !exludedIngredients
-                    .map(
-                      (excludedIngredient) => excludedIngredient.ingredient.id
-                    )
-                    .includes(ingredient.id)
+                  !excludedIngredients.some(
+                    (excluded) => excluded.ingredient.id === ingredient.id
+                  )
               )
               .map((l) => (
                 <option key={l.id} value={JSON.stringify(l)}>
@@ -119,6 +113,7 @@ export default function IngredientsAdder({
             className="form-control"
             id="amount"
             type="number"
+            min="0"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             placeholder="Mennyiség"
