@@ -137,10 +137,6 @@ export const postComment = async (id, text) => {
 };
 
 export const getMostRecommendedRecipes = async () => {
-  try {
-    const response = await axios.get(`/api/recipes/mostrecommended`);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
+  const response = await axios.get(`/api/recipes/mostrecommended`);
+  return response.data;
 };
