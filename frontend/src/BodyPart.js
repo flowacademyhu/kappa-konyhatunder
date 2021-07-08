@@ -18,19 +18,16 @@ const SmallImage = styled.img`
 
 function BodyPart() {
   const [recipeList, setRecipeList] = useState([]);
-  const [status, setStatus] = useState('');
   useEffect(() => {
     const getInitData = async () => {
       try {
         setRecipeList(await getMostRecommendedRecipes());
-        setStatus('Sikeres lekérés!');
       } catch (error) {
-        setStatus('Sikertelen lekérés!');
+        console.error(error);
       }
-      console.error(status);
     };
     getInitData();
-  }, [status]);
+  }, []);
   return (
     <>
       <div className="card-deck">
