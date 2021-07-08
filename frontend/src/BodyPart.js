@@ -3,14 +3,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const SmallDescription = styled.p`
-  width: 300px;
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
 const SmallImage = styled.img`
   object-fit: cover;
   height: 217.8px;
@@ -78,7 +70,11 @@ function BodyPart() {
                 />
                 <div className="card-body">
                   <h5 className="card-title">{recipe.name}</h5>
-                  <SmallDescription> {recipe.description}</SmallDescription>
+                  <p className="card-text">
+                    {recipe.description.length > 33
+                      ? recipe.description.substring(0, 100) + '...'
+                      : recipe.description}
+                  </p>
                   <p>Ezt a receptet {recipe.recommendations} ember ajánlja</p>
                 </div>
               </Link>
