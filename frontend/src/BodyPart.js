@@ -33,6 +33,7 @@ function BodyPart() {
                   pathname: `/recipes/${recipe.id}`,
                   state: { ingredient: null },
                 }}
+                key={recipe.id}
               >
                 <img
                   className="card-img-top"
@@ -66,6 +67,7 @@ function BodyPart() {
                   pathname: `/recipes/${recipe.id}`,
                   state: { ingredient: null },
                 }}
+                key={recipe.id}
               >
                 <SmallImage
                   className="card-img-top"
