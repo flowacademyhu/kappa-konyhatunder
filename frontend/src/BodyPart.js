@@ -23,12 +23,12 @@ function BodyPart() {
   return (
     <>
       <div className="card-deck">
-        <div className="card-deck" style={{ margin: '30px' }}>
+        <div className="card-deck " style={{ margin: '30px' }}>
           {recipeList
             .map((recipe) => (
               <Link
-                className="card"
-                style={{ width: '100%' }}
+                className="card "
+                style={{ width: '100%', textDecoration: 'none' }}
                 to={{
                   pathname: `/recipes/${recipe.id}`,
                   state: { ingredient: null },
@@ -40,7 +40,7 @@ function BodyPart() {
                   alt={`${recipe.image.id}`}
                   style={{ objectFit: 'cover', height: 550 }}
                 />
-                <div className="card-body">
+                <div className="card-body" style={{ textDecoration: 'none' }}>
                   <h5 className="card-title">{recipe.name}</h5>
                   <p className="card-text">
                     {' '}
@@ -57,7 +57,11 @@ function BodyPart() {
             .map((recipe) => (
               <Link
                 className="card"
-                style={{ width: '100%', overflow: 'hidden' }}
+                style={{
+                  width: '100%',
+                  overflow: 'hidden',
+                  textDecoration: 'none',
+                }}
                 to={{
                   pathname: `/recipes/${recipe.id}`,
                   state: { ingredient: null },
@@ -68,7 +72,7 @@ function BodyPart() {
                   src={`/api/image/${recipe.image.id}`}
                   alt={`${recipe.image.id}`}
                 />
-                <div className="card-body">
+                <div className="card-body" style={{ textDecoration: 'none' }}>
                   <h5 className="card-title">{recipe.name}</h5>
                   <p className="card-text">
                     {recipe.description.length > 33
