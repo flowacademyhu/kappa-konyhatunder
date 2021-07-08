@@ -13,7 +13,7 @@ import {
   getCategorys,
   getNewIngredientBaseMeasurements,
 } from './apiCalls';
-
+import ModalForFail from './ModalForFail';
 import NoImageSelectedModal from './NoImageSelectedModal';
 import styled from 'styled-components';
 import IngredientsAdder from './IngredientsAdder';
@@ -46,11 +46,14 @@ const AddRecipeForm = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [isFilePicked, setIsFilePicked] = useState(false);
   const [preview, setPreview] = useState();
-
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
   const inputFile = useRef(null);
 
   const fileSelectedHandler = (event) => {
-    setSelectedFile(event.target.files[0]);
+    event.target.files[0].size > 1048576
+      ? handleShow()
+      : setSelectedFile(event.target.files[0]);
     setIsFilePicked(true);
   };
 
@@ -136,20 +139,35 @@ const AddRecipeForm = () => {
     ingredientTypeFromUser,
     addNewAmount
   ) => {
-    const ingrid = await saveNewIngredient(
-      addNewIngredient,
-      baseMeasurementForNewIngredient
-    );
+    if (
+      !(
+        addNewIngredient &&
+        ingredientTypeFromUser &&
+        baseMeasurementForNewIngredient &&
+        addNewAmount
+      )
+    ) {
+      return;
+    }
+    try {
+      const ingredient = await saveNewIngredient(
+        addNewIngredient,
+        baseMeasurementForNewIngredient
+      );
 
-    setNewIngredientsList([
-      ...newIngredientsList,
-      {
-        ingredient: ingrid,
-        unit: ingredientTypeFromUser,
-        amount: addNewAmount,
-      },
-    ]);
-    setStatusForIngredient('Sikeres hozzávaló hozzáadás');
+      setNewIngredientsList([
+        ...newIngredientsList,
+        {
+          ingredient,
+          unit: ingredientTypeFromUser,
+          amount: addNewAmount,
+        },
+      ]);
+      setStatusForIngredient('Sikeres hozzávaló hozzáadás');
+    } catch (e) {
+      console.error(e);
+      setStatusForIngredient('Sikertelen hozzáadás');
+    }
   };
 
   return (
@@ -327,15 +345,11 @@ const AddRecipeForm = () => {
             <button
               className="btn btn-success"
               onClick={() => {
-                addNewIngredient &&
-                  ingredientTypeFromUser &&
-                  baseMeasurementForNewIngredient &&
-                  addNewAmount &&
-                  sendNewIngredient(
-                    addNewIngredient,
-                    ingredientTypeFromUser,
-                    addNewAmount
-                  );
+                sendNewIngredient(
+                  addNewIngredient,
+                  ingredientTypeFromUser,
+                  addNewAmount
+                );
               }}
               type="button"
               data-toggle="modal"
@@ -347,14 +361,16 @@ const AddRecipeForm = () => {
         </div>
 
         <div>
-          <p>Kép hozzáadása</p>
+          <p className="mt-4">Kép hozzáadása (Maximum 1 MB) </p>
           <div>
             {selectedFile && <Image src={preview} />}
             <input
               style={{ display: 'none' }}
               type="file"
               accept="image/*"
-              onChange={fileSelectedHandler}
+              onChange={(e) => {
+                fileSelectedHandler(e);
+              }}
               ref={inputFile}
             />
           </div>
@@ -369,7 +385,10 @@ const AddRecipeForm = () => {
 
         <p>Kiválasztott hozzávalók:</p>
 
-        <IngredientsInRecipeList ingredientsList={newIngredientsList} />
+        <IngredientsInRecipeList
+          ingredientsList={newIngredientsList}
+          setIngredientsList={setNewIngredientsList}
+        />
         <button
           className="btn btn-success mt-4"
           type={isFilePicked ? 'submit' : 'button'}
@@ -381,6 +400,7 @@ const AddRecipeForm = () => {
           Hozzáadás
         </button>
         <Modal status={status} id="recipeStatusModal" />
+        <ModalForFail show={show} onHide={() => setShow(false)} />
         <Modal status={statusForIngredient} id="ingredientAddModal" />
         <NoImageSelectedModal
           status={'Lehetőség van fénykép hozzáadására!'}
