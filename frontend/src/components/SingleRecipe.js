@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import '../styles/SingleRecipe.css';
-import { getRecipeList, recommend } from './apiCalls';
+import { getRecipeList, recommend, postComment } from './apiCalls';
 import { translateMeasurementUnits } from './translateMeasurementUnits';
 import { Container, Col, Row, Spinner, Button } from 'react-bootstrap';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp, IoPricetags, IoHeartSharp } from 'react-icons/io5';
 import styled from 'styled-components';
 import { generateRecipePDF, generateShoppingListPDF } from './PdfGenerator';
+import { formatLocalDateTime } from './formatLocalDateTime';
 
 const LeftSide = styled.div`
   background-color: #c7c7c75b;
@@ -64,6 +65,39 @@ const RightSide = styled.div`
   max-height: 100%;
   max-width: 100%;
 `;
+const Comments = styled.div`
+  background-color: #c7c7c75b;
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.356);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  max-height: 100%;
+  max-width: 100%;
+`;
+const Time = styled.div`
+  font-size: ${(props) => props.size}px;
+  font-family: ${(props) =>
+    props.fancy ? 'Charmonman, cursive !important' : ''};
+  color: #267009;
+  margin-top: 10px;
+  margin-bottom: 20px;
+`;
+
+const SingleComment = styled.div`
+  background-color: white;
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.356);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  max-height: 100%;
+  max-width: 100%;
+`;
 
 const Title = styled.div`
   font-size: ${(props) => props.size}px;
@@ -72,6 +106,14 @@ const Title = styled.div`
   color: #267009;
   margin-top: 40px;
   margin-left: 30px;
+`;
+const CommentTitle = styled.div`
+  font-size: ${(props) => props.size}px;
+  font-family: ${(props) =>
+    props.fancy ? 'Charmonman, cursive !important' : ''};
+  color: #267009;
+  margin-top: 10px;
+  margin-bottom: 20px;
 `;
 
 const Text = styled.div`
@@ -109,6 +151,8 @@ export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
   const [recommendations, setRecommendations] = useState();
+  const [comment, setComment] = useState('');
+  const [allComments, setAllComments] = useState([]);
 
   const location = useLocation();
   const ingredients = location.state.ingredient;
@@ -128,6 +172,9 @@ export default function SingleRecipe() {
         : 0
     );
   }, [product]);
+  useEffect(() => {
+    product && setAllComments([...product.comments]);
+  }, [product]);
 
   const handleRecomend = () => {
     if (!localStorage.getItem(`${product.id}`)) {
@@ -139,6 +186,21 @@ export default function SingleRecipe() {
       localStorage.removeItem(`${product.id}`);
       recommend(product.id, 'minus');
     }
+  };
+
+  const addComment = async (id, text) => {
+    if (comment.replace(/ /g, '') === '') {
+      setComment('');
+      return;
+    }
+    const newComment = await postComment(text, id);
+    const comments = product.comments;
+    if (allComments.length === 0) {
+      setAllComments([newComment, ...comments]);
+    } else {
+      setAllComments([newComment, ...allComments]);
+    }
+    setComment('');
   };
 
   return product ? (
@@ -250,6 +312,43 @@ export default function SingleRecipe() {
             <Title size="30">Elkészítés</Title>
             <Text>{product.description}</Text>
           </RightSide>
+        </Col>
+        <Col>
+          <Comments>
+            <CommentTitle size="30">Hozzászólás a recepthez</CommentTitle>
+            <textarea
+              className="form-control mb-3"
+              type="text"
+              onChange={(e) => setComment(e.target.value)}
+              value={comment}
+              id="comment"
+            />
+            <Button
+              className={`${
+                comment.replace(/ /g, '') === '' ? 'disabled' : ''
+              }`}
+              variant="success"
+              onClick={() => addComment(comment, product.id)}
+            >
+              Hozzászólás
+            </Button>
+          </Comments>
+          <Comments>
+            <CommentTitle size="30">Hozzászólások</CommentTitle>
+            <Text>
+              {allComments.length === 0
+                ? 'Ehhez a recepthez még nem érkezett hozzászólás, legyél te az első!'
+                : allComments.sort(function (a, b) {
+                    return b.timeStamp.localeCompare(a.timeStamp);
+                  }) &&
+                  allComments.map((comment) => (
+                    <SingleComment>
+                      <Time>{formatLocalDateTime(comment.timeStamp)}</Time>
+                      <Text>{comment.text}</Text>
+                    </SingleComment>
+                  ))}{' '}
+            </Text>
+          </Comments>
         </Col>
       </Row>
     </Container>

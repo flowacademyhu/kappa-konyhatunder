@@ -213,7 +213,10 @@ const AddRecipeForm = () => {
                 ))
               : 'loading'}
           </select>
-          <p className="mt-2">Kategória választás:</p>
+
+          <p className="mt-2">
+            <span className="text-danger">★</span>Kategória választás:
+          </p>
 
           <div className="row">
             {categoryList.map((l) => (
@@ -257,7 +260,7 @@ const AddRecipeForm = () => {
           </div>
 
           <IngredientsAdder
-            exludedIngredients={newIngredientsList.filter(
+            excludedIngredients={newIngredientsList.filter(
               (e) => e.ingredient !== undefined
             )}
             onIngredientAdded={addIngredientToRecipe}
@@ -314,6 +317,7 @@ const AddRecipeForm = () => {
               className="form-control"
               id="addNewAmount"
               type="number"
+              min="0.1"
               value={addNewAmount}
               onChange={(e) => setAddNewAmount(e.target.value)}
               placeholder="Mennyiség"

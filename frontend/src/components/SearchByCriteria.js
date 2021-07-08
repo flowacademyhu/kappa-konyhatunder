@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import axios from 'axios';
 import ListGenerator from './ListGenerator';
-
+import ModalForSearch from './ModalForSearch';
 const times = ['30', '60', '120', '180', '240', '300'];
 
 const StyledTitle = styled.h3`
@@ -18,6 +18,8 @@ const StyledTitle = styled.h3`
 `;
 
 function SearchByCriteria() {
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
   useEffect(() => {
     const getInitData = async () => {
       setCategoryList(await getCategorys());
@@ -28,6 +30,24 @@ function SearchByCriteria() {
   }, []);
 
   const searchByValues = async (values) => {
+    if (
+      !values.name &&
+      !values.preparationTimeInterval &&
+      !values.difficulty &&
+      !values.categories
+    ) {
+      handleShow();
+      return;
+    }
+    if (
+      !values.name &&
+      !values.preparationTimeInterval &&
+      !values.difficulty &&
+      values.categories.length === 0
+    ) {
+      handleShow();
+      return;
+    }
     const data = {
       ...values,
       preparationTimeInterval:
@@ -77,6 +97,7 @@ function SearchByCriteria() {
             categories: null,
             hasPicture: null,
           }}
+          onSubmit={(values) => searchByValues(values)}
         >
           {({ values }) => (
             <Form>
@@ -96,10 +117,9 @@ function SearchByCriteria() {
                   <Field
                     className=" custom-select-lg col"
                     as="select"
-                    required
                     name="difficulty"
                   >
-                    <option>Nehézségi szint</option>
+                    <option value="">Nehézségi szint</option>
                     {levels
                       ? levels.map((level) => (
                           <option key={level} value={level}>
@@ -146,7 +166,7 @@ function SearchByCriteria() {
                     aria-labelledby="categories"
                   >
                     {categoryList.map((category) => (
-                      <>
+                      <div key={category.name} className="d-flex">
                         <div>
                           <Field
                             className="mx-4"
@@ -155,13 +175,10 @@ function SearchByCriteria() {
                             value={category.name}
                           />
                         </div>
-                        <div
-                          className=""
-                          htmlFor={category.name}
-                          key={category.name}
-                        ></div>
-                        {category.name}
-                      </>
+                        <div className="" htmlFor={category.name}>
+                          {category.name}
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -172,6 +189,7 @@ function SearchByCriteria() {
                   <Field className="ml-5" type="checkbox" name="picture" />
                 </h5>
               </div>
+
               <button
                 className="btn btn-success"
                 onClick={() => searchByValues(values)}
@@ -192,6 +210,7 @@ function SearchByCriteria() {
           <div>'Loading List...' </div>
         )}
       </div>
+      <ModalForSearch show={show} onHide={() => setShow(false)} />
     </>
   );
 }
