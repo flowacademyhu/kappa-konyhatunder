@@ -169,15 +169,16 @@ function SearchByCriteria() {
                       <div key={category.name} className="d-flex">
                         <div>
                           <Field
+                            id={category.name}
                             className="mx-4"
                             type="checkbox"
                             name="categories"
                             value={category.name}
                           />
                         </div>
-                        <div className="" htmlFor={category.name}>
+                        <label className="" htmlFor={category.name}>
                           {category.name}
-                        </div>
+                        </label>
                       </div>
                     ))}
                   </div>
