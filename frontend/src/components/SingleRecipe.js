@@ -350,7 +350,7 @@ export default function SingleRecipe() {
                     return b.timeStamp.localeCompare(a.timeStamp);
                   }) &&
                   allComments.map((comment) => (
-                    <SingleComment>
+                    <SingleComment key={comment.id}>
                       <Time>{formatLocalDateTime(comment.timeStamp)}</Time>
                       <Text>{comment.text}</Text>
                     </SingleComment>
