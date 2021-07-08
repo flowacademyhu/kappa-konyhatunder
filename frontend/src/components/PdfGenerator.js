@@ -6,7 +6,7 @@ import { translateMeasurementUnits } from './translateMeasurementUnits';
 export const generateShoppingListPDF = (product, ingredients) => {
   let doc = new jsPDF();
   let shoppingArr = [];
-  if (ingredients === undefined) {
+  if (ingredients === undefined || ingredients === null) {
     product.ingredients.map((i) =>
       shoppingArr.push({
         ingredient: i.ingredient.name,
