@@ -15,7 +15,9 @@ export default function IngredientsAdder({
 
   useEffect(() => {
     const getInitData = async () => {
-      setIngredientsList(await getIngredient());
+      const ingredients = await getIngredient();
+      ingredients.sort((a, b) => a.name.localeCompare(b.name));
+      setIngredientsList(ingredients);
     };
     getInitData();
   }, []);
@@ -77,21 +79,20 @@ export default function IngredientsAdder({
             }}
           >
             <option>Hozzávaló neve</option>
-            {ingredientsList.sort((a, b) => a.name.localeCompare(b.name)) &&
-              ingredientsList
-                .filter(
-                  (ingredient) =>
-                    !exludedIngredients
-                      .map(
-                        (excludedIngredient) => excludedIngredient.ingredient.id
-                      )
-                      .includes(ingredient.id)
-                )
-                .map((l) => (
-                  <option key={l.id} value={JSON.stringify(l)}>
-                    {translateIngredient(l.name, l.measurement)}
-                  </option>
-                ))}
+            {ingredientsList
+              .filter(
+                (ingredient) =>
+                  !exludedIngredients
+                    .map(
+                      (excludedIngredient) => excludedIngredient.ingredient.id
+                    )
+                    .includes(ingredient.id)
+              )
+              .map((l) => (
+                <option key={l.id} value={JSON.stringify(l)}>
+                  {translateIngredient(l.name, l.measurement)}
+                </option>
+              ))}
           </select>
         </div>
 

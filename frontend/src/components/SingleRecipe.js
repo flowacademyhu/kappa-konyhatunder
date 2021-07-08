@@ -186,7 +186,6 @@ export default function SingleRecipe() {
     }
   };
 
-
   const PDFGenerator = () => {
     let doc = new jsPDF();
 
@@ -227,7 +226,7 @@ export default function SingleRecipe() {
 
     doc.save(`${product.name}-KonyhaTunder.pdf`);
     doc = new jsPDF('portrait');
-
+  };
   const addComment = async (id, text) => {
     if (comment.replace(/ /g, '') === '') {
       setComment('');
@@ -241,7 +240,6 @@ export default function SingleRecipe() {
       setAllComments([newComment, ...allComments]);
     }
     setComment('');
-
   };
 
   return product ? (
