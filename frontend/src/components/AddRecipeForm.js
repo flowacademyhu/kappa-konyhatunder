@@ -147,6 +147,8 @@ const AddRecipeForm = () => {
         addNewAmount
       )
     ) {
+      setStatusForIngredient('Sikertelen hozzáadás');
+
       return;
     }
     try {
@@ -163,6 +165,11 @@ const AddRecipeForm = () => {
           amount: addNewAmount,
         },
       ]);
+
+      setAddNewIngredient('');
+      setAddNewAmount(0);
+      setBaseMeasurementForNewIngredient('');
+      setIngredientTypeFromUser('');
       setStatusForIngredient('Sikeres hozzávaló hozzáadás');
     } catch (e) {
       console.error(e);
@@ -293,8 +300,8 @@ const AddRecipeForm = () => {
           <div className="col-3">
             <input
               className="form-control"
-              id="addNewIngredient"
               type="text"
+              value={addNewIngredient && addNewIngredient.name}
               onChange={(e) => setAddNewIngredient(e.target.value)}
               placeholder="Adja meg a hozzávaló nevét"
             />
@@ -303,7 +310,11 @@ const AddRecipeForm = () => {
           <div className="col-2">
             <select
               className="form-control"
-              name="ingredientType"
+              name="ingredientTypeList"
+              value={
+                baseMeasurementForNewIngredient &&
+                baseMeasurementForNewIngredient
+              }
               onChange={(e) => getMeasurements(e.target.value)}
             >
               <option value="">Alapegység</option>
@@ -319,6 +330,7 @@ const AddRecipeForm = () => {
             <select
               className="form-control"
               name="ingredientType"
+              value={ingredientTypeFromUser && ingredientTypeFromUser}
               onChange={(e) => setIngredientTypeFromUser(e.target.value)}
             >
               <option value="">Mértékegység megadása</option>
@@ -333,7 +345,6 @@ const AddRecipeForm = () => {
           <div className="col-2">
             <input
               className="form-control"
-              id="addNewAmount"
               type="number"
               min="0"
               value={addNewAmount}
