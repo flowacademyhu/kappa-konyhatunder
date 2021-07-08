@@ -186,7 +186,7 @@ function SearchByCriteria() {
               <div className="">
                 <h5 className="mt-5">
                   Legyen kép a receptről?
-                  <Field className="ml-5" type="checkbox" name="picture" />
+                  <Field className="ml-5" type="checkbox" name="hasPicture" />
                 </h5>
               </div>
 
