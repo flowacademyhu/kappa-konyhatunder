@@ -193,6 +193,10 @@ export default function SingleRecipe() {
       setComment('');
       return;
     }
+    if (comment.replace(/\n/g, '') === '') {
+      setComment('');
+      return;
+    }
     const newComment = await postComment(text, id);
     const comments = product.comments;
     if (allComments.length === 0) {
