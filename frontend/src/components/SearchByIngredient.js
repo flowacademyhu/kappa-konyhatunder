@@ -207,9 +207,13 @@ function SearchByIngredient() {
                           <div>- {chosenIngredient.name}</div>
                           <DelButton
                             style={{ marginTop: 10 }}
-                            onClick={() =>
-                              deleteIngredient(chosenIngredient.id)
-                            }
+                            onClick={() => {
+                              setIngredientsList([
+                                ...ingredientsList,
+                                chosenIngredient,
+                              ]);
+                              deleteIngredient(chosenIngredient.id);
+                            }}
                           >
                             <TiDelete />
                           </DelButton>
