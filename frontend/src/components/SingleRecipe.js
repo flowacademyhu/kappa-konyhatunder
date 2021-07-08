@@ -6,11 +6,9 @@ import { translateMeasurementUnits } from './translateMeasurementUnits';
 import { Container, Col, Row, Spinner, Button } from 'react-bootstrap';
 import { IoIosAlarm } from 'react-icons/io';
 import { IoBarbellSharp, IoPricetags, IoHeartSharp } from 'react-icons/io5';
-import { formatLocalDateTime } from './formatLocalDateTime';
 import styled from 'styled-components';
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
-import myFont from '../images/Montserrat-Regular.ttf';
+import { generateRecipePDF, generateShoppingListPDF } from './PdfGenerator';
+import { formatLocalDateTime } from './formatLocalDateTime';
 
 const LeftSide = styled.div`
   background-color: #c7c7c75b;
@@ -67,7 +65,6 @@ const RightSide = styled.div`
   max-height: 100%;
   max-width: 100%;
 `;
-
 const Comments = styled.div`
   background-color: #c7c7c75b;
   width: 100%;
@@ -79,6 +76,14 @@ const Comments = styled.div`
   padding: 20px;
   max-height: 100%;
   max-width: 100%;
+`;
+const Time = styled.div`
+  font-size: ${(props) => props.size}px;
+  font-family: ${(props) =>
+    props.fancy ? 'Charmonman, cursive !important' : ''};
+  color: #267009;
+  margin-top: 10px;
+  margin-bottom: 20px;
 `;
 
 const SingleComment = styled.div`
@@ -93,6 +98,7 @@ const SingleComment = styled.div`
   max-height: 100%;
   max-width: 100%;
 `;
+
 const Title = styled.div`
   font-size: ${(props) => props.size}px;
   font-family: ${(props) =>
@@ -102,15 +108,6 @@ const Title = styled.div`
   margin-left: 30px;
 `;
 const CommentTitle = styled.div`
-  font-size: ${(props) => props.size}px;
-  font-family: ${(props) =>
-    props.fancy ? 'Charmonman, cursive !important' : ''};
-  color: #267009;
-  margin-top: 10px;
-  margin-bottom: 20px;
-`;
-
-const Time = styled.div`
   font-size: ${(props) => props.size}px;
   font-family: ${(props) =>
     props.fancy ? 'Charmonman, cursive !important' : ''};
@@ -145,12 +142,18 @@ const ButtonStyle = styled.div`
   }
 `;
 
+const ShoppingListButton = styled.div`
+  margin-top: 20px;
+  text-align: right;
+`;
+
 export default function SingleRecipe() {
   const { id } = useParams();
   const [product, setProduct] = useState();
   const [recommendations, setRecommendations] = useState();
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
+
   const location = useLocation();
   const ingredients = location.state.ingredient;
   useEffect(() => {
@@ -169,7 +172,6 @@ export default function SingleRecipe() {
         : 0
     );
   }, [product]);
-
   useEffect(() => {
     product && setAllComments([...product.comments]);
   }, [product]);
@@ -186,47 +188,6 @@ export default function SingleRecipe() {
     }
   };
 
-  const PDFGenerator = () => {
-    let doc = new jsPDF();
-
-    doc.addFont(myFont, 'Montserrat-Regular', 'normal');
-    doc.setFont('Montserrat-Regular');
-
-    doc.setFontSize(22);
-    doc.text(20, 20, product.name);
-
-    let bodyArr = [];
-    product.ingredients.map((i) =>
-      bodyArr.push({
-        ingredient: i.ingredient.name,
-        amount: i.amount + ' ' + translateMeasurementUnits(i.unit),
-      })
-    );
-    doc.setFontSize(16);
-    doc.text(20, 35, 'Hozzávalók');
-
-    doc.autoTable({
-      styles: { fillColor: [0, 255, 0], font: 'Montserrat-Regular' },
-      columnStyles: { 0: { halign: 'left' } }, // Cells in first column centered and green
-      margin: { top: 40 },
-      body: bodyArr,
-      columns: [
-        { header: 'Hozzávaló', dataKey: 'ingredient' },
-        { header: 'Mennyiség', dataKey: 'amount' },
-      ],
-    });
-    doc.setFontSize(16);
-    doc.text(20, 75 + bodyArr.length * 6, 'Elkészítés');
-
-    doc.setFontSize(12);
-
-    var splitTitle = doc.splitTextToSize(product.description, 150);
-
-    doc.text(20, 80 + bodyArr.length * 6, splitTitle);
-
-    doc.save(`${product.name}-KonyhaTunder.pdf`);
-    doc = new jsPDF('portrait');
-  };
   const addComment = async (id, text) => {
     if (comment.replace(/ /g, '') === '') {
       setComment('');
@@ -302,7 +263,10 @@ export default function SingleRecipe() {
                 </Button>{' '}
               </ButtonStyle>{' '}
               <ButtonStyle>
-                <Button variant="success" onClick={PDFGenerator}>
+                <Button
+                  variant="success"
+                  onClick={() => generateRecipePDF(product)}
+                >
                   Nyomtatás
                 </Button>
               </ButtonStyle>
@@ -315,7 +279,8 @@ export default function SingleRecipe() {
               {product.name}
             </Title>
             <Line />
-            <Title size="30">Hozzávalók</Title>
+            <Title size="30">Hozzávalók </Title>
+
             {product.ingredients.map((i) => (
               <IngredientText
                 available={
@@ -333,11 +298,20 @@ export default function SingleRecipe() {
                 </li>
               </IngredientText>
             ))}
+            <ShoppingListButton>
+              <Button
+                variant="success"
+                onClick={() => generateShoppingListPDF(product, ingredients)}
+              >
+                Bevásárlólista nyomtatása
+              </Button>
+            </ShoppingListButton>
           </RightSide>
+
           <RightSide>
             <Title size="30">Elkészítés</Title>
             <Text>{product.description}</Text>
-          </RightSide>{' '}
+          </RightSide>
         </Col>
         <Col>
           <Comments>
@@ -372,7 +346,7 @@ export default function SingleRecipe() {
                       <Time>{formatLocalDateTime(comment.timeStamp)}</Time>
                       <Text>{comment.text}</Text>
                     </SingleComment>
-                  ))}{' '}
+                  ))}
             </Text>
           </Comments>
         </Col>
